@@ -1,0 +1,22 @@
+/*
+** Team
+*/
+
+.team-layout{
+  padding: 70px 30px;
+  text-align: center;
+  @media (max-width: 1199px) {
+    padding-top: 50px;
+    padding-bottom: 50px;
+  }
+  .item-media{
+    max-width: 200px;
+    border-radius: 50%;
+    margin: 0 auto;
+    @media (max-width: 1199px) {
+      max-width: 150px;
+
+
+    }
+  }
+}

@@ -1,0 +1,184 @@
+/* widget_calendar */
+.col-xl-3 {
+  @media (min-width: 1200px) {
+    .calendar_wrap {
+
+      thead {
+        font-size: 12px;
+        th {
+          padding: 10px 4px;
+          &:first-child {
+            padding-left: 10px;
+          }
+          &:last-child {
+            padding-right: 10px;
+          }
+        }
+      }
+      tbody {
+        font-size: 12px;
+        tr:first-child td{
+          padding-top: 20px;
+        }
+        tr:last-child td{
+          padding-bottom: 20px;
+        }
+        td {
+          padding: 10px 3px;
+          &:first-child {
+            padding-left: 10px;
+          }
+          &:last-child {
+            padding-right: 10px;
+          }
+        }
+      }
+      tfoot td a{
+        padding: 0 10px;
+      }
+    }
+  }
+}
+.calendar_wrap {
+  table td, table th{
+    border: none;
+  }
+  width: 100%;
+  margin-bottom: 0;
+  -webkit-overflow-scrolling: touch;
+  -ms-overflow-style: -ms-autohiding-scrollbar;
+
+  @media (min-width: 768px) and (max-width: 992px) {
+    & {
+      overflow-x: auto;
+      overflow-y: hidden;
+    }
+  }
+}
+
+.widget_calendar {
+  table {
+    margin: 0;
+    position: relative;
+    text-align: center;
+
+    //experiment
+    display: flex;
+    flex-direction: column;
+  }
+
+  caption {
+    line-height: 1;
+    padding: 20px 0 20px;
+    text-align: center;
+    color: $darkgreyColor;
+    background-color: $colorMain;
+    font-size: 20px;
+    font-family: 'Fira Sans Condensed', sans-serif;
+    font-weight: 500;
+  }
+  thead {
+    background-color: $darkgreyColor;
+    color: $lightColor;
+    font-size: 14px;
+    th {
+      padding-top: 20px;
+      padding-bottom: 20px;
+      &:first-child {
+        padding-left: 20px;
+      }
+      &:last-child {
+        padding-right: 20px;
+      }
+      text-align: center;
+      width: 100px;
+    }
+  }
+
+  tbody {
+    background-color: $greyColor;
+    tr {
+      &:first-child {
+        td {
+          padding-top: 30px;
+        }
+      }
+      &:last-child {
+        td {
+          padding-bottom: 30px;
+        }
+      }
+    }
+    td {
+      padding: 10px 4px;
+      position: relative;
+      width: 100px;
+      &:first-child {
+        padding-left: 20px;
+      }
+      &:last-child {
+        padding-right: 20px;
+      }
+      a {
+        font-weight: 500;
+      }
+    }
+  }
+
+  th {
+    color: inherit;
+  }
+
+  tfoot {
+    td {
+      position: absolute;
+      top: 0;
+      a {
+
+        text-align: center;
+        height: 60px;
+        line-height: 60px;
+        display: inline-block;
+        padding: 0 25px;
+        font-size: 0;
+        color: transparent;
+        &:hover {
+          background-color: darken($colorMain, 10%);
+          border-color: $colorMain;
+        }
+        &:before,
+        &:after {
+          color: $darkgreyColor;
+          font-size: 10px;
+          font-family: 'FontAwesome';
+        }
+      }
+      &.pad {
+        display: none;
+      }
+    }
+
+    //prev
+    td:first-child {
+      left: 0;
+      padding: 0;
+      a {
+        border-right: 1px solid rgba($lightColor, 0.2);
+        &:before {
+          content: '\f053';
+        }
+      }
+    }
+    //next
+    td:last-child {
+      right: 0;
+      padding: 0;
+      a {
+        border-left: 1px solid rgba($lightColor, 0.2);
+        &:after {
+          content: '\f054';
+        }
+      }
+    }
+  }
+}

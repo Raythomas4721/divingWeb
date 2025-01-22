@@ -1,0 +1,222 @@
+.pricing-plan {
+  text-align: center;
+  padding: 40px 40px 10px;
+  margin-top: 25px;
+  margin-bottom: 25px;
+
+  .price-wrap {
+    font-family: 'Poppins', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    font-size: 20px;
+    line-height: 0.7;
+    margin: 60px 0 10px;
+
+    &[class*='bg-'] {
+      padding: 30px 30px 10px;
+      margin-top: 50px;
+      margin-bottom: 0;
+    }
+    .plan-price {
+      font-size: 62px;
+      font-weight: 900;
+    }
+  }
+  [class*='bg-'] {
+    padding: 10px 30px 30px;
+    margin-left: -41px;
+    margin-right: -41px;
+  }
+  .plan-name {
+    &[class*='bg-'] {
+      padding-top: 30px;
+      margin-top: -40px;
+    }
+    h3 {
+      font-size: 20px;
+      letter-spacing: 0.2em;
+      line-height: 1;
+    }
+  }
+
+  @media(min-width: 1200px) {
+    padding: 57px 60px 10px;
+    [class*='bg-'] {
+      margin-left: -61px;
+      margin-right: -61px;
+    }
+    .plan-name[class*='bg-'] {
+      margin-top: -57px;
+    }
+  }
+
+  .plan-features {
+    margin: 50px 0 20px;
+  }
+
+  .plan-button {
+    position: static;
+  }
+
+  //featured border
+  &.plan-featured {
+    border: 10px solid $colorMain;
+    transform: translateY(-10px);
+    .plan-button {
+      top: 48px;
+    }
+  }
+}
+
+.price-layout-1{
+  padding: 0;
+  margin: 0;
+  .price-bg{
+    position: relative;
+    padding: 50px 40px;
+    background: url("../images/price-bg.jpg") no-repeat center / cover;
+  }
+  .price-wrap{
+    margin-top: 0;
+    font-family: 'Fira Sans Condensed', sans-serif;
+    color: $darkgreyColor;
+    margin-bottom: 15px;
+    .plan-price{
+      font-size: 100px;
+    }
+    .plan-sign{
+      font-size: 50px;
+      position: relative;
+      top: -45px;
+    }
+  }
+  .plan-name{
+    h3{
+      font-size: 20px;
+      letter-spacing: normal;
+      color: $darkgreyColor;
+    }
+  }
+  .plan-description{
+    color: $darkgreyColor;
+  }
+  .pricing-body{
+    padding: 50px 40px;
+    .plan-features{
+      margin-top: 0;
+      margin-bottom: 30px;
+    }
+  }
+  .list-bordered{
+    li{
+      padding-top: 10px;
+      padding-bottom: 10px;
+      &:first-child{
+        border-top: none;
+      }
+      &:last-child{
+        border-bottom: none;
+      }
+      &.enabled{
+        &::before{
+          content: '\f00c';
+          font-family: "FontAwesome", sans-serif;
+          color: $darkgreyColor;
+          margin-right: 5px;
+        }
+      }
+      &.disabled{
+        &::before{
+          content: '\f00d';
+          font-family: "FontAwesome", sans-serif;
+          margin-right: 5px;
+        }
+      }
+    }
+  }
+  .plan-button{
+    position: static;
+  }
+
+  &.plan-featured{
+    border: none;
+    transform: none;
+    position: relative;
+    background: url("../images/price-bg.jpg") no-repeat center / cover;
+    color: $darkgreyColor;
+    .price-bg{
+      background: none;
+    }
+    .list-bordered li{
+      border-color: rgba($darkBorderColor,.4);
+    }
+    .pricing-body{
+      padding-top: 30px;
+    }
+    .plan-features{
+      margin-bottom: 50px;
+    }
+  }
+}
+
+.price-layout-2{
+  margin: 0;
+  padding: 40px;
+  .price-wrap{
+    font-family: 'Fira Sans Condensed', sans-serif;
+    color: $darkgreyColor;
+    margin-bottom: 15px;
+    .plan-price{
+      font-size: 100px;
+    }
+    .plan-sign{
+      font-size: 50px;
+      position: relative;
+      top: -45px;
+    }
+  }
+  .list-bordered{
+    li{
+      padding-top: 10px;
+      padding-bottom: 10px;
+      &:first-child{
+        border-top: none;
+      }
+      &:last-child{
+        border-bottom: none;
+      }
+      &.enabled{
+        &::before{
+          content: '\f00c';
+          font-family: "FontAwesome", sans-serif;
+          color: $darkgreyColor;
+          margin-right: 5px;
+        }
+      }
+      &.disabled{
+        &::before{
+          content: '\f00d';
+          font-family: "FontAwesome", sans-serif;
+          margin-right: 5px;
+        }
+      }
+    }
+  }
+  .plan-features{
+    margin-top: 30px;
+    margin-bottom: 30px;
+  }
+  &.plan-featured{
+    border: 1px solid $colorMain;
+    transform: none;
+    position: relative;
+    color: $darkgreyColor;
+    .plan-name h3{
+      color: $darkgreyColor;
+    }
+    .list-bordered li{
+      border-color: rgba($darkBorderColor,.4);
+    }
+  }
+}

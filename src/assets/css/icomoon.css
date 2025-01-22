@@ -1,0 +1,56 @@
+@font-face {
+  font-family: 'icomoon';
+  src:  url('../fonts/icomoon/icomoon.eot?s0ye2g');
+  src:  url('../fonts/icomoon/icomoon.eot?s0ye2g#iefix') format('embedded-opentype'),
+  url('../fonts/icomoon/icomoon.ttf?s0ye2g') format('truetype'),
+  url('../fonts/icomoon/icomoon.woff?s0ye2g') format('woff'),
+  url('../fonts/icomoon/icomoon.svg?s0ye2g#icomoon') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+[class^="ico-"], [class*=" ico-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'icomoon' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  display: flex;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.ico-call:before {
+  content: "\e907";
+}
+.ico-email:before {
+  content: "\e908";
+}
+.ico-placeholder:before {
+  content: "\e909";
+}
+.ico-calm:before {
+  content: "\e900";
+}
+.ico-kitesurfing:before {
+  content: "\e901";
+}
+.ico-surf:before {
+  content: "\e902";
+}
+.ico-surfboard:before {
+  content: "\e903";
+}
+.ico-surfboard-1:before {
+  content: "\e904";
+}
+.ico-surfer:before {
+  content: "\e905";
+}
+.ico-wave:before {
+  content: "\e906";
+}

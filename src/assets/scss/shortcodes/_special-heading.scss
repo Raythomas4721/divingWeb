@@ -1,0 +1,13 @@
+/*
+** Special Heading
+*/
+.special-heading {
+  word-wrap: break-word;
+  line-height: 1;
+
+  & + h4 {
+    margin-top: -0.5em;
+  }
+
+}
+
