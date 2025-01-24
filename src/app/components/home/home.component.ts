@@ -1,4 +1,7 @@
 import { Component } from '@angular/core';
+import { NavigationEnd, Router } from '@angular/router';
+
+declare var $: any;
 
 @Component({
   selector: 'app-home',

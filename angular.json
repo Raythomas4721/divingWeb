@@ -29,9 +29,13 @@
               "src/assets/css/animations.css",
               "src/assets/css/font-awesome.css",
               "src/assets/css/icomoon.css",
+              "src/assets/css/main.css",
+              "src/assets/css/shop.css",
               "src/styles.css"
             ],
             "scripts": [
+              "node_modules/jquery/dist/jquery.min.js",
+              "src/assets/js/vendor/modernizr-2.6.2.min.js",
               "src/assets/js/compressed.js",
               "src/assets/js/main.js"
             ]

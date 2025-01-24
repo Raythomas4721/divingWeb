@@ -8,6 +8,10 @@ import { UsedProductsComponent } from './components/used-products/used-products.
 import { CoursesComponent } from './components/courses/courses.component';
 import { SiteRentalComponent } from './components/site-rental/site-rental.component';
 import { HomeComponent } from './components/home/home.component';
+import { HttpClientModule } from '@angular/common/http';
+import { LoginComponent } from './components/login/login.component';
+import { HeaderComponent } from './components/header/header.component';
+import { FooterComponent } from './components/footer/footer.component';
 
 @NgModule({
   declarations: [
@@ -16,11 +20,15 @@ import { HomeComponent } from './components/home/home.component';
     UsedProductsComponent,
     CoursesComponent,
     SiteRentalComponent,
-    HomeComponent
+    HomeComponent,
+    LoginComponent,
+    HeaderComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
