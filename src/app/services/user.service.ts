@@ -1,21 +1,17 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
+  private apiUrl = 'https://localhost:7107/api/TMmemberListsAPI/login';
   constructor(private client: HttpClient) { }
 
-  account = "abc";
-  password = "123";
-  getAns() {
-    return {
-      account: this.account,
-      password: this.password
-    }
+  login(username: string, password: string): Observable<any> {
+    const body = { "email": username, "password": password };
+    return this.client.post(this.apiUrl, body);
   }
-  getUserInfo() {
-    return this.client.get("https://localhost:7077/api/TMmemberListsAPI")
-  }
+
 }
