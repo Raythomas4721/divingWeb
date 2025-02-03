@@ -14,12 +14,26 @@ declare var bootstrap: any;
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent {
+  constructor(private userService: UserService, private alertService: AlertService) { }
+
   userForm = new FormGroup({
     'username': new FormControl("", [Validators.required, Validators.minLength(3)]),
     'password': new FormControl("", [Validators.required]),
   })
   errorMessage = "";
-  constructor(private userService: UserService, private alertService: AlertService) { }
+  isLoggedIn = false;
+  userName: string = "";
+
+  ngOnInit(): void {
+    const savedUser = localStorage.getItem("user");
+    if (savedUser) {
+      this.isLoggedIn = true;
+      this.userName = JSON.parse(savedUser).memberName;
+    }
+
+  }
+
+
   onLogin(): void {
     if (this.userForm.invalid) {
       this.errorMessage = "請填寫正確的帳號密碼"
@@ -29,8 +43,10 @@ export class HeaderComponent {
     const password = this.userForm.get('password')?.value ?? "";
     this.userService.login(username, password).subscribe({
       next: res => {
-        console.log("jQuery version:", $.fn.jquery);
-        console.log("Bootstrap modal function:", typeof ($ as any)('#popupLogin').modal);
+        this.isLoggedIn = true;
+        // 儲存登入資訊到 LocalStorage
+        localStorage.setItem("user", JSON.stringify(res.user));
+
         $('#popupLogin').modal('hide');
         $('.modal-backdrop').remove();
         $('body').css('padding-right', 0);
@@ -44,5 +60,11 @@ export class HeaderComponent {
     });
   }
 
+  logout(): void {
+    localStorage.removeItem("user");  // 清除登入資訊
+    this.isLoggedIn = false;
+    this.userName = "";
+    this.alertService.success("已成功登出！");
+  }
 }
 

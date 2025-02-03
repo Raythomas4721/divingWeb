@@ -537,9 +537,17 @@
         </div>
         <div class="col-xl-2 col-lg-3 text-right d-none d-xl-block">
           <!-- <a class="fs-20 links-maincolor-hover" href="tel:+88003532455"><mark>8 800</mark> 353-24-55</a> -->
-          <button class="fs-20 links-maincolor-hover" href="#" data-toggle="modal" data-target="#popupLogin">
+          <button *ngIf="!isLoggedIn" class="fs-20 links-maincolor-hover" href="#" data-toggle="modal"
+            data-target="#popupLogin">
             立即登入
           </button>
+          <div *ngIf="isLoggedIn" class="d-flex align-items-center justify-content-end">
+            <ul class="nav sf-menu">
+              <li><a routerLink="/profile"><i class="fa-solid fa-user-large" style="font-size: 24px;"></i></a></li>
+              <li><a href="#"><i class="fa-solid fa-heart" style="font-size: 24px;"></i></a></li>
+              <li><a routerLink="/shopcart"><i class="fa-solid fa-cart-shopping" style="font-size: 24px;"></i></a></li>
+            </ul>
+          </div>
         </div>
       </div>
     </div>
