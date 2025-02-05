@@ -1,0 +1,9 @@
+<div>
+  <h2>購物車</h2>
+  <ul>
+    <li *ngFor="let item of cartItems">
+      商品: {{ item.productvariantsId }} / 數量: {{ item.quantity }} / 單價:
+      {{ item.unitpriceatCart }}
+    </li>
+  </ul>
+</div>

@@ -12,6 +12,10 @@ import { HttpClientModule } from '@angular/common/http';
 import { LoginComponent } from './components/login/login.component';
 import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
+import { ShopcartComponent } from './components/shopcart/shopcart.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ShopproductshowComponent } from './components/shopproductshow/shopproductshow.component';
+import { ProcategoriesComponent } from './components/procategories/procategories.component';
 
 @NgModule({
   declarations: [
@@ -23,14 +27,19 @@ import { FooterComponent } from './components/footer/footer.component';
     HomeComponent,
     LoginComponent,
     HeaderComponent,
-    FooterComponent
+    FooterComponent,
+    ShopcartComponent,
+    ShopproductshowComponent,
+    ProcategoriesComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    ReactiveFormsModule,
+    FormsModule,
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

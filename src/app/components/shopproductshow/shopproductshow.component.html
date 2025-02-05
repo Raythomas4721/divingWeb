@@ -1,0 +1,321 @@
+<!-- 假設這是你 Single Product 詳細頁的 HTML -->
+<section class="page_title ds s-parallax s-overlay s-pt-160 s-pb-80">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <h1>Shop Product with Right Sidebar</h1>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item">
+            <a href="./">Home</a>
+          </li>
+          <li class="breadcrumb-item">
+            <a href="#">Shop</a>
+          </li>
+          <li class="breadcrumb-item active">
+            Shop Product with Right Sidebar
+          </li>
+        </ol>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ...原本 header/nav/breadcrumbs 略... -->
+
+<section class="ls s-py-90 s-py-xl-160 c-gutter-60">
+  <div class="container">
+    <div class="row">
+      <main class="col-lg-7 col-xl-8">
+        <div class="product">
+          <!-- 商品圖片區(略) -->
+          <div class="images" data-columns="4">
+            <figure>
+              <div data-thumb="images/shop/11.jpg">
+                <a href="images/shop/11.jpg">
+                  <img
+                    src="images/shop/11.jpg"
+                    alt="img"
+                    data-caption=""
+                    data-src="images/shop/11.jpg"
+                    data-large_image="images/shop/11.jpg"
+                    data-large_image_width="1000"
+                    data-large_image_height="1000"
+                  />
+                </a>
+              </div>
+              <div data-thumb="images/shop/11_back.jpg">
+                <a href="images/shop/11_back.jpg">
+                  <img
+                    src="images/shop/11_back.jpg"
+                    alt="img"
+                    data-caption=""
+                    data-src="images/shop/11_back.jpg"
+                    data-large_image="images/shop/11_back.jpg"
+                    data-large_image_width="1000"
+                    data-large_image_height="1000"
+                  />
+                </a>
+              </div>
+              <div data-thumb="images/shop/10_back.jpg">
+                <a href="images/shop/10_back.jpg">
+                  <img
+                    src="images/shop/10_back.jpg"
+                    alt="img"
+                    data-caption=""
+                    data-src="images/shop/10_back.jpg"
+                    data-large_image="images/shop/10_back.jpg"
+                    data-large_image_width="1000"
+                    data-large_image_height="1000"
+                  />
+                </a>
+              </div>
+              <div data-thumb="images/shop/10.jpg">
+                <a href="images/shop/10.jpg">
+                  <img
+                    src="images/shop/10.jpg"
+                    alt="img"
+                    data-caption=""
+                    data-src="images/shop/10.jpg"
+                    data-large_image="images/shop/10.jpg"
+                    data-large_image_width="1000"
+                    data-large_image_height="1000"
+                  />
+                </a>
+              </div>
+            </figure>
+          </div>
+
+          <div *ngIf="productDetail">
+            <h1 class="product_title entry-title">
+              {{ productDetail.productName }}
+            </h1>
+            <p>價格: {{ productDetail.unitPrice }}</p>
+            <p>{{ productDetail.description }}</p>
+
+            <!-- 顏色 / 尺寸 -->
+            <div>
+              <label for="colorSelect">Color:</label>
+              <select
+                id="colorSelect"
+                [(ngModel)]="selectedColor"
+                (change)="onVariantChange()"
+                name="colorSelect"
+              >
+                <option *ngFor="let c of colors" [value]="c.id">
+                  {{ c.name }}
+                </option>
+              </select>
+            </div>
+
+            <div>
+              <label for="sizeSelect">Size:</label>
+              <select
+                id="sizeSelect"
+                [(ngModel)]="selectedSize"
+                (change)="onVariantChange()"
+                name="sizeSelect"
+              >
+                <option *ngFor="let s of sizes" [value]="s.id">
+                  {{ s.name }}
+                </option>
+              </select>
+            </div>
+
+            <!-- 數量 -->
+            <div>
+              <label>數量:</label>
+              <input
+                type="number"
+                [(ngModel)]="quantity"
+                min="1"
+                style="width: 80px"
+              />
+            </div>
+            <br />
+
+            <!-- 加入購物車 -->
+            <button
+              class="button product_type_simple add_to_cart_button"
+              (click)="onConfirmAddToCart()"
+            >
+              Add to cart
+            </button>
+          </div>
+
+          <div *ngIf="!productDetail">
+            <p>載入中或找不到商品</p>
+          </div>
+        </div>
+      </main>
+      <!-- 如果需要 SKU, Category, Tag ...
+            <div class="product_meta">
+              <span class="sku_wrapper"
+                >SKU: <span class="sku">{{ productDetail?.sku }}</span>
+              </span>
+            </div>
+          </div>
+
+
+      <-- 側邊欄 (略) -->
+      <aside class="col-lg-5 col-xl-4">
+        <div class="ls ms">
+          <div class="widget widget_product_search">
+            <h3 class="widget-title">Search</h3>
+
+            <form role="search" class="woocommerce-product-search" action="/">
+              <label
+                class="screen-reader-text"
+                for="woocommerce-product-search-field-widget"
+              >
+                Search for:
+              </label>
+
+              <input
+                type="search"
+                id="woocommerce-product-search-field-widget"
+                class="search-field"
+                placeholder="Search products..."
+                value=""
+                name="search"
+              />
+              <input type="submit" value="Search" />
+            </form>
+          </div>
+        </div>
+
+        <div class="widget woocommerce widget_product_categories">
+          <h3 class="widget-title">Categories</h3>
+          <ul class="product-categories">
+            <li class="cat-item cat-parent">
+              <a href="shop-right.html">Clothing</a>
+              <span class="count">(12)</span>
+              <ul class="children">
+                <li class="cat-item">
+                  <a href="shop-right.html">Hoodies</a>
+                  <span class="count">(46)</span>
+                </li>
+                <li class="cat-item">
+                  <a href="shop-right.html">T-shirts</a>
+                  <span class="count">(165)</span>
+                </li>
+              </ul>
+            </li>
+            <li class="cat-item cat-parent">
+              <a href="shop-right.html">Music</a>
+              <span class="count">(16)</span>
+              <ul class="children">
+                <li class="cat-item">
+                  <a href="shop-right.html">Albums</a>
+                  <span class="count">(24)</span>
+                </li>
+                <li class="cat-item">
+                  <a href="shop-right.html">Singles</a>
+                  <span class="count">(2)</span>
+                </li>
+              </ul>
+            </li>
+            <li class="cat-item">
+              <a href="shop-right.html">Posters</a>
+              <span class="count">(45)</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="widget woocommerce widget_top_rated_products">
+          <h3 class="widget-title">Top Products</h3>
+          <ul class="product_list_widget">
+            <li>
+              <a href="shop-product-right.html">
+                <img src="images/shop/01.jpg" alt="img" />
+                <span class="product-title">Ninja Silhouette</span>
+              </a>
+              <div class="star-rating">
+                <span style="width: 100%"
+                  >Rated
+                  <strong class="rating">5.00 </strong>
+                  out of 5
+                </span>
+              </div>
+              <span class="woocommerce-Price-amount amount">
+                <span class="woocommerce-Price-currencySymbol">$</span>
+                20.00
+              </span>
+            </li>
+
+            <li>
+              <a href="shop-product-right.html">
+                <img src="images/shop/02.jpg" alt="img" />
+                <span class="product-title">Woo Album #4</span>
+              </a>
+              <div class="star-rating">
+                <span style="width: 100%"
+                  >Rated
+                  <strong class="rating">5.00</strong>
+                  out of 5
+                </span>
+              </div>
+              <span class="woocommerce-Price-amount amount">
+                <span class="woocommerce-Price-currencySymbol">$</span>
+                9.00
+              </span>
+            </li>
+
+            <li>
+              <a href="shop-product-right.html">
+                <img src="images/shop/03.jpg" alt="img" />
+                <span class="product-title">Happy Ninja</span>
+              </a>
+              <div class="star-rating">
+                <span style="width: 100%"
+                  >Rated
+                  <strong class="rating">5.00</strong>
+                  out of 5
+                </span>
+              </div>
+              <span class="woocommerce-Price-amount amount">
+                <span class="woocommerce-Price-currencySymbol">$</span>
+                18.00
+              </span>
+            </li>
+
+            <li>
+              <a href="shop-product-right.html">
+                <img src="images/shop/04.jpg" alt="img" />
+                <span class="product-title">Patient Ninja</span>
+              </a>
+              <div class="star-rating">
+                <span style="width: 93.4%"
+                  >Rated
+                  <strong class="rating">4.67</strong>
+                  out of 5
+                </span>
+              </div>
+              <span class="woocommerce-Price-amount amount">
+                <span class="woocommerce-Price-currencySymbol">$</span>
+                35.00
+              </span>
+            </li>
+
+            <li>
+              <a href="shop-product-right.html">
+                <img src="images/shop/05.jpg" alt="img" />
+                <span class="product-title">Premium Quality</span>
+              </a>
+              <div class="star-rating">
+                <span style="width: 90%"
+                  >Rated
+                  <strong class="rating">4.50</strong>
+                  out of 5
+                </span>
+              </div>
+              <span class="woocommerce-Price-amount amount">
+                <span class="woocommerce-Price-currencySymbol">$</span>
+                20.00
+              </span>
+            </li>
+          </ul>
+        </div>
+      </aside>
+    </div>
+  </div>
+</section>
