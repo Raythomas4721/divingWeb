@@ -1,1 +1,514 @@
-<p>courses works!</p>
+
+
+	<!-- search modal -->
+	<div class="modal" tabindex="-1" role="dialog" aria-labelledby="search_modal" id="search_modal">
+		<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			<span aria-hidden="true">&times;</span>
+		</button>
+		<div class="widget widget_search">
+			<form method="get" class="searchform search-form" action="/">
+				<div class="form-group">
+					<input type="text" value="" name="search" class="form-control" placeholder="Search keyword" id="modal-search-input">
+				</div>
+				<button type="submit" class="btn">Search</button>
+			</form>
+		</div>
+	</div>
+
+	<!-- Unyson messages modal -->
+	<div class="modal fade" tabindex="-1" role="dialog" id="messages_modal">
+		<div class="fw-messages-wrap ls p-normal">
+			<!-- Uncomment this UL with LI to show messages in modal popup to your user: -->
+			<!--
+		<ul class="list-unstyled">
+			<li>Message To User</li>
+		</ul>
+		-->
+
+		</div>
+	</div><!-- eof .modal -->
+
+	<div class="modal fade popupLogin" id="popupLogin" tabindex="-1" role="dialog" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content ds ms overflow-visible s-overlay s-mobile-overlay">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<div class="modal-body">
+					<div class="container">
+						<div class="row">
+							<div class="col-12">
+								<h4 class="color-main mb-3">Log in</h4>
+								<form class="form-registration c-mb-20 c-gutter-20" action="/">
+									<div class="row mb-4">
+										<div class="col-sm-12">
+											<div class="form-group">
+												<input type="text" name="name" class="form-control" required placeholder="login" aria-required="true">
+											</div>
+										</div>
+										<div class="col-sm-12">
+											<div class="form-group">
+												<input type="password" name="password" class="form-control" placeholder="password" aria-required="true" required>
+											</div>
+										</div>
+									</div>
+									<a class="registerRedirect " data-dismiss="modal" data-target="#popupRegistr" data-toggle="modal" href="#">Not a member? Register!</a>
+									<button type="submit" class="btn btn-maincolor mt-30 d-block">Sign In</button>
+								</form>
+
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="modal fade popupRegistr" id="popupRegistr" tabindex="-1" role="dialog" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content ds ms overflow-visible s-overlay s-mobile-overlay">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<div class="modal-body">
+					<div class="container">
+						<div class="row">
+							<div class="col-12">
+								<h4 class="color-main mb-4">Registration</h4>
+								<form class="form-registration c-mb-20 c-gutter-20" method="post" action="/">
+									<div class="row">
+										<div class="col-12">
+											<div class="form-group">
+												<input type="text" name="name" class="form-control" required placeholder="login" aria-required="true">
+											</div>
+										</div>
+										<div class="col-12">
+											<div class="form-group">
+												<input type="password" name="password" class="form-control" placeholder="password" aria-required="true" required>
+											</div>
+										</div>
+										<div class="col-12">
+											<div class="form-group">
+												<input type="email" name="email" class="form-control" placeholder="email" required aria-required="true">
+											</div>
+										</div>
+										<div class="col-12">
+											<div class="form-group">
+												<input type="password" name="confirmPassword" class="form-control" placeholder="password" required aria-required="true">
+											</div>
+										</div>
+										<div class="col-12">
+											<div class="form-group">
+												<input type="checkbox" id="agreed" name="agreed" value="agreed" required aria-required="true"><label for="agreed">I agree to the rules</label>
+											</div>
+										</div>
+									</div>
+									<button type="submit" class="btn btn-maincolor mt-30 d-block">Registration</button>
+								</form>
+
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- wrappers for visual page editor and boxed version of template -->
+	<div id="canvas">
+		<div id="box_wrapper">
+
+			<!-- template sections -->
+			<section class="page_title ds s-parallax s-overlay s-pt-160 s-pb-80">
+				<div class="container">
+					<div class="row">
+
+						<div class="col-md-12">
+							<h1>課程列表 Courses</h1>
+							<ol class="breadcrumb">
+								<li class="breadcrumb-item">
+									<a href="./">Home</a>
+								</li>
+								<li class="breadcrumb-item">
+									<a href="#">Courses</a>
+								</li>
+								<li class="breadcrumb-item active">
+									List
+								</li>
+							</ol>
+						</div>
+
+					</div>
+				</div>
+			</section>
+
+			<section class="ls s-py-90 s-py-xl-160">
+				<div class="container">
+					<div class="row c-gutter-60">
+						<main class="col-lg-7 col-xl-8 order-lg-2">
+							<article class="post text-center text-md-left vertical-item content-padding hero-bg">
+								<div class="item-media post-thumbnail">
+									<img src="images/gallery/04.jpg" alt="img">
+									<div class="media-links">
+										<a class="abs-link" href="event-single-left.html"></a>
+									</div>
+								</div><!-- .post-thumbnail -->
+								<div class="item-content">
+									<header class="entry-header">
+										<span class="cat-links">
+
+											<span class="screen-reader-text">Categories</span>
+											<a href="blog-left.html" rel="category tag">
+												Template
+											</a>,
+											<a href="blog-left.html" rel="category tag">
+												Uncategorized
+											</a>
+										</span>
+										<h3 class="entry-title mb-3">
+											<a href="event-single-left.html" rel="bookmark">
+												Cupiditate ducimus ea eaque error et excepturi
+											</a>
+										</h3>
+										<div class="entry-meta">
+											<span>
+												<i class="fa fa-calendar" aria-hidden="true"></i>
+												<a href="event-single-left.html" rel="bookmark">
+													<time class="entry-date published updated" datetime="2018-03-18T15:15:12+00:00">03.12.2019</time>
+												</a>
+											</span>
+											<span>
+												<i class="fa fa-map-marker"></i> <span>Molestiae numquam officia</span>
+											</span>
+										</div>
+										<!-- .entry-meta -->
+									</header>
+									<!-- .entry-header -->
+									<div class="entry-content">
+										<p>
+											Cupiditate ducimus ea eaque error et excepturi ipsa ipsam, magni modi molestiae numquam officia quo quos ratione sed, similique ut voluptate.
+										</p>
+									</div><!-- .entry-content -->
+								</div><!-- .item-content -->
+							</article>
+
+							<article class="post text-center text-md-left vertical-item content-padding hero-bg">
+								<div class="item-media post-thumbnail">
+									<img src="images/gallery/01.jpg" alt="img">
+									<div class="media-links">
+										<a class="abs-link" href="event-single-left.html"></a>
+									</div>
+								</div><!-- .post-thumbnail -->
+								<div class="item-content">
+									<header class="entry-header">
+										<span class="cat-links">
+
+											<span class="screen-reader-text">Categories</span>
+											<a href="blog-left.html" rel="category tag">
+												Template
+											</a>,
+											<a href="blog-left.html" rel="category tag">
+												Uncategorized
+											</a>
+										</span>
+										<h3 class="entry-title mb-3">
+											<a href="event-single-left.html" rel="bookmark">
+												Aliquam amet atque deleniti dignissimos dolor
+											</a>
+										</h3>
+										<div class="entry-meta">
+											<span>
+												<i class="fa fa-calendar" aria-hidden="true"></i>
+												<a href="event-single-left.html" rel="bookmark">
+													<time class="entry-date published updated" datetime="2018-03-18T15:15:12+00:00">03.12.2019</time>
+												</a>
+											</span>
+											<span>
+												<i class="fa fa-map-marker"></i> <span>Molestiae numquam officia</span>
+											</span>
+										</div>
+										<!-- .entry-meta -->
+									</header>
+									<!-- .entry-header -->
+									<div class="entry-content">
+										<p>
+											Aliquam amet, atque deleniti dignissimos dolor ducimus eaque eos error et facere ipsam iste laboriosam molestias optio quam quod saepe tempore voluptates.
+										</p>
+									</div><!-- .entry-content -->
+								</div><!-- .item-content -->
+							</article>
+
+							<article class="post text-center text-md-left vertical-item content-padding hero-bg">
+								<div class="item-media post-thumbnail">
+									<img src="images/gallery/02.jpg" alt="img">
+									<div class="media-links">
+										<a class="abs-link" href="event-single-left.html"></a>
+									</div>
+								</div><!-- .post-thumbnail -->
+								<div class="item-content">
+									<header class="entry-header">
+										<span class="cat-links">
+
+											<span class="screen-reader-text">Categories</span>
+											<a href="blog-left.html" rel="category tag">
+												Template
+											</a>,
+											<a href="blog-left.html" rel="category tag">
+												Uncategorized
+											</a>
+										</span>
+										<h3 class="entry-title mb-3">
+											<a href="event-single-left.html" rel="bookmark">
+												Ad ipsam itaque molestias quasi ratione
+											</a>
+										</h3>
+										<div class="entry-meta">
+											<span>
+												<i class="fa fa-calendar" aria-hidden="true"></i>
+												<a href="event-single-left.html" rel="bookmark">
+													<time class="entry-date published updated" datetime="2018-03-18T15:15:12+00:00">03.12.2019</time>
+												</a>
+											</span>
+											<span>
+												<i class="fa fa-map-marker"></i> <span>Molestiae numquam officia</span>
+											</span>
+										</div>
+										<!-- .entry-meta -->
+									</header>
+									<!-- .entry-header -->
+									<div class="entry-content">
+										<p>
+											Accusantium, asperiores culpa iusto molestias reiciendis repellat voluptatum? Ad ipsam itaque molestias quasi ratione. Amet dolor laborum libero, quasi ratione saepe sequi.
+										</p>
+									</div><!-- .entry-content -->
+								</div><!-- .item-content -->
+							</article>
+
+							<article class="post text-center text-md-left vertical-item content-padding hero-bg">
+								<div class="item-media post-thumbnail">
+									<img src="images/gallery/02.jpg" alt="img">
+									<div class="media-links">
+										<a class="abs-link" href="event-single-left.html"></a>
+									</div>
+								</div><!-- .post-thumbnail -->
+								<div class="item-content">
+									<header class="entry-header">
+										<span class="cat-links">
+
+											<span class="screen-reader-text">CCCCategories</span>
+											<a href="blog-left.html" rel="category tag">
+												Template
+											</a>,
+											<a href="blog-left.html" rel="category tag">
+												Uncategorized
+											</a>
+										</span>
+										<h3 class="entry-title mb-3">
+											<a href="event-single-left.html" rel="bookmark">
+												Magna aliquyam erased voluptua
+											</a>
+										</h3>
+										<div class="entry-meta">
+											<span>
+												<i class="fa fa-calendar" aria-hidden="true"></i>
+												<a href="event-single-left.html" rel="bookmark">
+													<time class="entry-date published updated" datetime="2018-03-18T15:15:12+00:00">03.12.2019</time>
+												</a>
+											</span>
+											<span>
+												<i class="fa fa-map-marker"></i> <span>Molestiae numquam officia</span>
+											</span>
+										</div>
+										<!-- .entry-meta -->
+									</header>
+									<!-- .entry-header -->
+									<div class="entry-content">
+										<p>
+											Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam et dolore magna aliquyam erat.
+										</p>
+									</div><!-- .entry-content -->
+								</div><!-- .item-content -->
+							</article>
+
+
+							<nav class="navigation pagination" role="navigation">
+								<h2 class="screen-reader-text">Posts navigation</h2>
+								<div class="nav-links">
+									<a class="prev page-numbers" href="events-right.html">
+										<i class="fa fa-chevron-left"></i>
+										<span class="screen-reader-text">Previous page</span>
+									</a>
+									<a class="page-numbers" href="events-right.html">
+										<span class="meta-nav screen-reader-text">Page </span>
+										1
+									</a>
+									<span class="page-numbers current">
+										<span class="meta-nav screen-reader-text">Page </span>
+										2
+									</span>
+									<a class="page-numbers" href="events-right.html">
+										<span class="meta-nav screen-reader-text">Page </span>
+										3
+									</a>
+									<a class="next page-numbers" href="events-right.html">
+										<span class="screen-reader-text">Next page</span>
+										<i class="fa fa-chevron-right"></i>
+									</a>
+								</div>
+							</nav>
+						</main>
+						<aside class="col-lg-5 col-xl-4 order-lg-1">
+							<div class="ls ms">
+								<div class="widget widget_search">
+									<h3 class="widget-title">Search</h3>
+									<form role="search" method="get" class="search-form" action="/">
+										<label for="search-form-widget">
+											<span class="screen-reader-text">Search for:</span>
+										</label>
+										<input type="search" id="search-form-widget" class="search-field" placeholder="Search" value="" name="search">
+										<button type="submit" class="search-submit">
+											<span class="screen-reader-text">Search</span>
+										</button>
+									</form>
+								</div>
+
+							</div>
+
+							<div class="widget widget_categories">
+
+								<h3 class="widget-title">Categories</h3>
+
+								<ul>
+									<li class="cat-item">
+										<a href="blog-right.html">Snorkeling</a>
+										<!-- <ul class="children">
+											<li class="cat-item">
+												<a href="blog-right.html">Kite Surfing</a>
+											</li>
+											<li class="cat-item">
+												<a href="blog-right.html">Surfing</a>
+											</li>
+										</ul> -->
+									</li>
+									<li class="cat-item">
+										<a href="blog-right.html">freediving</a>
+									</li>
+									<li class="cat-item">
+										<a href="blog-right.html">Scuba</a>
+									</li>
+
+								</ul>
+							</div>
+
+
+							<!-- <div class="widget widget_apsc_widget">
+								<div class="apsc-icons-wrapper clearfix apsc-theme-3">
+									<div class="apsc-each-profile">
+										<a class="apsc-facebook-icon clearfix" href="#">
+											<div class="apsc-inner-block">
+												<span class="social-icon">
+													<i class="fa fa-facebook apsc-facebook"></i>
+												</span>
+												<span class="apsc-count">9.8K</span>
+											</div>
+										</a>
+									</div>
+									<div class="apsc-each-profile">
+										<a class="apsc-twitter-icon clearfix" href="#">
+											<div class="apsc-inner-block">
+												<span class="social-icon">
+													<i class="fa fa-twitter apsc-twitter"></i>
+												</span>
+												<span class="apsc-count">4.9K</span>
+											</div>
+										</a>
+									</div>
+									<div class="apsc-each-profile">
+										<a class="apsc-google-plus-icon clearfix" href="#">
+											<div class="apsc-inner-block">
+												<span class="social-icon">
+													<i class="apsc-google fa fa-google"></i>
+												</span>
+												<span class="apsc-count">10.1M</span>
+											</div>
+										</a>
+									</div>
+								</div>
+							</div> -->
+
+							<!-- <div class="widget widget_instagram">
+								<h3 class="widget-title">Instagram</h3>
+								<div class="instafeed"></div>
+							</div> -->
+
+							<div class="widget widget_recent_posts">
+
+								<h3 class="widget-title">Popular Courses</h3>
+								<ul class="list-unstyled">
+									<li class="media">
+										<a class="media-image" href="blog-single-right.html">
+											<img src="images/recent_post1.jpg" alt="img">
+										</a>
+										<div class="media-body">
+											<h4>
+												<a href="blog-single-right.html">Eod tempor invidunt labore dolore magna</a>
+											</h4>
+											<p class="item-meta">
+												<i class="fa fa-clock-o" aria-hidden="true"></i> Dec 18, 2018
+											</p>
+										</div>
+									</li>
+
+									<li class="media">
+										<a class="media-image" href="blog-single-right.html">
+											<img src="images/recent_post2.jpg" alt="img">
+										</a>
+										<div class="media-body">
+											<h4>
+												<a href="blog-single-right.html">Aliquyam erat, sed voluptua vero eos </a>
+											</h4>
+											<p class="item-meta">
+												<i class="fa fa-clock-o" aria-hidden="true"></i> Nov 22, 2018
+											</p>
+
+										</div>
+									</li>
+
+									<li class="media">
+										<a class="media-image" href="blog-single-right.html">
+											<img src="images/recent_post1.jpg" alt="img">
+										</a>
+										<div class="media-body">
+											<h4>
+												<a href="blog-single-right.html">Et justo duo dolores et ea rebum</a>
+											</h4>
+											<p class="item-meta">
+												<i class="fa fa-clock-o" aria-hidden="true"></i> Nov 12, 2018
+											</p>
+
+										</div>
+									</li>
+
+								</ul>
+							</div>
+
+
+						</aside>
+					</div>
+				</div>
+			</section>
+
+		</div><!-- eof #box_wrapper -->
+	</div><!-- eof #canvas -->
+
+
+
+
+
+
+
+
+
+
+
+
