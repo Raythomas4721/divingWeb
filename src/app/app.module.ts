@@ -16,7 +16,7 @@ import { ShopcartComponent } from './components/shopcart/shopcart.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ShopproductshowComponent } from './components/shopproductshow/shopproductshow.component';
 import { ProcategoriesComponent } from './components/procategories/procategories.component';
-
+import { ProfileComponent } from './components/profile/profile.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -31,6 +31,7 @@ import { ProcategoriesComponent } from './components/procategories/procategories
     ShopcartComponent,
     ShopproductshowComponent,
     ProcategoriesComponent,
+    ProfileComponent,
   ],
   imports: [
     BrowserModule,

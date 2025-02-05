@@ -1,3 +1,241 @@
+<!-- search modal -->
+<div
+  class="modal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="search_modal"
+  id="search_modal"
+>
+  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+    <span aria-hidden="true" style="font-size: 32px">&times;</span>
+  </button>
+  <div class="widget widget_search">
+    <form method="get" class="searchform search-form" action="/">
+      <div class="form-group">
+        <input
+          type="text"
+          value=""
+          name="search"
+          class="form-control"
+          placeholder="Search keyword"
+          id="modal-search-input"
+        />
+      </div>
+      <button type="submit" class="btn">搜尋</button>
+    </form>
+  </div>
+</div>
+
+<!-- Unyson messages modal -->
+<div class="modal fade" tabindex="-1" role="dialog" id="messages_modal">
+  <div class="fw-messages-wrap ls p-normal">
+    <!-- Uncomment this UL with LI to show messages in modal popup to your user: -->
+    <!--
+  <ul class="list-unstyled">
+    <li>Message To User</li>
+  </ul>
+  --></div>
+</div>
+<!-- eof .modal -->
+
+<div
+  class="modal fade popupLogin"
+  id="popupLogin"
+  tabindex="-1"
+  role="dialog"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div
+      class="modal-content ds ms overflow-visible s-overlay s-mobile-overlay"
+    >
+      <button
+        type="button"
+        class="close"
+        data-dismiss="modal"
+        aria-label="Close"
+      >
+        <span aria-hidden="true" style="font-size: 32px">&times;</span>
+      </button>
+      <div class="modal-body">
+        <div class="container">
+          <div class="row">
+            <div class="col-12">
+              <h4 class="color-main mb-3">登入</h4>
+              <form
+                [formGroup]="userForm"
+                (ngSubmit)="onLogin()"
+                class="form-registration c-mb-20 c-gutter-20"
+                action="/"
+              >
+                <div class="row mb-4">
+                  <div class="col-sm-12">
+                    <div class="form-group">
+                      <input
+                        type="text"
+                        name="name"
+                        formControlName="username"
+                        class="form-control"
+                        required
+                        placeholder="login"
+                        aria-required="true"
+                      />
+                      <div
+                        *ngIf="
+                          userForm.get('username')?.invalid &&
+                          userForm.get('username')?.touched
+                        "
+                        class="text-danger"
+                      >
+                        請輸入正確的帳號
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-sm-12">
+                    <div class="form-group">
+                      <input
+                        type="password"
+                        name="password"
+                        formControlName="password"
+                        class="form-control"
+                        placeholder="password"
+                        aria-required="true"
+                        required
+                      />
+                      <div
+                        *ngIf="
+                          userForm.get('password')?.invalid &&
+                          userForm.get('password')?.touched
+                        "
+                        class="text-danger"
+                      >
+                        密碼不可為空
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <a
+                  class="registerRedirect"
+                  data-dismiss="modal"
+                  data-target="#popupRegistr"
+                  data-toggle="modal"
+                  href="#"
+                  >還不是會員嗎? 立即註冊!</a
+                >
+                <button type="submit" class="btn btn-maincolor mt-30 d-block">
+                  登入
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div
+  class="modal fade popupRegistr"
+  id="popupRegistr"
+  tabindex="-1"
+  role="dialog"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div
+      class="modal-content ds ms overflow-visible s-overlay s-mobile-overlay"
+    >
+      <button
+        type="button"
+        class="close"
+        data-dismiss="modal"
+        aria-label="Close"
+      >
+        <span aria-hidden="true" style="font-size: 32px">&times;</span>
+      </button>
+      <div class="modal-body">
+        <div class="container">
+          <div class="row">
+            <div class="col-12">
+              <h4 class="color-main mb-4">註冊會員</h4>
+              <form
+                class="form-registration c-mb-20 c-gutter-20"
+                method="post"
+                action="/"
+              >
+                <div class="row">
+                  <div class="col-12">
+                    <div class="form-group">
+                      <input
+                        type="text"
+                        name="name"
+                        class="form-control"
+                        required
+                        placeholder="login"
+                        aria-required="true"
+                      />
+                    </div>
+                  </div>
+                  <div class="col-12">
+                    <div class="form-group">
+                      <input
+                        type="password"
+                        name="password"
+                        class="form-control"
+                        placeholder="password"
+                        aria-required="true"
+                        required
+                      />
+                    </div>
+                  </div>
+                  <div class="col-12">
+                    <div class="form-group">
+                      <input
+                        type="email"
+                        name="email"
+                        class="form-control"
+                        placeholder="email"
+                        required
+                        aria-required="true"
+                      />
+                    </div>
+                  </div>
+                  <div class="col-12">
+                    <div class="form-group">
+                      <input
+                        type="password"
+                        name="confirmPassword"
+                        class="form-control"
+                        placeholder="password"
+                        required
+                        aria-required="true"
+                      />
+                    </div>
+                  </div>
+                  <div class="col-12">
+                    <div class="form-group">
+                      <input
+                        type="checkbox"
+                        id="agreed"
+                        name="agreed"
+                        value="agreed"
+                        required
+                        aria-required="true"
+                      /><label for="agreed">我同意以上條款</label>
+                    </div>
+                  </div>
+                </div>
+                <button type="submit" class="btn btn-maincolor mt-30 d-block">
+                  註冊
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 <!-- template sections -->
 <div class="header_absolute ds cover-background">
   <!-- header with three Bootstrap columns - left for logo, center for navigation and right for includes-->
@@ -13,8 +251,11 @@
           <!-- main nav start -->
           <nav class="top-nav">
             <ul class="nav sf-menu">
-              <li class="active">
-                <a href="./">首頁</a>
+              <li
+                routerLinkActive="active"
+                [routerLinkActiveOptions]="{ exact: true }"
+              >
+                <a routerLink="/">首頁</a>
                 <!-- <ul>
               <li>
                 <a href="index.html">MultiPage</a>
@@ -32,8 +273,15 @@
               </li>
 
               <!-- shop -->
+              <<<<<<< HEAD
               <li>
                 <a routerLink="procategories">Products</a>
+                =======
+              </li>
+
+              <li routerLinkActive="active">
+                <a routerLink="/shop">商品列表</a>
+                >>>>>>> ray
                 <ul>
                   <li>
                     <a href="blog-right.html">基本浮潛裝備</a>
@@ -81,12 +329,16 @@
               </li>
               <!-- eof blog -->
 
-              <li>
+              <li routerLinkActive="active">
                 <a routerLink="/used-products">二手商品</a>
               </li>
               <!-- eof features -->
 
-              <li>
+              <<<<<<< HEAD
+              <li>=======</li>
+
+              <li routerLinkActive="active">
+                >>>>>>> ray
                 <a routerLink="/courses">潛水課程</a>
                 <ul>
                   <li>
@@ -310,7 +562,7 @@
               <!-- eof pages -->
 
               <!-- gallery -->
-              <li>
+              <li routerLinkActive="active">
                 <a routerLink="/site-rental">場地租借</a>
                 <ul>
                   <!-- Gallery image only -->
@@ -392,7 +644,7 @@
               <!-- eof Gallery -->
 
               <!-- contacts -->
-              <li>
+              <li routerLinkActive="active">
                 <a href="contact.html">Contact</a>
                 <ul>
                   <li>
@@ -414,14 +666,75 @@
           </nav>
           <!-- eof main nav -->
         </div>
+        <<<<<<< HEAD
         <div class="col-xl-2 col-lg-3 text-right d-none d-lg-block">
           <a class="fs-20 links-maincolor-hover" href="tel:+88003532455"
             ><mark>8 800</mark> 353-24-55</a
           >
+          =======
+          <div class="col-xl-2 col-lg-3 text-right d-none d-xl-block">
+            <!-- <a class="fs-20 links-maincolor-hover" href="tel:+88003532455"><mark>8 800</mark> 353-24-55</a> -->
+            <button
+              *ngIf="!isLoggedIn"
+              class="fs-20 links-maincolor-hover"
+              href="#"
+              data-toggle="modal"
+              data-target="#popupLogin"
+            >
+              立即登入
+            </button>
+            <nav
+              *ngIf="isLoggedIn"
+              class="top-nav align-items-center justify-content-end"
+            >
+              <ul class="nav sf-menu">
+                <li>
+                  <a routerLink="/profile"
+                    ><i
+                      class="fa-solid fa-user-large"
+                      style="font-size: 24px"
+                    ></i
+                  ></a>
+                  <ul class="user-menu">
+                    <li>
+                      <p class="text-center font-weight-bold text-primary">
+                        歡迎，{{ userName }}！
+                      </p>
+                    </li>
+                    <div class="dropdown-divider"></div>
+                    <li>
+                      <a routerLink="/profile">
+                        <p>我的訂單</p>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="#" (click)="logout()">
+                        <p>登出</p>
+                      </a>
+                    </li>
+                  </ul>
+                </li>
+                <li>
+                  <a href="#"
+                    ><i class="fa-solid fa-heart" style="font-size: 24px"></i
+                  ></a>
+                </li>
+                <li>
+                  <a routerLink="/shopcart"
+                    ><i
+                      class="fa-solid fa-cart-shopping"
+                      style="font-size: 24px"
+                    ></i
+                  ></a>
+                </li>
+              </ul>
+            </nav>
+            >>>>>>> ray
+          </div>
         </div>
       </div>
+      <!-- header toggler -->
+      <span class="toggle_menu"><span></span></span>
     </div>
-    <!-- header toggler -->
-    <span class="toggle_menu"><span></span></span>
   </header>
 </div>
