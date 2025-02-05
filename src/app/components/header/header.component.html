@@ -144,8 +144,8 @@
           <!-- main nav start -->
           <nav class="top-nav">
             <ul class="nav sf-menu">
-              <li class="active">
-                <a href="./">首頁</a>
+              <li routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+                <a routerLink="/">首頁</a>
                 <!-- <ul>
               <li>
                 <a href="index.html">MultiPage</a>
@@ -163,7 +163,7 @@
               </li>
 
               <!-- shop -->
-              <li>
+              <li routerLinkActive="active">
                 <a routerLink="/shop">商品列表</a>
                 <ul>
                   <li>
@@ -213,13 +213,13 @@
               </li>
               <!-- eof blog -->
 
-              <li>
+              <li routerLinkActive="active">
                 <a routerLink="/used-products">二手商品</a>
               </li>
               <!-- eof features -->
 
 
-              <li>
+              <li routerLinkActive="active">
                 <a routerLink="/courses">潛水課程</a>
                 <ul>
 
@@ -434,7 +434,7 @@
               <!-- eof pages -->
 
               <!-- gallery -->
-              <li>
+              <li routerLinkActive="active">
                 <a routerLink="/site-rental">場地租借</a>
                 <ul>
                   <!-- Gallery image only -->
@@ -511,7 +511,7 @@
               <!-- eof Gallery -->
 
               <!-- contacts -->
-              <li>
+              <li routerLinkActive="active">
                 <a href="contact.html">Contact</a>
                 <ul>
                   <li>
@@ -541,13 +541,27 @@
             data-target="#popupLogin">
             立即登入
           </button>
-          <div *ngIf="isLoggedIn" class="d-flex align-items-center justify-content-end">
+          <nav *ngIf="isLoggedIn" class="top-nav align-items-center justify-content-end">
             <ul class="nav sf-menu">
-              <li><a routerLink="/profile"><i class="fa-solid fa-user-large" style="font-size: 24px;"></i></a></li>
+              <li>
+                <a routerLink="/profile"><i class="fa-solid fa-user-large" style="font-size: 24px;"></i></a>
+                <ul class="user-menu">
+                  <li>
+                    <p class="text-center font-weight-bold text-primary">歡迎，{{ userName }}！</p>
+                  </li>
+                  <div class="dropdown-divider"></div>
+                  <li><a routerLink="/profile">
+                      <p>我的訂單</p>
+                    </a></li>
+                  <li><a href="#" (click)="logout()">
+                      <p>登出</p>
+                    </a></li>
+                </ul>
+              </li>
               <li><a href="#"><i class="fa-solid fa-heart" style="font-size: 24px;"></i></a></li>
               <li><a routerLink="/shopcart"><i class="fa-solid fa-cart-shopping" style="font-size: 24px;"></i></a></li>
             </ul>
-          </div>
+          </nav>
         </div>
       </div>
     </div>

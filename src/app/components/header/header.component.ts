@@ -61,7 +61,7 @@ export class HeaderComponent {
   }
 
   logout(): void {
-    localStorage.removeItem("user");  // 清除登入資訊
+    localStorage.removeItem("user");
     this.isLoggedIn = false;
     this.userName = "";
     this.alertService.success("已成功登出！");
