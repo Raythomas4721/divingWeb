@@ -12,7 +12,11 @@ import { HttpClientModule } from '@angular/common/http';
 import { LoginComponent } from './components/login/login.component';
 import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
-
+import { ShopcartComponent } from './components/shopcart/shopcart.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ShopproductshowComponent } from './components/shopproductshow/shopproductshow.component';
+import { ProcategoriesComponent } from './components/procategories/procategories.component';
+import { ProfileComponent } from './components/profile/profile.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -23,14 +27,20 @@ import { FooterComponent } from './components/footer/footer.component';
     HomeComponent,
     LoginComponent,
     HeaderComponent,
-    FooterComponent
+    FooterComponent,
+    ShopcartComponent,
+    ShopproductshowComponent,
+    ProcategoriesComponent,
+    ProfileComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
+    ReactiveFormsModule,
+    FormsModule,
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
 export class AppModule { }

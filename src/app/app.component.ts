@@ -10,4 +10,13 @@ import { NavigationEnd, Router } from '@angular/router';
 })
 export class AppComponent {
   title = 'divingWeb';
+  isHomePage: boolean = false;
+
+  constructor(private router: Router) { }
+
+  ngOnInit(): void {
+    this.router.events.subscribe(() => {
+      this.isHomePage = this.router.url === '/' || this.router.url === '/home';
+    });
+  }
 }

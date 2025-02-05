@@ -1,0 +1,43 @@
+<div class="container mt-5">
+  <div class="row justify-content-center gap-3 d-flex align-items-stretch">
+    <div class="col-md-4">
+      <div class="card shadow rounded-3">
+        <div class="card-header bg-dark text-white text-center">
+          <h5 class="mb-0">會員資訊</h5>
+        </div>
+        <div class="card-body text-center p-4">
+          <img *ngIf="user?.memberId"
+            [src]="'https://localhost:7107/api/TMmemberListsAPI/GetUserPhoto/' + user?.memberId" alt="User Photo"
+            class="rounded-circle shadow-sm border mb-3" style="width: 320px; height: 240px; object-fit: cover;">
+          <div>
+            <label for="uploadPhoto">變更圖片</label>
+            <input class="btn btn-dark w-100 mb-2" type="file" id="uploadPhoto" accept="image/*"
+              (change)="onFileSelected($event)">
+          </div>
+          <h5 class="card-title">{{ user?.memberName }}</h5>
+          <p class="text-muted mb-1">{{ user?.memberEmail }}</p>
+        </div>
+        <div class="card-body p-4">
+          <a href="/change-password" class="btn btn-dark w-100 mb-2">更改密碼</a>
+          <a href="/order-history" class="btn btn-outline-dark border w-100">查看訂單紀錄</a>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-7">
+      <div class="card mb-4 shadow rounded-3">
+        <div class="card-header bg-dark text-white">
+          <h5 class="mb-0">基本資訊</h5>
+        </div>
+        <div class="card-body p-4">
+          <p><strong>名稱：</strong> {{ user?.memberName || '未提供' }}</p>
+          <p><strong>電子郵件：</strong> {{ user?.memberEmail || '未提供' }}</p>
+          <p><strong>聯絡電話：</strong> {{ user?.memberPhone || '未提供' }}</p>
+          <p><strong>地址：</strong> {{ user?.memberAddress || '未提供' }}</p>
+          <p><strong>緊急聯絡人：</strong> {{ user?.urgentContact || '未提供' }}</p>
+          <p><strong>緊急聯絡電話：</strong> {{ user?.urgentPhone || '未提供' }}</p>
+          <a href="/edit-profile" class="btn btn-light border w-100 mt-3">編輯個人資料</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
