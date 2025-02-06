@@ -122,12 +122,12 @@ body {
   line-height: 1.5;
   overflow: visible;
   overflow-x: hidden;
-  overflow-y: scroll;
+  /* overflow-y: scroll; */
   position: relative;
 }
 
 .has-padding {
-  padding-top: 100px;
+  padding-top: 80px;
   padding-bottom: 100px;
   background-color: #eef3f5;
 }
@@ -4202,7 +4202,7 @@ py-* - same value for top and for bottom padding
 }
 
 .s-pt-160>[class*='container'] {
-  padding-top: 160px;
+  padding-top: 80px;
 }
 
 .s-pt-180>[class*='container'] {
