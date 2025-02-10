@@ -1,4 +1,5 @@
 export interface UserDTO {
+  user: any;
   memberId: number;
   memberName: string;
   memberEmail: string;
@@ -8,4 +9,5 @@ export interface UserDTO {
   recentLogin?: string;
   urgentContact?: string;
   urgentPhone?: string;
+  memberPhoto?: string;
 }
