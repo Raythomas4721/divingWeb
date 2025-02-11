@@ -15,16 +15,33 @@ export class ProfileComponent {
   user?: UserDTO | null;
   selectedFile: File | null = null;
   previewImage: string | null = null;
+  showUserImage: string | null = null;
 
   ngOnInit(): void {
     this.authService.user$.subscribe(user => {
       this.user = user?.user;
       if (user) {
         console.log("用戶資料已載入:", this.user);
+        if (user.memberPhoto) {
+          this.convertToBase64(user.memberPhoto);
+        }
       } else {
         console.log("等待 API 返回，用戶資料尚未載入");
       }
     });
+  }
+  private convertToBase64(photo: any) {
+    if (typeof photo === 'string' && photo.startsWith('data:image')) {
+      this.showUserImage = photo; // 已經是 Base64
+    } else if (photo instanceof Blob || photo instanceof ArrayBuffer) {
+      const reader = new FileReader();
+      reader.readAsDataURL(new Blob([photo])); // 轉換為 Base64
+      reader.onloadend = () => {
+        this.showUserImage = reader.result as string;
+      };
+    } else {
+      console.error("無法解析圖片格式");
+    }
   }
 
   onFileSelected(event: Event) {

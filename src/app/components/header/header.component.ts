@@ -22,7 +22,6 @@ export class HeaderComponent {
     private alertService: AlertService,
     private authService: AuthService
   ) { }
-
   userForm = new FormGroup({
     username: new FormControl('', [
       Validators.required,
@@ -120,7 +119,7 @@ export class HeaderComponent {
   }
 
   logout(): void {
-    localStorage.removeItem('user');
+    localStorage.removeItem('token');
     this.isLoggedIn = false;
     this.userName = '';
     this.alertService.success('已成功登出！');
