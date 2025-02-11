@@ -1,290 +1,185 @@
-<!-- categories.component.html (範例) -->
-<h2>商品分類</h2>
-<section class="ls s-py-90 s-py-xl-160 c-gutter-60">
+<div>
   <div class="container">
+    <!-- 一行(row)，左邊 main，右邊 aside -->
     <div class="row">
+      <!-- 左邊 主內容：col-lg-7 col-xl-8 -->
       <main class="col-lg-7 col-xl-8">
-        <ul class="products columns-2">
-          <!-- 使用 *ngFor 迭代分類列表 -->
-          <li
-            class="product"
-            *ngFor="let cat of categories"
-            (click)="goToShop(cat.productCategoryId)"
-          >
-            <div class="product-inner">
-              <!-- 如果有特價或想固定顯示，預設加上 "Sale!" 之類 -->
-              <span class="onsale">Sale!</span>
-
-              <!-- 圖片區(此處可改成cat對應圖片、或固定img) -->
-              <a href="javascript:void(0)">
-                <img
-                  [src]="'assets/images/shop/' + cat.imageFileName"
-                  alt="商品圖片"
-                />
-              </a>
-
-              <div class="product-wrap">
-                <!-- 顯示分類名稱 (cat.categoryName) -->
-                <h2 class="woocommerce-loop-product__title">
-                  {{ cat.categoryName }}
-                </h2>
-
-                <!-- 若想顯示星星評價，可固定或依cat屬性動態 -->
-                <div class="star-rating">
-                  <span style="width: 80%"
-                    >Rated <strong class="rating">4.00</strong> out of 5</span
+        <!-- 價格排序區塊 -->
+        <div class="products-selection">
+          <p class="woocommerce-result-count">Showing all 23 results</p>
+          <form class="woocommerce-ordering" method="get">
+            <!-- <select
+              name="orderby"
+              class="orderby"
+              [(ngModel)]="selectedOrder"
+              (change)="onOrderChange($event)"
+            > -->
+            <select>
+              <!-- 預設排序 -->
+              <option value="menu_order" selected="selected">預設排序</option>
+              <!-- 依價格由低到高 -->
+              <option value="price">價格：由低到高</option>
+              <!-- 依價格由高到低 -->
+              <option value="price-desc">價格：由高到低</option>
+            </select>
+          </form>
+        </div>
+        <ng-container
+          *ngIf="searchResults && searchResults.length > 0; else categoryBlock"
+        >
+          <!-- 商品列表 -->
+          <ul class="products columns-2">
+            <li class="product" *ngFor="let product of searchResults">
+              <div class="product-inner">
+                <span class="onsale">Sale!</span>
+                <div class="image-swap-container">
+                  <a
+                    (click)="onClickProduct(product.productId)"
+                    href="javascript:void(0)"
                   >
+                    <img
+                      [src]="'assets/images/shop/' + product.imageUrl"
+                      alt="商品圖片"
+                    />
+                  </a>
                 </div>
+                <div class="product-wrap">
+                  <h2 class="woocommerce-loop-product__title">
+                    <a [routerLink]="['/shopproductshow', product.productId]">
+                      {{ product.productName }}</a
+                    >
+                  </h2>
+                  <div class="star-rating">
+                    <span style="width: 80%"
+                      >Rated <strong class="rating">4.00</strong> out of 5</span
+                    >
+                  </div>
+                  <div class="price-wrap">
+                    <span class="price"> ${{ product.unitPrice }} </span>
+                  </div>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </ng-container>
+        <!-- 這裡改用 mainCats (篩出 productCategoryId=1~8) -->
+        <ng-template #categoryBlock>
+          <ul class="products columns-2">
+            <li
+              class="product"
+              *ngFor="let cat of mainCats"
+              (click)="goToShop(cat.productCategoryId)"
+            >
+              <div class="product-inner">
+                <!-- 如果有特價或想固定顯示，預設加上 "Sale!" 之類 -->
+                <span class="onsale">Sale!</span>
 
-                <!-- 價格區 (可自行增減) -->
-                <div class="price-wrap">
-                  <span class="price">
-                    <span><span>$</span>250</span> –
-                    <span class="woocommerce-Price-amount amount">
-                      <span>$</span>1350
+                <!-- 圖片區(此處可改成cat對應圖片、或固定img) -->
+                <a href="javascript:void(0)">
+                  <img
+                    [src]="'assets/images/shop/' + cat.imageFileName"
+                    alt="商品圖片"
+                  />
+                </a>
+
+                <div class="product-wrap">
+                  <!-- 顯示分類名稱 (cat.categoryName) -->
+                  <h2 class="woocommerce-loop-product__title">
+                    {{ cat.categoryName }}
+                  </h2>
+
+                  <!-- 若想顯示星星評價，可固定或依cat屬性動態 -->
+                  <div class="star-rating">
+                    <span style="width: 80%"
+                      >Rated <strong class="rating">4.00</strong> out of 5</span
+                    >
+                  </div>
+
+                  <!-- 價格區 (可自行增減) -->
+                  <div class="price-wrap">
+                    <span class="price">
+                      <span><span>$</span>250</span> –
+                      <span class="woocommerce-Price-amount amount">
+                        <span>$</span>1350
+                      </span>
                     </span>
-                  </span>
-                  <!-- 若只做分類列，可拿掉加購物車按鈕 -->
-                  <!-- <a
+                    <!-- 若只做分類列，可拿掉加購物車按鈕 -->
+                    <!-- <a
                     rel="nofollow"
                     href="#"
                     class="button product_type_simple add_to_cart_button"
                   >
                     Add to cart
                   </a> -->
+                  </div>
                 </div>
               </div>
-            </div>
-          </li>
-        </ul>
+            </li>
+          </ul>
+        </ng-template>
       </main>
+      <!-- 右邊區塊 -->
       <aside class="col-lg-5 col-xl-4">
         <div class="ls ms">
           <div class="widget widget_product_search">
             <h3 class="widget-title">Search</h3>
 
-            <form role="search" class="woocommerce-product-search" action="/">
-              <label
-                class="screen-reader-text"
-                for="woocommerce-product-search-field-widget"
-              >
+            <!-- 使用 Angular 的表單 (ngSubmit) 送出後呼叫 onSearch() -->
+            <form class="woocommerce-product-search" (ngSubmit)="onSearch()">
+              <label class="screen-reader-text" for="searchField">
                 Search for:
               </label>
-
+              <!-- 用 [(ngModel)] 雙向繫結一個變數 searchTerm -->
               <input
                 type="search"
-                id="woocommerce-product-search-field-widget"
+                id="searchField"
                 class="search-field"
                 placeholder="Search products..."
-                value=""
-                name="search"
+                [(ngModel)]="searchTerm"
+                name="searchTerm"
               />
               <input type="submit" value="Search" />
             </form>
           </div>
         </div>
-
+        <!-- 側邊欄 (顯示 9~12 的分類) -->
         <div class="widget woocommerce widget_product_categories">
           <h3 class="widget-title">Categories</h3>
           <ul class="product-categories">
-            <li class="cat-item cat-parent">
-              <a href="shop-right.html">Clothing</a>
-              <span class="count">(12)</span>
-              <ul class="children">
-                <li class="cat-item">
-                  <a href="shop-right.html">Hoodies</a>
-                  <span class="count">(46)</span>
-                </li>
-                <li class="cat-item">
-                  <a href="shop-right.html">T-shirts</a>
-                  <span class="count">(165)</span>
-                </li>
-              </ul>
-            </li>
-            <li class="cat-item cat-parent">
-              <a href="shop-right.html">Music</a>
-              <span class="count">(16)</span>
-              <ul class="children">
-                <li class="cat-item">
-                  <a href="shop-right.html">Albums</a>
-                  <span class="count">(24)</span>
-                </li>
-                <li class="cat-item">
-                  <a href="shop-right.html">Singles</a>
-                  <span class="count">(2)</span>
-                </li>
-              </ul>
-            </li>
-            <li class="cat-item">
-              <a href="shop-right.html">Posters</a>
-              <span class="count">(45)</span>
+            <!-- 只要一層就好，直接迭代 sideCats -->
+            <li
+              class="cat-item"
+              *ngFor="let cat of sideCats"
+              (click)="goToShop(cat.productCategoryId)"
+            >
+              <a href="javascript:void(0)">{{ cat.categoryName }}</a>
             </li>
           </ul>
         </div>
-
+        <!-- top商品列 -->
         <div class="widget woocommerce widget_top_rated_products">
           <h3 class="widget-title">Top Products</h3>
           <ul class="product_list_widget">
-            <li>
-              <a href="shop-product-right.html">
-                <img src="images/shop/01.jpg" alt="img" />
-                <span class="product-title">Ninja Silhouette</span>
+            <li *ngFor="let product of topProducts">
+              <a [routerLink]="['/shopproductshow', product.productId]">
+                <img
+                  [src]="'assets/images/shop/' + product.imageUrl"
+                  alt="{{ product.productName }}"
+                />
               </a>
-              <div class="star-rating">
-                <span style="width: 100%"
-                  >Rated
-                  <strong class="rating">5.00 </strong>
-                  out of 5
+              <div>
+                <span class="product-title">
+                  <a [routerLink]="['/shopproductshow', product.productId]">
+                    {{ product.productName }}
+                  </a>
                 </span>
+                <p>Price: {{ product.unitPrice }}</p>
+                <p>Views: {{ product.viewCount }}</p>
               </div>
-              <span class="woocommerce-Price-amount amount">
-                <span class="woocommerce-Price-currencySymbol">$</span>
-                20.00
-              </span>
-            </li>
-
-            <li>
-              <a href="shop-product-right.html">
-                <img src="images/shop/02.jpg" alt="img" />
-                <span class="product-title">Woo Album #4</span>
-              </a>
-              <div class="star-rating">
-                <span style="width: 100%"
-                  >Rated
-                  <strong class="rating">5.00</strong>
-                  out of 5
-                </span>
-              </div>
-              <span class="woocommerce-Price-amount amount">
-                <span class="woocommerce-Price-currencySymbol">$</span>
-                9.00
-              </span>
-            </li>
-
-            <li>
-              <a href="shop-product-right.html">
-                <img src="images/shop/03.jpg" alt="img" />
-                <span class="product-title">Happy Ninja</span>
-              </a>
-              <div class="star-rating">
-                <span style="width: 100%"
-                  >Rated
-                  <strong class="rating">5.00</strong>
-                  out of 5
-                </span>
-              </div>
-              <span class="woocommerce-Price-amount amount">
-                <span class="woocommerce-Price-currencySymbol">$</span>
-                18.00
-              </span>
-            </li>
-
-            <li>
-              <a href="shop-product-right.html">
-                <img src="images/shop/04.jpg" alt="img" />
-                <span class="product-title">Patient Ninja</span>
-              </a>
-              <div class="star-rating">
-                <span style="width: 93.4%"
-                  >Rated
-                  <strong class="rating">4.67</strong>
-                  out of 5
-                </span>
-              </div>
-              <span class="woocommerce-Price-amount amount">
-                <span class="woocommerce-Price-currencySymbol">$</span>
-                35.00
-              </span>
-            </li>
-
-            <li>
-              <a href="shop-product-right.html">
-                <img src="images/shop/05.jpg" alt="img" />
-                <span class="product-title">Premium Quality</span>
-              </a>
-              <div class="star-rating">
-                <span style="width: 90%"
-                  >Rated
-                  <strong class="rating">4.50</strong>
-                  out of 5
-                </span>
-              </div>
-              <span class="woocommerce-Price-amount amount">
-                <span class="woocommerce-Price-currencySymbol">$</span>
-                20.00
-              </span>
             </li>
           </ul>
         </div>
       </aside>
     </div>
   </div>
-</section>
-<!-- 商品種類列表 -->
-<!-- <ul class="products columns-2">
-  <li class="product" *ngFor="let product of products">
-    <div class="product-inner"> -->
-<!-- <a [routerLink]="['/shopproductshow', product.productId]">
-        {{ product.productName }} -->
-<!-- 假設有 product.imageUrl -->
-<!-- <img [src]="product.imageUrl" alt="{{ product.productName }}" /> -->
-<!-- </a> -->
-<!-- <div class="product-wrap">
-        <h2 class="woocommerce-loop-product__title">
-          {{ product.productName }}
-        </h2>
-        <div class="star-rating">
-          <span style="width: 80%"
-            >Rated <strong class="rating">4.00</strong> out of 5</span
-          >
-        </div>
-        <div class="price-wrap">
-          <span class="price">
-            <span><span>$</span>{{ product.unitPrice }}</span>
-          </span> -->
-<!-- 當按下按鈕時呼叫 onAddToCart(product)，進而載入該商品的變體資料 -->
-<!-- <button (click)="onAddToCart(product)">Add to cart</button> -->
-<!-- </div>
-      </div>
-    </div>
-  </li>
-</ul>
-
-<-- 變體選擇彈窗 (Modal) -->
-<!-- <div
-  *ngIf="selectedProduct && productVariants.length > 0"
-  class="variant-modal"
->
-  <div class="modal-content"> -->
-<!-- <h2>Select options for {{ selectedProduct.productName }}</h2>
-      <div class="variant-option">
-        <label for="sizeSelect">Size:</label>
-        <select
-          id="sizeSelect"
-          [(ngModel)]="selectedSize"
-          (change)="onVariantChange()"
-        >
-          <option *ngFor="let size of sizes" [value]="size.id">
-            {{ size.name }}
-          </option>
-        </select>
-      </div>
-      <div class="variant-option">
-        <label for="colorSelect">Color:</label>
-        <select
-          id="colorSelect"
-          [(ngModel)]="selectedColor"
-          (change)="onVariantChange()"
-        >
-          <option *ngFor="let color of colors" [value]="color.id">
-            {{ color.name }}
-          </option>
-        </select>
-      </div>
-      <button (click)="onConfirmAddToCart()">Confirm Add to Cart</button>
-      <button (click)="cancelVariantSelection()">Cancel</button>
-    </div>
-  </div>
-</div> -->
-<!-- </div>
-</div> -->
+</div>

@@ -1,9 +1,33 @@
 .products.columns-2 {
-  padding: 0 40px; /* 左右留白 */
+  padding: 0 10px; /* 左右留白 */
 }
 
 .product-inner img {
   display: block;
   max-width: 280px;
   margin: 0 auto; /* 置中 */
+}
+
+/* top顯示的照片大小 */
+.widget_top_rated_products .product_list_widget li img {
+  width: 100px;
+  height: auto; /* 等比例縮放 */
+  margin-right: 10px; /* 若想圖片跟文字之間留點間距可加 */
+}
+
+.widget_product_search {
+  background-color: #ffffff; /* 你想要的背景色 */
+
+  padding: 20px; /* 讓內容與邊緣留點距離 */
+  margin-bottom: 20px; /* 與下方區塊的間距 */
+}
+
+.image-swap-container {
+  position: relative;
+  display: flex;
+  width: 280px;
+  height: 280px;
+  margin: 0 auto;
+  justify-content: center;
+  align-items: center;
 }

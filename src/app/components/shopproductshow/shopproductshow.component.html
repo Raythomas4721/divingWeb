@@ -25,112 +25,161 @@
 <section class="ls s-py-90 s-py-xl-160 c-gutter-60">
   <div class="container">
     <div class="row">
-      <main class="col-lg-7 col-xl-8">
-        <div class="product">
-          <!-- 商品圖片區(略) -->
-          <div class="images" data-columns="4">
-            <figure>
-              <div data-thumb="images/shop/11.jpg">
-                <a href="images/shop/11.jpg">
-                  <img
-                    src="images/shop/11.jpg"
-                    alt="img"
-                    data-caption=""
-                    data-src="images/shop/11.jpg"
-                    data-large_image="images/shop/11.jpg"
-                    data-large_image_width="1000"
-                    data-large_image_height="1000"
-                  />
-                </a>
-              </div>
-              <div data-thumb="images/shop/11_back.jpg">
-                <a href="images/shop/11_back.jpg">
-                  <img
-                    src="images/shop/11_back.jpg"
-                    alt="img"
-                    data-caption=""
-                    data-src="images/shop/11_back.jpg"
-                    data-large_image="images/shop/11_back.jpg"
-                    data-large_image_width="1000"
-                    data-large_image_height="1000"
-                  />
-                </a>
-              </div>
-              <div data-thumb="images/shop/10_back.jpg">
-                <a href="images/shop/10_back.jpg">
-                  <img
-                    src="images/shop/10_back.jpg"
-                    alt="img"
-                    data-caption=""
-                    data-src="images/shop/10_back.jpg"
-                    data-large_image="images/shop/10_back.jpg"
-                    data-large_image_width="1000"
-                    data-large_image_height="1000"
-                  />
-                </a>
-              </div>
-              <div data-thumb="images/shop/10.jpg">
-                <a href="images/shop/10.jpg">
-                  <img
-                    src="images/shop/10.jpg"
-                    alt="img"
-                    data-caption=""
-                    data-src="images/shop/10.jpg"
-                    data-large_image="images/shop/10.jpg"
-                    data-large_image_width="1000"
-                    data-large_image_height="1000"
-                  />
-                </a>
-              </div>
-            </figure>
+      <div class="product">
+        <!-- 商品圖片區(略) -->
+        <!-- 先判斷 productDetail 存在，再判斷檔名 -->
+        <div class="images" data-columns="4" *ngIf="productDetail as pd">
+          <figure class="main-image-container">
+            <!-- 大圖 (主圖) -->
+            <img
+              class="product-main-img"
+              [src]="'assets/images/shop/' + productDetail!.imageUrl"
+              alt="主圖"
+              (click)="
+                openModal('assets/images/shop/' + productDetail!.imageUrl)
+              "
+            />
+
+            <!-- 若是 M 開頭檔名，就顯示第二張 -->
+            <img
+              *ngIf="productDetail!.imageUrl.startsWith('M')"
+              class="hover-img"
+              [src]="
+                'assets/images/shop/' +
+                productDetail!.imageUrl.replace('.jpg', '-1.jpg')
+              "
+              alt="第二張圖片"
+            />
+          </figure>
+
+          <!-- 縮圖列 -->
+          <ng-container
+            *ngIf="
+              productDetail!.images && productDetail!.images.length > 0;
+              else noThumbnails
+            "
+          >
+            <ul class="thumbnails-list">
+              <!-- 假設有幾張小圖 (此範例示範 3~4 張) -->
+              <li *ngFor="let filename of productDetail!.images">
+                <img
+                  [src]="'assets/images/shop/' + filename"
+                  alt="圖1"
+                  (click)="openModal('assets/images/shop/' + filename)"
+                />
+              </li>
+            </ul>
+          </ng-container>
+          <ng-template #noThumbnails>
+            <!-- 沒有縮圖可顯示的提示 (可自行取代) -->
+            <p>暫無其他縮圖</p>
+          </ng-template>
+          <!-- 如果還有更多花色或變化圖，就再添加 -->
+
+          <div class="image-overlay" *ngIf="isModalOpen" (click)="closeModal()">
+            <!-- 圖片容器，阻止冒泡以避免點擊圖片就關掉 modal -->
+            <div
+              class="image-overlay-content"
+              (click)="$event.stopPropagation()"
+            >
+              <img [src]="selectedImage" alt="放大圖" />
+            </div>
+          </div>
+        </div>
+
+        <div class="summary entry-summary" *ngIf="productDetail">
+          <h1 class="product_title entry-title">
+            {{ productDetail.productName }}
+          </h1>
+          <div class="star-rating">
+            <span style="width: 72.6%"
+              >Rated <strong class="rating">4.33</strong> out of 5 based on
+              <span class="rating">3</span> customer ratings</span
+            >
+          </div>
+          <a href="#reviews" class="woocommerce-review-link" rel="nofollow"
+            >(<span class="count">3</span> customer reviews)</a
+          >
+
+          <p>價格: {{ productDetail.unitPrice }}</p>
+          <p>{{ productDetail.description }}</p>
+          <div>
+            <p>
+              Pellentesque habitant morbi tristique senectus et netus et
+              malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat
+              vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit
+              amet quam egestas semper. Aenean ultricies mi vitae est. Mauris
+              placerat eleifend leo.
+            </p>
           </div>
 
-          <div *ngIf="productDetail">
-            <h1 class="product_title entry-title">
-              {{ productDetail.productName }}
-            </h1>
-            <p>價格: {{ productDetail.unitPrice }}</p>
-            <p>{{ productDetail.description }}</p>
-
-            <!-- 顏色 / 尺寸 -->
-            <div>
+          <!-- 顏色 / 尺寸 -->
+          <form>
+            <div *ngIf="colors.length > 0">
               <label for="colorSelect">Color:</label>
-              <select
-                id="colorSelect"
-                [(ngModel)]="selectedColor"
-                (change)="onVariantChange()"
-                name="colorSelect"
+              <div
+                class="color-box"
+                *ngFor="let c of colors"
+                [style.backgroundColor]="c.color"
+                (click)="onColorClick(c)"
+                [class.disabled]="!c.hasStock"
+                [class.active]="c.colorId === selectedColor"
+              ></div>
+            </div>
+            <div *ngIf="sizes.length > 0">
+              <label for="sizeSelect">Size:</label>
+              <div
+                class="size-btn"
+                *ngFor="let s of sizes"
+                (click)="onSizeClick(s)"
+                [class.disabled]="!s.hasStock"
+                [class.active]="s.sizeId === selectedSize"
               >
-                <option *ngFor="let c of colors" [value]="c.id">
-                  {{ c.name }}
-                </option>
-              </select>
+                {{ s.size }}
+              </div>
+            </div>
+            <div *ngIf="thicknesses.length > 0">
+              <div class="flex-container">
+                <label>Thickness:</label>
+                <div
+                  class="thickness-btn"
+                  *ngFor="let t of thicknesses"
+                  (click)="onThicknessClick(t)"
+                  [class.active]="t.id === selectedThickness"
+                >
+                  {{ t.name }}
+                </div>
+              </div>
             </div>
 
-            <div>
-              <label for="sizeSelect">Size:</label>
-              <select
-                id="sizeSelect"
-                [(ngModel)]="selectedSize"
-                (change)="onVariantChange()"
-                name="sizeSelect"
-              >
-                <option *ngFor="let s of sizes" [value]="s.id">
-                  {{ s.name }}
-                </option>
-              </select>
+            <!-- gender -->
+            <div *ngIf="genders.length > 0">
+              <div class="flex-container">
+                <label>Gender:</label>
+                <div
+                  class="gender-btn"
+                  *ngFor="let g of genders"
+                  (click)="onGenderClick(g)"
+                  [class.active]="g.id === selectedGender"
+                >
+                  {{ g.name }}
+                </div>
+              </div>
             </div>
 
             <!-- 數量 -->
+
             <div>
-              <label>數量:</label>
+              <label for="qtyInput">數量:</label>
               <input
+                class="qty-input"
                 type="number"
                 [(ngModel)]="quantity"
+                name="quantity"
                 min="1"
-                style="width: 80px"
               />
             </div>
+
             <br />
 
             <!-- 加入購物車 -->
@@ -140,13 +189,14 @@
             >
               Add to cart
             </button>
-          </div>
-
-          <div *ngIf="!productDetail">
-            <p>載入中或找不到商品</p>
-          </div>
+          </form>
         </div>
-      </main>
+
+        <div *ngIf="!productDetail">
+          <p>載入中或找不到商品</p>
+        </div>
+      </div>
+
       <!-- 如果需要 SKU, Category, Tag ...
             <div class="product_meta">
               <span class="sku_wrapper"
@@ -156,166 +206,304 @@
           </div>
 
 
-      <-- 側邊欄 (略) -->
-      <aside class="col-lg-5 col-xl-4">
-        <div class="ls ms">
-          <div class="widget widget_product_search">
-            <h3 class="widget-title">Search</h3>
 
-            <form role="search" class="woocommerce-product-search" action="/">
-              <label
-                class="screen-reader-text"
-                for="woocommerce-product-search-field-widget"
-              >
-                Search for:
-              </label>
+<-- 下面表格欄 -->
+      <div class="woocommerce-tabs wc-tabs-wrapper">
+        <ul class="tabs wc-tabs" role="tablist">
+          <li
+            class="description_tab"
+            id="tab-title-description"
+            role="tab"
+            aria-controls="tab-description"
+          >
+            <a href="#tab-description">Description</a>
+          </li>
+          <li
+            class="additional_information_tab active"
+            id="tab-title-additional_information"
+            role="tab"
+            aria-controls="tab-additional_information"
+          >
+            <a href="#tab-additional_information">Additional information</a>
+          </li>
+          <li
+            class="reviews_tab"
+            id="tab-title-reviews"
+            role="tab"
+            aria-controls="tab-reviews"
+          >
+            <a href="#tab-reviews">Reviews (3)</a>
+          </li>
+        </ul>
 
-              <input
-                type="search"
-                id="woocommerce-product-search-field-widget"
-                class="search-field"
-                placeholder="Search products..."
-                value=""
-                name="search"
-              />
-              <input type="submit" value="Search" />
-            </form>
+        <div
+          class="panel wc-tab"
+          id="tab-description"
+          role="tabpanel"
+          aria-labelledby="tab-title-description"
+        >
+          <h2>Description</h2>
+
+          <p>
+            Pellentesque habitant morbi tristique senectus et netus et malesuada
+            fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae,
+            ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam
+            egestas semper. Aenean ultricies mi vitae est. Mauris placerat
+            eleifend leo.
+          </p>
+        </div>
+        <div
+          class="panel wc-tab"
+          id="tab-additional_information"
+          role="tabpanel"
+          aria-labelledby="tab-title-additional_information"
+        >
+          <h2>Additional information</h2>
+
+          <table class="shop_attributes">
+            <tbody>
+              <tr>
+                <th>Color</th>
+                <td>
+                  <p>Blue</p>
+                </td>
+              </tr>
+              <tr>
+                <th>Size</th>
+                <td>
+                  <p>
+                    X Small, Small, Medium, Large, X Large, XX Large, XXX Large
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div
+          class="panel wc-tab"
+          id="tab-reviews"
+          role="tabpanel"
+          aria-labelledby="tab-title-reviews"
+        >
+          <div id="reviews">
+            <div id="comments">
+              <h2>3 reviews for <span>Ship Your Idea</span></h2>
+
+              <ol class="commentlist">
+                <li class="comment even thread-even depth-1" id="li-comment-34">
+                  <div id="comment-34" class="comment_container">
+                    <img
+                      alt="img"
+                      src="http://2.gravatar.com/avatar/babdd787a9577a0e615246ac79cf2826?s=60&amp;d=mm&amp;r=g"
+                      srcset="
+                        http://2.gravatar.com/avatar/babdd787a9577a0e615246ac79cf2826?s=120&amp;d=mm&amp;r=g 2x
+                      "
+                      class="avatar avatar-60 photo"
+                      height="60"
+                      width="60"
+                    />
+                    <div class="comment-text">
+                      <div class="star-rating">
+                        <span style="width: 80%"
+                          >Rated <strong class="rating">4</strong> out of
+                          5</span
+                        >
+                      </div>
+                      <p class="meta">
+                        <strong>James Koster</strong> <span>–</span>
+                        <time datetime="2013-06-07T11:43:13+00:00"
+                          >June 7, 2013
+                        </time>
+                      </p>
+
+                      <div class="description">
+                        <p>
+                          Nice T-shirt, I got one in black. Goes with anything!
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+                <!-- #comment-## -->
+                <li
+                  class="comment odd alt thread-odd thread-alt depth-1"
+                  id="li-comment-35"
+                >
+                  <div id="comment-35" class="comment_container">
+                    <img
+                      alt="img"
+                      src="http://0.gravatar.com/avatar/f0cde930b42c79145194679d5b6e3b1d?s=60&amp;d=mm&amp;r=g"
+                      srcset="
+                        http://0.gravatar.com/avatar/f0cde930b42c79145194679d5b6e3b1d?s=120&amp;d=mm&amp;r=g 2x
+                      "
+                      class="avatar avatar-60 photo"
+                      height="60"
+                      width="60"
+                    />
+                    <div class="comment-text">
+                      <div class="star-rating">
+                        <span style="width: 80%"
+                          >Rated <strong class="rating">4</strong> out of
+                          5</span
+                        >
+                      </div>
+                      <p class="meta">
+                        <strong>Cobus Bester</strong> <span>–</span>
+                        <time datetime="2013-06-07T11:55:15+00:00"
+                          >June 7, 2013
+                        </time>
+                      </p>
+
+                      <div class="description">
+                        <p>Very comfortable shirt, and I love the graphic!</p>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+                <!-- #comment-## -->
+                <li class="comment even thread-even depth-1" id="li-comment-36">
+                  <div id="comment-36" class="comment_container">
+                    <img
+                      alt="img"
+                      src="http://1.gravatar.com/avatar/7a6df00789e50714fcde1b759befcc84?s=60&amp;d=mm&amp;r=g"
+                      srcset="
+                        http://1.gravatar.com/avatar/7a6df00789e50714fcde1b759befcc84?s=120&amp;d=mm&amp;r=g 2x
+                      "
+                      class="avatar avatar-60 photo"
+                      height="60"
+                      width="60"
+                    />
+                    <div class="comment-text">
+                      <div class="star-rating">
+                        <span style="width: 100%"
+                          >Rated <strong class="rating">5</strong> out of
+                          5</span
+                        >
+                      </div>
+                      <p class="meta">
+                        <strong>Stuart</strong>
+                        <span>–</span>
+                        <time datetime="2013-06-07T13:02:14+00:00"
+                          >June 7, 2013
+                        </time>
+                      </p>
+
+                      <div class="description">
+                        <p>
+                          Great T-shirt quality, Great Design and Great Service.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+                <!-- #comment-## -->
+              </ol>
+            </div>
+
+            <div id="review_form_wrapper">
+              <div id="review_form">
+                <div id="respond" class="comment-respond">
+                  <span id="reply-title" class="comment-reply-title"
+                    >Add a review
+                    <small>
+                      <a
+                        rel="nofollow"
+                        id="cancel-comment-reply-link"
+                        href="#respond"
+                        style="display: none"
+                        >Cancel reply</a
+                      >
+                    </small>
+                  </span>
+                  <form
+                    action="/"
+                    method="post"
+                    id="commentform"
+                    class="comment-form"
+                    novalidate=""
+                  >
+                    <p class="comment-notes">
+                      <span id="email-notes"
+                        >Your email address will not be published.</span
+                      >
+                      Required fields are marked
+                      <span class="required">*</span>
+                    </p>
+                    <div class="comment-form-rating">
+                      <label>Your rating</label>
+                      <p class="stars">
+                        <span>
+                          <a class="star-1" href="#">1</a>
+                          <a class="star-2" href="#">2</a>
+                          <a class="star-3" href="#">3</a>
+                          <a class="star-4" href="#">4</a>
+                          <a class="star-5" href="#">5</a>
+                        </span>
+                      </p>
+                    </div>
+                    <p class="comment-form-comment">
+                      <label for="comment"
+                        >Your review <span class="required">*</span>
+                      </label>
+                      <textarea
+                        id="comment"
+                        name="comment"
+                        cols="45"
+                        rows="8"
+                        aria-required="true"
+                        required=""
+                      >
+                      </textarea>
+                    </p>
+                    <p class="comment-form-author">
+                      <label for="author"
+                        >Name <span class="required">*</span>
+                      </label>
+                      <input
+                        id="author"
+                        name="author"
+                        type="text"
+                        value=""
+                        size="30"
+                        aria-required="true"
+                        required=""
+                      />
+                    </p>
+                    <p class="comment-form-email">
+                      <label for="email"
+                        >Email <span class="required">*</span>
+                      </label>
+                      <input
+                        id="email"
+                        name="email"
+                        type="email"
+                        value=""
+                        size="30"
+                        aria-required="true"
+                        required=""
+                      />
+                    </p>
+                    <p class="form-submit">
+                      <input
+                        name="submit"
+                        type="submit"
+                        id="submit"
+                        class="submit"
+                        value="Submit"
+                      />
+                    </p>
+                  </form>
+                </div>
+                <!-- #respond -->
+              </div>
+            </div>
+
+            <div class="clear"></div>
           </div>
         </div>
+      </div>
 
-        <div class="widget woocommerce widget_product_categories">
-          <h3 class="widget-title">Categories</h3>
-          <ul class="product-categories">
-            <li class="cat-item cat-parent">
-              <a href="shop-right.html">Clothing</a>
-              <span class="count">(12)</span>
-              <ul class="children">
-                <li class="cat-item">
-                  <a href="shop-right.html">Hoodies</a>
-                  <span class="count">(46)</span>
-                </li>
-                <li class="cat-item">
-                  <a href="shop-right.html">T-shirts</a>
-                  <span class="count">(165)</span>
-                </li>
-              </ul>
-            </li>
-            <li class="cat-item cat-parent">
-              <a href="shop-right.html">Music</a>
-              <span class="count">(16)</span>
-              <ul class="children">
-                <li class="cat-item">
-                  <a href="shop-right.html">Albums</a>
-                  <span class="count">(24)</span>
-                </li>
-                <li class="cat-item">
-                  <a href="shop-right.html">Singles</a>
-                  <span class="count">(2)</span>
-                </li>
-              </ul>
-            </li>
-            <li class="cat-item">
-              <a href="shop-right.html">Posters</a>
-              <span class="count">(45)</span>
-            </li>
-          </ul>
-        </div>
-
-        <div class="widget woocommerce widget_top_rated_products">
-          <h3 class="widget-title">Top Products</h3>
-          <ul class="product_list_widget">
-            <li>
-              <a href="shop-product-right.html">
-                <img src="images/shop/01.jpg" alt="img" />
-                <span class="product-title">Ninja Silhouette</span>
-              </a>
-              <div class="star-rating">
-                <span style="width: 100%"
-                  >Rated
-                  <strong class="rating">5.00 </strong>
-                  out of 5
-                </span>
-              </div>
-              <span class="woocommerce-Price-amount amount">
-                <span class="woocommerce-Price-currencySymbol">$</span>
-                20.00
-              </span>
-            </li>
-
-            <li>
-              <a href="shop-product-right.html">
-                <img src="images/shop/02.jpg" alt="img" />
-                <span class="product-title">Woo Album #4</span>
-              </a>
-              <div class="star-rating">
-                <span style="width: 100%"
-                  >Rated
-                  <strong class="rating">5.00</strong>
-                  out of 5
-                </span>
-              </div>
-              <span class="woocommerce-Price-amount amount">
-                <span class="woocommerce-Price-currencySymbol">$</span>
-                9.00
-              </span>
-            </li>
-
-            <li>
-              <a href="shop-product-right.html">
-                <img src="images/shop/03.jpg" alt="img" />
-                <span class="product-title">Happy Ninja</span>
-              </a>
-              <div class="star-rating">
-                <span style="width: 100%"
-                  >Rated
-                  <strong class="rating">5.00</strong>
-                  out of 5
-                </span>
-              </div>
-              <span class="woocommerce-Price-amount amount">
-                <span class="woocommerce-Price-currencySymbol">$</span>
-                18.00
-              </span>
-            </li>
-
-            <li>
-              <a href="shop-product-right.html">
-                <img src="images/shop/04.jpg" alt="img" />
-                <span class="product-title">Patient Ninja</span>
-              </a>
-              <div class="star-rating">
-                <span style="width: 93.4%"
-                  >Rated
-                  <strong class="rating">4.67</strong>
-                  out of 5
-                </span>
-              </div>
-              <span class="woocommerce-Price-amount amount">
-                <span class="woocommerce-Price-currencySymbol">$</span>
-                35.00
-              </span>
-            </li>
-
-            <li>
-              <a href="shop-product-right.html">
-                <img src="images/shop/05.jpg" alt="img" />
-                <span class="product-title">Premium Quality</span>
-              </a>
-              <div class="star-rating">
-                <span style="width: 90%"
-                  >Rated
-                  <strong class="rating">4.50</strong>
-                  out of 5
-                </span>
-              </div>
-              <span class="woocommerce-Price-amount amount">
-                <span class="woocommerce-Price-currencySymbol">$</span>
-                20.00
-              </span>
-            </li>
-          </ul>
-        </div>
-      </aside>
+      <!-- 側邊欄 (略) -->
     </div>
   </div>
 </section>

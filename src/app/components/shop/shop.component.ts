@@ -2,10 +2,16 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { TNcartItemDTO } from 'src/app/interface/TNcartItemDTO';
 import { TNcartItemsService } from './../../services/tncart-items.service';
 import { Component, OnInit } from '@angular/core';
-import { TNproductDTO, TNprovariantDTO } from 'src/app/interface/TNproductDTO';
+import {
+  TNcategoryDTO,
+  TNproductDTO,
+  TopProductDTO,
+} from 'src/app/interface/TNproductDTO';
 import { TnproductService } from './../../services/tnproduct.service';
 import { HttpClient } from '@angular/common/http';
 import { TncategoriesService } from 'src/app/services/tncategories.service';
+import { UserBehaviorService } from 'src/app/services/user-behavior.service';
+import { Lightbox } from 'ngx-lightbox';
 
 @Component({
   selector: 'app-shop',
@@ -13,210 +19,158 @@ import { TncategoriesService } from 'src/app/services/tncategories.service';
   styleUrls: ['./shop.component.css'],
 })
 export class ShopComponent implements OnInit {
+  album: Array<any> = [];
+  // 分類相關
+  categories: TNcategoryDTO[] = [];
+  mainCats: TNcategoryDTO[] = []; // 1~8
+  sideCats: TNcategoryDTO[] = []; // 9~12
+
+  // 商品列表
   products: TNproductDTO[] = [];
-  // 存放某個商品的變體資料
-  productVariants: TNprovariantDTO[] = [];
-  // 從變體中獨立出來的選項（例如尺寸與顏色）
-  sizes: any[] = []; // e.g. [{ id: 1, name: 'S' }, { id: 2, name: 'M' }, ...]
-  colors: any[] = []; // e.g. [{ id: 1, name: '紅色' }, { id: 2, name: '藍色' }, ...]
-  // 使用者目前選擇的尺寸與顏色
-  selectedSize: number | null = null;
-  selectedColor: number | null = null;
-  // 根據所選擇比對出的變體
-  selectedVariant: TNprovariantDTO | null = null;
-  // 目前正在選擇變體的商品
-  selectedProduct: TNproductDTO | null = null;
+  searchTerm: string = '';
+  topProducts: TopProductDTO[] = [];
+
+  selectedOrder = 'menu_order';
+  guestId: string = '';
 
   constructor(
     private cartItemsService: TNcartItemsService,
     private productService: TnproductService,
     private http: HttpClient,
     private router: Router,
+    private userBehavior: UserBehaviorService,
     private categoryService: TncategoriesService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private _lightbox: Lightbox
   ) {}
 
   ngOnInit(): void {
+    this.loadTopProducts();
+    // 1) 載入所有分類，並切出主畫面與側邊要顯示的
+    this.categoryService.getAllCategories().subscribe({
+      next: (cats) => {
+        this.categories = cats;
+        this.mainCats = cats.filter(
+          (c) => c.productCategoryId >= 1 && c.productCategoryId <= 8
+        );
+        this.sideCats = cats.filter(
+          (c) => c.productCategoryId >= 9 && c.productCategoryId <= 12
+        );
+      },
+      error: (err) => console.error('載入分類失敗', err),
+    });
+
+    // 2) 監聽路由參數(categoryId)變化，載入對應商品
     this.route.paramMap.subscribe((params) => {
       const categoryIdParam = params.get('categoryId');
-      console.log('categoryIdParam =>', categoryIdParam);
-
       if (categoryIdParam) {
-        // 轉成數字
         const categoryId = +categoryIdParam;
-        // 撈該分類商品
-        this.categoryService.getProductsByCategory(categoryId).subscribe({
-          next: (data) => {
-            this.products = data;
-            console.log('取得分類', categoryId, '的商品', data);
-          },
-          error: (err) => console.error('取得分類商品失敗:', err),
-        });
+        this.loadProductsByCategory(categoryId);
       } else {
-        // 如果沒有分類ID，就載入所有商品
-        this.productService.getAllProducts().subscribe({
-          next: (allProds) => {
-            this.products = allProds;
-            console.log('取得全部商品', allProds);
-          },
-          error: (err) => {
-            console.error('取得全部商品失敗:', err);
-          },
-        });
+        this.loadAllProducts();
       }
     });
-    // 載入所有商品資料
-    // this.productService.getAllProducts().subscribe({
-    //   next: (data) => {
-    //     this.products = data;
-    //     console.log('商品列表', this.products);
-    //   },
-    //   error: (err) => {
-    //     console.error('取得商品失敗', err);
-    //   },
-    // });
-    // this.route.paramMap.subscribe((params) => {
-    //   const categoryIdParam = params.get('categoryId');
-    //   console.log('categoryIdParam =>', categoryIdParam);
+  }
 
-    //   if (categoryIdParam) {
-    //     const categoryId = +categoryIdParam;
-    // 1) 撈該分類底下所有商品
-    //     this.categoryService.getProductsByCategory(categoryId).subscribe({
-    //       next: (data) => {
-    //         this.products = data;
-    //         console.log('取得分類', categoryId, '的商品', data);
-    //       },
-    //       error: (err) => console.error('取得分類商品失敗:', err),
-    //     });
-    //   } else {
-    //     // 2) 如果沒有分類ID，就載入所有商品
-    //     this.productService.getAllProducts().subscribe({
-    //       next: (allProds) => {
-    //         this.products = allProds;
-    //         console.log('取得全部商品', allProds);
-    //       },
-    //       error: (err) => {
-    //         console.error('取得全部商品失敗:', err);
-    //       },
-    //     });
-    //   }
-    // });
+  onOrderChange(event: any): void {
+    const orderValue = this.selectedOrder; // 取得目前選擇
+
+    if (orderValue === 'price') {
+      // 價格由低到高
+      this.products.sort((a, b) => a.unitPrice - b.unitPrice);
+    } else if (orderValue === 'price-desc') {
+      // 價格由高到低
+      this.products.sort((a, b) => b.unitPrice - a.unitPrice);
+    } else {
+      // 預設排序 (可自行決定要做什麼，如不動或有其他預設邏輯)
+      // this.loadAllProducts(); // 或保留最初載入順序
+    }
+  }
+
+  loadTopProducts(): void {
+    this.productService.getTopProducts(5).subscribe({
+      next: (data) => {
+        this.topProducts = data;
+        console.log('Top products =>', data);
+      },
+      error: (err) => console.error('取得 top products 失敗', err),
+    });
+  }
+
+  onClickProduct(productId: number): void {
+    console.log('準備呼叫 logViewProduct!');
+    // 呼叫 userBehaviorService.logViewProduct
+    this.userBehavior.logViewProduct(productId).subscribe({
+      next: (res) => console.log('紀錄VIEW_PRODUCT成功', res),
+      error: (err) => console.error('紀錄VIEW_PRODUCT失敗', err),
+    });
+  }
+  onSearch(): void {
+    const keyword = this.searchTerm.trim();
+    if (!keyword) {
+      // 如果關鍵字是空的，判斷要回到「全部商品」或「分類商品」
+      const categoryIdParam = this.route.snapshot.paramMap.get('categoryId');
+      if (categoryIdParam) {
+        this.loadProductsByCategory(+categoryIdParam);
+      } else {
+        this.loadAllProducts();
+      }
+      return;
+    }
+
+    this.productService.getAllProducts(keyword).subscribe({
+      next: (data) => {
+        this.products = data;
+        console.log('搜尋結果 =>', data);
+      },
+      error: (err) => console.error('搜尋失敗', err),
+    });
+  }
+  /**
+   * 切換到指定的分類（或如果目前已在該分類，就強制刷新商品列表）
+   */
+  goToShop(categoryId: number) {
+    const currentId = +this.route.snapshot.paramMap.get('categoryId')!;
+    // 如果再次點擊同一分類，就手動載入
+    if (currentId === categoryId) {
+      this.loadProductsByCategory(categoryId); // 強制刷新
+    } else {
+      // 否則就導航到 /shop/:categoryId
+      this.router.navigate(['/shop', categoryId]);
+    }
   }
 
   /**
-   * 當使用者點擊「Add to cart」時
-   * 如果該商品有變體，先載入變體資料並顯示變體選項的 Modal
+   * 從後端撈取指定分類的商品
    */
-  onAddToCart(products: TNproductDTO) {
-    this.selectedProduct = products;
-    this.productService.getProductVariants(products.productId).subscribe({
+  private loadProductsByCategory(categoryId: number) {
+    this.categoryService.getProductsByCategory(categoryId).subscribe({
       next: (data) => {
-        this.productVariants = data;
-        if (this.productVariants && this.productVariants.length > 0) {
-          // 從變體中獨立出尺寸與顏色選項
-          this.sizes = Array.from(
-            new Set(this.productVariants.map((v) => v.sizeId))
-          ).map((id) => ({
-            id: id,
-            name: this.getSizeName(id),
-          }));
-          this.colors = Array.from(
-            new Set(this.productVariants.map((v) => v.colorId))
-          ).map((id) => ({
-            id: id,
-            name: this.getColorName(id),
-          }));
-          // 設定預設選項（以第一筆變體資料為預設）
-          this.selectedVariant = this.productVariants[0];
-          this.selectedSize = this.selectedVariant.sizeId;
-          this.selectedColor = this.selectedVariant.colorId;
-          // 此時透過 HTML 的 Modal 顯示變體選項
-        } else {
-          // 若該商品沒有變體資料，則直接建立購物車明細
-          this.createCartItem(null);
-        }
+        this.products = data;
+        console.log('取得分類', categoryId, '的商品 =>', data);
+      },
+      error: (err) => console.error('取得分類商品失敗:', err),
+    });
+  }
+
+  /**
+   * 撈取所有商品
+   */
+  private loadAllProducts() {
+    this.productService.getAllProducts().subscribe({
+      next: (allProds) => {
+        this.products = allProds;
+        console.log('取得全部商品 =>', allProds);
       },
       error: (err) => {
-        console.error('取得變體資料失敗', err);
+        console.error('取得全部商品失敗:', err);
       },
     });
   }
 
-  /**
-   * 當使用者在尺寸或顏色下拉選單改變選擇時呼叫
-   */
-  onVariantChange(): void {
-    this.selectedVariant =
-      this.productVariants.find(
-        (v) =>
-          v.sizeId === +this.selectedSize! && v.colorId === +this.selectedColor!
-      ) ?? null;
-  }
-
-  /**
-   * 當使用者按下 Confirm Add to Cart 時
-   */
-  onConfirmAddToCart(): void {
-    this.createCartItem(this.selectedVariant);
-    // 新增成功後關閉 Modal
-    this.cancelVariantSelection();
-  }
-
-  /**
-   * 建立購物車明細
-   * @param variant 若為 null 則代表商品沒有變體資料
-   */
-  createCartItem(variant: TNprovariantDTO | null) {
-    const newCartItem: TNcartItemDTO = {
-      memberId: 1, // 請依實際情況設定購物車 ID
-      uproductId: this.selectedProduct!.productId,
-      productvariantsId: variant ? variant.productvariantsId : null,
-      quantity: 2, // 可讓使用者自行設定數量
-      unitpriceatCart: this.selectedProduct!.unitPrice,
-      isLocked: false,
-      condition: 'new',
-      creationDate: new Date().toISOString(),
-      updatedDate: new Date().toISOString(),
-    };
-    this.cartItemsService.create(newCartItem).subscribe((data) => {
-      console.log('新增成功', data);
-      this.router.navigate(['shopcart']);
-    });
-  }
-
-  /**
-   * 取消變體選擇，重置相關狀態並關閉 Modal
-   */
-  cancelVariantSelection(): void {
-    this.selectedProduct = null;
-    this.productVariants = [];
-    this.sizes = [];
-    this.colors = [];
-    this.selectedVariant = null;
-    this.selectedSize = null;
-    this.selectedColor = null;
-  }
-
-  // 輔助函數：根據 sizeId 轉換為對應的尺寸名稱
-  getSizeName(sizeId: number): string {
-    const sizeMap: { [key: number]: string } = {
-      1: 'S',
-      2: 'M',
-      3: 'L',
-      4: 'XL',
-    };
-    return sizeMap[sizeId] || '未知';
-  }
-
-  // 輔助函數：根據 colorId 轉換為對應的顏色名稱
-  getColorName(colorId: number): string {
-    const colorMap: { [key: number]: string } = {
-      1: '紅色',
-      2: '藍色',
-      3: '綠色',
-      4: '黑色',
-    };
-    return colorMap[colorId] || '未知';
+  // 照片判斷式
+  hasSecondVersion(filename: string): boolean {
+    // 如果檔名第一個字是 'M'，就回傳 true
+    return filename.startsWith('M');
   }
 }
