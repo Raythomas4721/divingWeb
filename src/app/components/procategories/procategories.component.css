@@ -1,0 +1,9 @@
+.products.columns-2 {
+  padding: 0 40px; /* 左右留白 */
+}
+
+.product-inner img {
+  display: block;
+  max-width: 280px;
+  margin: 0 auto; /* 置中 */
+}
