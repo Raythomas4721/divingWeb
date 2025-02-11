@@ -10,19 +10,19 @@ export class AlertService {
     Swal.fire({
       title: title,
       icon: 'success',
-      position: 'top-end',
-      timer: 2000,
+      position: 'center',
+      timer: 1500,
       timerProgressBar: true,
-      toast: true,
+      // toast: true,
       showConfirmButton: false,
-      width: '300px'
+      width: '400px'
     });
   }
   error(title: string): void {
     Swal.fire({
       title: title,
       icon: 'error',
-      position: 'top-end',
+      position: 'bottom-end',
       timer: 2000,
       timerProgressBar: true,
       toast: true,

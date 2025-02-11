@@ -1,7 +1,7 @@
 <!-- search modal -->
 <div class="modal" tabindex="-1" role="dialog" aria-labelledby="search_modal" id="search_modal">
   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-    <span aria-hidden="true" style="font-size: 32px">&times;</span>
+    <span style="font-size: 32px">&times;</span>
   </button>
   <div class="widget widget_search">
     <form method="get" class="searchform search-form" action="/">
@@ -31,7 +31,7 @@
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content ds ms overflow-visible s-overlay s-mobile-overlay">
       <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-        <span aria-hidden="true" style="font-size: 32px">&times;</span>
+        <span style="font-size: 32px">&times;</span>
       </button>
       <div class="modal-body">
         <div class="container">
@@ -89,7 +89,7 @@
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content ds ms overflow-visible s-overlay s-mobile-overlay">
       <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-        <span aria-hidden="true" style="font-size: 32px">&times;</span>
+        <span style="font-size: 32px">&times;</span>
       </button>
       <div class="modal-body">
         <div class="container">
@@ -205,8 +205,8 @@
 
               <!-- shop -->
               <li routerLinkActive="active">
-                <a routerLink="/shop">商品列表</a>
-                <ul>
+                <a routerLink="/procategories">商品列表</a>
+                <!-- <ul>
                   <li>
                     <a href="blog-right.html">基本浮潛裝備</a>
                   </li>
@@ -250,8 +250,9 @@
                     </ul>
                   </li>
                 </ul>
+              </li> -->
+                <!-- eof blog -->
               </li>
-              <!-- eof blog -->
 
               <li routerLinkActive="active">
                 <a routerLink="/used-products">二手商品</a>
@@ -575,7 +576,7 @@
                 <ul class="user-menu">
                   <li>
                     <p class="text-center font-weight-bold text-primary">
-                      歡迎，{{ userName }}！
+                      歡迎{{ userName || '您' }}！
                     </p>
                   </li>
                   <div class="dropdown-divider"></div>
@@ -585,14 +586,16 @@
                     </a>
                   </li>
                   <li>
+                    <a routerLink="/favoriteList">
+                      <p>我的最愛</p>
+                    </a>
+                  </li>
+                  <li>
                     <a href="#" (click)="logout()">
                       <p>登出</p>
                     </a>
                   </li>
                 </ul>
-              </li>
-              <li>
-                <a href="#"><i class="fa-solid fa-heart" style="font-size: 24px"></i></a>
               </li>
               <li>
                 <a routerLink="/shopcart"><i class="fa-solid fa-cart-shopping" style="font-size: 24px"></i></a>

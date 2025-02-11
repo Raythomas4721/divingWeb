@@ -4,6 +4,9 @@
 
 <app-header></app-header>
 <main [ngClass]="{ 'has-padding': !isHomePage }">
+  <!-- 其他 layout、navbar、router-outlet ... -->
+  <app-side-cart></app-side-cart>
+
   <router-outlet></router-outlet>
 </main>
 <app-footer></app-footer>

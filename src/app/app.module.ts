@@ -12,11 +12,13 @@ import { HttpClientModule } from '@angular/common/http';
 import { LoginComponent } from './components/login/login.component';
 import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
-import { ShopcartComponent } from './components/shopcart/shopcart.component';
+import { Sideshopcart } from './components/sideshopcart/side-cart.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { ShopproductshowComponent } from './components/shopproductshow/shopproductshow.component';
+
 import { ProcategoriesComponent } from './components/procategories/procategories.component';
 import { ProfileComponent } from './components/profile/profile.component';
+import { LightboxModule } from 'ngx-lightbox';
+import { ShopproductshowComponent } from './components/shopproductshow/shopproductshow.component';
 import { CoursedetailsComponent } from './coursedetails/coursedetails.component';
 @NgModule({
   declarations: [
@@ -29,7 +31,7 @@ import { CoursedetailsComponent } from './coursedetails/coursedetails.component'
     LoginComponent,
     HeaderComponent,
     FooterComponent,
-    ShopcartComponent,
+    Sideshopcart,
     ShopproductshowComponent,
     ProcategoriesComponent,
     ProfileComponent,
@@ -41,6 +43,7 @@ import { CoursedetailsComponent } from './coursedetails/coursedetails.component'
     HttpClientModule,
     ReactiveFormsModule,
     FormsModule,
+    LightboxModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

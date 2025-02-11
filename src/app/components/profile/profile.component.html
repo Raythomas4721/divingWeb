@@ -6,18 +6,22 @@
           <h5 class="mb-0">會員資訊</h5>
         </div>
         <div class="card-body text-center p-4">
-          <img *ngIf="user?.memberId"
-            [src]="'https://localhost:7107/api/TMmemberListsAPI/GetUserPhoto/' + user?.memberId" alt="User Photo"
-            class="rounded-circle shadow-sm border mb-3" style="width: 320px; height: 240px; object-fit: cover;">
-          <div>
-            <label for="uploadPhoto">變更圖片</label>
-            <input class="btn btn-dark w-100 mb-2" type="file" id="uploadPhoto" accept="image/*"
-              (change)="onFileSelected($event)">
-          </div>
           <h5 class="card-title">{{ user?.memberName }}</h5>
           <p class="text-muted mb-1">{{ user?.memberEmail }}</p>
+          <div>
+            <img [src]="previewImage || user?.memberPhoto || 'assets/images/profile/noImage.PNG'" alt="User Photo"
+              class="rounded shadow-sm border mb-3" style="width: 220px; height: 200px; object-fit: cover;" />
+
+            <input type="file" id="uploadPhoto" accept="image/*" (change)="onFileSelected($event)" hidden>
+            <label for="uploadPhoto" class="btn btn-outline-dark w-100">
+              變更圖片
+            </label>
+            <button *ngIf="selectedFile" class="btn btn-primary w-100 mt-2" (click)="uploadProfilePhoto()">
+              上傳
+            </button>
+          </div>
         </div>
-        <div class="card-body p-4">
+        <div class="card-body">
           <a href="/change-password" class="btn btn-dark w-100 mb-2">更改密碼</a>
           <a href="/order-history" class="btn btn-outline-dark border w-100">查看訂單紀錄</a>
         </div>
@@ -29,13 +33,13 @@
           <h5 class="mb-0">基本資訊</h5>
         </div>
         <div class="card-body p-4">
-          <p><strong>名稱：</strong> {{ user?.memberName || '未提供' }}</p>
+          <p><strong>會員名稱：</strong> {{ user?.memberName || '未提供' }}</p>
           <p><strong>電子郵件：</strong> {{ user?.memberEmail || '未提供' }}</p>
           <p><strong>聯絡電話：</strong> {{ user?.memberPhone || '未提供' }}</p>
-          <p><strong>地址：</strong> {{ user?.memberAddress || '未提供' }}</p>
+          <p><strong>居住地址：</strong> {{ user?.memberAddress || '未提供' }}</p>
           <p><strong>緊急聯絡人：</strong> {{ user?.urgentContact || '未提供' }}</p>
           <p><strong>緊急聯絡電話：</strong> {{ user?.urgentPhone || '未提供' }}</p>
-          <a href="/edit-profile" class="btn btn-light border w-100 mt-3">編輯個人資料</a>
+          <a href="/edit-profile" class="btn btn-outline-dark border w-100 mt-3">編輯個人資料</a>
         </div>
       </div>
     </div>
