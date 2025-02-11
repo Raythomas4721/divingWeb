@@ -1,0 +1,101 @@
+<!-- 右側隱藏面板外層 -->
+<div class="side-cart-panel" [class.show]="isCartVisible">
+  <!-- Header 區 -->
+  <header class="cart-header">
+    <h5>YOUR CART ({{ cartItems.length }})</h5>
+    <button class="close-button" (click)="closeCart()">×</button>
+  </header>
+
+  <!-- 商品列表區 (可捲動) -->
+  <div class="cart-items-container">
+    <ul class="cart-items">
+      <li class="cart-item" *ngFor="let item of cartItems; index as i">
+        <!-- 商品圖片 -->
+        <div class="product-thumbnail">
+          <!-- 綁定實際圖片路徑: [src]="item.imageUrl" -->
+          <img [src]="'assets/images/shop/' + item.imageUrl" alt="Product" />
+        </div>
+
+        <!-- 商品資訊 -->
+        <div class="product-info">
+          <!-- 商品名稱 -->
+          <div class="product-name">
+            {{ item.productName || "商品名稱" }}
+          </div>
+          <!-- 商品細項 (如顏色、尺寸等) -->
+          <div class="product-detail">
+            Color: {{ item || "N/A" }}
+            <br />
+            Size: {{ item || "One Size" }}
+          </div>
+
+          <!-- 若有缺貨狀態，可顯示提示 -->
+          <div class="out-of-stock" *ngIf="item">Out of stock</div>
+
+          <!-- 金額 & 數量 -->
+          <div class="product-row">
+            <div class="product-price">\${{ item.unitpriceatCart }}</div>
+            <div class="product-quantity">
+              <span>{{ item.quantity }}</span>
+            </div>
+          </div>
+        </div>
+        <!-- 移除商品 -->
+        <button
+          class="remove-item"
+          (click)="removeItem(i)"
+          aria-label="Remove item"
+        >
+          <i class="fa fa-trash" aria-hidden="true"></i>
+        </button>
+      </li>
+    </ul>
+  </div>
+
+  <!-- 底部結算區 -->
+  <div class="cart-footer">
+    <!-- 錯誤提示(若有) -->
+    <!-- <div class="cart-error" *ngIf="hasError">
+      THERE IS A PROBLEM WITH ONE OR MORE ITEMS IN YOUR CART
+    </div> -->
+
+    <!-- 金額資訊 -->
+    <div class="cart-totals">
+      <div class="totals-row">
+        <span>Subtotal:</span>
+        <span>${{ subTotal }}</span>
+      </div>
+      <div class="totals-row">
+        <span>Import Duties:</span>
+        <span>Paid</span>
+      </div>
+      <div class="totals-row">
+        <span>Shipping:</span>
+        <span>FREE</span>
+      </div>
+      <div class="totals-row total-amount">
+        <span>Total:</span>
+        <strong>${{ total }}</strong>
+      </div>
+    </div>
+
+    <!-- 優惠碼 / gift card -->
+    <!-- <div class="promo-code">
+      <div class="promo-toggle" (click)="togglePromoInput()">
+        Add promo code / gift card <span [class.active]="showPromo">+</span>
+      </div> -->
+    <!-- <div class="promo-input" *ngIf="showPromo">
+        <input type="text" [(ngModel)]="couponCode" placeholder="Enter code" />
+        <button (click)="applyCoupon()">Apply</button>
+      </div>
+    </div> -->
+
+    <!-- 結帳按鈕 (若商品缺貨可禁用) -->
+    <!-- <button
+      class="checkout-btn"
+      [disabled]="hasError"
+      (click)="proceedToCheckout()"
+    > -->
+    <button>CHECKOUT SECURELY</button>
+  </div>
+</div>

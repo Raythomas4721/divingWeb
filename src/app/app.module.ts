@@ -12,11 +12,14 @@ import { HttpClientModule } from '@angular/common/http';
 import { LoginComponent } from './components/login/login.component';
 import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
-import { ShopcartComponent } from './components/shopcart/shopcart.component';
+import { Sideshopcart } from './components/sideshopcart/side-cart.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { ShopproductshowComponent } from './components/shopproductshow/shopproductshow.component';
+
 import { ProcategoriesComponent } from './components/procategories/procategories.component';
 import { ProfileComponent } from './components/profile/profile.component';
+import { LightboxModule } from 'ngx-lightbox';
+import { ShopproductshowComponent } from './components/shopproductshow/shopproductshow.component';
+import { CoursedetailsComponent } from './components/coursedetails/coursedetails.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -28,10 +31,11 @@ import { ProfileComponent } from './components/profile/profile.component';
     LoginComponent,
     HeaderComponent,
     FooterComponent,
-    ShopcartComponent,
+    Sideshopcart,
     ShopproductshowComponent,
     ProcategoriesComponent,
     ProfileComponent,
+    CoursedetailsComponent
   ],
   imports: [
     BrowserModule,
@@ -39,6 +43,7 @@ import { ProfileComponent } from './components/profile/profile.component';
     HttpClientModule,
     ReactiveFormsModule,
     FormsModule,
+    LightboxModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

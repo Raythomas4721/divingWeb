@@ -1,0 +1,44 @@
+.products.columns-2 {
+  padding: 0 40px; /* 左右留白 */
+}
+
+.product-inner img {
+  display: block;
+  max-width: 280px;
+  margin: 0 auto; /* 置中 */
+}
+
+.widget_product_search {
+  background-color: #ffffff; /* 你想要的背景色 */
+
+  padding: 20px; /* 讓內容與邊緣留點距離 */
+  margin-bottom: 20px; /* 與下方區塊的間距 */
+}
+
+.image-swap-container {
+  position: relative;
+  display: flex;
+  width: 280px;
+  height: 280px;
+  margin: 0 auto;
+  justify-content: center;
+  align-items: center;
+}
+.image-swap-container .primary-img,
+.image-swap-container .hover-img {
+  position: absolute;
+  width: 100%;
+  top: 0;
+  left: 0;
+  object-fit: cover; /* 視需求 */
+}
+.hover-img {
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+.image-swap-container:hover .hover-img {
+  opacity: 1;
+}
+.image-swap-container:hover .primary-img {
+  opacity: 0;
+}

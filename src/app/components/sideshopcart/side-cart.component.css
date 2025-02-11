@@ -1,0 +1,191 @@
+h5 {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: bold;
+}
+
+.close-button {
+  position: absolute;
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%); /* 按鈕在 Header 區塊垂直置中 */
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+.side-cart-panel {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 380px;
+  height: 100vh;
+  background: #fff;
+  color: #333;
+  box-shadow: -2px 0 10px rgba(0, 0, 0, 0.15);
+  transform: translateX(100%);
+  transition: transform 0.3s ease-in-out;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+
+  &.show {
+    transform: translateX(0);
+  }
+
+  /* Header */
+  .cart-header {
+    position: relative; /* 讓內部的 close-button 能絕對定位 */
+    padding: 1rem;
+    text-align: center; /* 文字置中 (YOUR CART) */
+    border-bottom: 1px solid #ddd;
+  }
+
+  /* 中段商品清單 */
+  .cart-items-container {
+    flex: 1;
+    overflow-y: auto; /* 若商品多，可捲動 */
+    padding: 0 1rem;
+  }
+  .cart-items {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+
+    .cart-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between; /* 左邊: 縮圖+info, 右邊: remove-item */
+      border-bottom: 1px solid #eee;
+      padding: 1rem 0;
+
+      .product-thumbnail {
+        width: 80px;
+        margin-right: 0.75rem;
+        img {
+          width: 100%;
+          height: auto;
+          display: block;
+        }
+      }
+
+      .product-info {
+        flex: 1;
+
+        .product-name {
+          font-weight: bold;
+          margin-bottom: 0.25rem;
+        }
+        .product-detail {
+          font-size: 0.9rem;
+          color: #888;
+          margin-bottom: 0.25rem;
+        }
+        .out-of-stock {
+          color: red;
+          font-size: 0.9rem;
+          margin-bottom: 0.5rem;
+        }
+
+        .product-row {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          .product-price {
+            font-weight: 600;
+          }
+          .product-quantity {
+            display: flex;
+            align-items: center;
+            button {
+              width: 24px;
+              height: 24px;
+              border: 1px solid #ccc;
+              background: none;
+              cursor: pointer;
+            }
+            span {
+              width: 24px;
+              text-align: center;
+              margin: 0 4px;
+            }
+          }
+          .remove-item {
+            background: none;
+            border: none;
+            font-size: 1.2rem;
+            color: #999;
+            cursor: pointer;
+            /* 若想距離右側再遠一點，可加 margin-left: 1rem; */
+          }
+        }
+      }
+    }
+  }
+
+  /* 底部結算 */
+  .cart-footer {
+    padding: 1rem;
+    border-top: 1px solid #ddd;
+
+    .cart-error {
+      background: #ffe5e5;
+      color: #d00;
+      padding: 0.5rem;
+      margin-bottom: 1rem;
+      text-align: center;
+      font-size: 0.9rem;
+    }
+
+    .cart-totals {
+      .totals-row {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 0.25rem;
+        font-size: 0.95rem;
+      }
+      .total-amount {
+        font-weight: bold;
+        font-size: 1rem;
+      }
+    }
+
+    .promo-code {
+      margin-top: 1rem;
+      .promo-toggle {
+        color: #007bff;
+        cursor: pointer;
+        margin-bottom: 0.5rem;
+        display: inline-block;
+      }
+      .promo-input {
+        display: flex;
+        gap: 0.5rem;
+        input {
+          flex: 1;
+          padding: 0.4rem;
+        }
+        button {
+          padding: 0.4rem 0.8rem;
+        }
+      }
+    }
+
+    .checkout-btn {
+      width: 100%;
+      margin-top: 1rem;
+      padding: 0.75rem;
+      background: #000;
+      color: #fff;
+      border: none;
+      font-size: 1rem;
+      cursor: pointer;
+
+      &:disabled {
+        background: #777;
+        cursor: not-allowed;
+      }
+    }
+  }
+}
