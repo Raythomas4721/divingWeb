@@ -19,15 +19,15 @@ export class ProfileComponent {
     if (savedUser) {
       this.userId = JSON.parse(savedUser).memberId;
     }
-    this.userService.getUserProfile(this.userId).subscribe({
-      next: res => {
-        console.log('成功', res);
-        this.user = res;
-      },
-      error: err => {
-        console.log('錯誤', err);
-      }
-    })
+    // this.userService.getUserProfile(this.userId).subscribe({
+    //   next: res => {
+    //     console.log('成功', res);
+    //     this.user = res;
+    //   },
+    //   error: err => {
+    //     console.log('錯誤', err);
+    //   }
+    // })
   }
   onFileSelected(event: any) {
     const file = event.target.files[0];

@@ -7,16 +7,24 @@ import { UserDTO } from '../interfaces/userDTO';
   providedIn: 'root',
 })
 export class UserService {
-  constructor(private client: HttpClient) {}
+  constructor(private client: HttpClient) { }
   private apiUrl = 'https://localhost:7107/api';
 
-  login(username: string, password: string): Observable<any> {
-    const headers = { email: username, password: password };
-    return this.client.post(`${this.apiUrl}/TMmemberListsAPI/login`, headers);
+  register(name: string, email: string, password: string) {
+    const headers = {
+      name: name,
+      email: email,
+      password: password
+    }
+    // return this.client.post(${this.apiUrl}/TMmemberListsAPI/register, headers)
   }
-  getUserProfile(userId: string): Observable<UserDTO> {
-    return this.client.get<UserDTO>(
-      `${this.apiUrl}/TMmemberListsAPI/${userId}`
-    );
+  login(username: string, password: string) {
+    const headers = { email: username, password: password };
+    // return this.client.post(${this.apiUrl}/TMmemberListsAPI/login, headers);
+  }
+  getUserProfile(userId: string) {
+    // return this.client.get<UserDTO>(
+      // ${this.apiUrl}/TMmemberListsAPI/${userId}
+    // );
   }
 }

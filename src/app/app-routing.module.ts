@@ -9,7 +9,8 @@ import { ShopComponent } from './components/shop/shop.component'
 import { CoursesComponent } from './components/courses/courses.component'
 import { SiteRentalComponent } from './components/site-rental/site-rental.component'
 import { ProfileComponent } from './components/profile/profile.component'
-
+import { CoursedetailsComponent } from './coursedetails/coursedetails.component';
+  
 const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'shop', component: ShopComponent },
@@ -20,7 +21,8 @@ const routes: Routes = [
   { path: 'shopcart', component: ShopcartComponent },
   { path: 'shopproductshow/:id', component: ShopproductshowComponent },
   { path: 'procategories', component: ProcategoriesComponent },
-  { path: 'profile', component: ProfileComponent }
+  { path: 'profile', component: ProfileComponent },
+  { path: 'coursedetails/:id', component: CoursedetailsComponent}
 
 ];
 
