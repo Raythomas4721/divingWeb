@@ -7,6 +7,8 @@ import {
   TopProductDTO,
   ColorDTO,
   SizeDTO,
+  ThicknessDTO,
+  GenderDTO,
 } from '../interface/TNproductDTO';
 
 @Injectable({
@@ -53,5 +55,15 @@ export class TnproductService {
   getSizesForProduct(productId: number): Observable<SizeDTO[]> {
     const url = `${this.variantsUrl}/sizes?productId=${productId}`;
     return this.http.get<SizeDTO[]>(url);
+  }
+
+  getThicknessForProduct(productId: number): Observable<ThicknessDTO[]> {
+    const url = `${this.variantsUrl}/thickness?productId=${productId}`;
+    return this.http.get<ThicknessDTO[]>(url);
+  }
+
+  getGenderForProduct(productId: number): Observable<GenderDTO[]> {
+    const url = `${this.variantsUrl}/gender?productId=${productId}`;
+    return this.http.get<GenderDTO[]>(url);
   }
 }

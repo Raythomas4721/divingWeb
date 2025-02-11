@@ -185,6 +185,7 @@
             <!-- 加入購物車 -->
             <button
               class="button product_type_simple add_to_cart_button"
+              [disabled]="!canAddToCart"
               (click)="onConfirmAddToCart()"
             >
               Add to cart

@@ -42,3 +42,15 @@ export interface SizeDTO {
   size: string;
   hasStock: boolean;
 }
+
+export interface ThicknessDTO {
+  thicknessId: number;
+  thickness: string;
+  hasStock: boolean;
+}
+
+export interface GenderDTO {
+  genderId: number;
+  gender: string;
+  hasStock: boolean;
+}

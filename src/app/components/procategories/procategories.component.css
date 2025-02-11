@@ -1,3 +1,13 @@
+.zoom-img {
+  width: 300px; /* 你想要的圖片寬度 */
+  transition: transform 0.3s; /* 漸變速度 */
+}
+
+.zoom-img:hover {
+  transform: scale(1.1); /* 放大 1.1 倍 */
+  cursor: pointer; /* 顯示可點擊手勢(可依需求移除) */
+}
+
 .products.columns-2 {
   padding: 0 10px; /* 左右留白 */
 }

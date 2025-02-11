@@ -11,8 +11,11 @@ import { TNcartItemsService } from '../../services/tncart-items.service';
 export class Sideshopcart {
   cartItems: TNcartItemDTO[] = [];
   isCartVisible = false;
-  TNcartItemDTO: TNcartItemDTO[] = [];
-  couponCode: string = '';
+
+  // 優惠碼、促銷或錯誤相關
+  couponCode = '';
+  hasError = false;
+
   subTotal: number = 0;
   total: number = 0;
 
@@ -25,6 +28,7 @@ export class Sideshopcart {
     this.cartItemsService.cartItems$.subscribe((items) => {
       this.cartItems = items;
       this.updateTotals();
+      this.checkForErrors(); // 檢查是否有缺貨或其他錯誤
     });
     // 監聽 openCart$，一旦有人呼叫 openCartPanel()，就執行 openCart()
     this.sharedcartService.openCart$.subscribe(() => {
@@ -62,5 +66,17 @@ export class Sideshopcart {
   applyCoupon() {
     console.log('Apply coupon:', this.couponCode);
     // ...實作
+  }
+  proceedToCheckout() {
+    if (this.hasError) {
+      console.log('無法進行結帳，購物車存在缺貨或錯誤');
+      return;
+    }
+    // 在此實作進行結帳流程，例如導向至結帳頁面
+    console.log('Proceeding to checkout with items:', this.cartItems);
+  }
+  // 範例：檢查是否有缺貨或其他無效商品，並設定 hasError
+  checkForErrors() {
+    // this.hasError = this.cartItems.some((item) => item.outOfStock);
   }
 }

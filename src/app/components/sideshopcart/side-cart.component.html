@@ -30,20 +30,22 @@
           </div>
 
           <!-- 若有缺貨狀態，可顯示提示 -->
-          <!-- <div class="out-of-stock" *ngIf="item.outOfStock">Out of stock</div> -->
+          <div class="out-of-stock" *ngIf="item">Out of stock</div>
 
           <!-- 金額 & 數量 -->
-          <!-- <div class="product-row">
+          <div class="product-row">
             <div class="product-price">\${{ item.unitpriceatCart }}</div>
             <div class="product-quantity">
-              <button (click)="decrementQty(item)">-</button>
               <span>{{ item.quantity }}</span>
-              <button (click)="incrementQty(item)">+</button>
             </div>
-          </div> -->
+          </div>
         </div>
         <!-- 移除商品 -->
-        <button class="remove-item" (click)="removeItem(i)">
+        <button
+          class="remove-item"
+          (click)="removeItem(i)"
+          aria-label="Remove item"
+        >
           <i class="fa fa-trash" aria-hidden="true"></i>
         </button>
       </li>

@@ -30,7 +30,7 @@ export class ShopproductshowComponent implements OnInit {
   // 從後端 API (colors?productId=xxx) / (sizes?productId=xxx) 取得
   colors: ColorDTO[] = [];
   sizes: SizeDTO[] = [];
-
+  // 其他屬性 (厚度 / 款式) 用簡單的 id/name
   thicknesses: Array<{ id: number; name: string }> = [];
   genders: Array<{ id: number; name: string }> = [];
 
@@ -39,7 +39,7 @@ export class ShopproductshowComponent implements OnInit {
   selectedSize: number | null = null;
   selectedThickness: number | null = null;
   selectedGender: number | null = null;
-
+  // 最後找到的對應 variant
   selectedVariant: TNprovariantDTO | null = null;
   quantity = 1;
 
@@ -168,7 +168,10 @@ export class ShopproductshowComponent implements OnInit {
    * 目前是 template `<select>` or something
    */
   onVariantChange(): void {
-    if (!this.productVariants.length) return;
+    if (!this.productVariants.length) {
+      this.selectedVariant = null;
+      return;
+    }
 
     this.selectedVariant =
       this.productVariants.find(
@@ -178,6 +181,10 @@ export class ShopproductshowComponent implements OnInit {
           v.thicknessId === this.selectedThickness &&
           v.genderId === this.selectedGender
       ) ?? null;
+    // 若找不到表示無此組合
+    if (!this.selectedVariant) {
+      console.warn('找不到對應變體，可能此組合無庫存');
+    }
   }
 
   /** 加入購物車 */
@@ -186,7 +193,22 @@ export class ShopproductshowComponent implements OnInit {
       console.warn('尚未載入商品資料');
       return;
     }
+    if (!this.selectedVariant) {
+      alert('請先選擇顏色 / 尺寸 / 厚度 / 款式');
+      return;
+    }
 
+    // 在此檢查庫存
+    // 1) 若 stock <= 0
+    if (this.selectedVariant.stock <= 0) {
+      alert('此商品已無庫存');
+      return;
+    }
+    // 2) 若輸入數量 > stock
+    if (this.quantity > this.selectedVariant.stock) {
+      alert(`庫存不足，目前剩餘 ${this.selectedVariant.stock} 件`);
+      return;
+    }
     const newItem: TNcartItemDTO = {
       memberId: 1,
       productName: this.productDetail.productName,
@@ -209,8 +231,26 @@ export class ShopproductshowComponent implements OnInit {
     // 2. 打開 SideCart
     this.sharedcartService.openCartPanel();
   }
-
-  /** 將 ID map 成顯示名稱 (thickness/gender) */
+  /* 顯示「庫存可否加購」：讓按鈕自動 disabled (選擇性) */
+  get canAddToCart(): boolean {
+    return (
+      !!this.selectedVariant && // 有找到 variant
+      this.selectedVariant.stock > 0 && // 庫存大於 0
+      this.quantity > 0 && // 使用者輸入的數量要大於 0
+      this.quantity <= this.selectedVariant.stock // 不能超過庫存
+    );
+  }
+  private extractDistinctOptions(
+    ids: number[],
+    getName: (id: number) => string
+  ): Array<{ id: number; name: string }> {
+    const uniqueIds = Array.from(new Set(ids));
+    return uniqueIds.map((id) => ({
+      id,
+      name: getName(id),
+    }));
+  }
+  /* 將 ID map 成顯示名稱 (thickness/gender) */
   private getThicknessName(id: number): string {
     switch (id) {
       case 1:
@@ -238,19 +278,6 @@ export class ShopproductshowComponent implements OnInit {
       default:
         return `款式ID:${id}`;
     }
-  }
-
-  /** 從陣列 distinct ID -> {id, name} */
-  private extractDistinctOptions(
-    ids: number[],
-    getName: (id: number) => string
-  ): Array<{ id: number; name: string }> {
-    const filtered = ids.filter((id) => id !== 0); // <-- 在這裡也可以先排除 0
-    const uniqueIds = Array.from(new Set(filtered));
-    return uniqueIds.map((id) => ({
-      id,
-      name: getName(id),
-    }));
   }
 
   /** 是否有第二版本檔名 (例如 M_....) */
