@@ -19,7 +19,7 @@ import { ProcategoriesComponent } from './components/procategories/procategories
 import { ProfileComponent } from './components/profile/profile.component';
 import { LightboxModule } from 'ngx-lightbox';
 import { ShopproductshowComponent } from './components/shopproductshow/shopproductshow.component';
-import { CoursedetailsComponent } from './coursedetails/coursedetails.component';
+import { CoursedetailsComponent } from './components/coursedetails/coursedetails.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -35,7 +35,7 @@ import { CoursedetailsComponent } from './coursedetails/coursedetails.component'
     ShopproductshowComponent,
     ProcategoriesComponent,
     ProfileComponent,
-    CoursedetailsComponent,
+    CoursedetailsComponent
   ],
   imports: [
     BrowserModule,

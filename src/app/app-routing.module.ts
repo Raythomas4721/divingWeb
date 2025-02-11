@@ -9,7 +9,7 @@ import { ShopComponent } from './components/shop/shop.component';
 import { CoursesComponent } from './components/courses/courses.component';
 import { SiteRentalComponent } from './components/site-rental/site-rental.component';
 import { ProfileComponent } from './components/profile/profile.component';
-import { CoursedetailsComponent } from './coursedetails/coursedetails.component';
+import { CoursedetailsComponent } from './components/coursedetails/coursedetails.component';
   
 const routes: Routes = [
   { path: '', component: HomeComponent },
