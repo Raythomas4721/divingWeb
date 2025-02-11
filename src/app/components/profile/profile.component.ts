@@ -48,13 +48,12 @@ export class ProfileComponent {
     }
 
     const formData = new FormData();
-    formData.append('photo', this.selectedFile);
+    formData.append('memberPhoto', this.selectedFile);
 
     this.userService.uploadProfilePhoto(formData).subscribe({
       next: res => {
         console.log("圖片上傳成功", res);
 
-        // **更新 UI**
         if (this.user) {
           this.user.memberPhoto = res.memberPhoto;
         }
