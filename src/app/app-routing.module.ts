@@ -10,7 +10,8 @@ import { CoursesComponent } from './components/courses/courses.component';
 import { SiteRentalComponent } from './components/site-rental/site-rental.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { CoursedetailsComponent } from './components/coursedetails/coursedetails.component';
-  
+import { UsedproductshowComponent } from './components/usedproductshow/usedproductshow.component';
+
 const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'shop', component: ShopComponent },
@@ -22,7 +23,8 @@ const routes: Routes = [
   { path: 'shopproductshow/:id', component: ShopproductshowComponent },
   { path: 'procategories', component: ProcategoriesComponent },
   { path: 'profile', component: ProfileComponent },
-  { path: 'coursedetails/:id', component: CoursedetailsComponent}
+  { path: 'coursedetails/:id', component: CoursedetailsComponent },
+  { path: 'usedproductshow/:id', component: UsedproductshowComponent }
 
 ];
 
@@ -30,4 +32,4 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes, { useHash: true })],
   exports: [RouterModule],
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }
