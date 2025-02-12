@@ -87,3 +87,22 @@ ul.products .product .product-inner .price-wrap {
     padding-right: 16px;
   }
 }
+
+/* Feb 13 */
+
+.service-layout-1 .item-content {
+  padding: 24px;
+}
+
+.btn {
+  border-radius: 8px;
+}
+
+#price .container{
+  padding-top: 0;
+}
+
+ul.products .product .product-inner .product-wrap {
+  padding: 24px;
+}
+
