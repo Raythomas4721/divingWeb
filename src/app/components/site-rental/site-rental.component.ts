@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-site-rental',
@@ -6,5 +7,9 @@ import { Component } from '@angular/core';
   styleUrls: ['./site-rental.component.css']
 })
 export class SiteRentalComponent {
+
+  constructor(private router: Router) {
+
+  }
 
 }
