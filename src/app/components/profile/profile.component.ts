@@ -1,3 +1,4 @@
+import { AlertService } from 'src/app/services/alert.service';
 import { UserService } from 'src/app/services/user.service';
 import { AuthService } from './../../services/auth.service';
 import { Component, OnInit } from '@angular/core';
@@ -10,7 +11,7 @@ import { filter } from 'rxjs/operators';
   styleUrls: ['./profile.component.css']
 })
 export class ProfileComponent {
-  constructor(private authService: AuthService, private userService: UserService) { }
+  constructor(private authService: AuthService, private userService: UserService, private alertService: AlertService) { }
 
   user?: UserDTO | null;
   selectedFile: File | null = null;
@@ -21,9 +22,8 @@ export class ProfileComponent {
     this.authService.user$.subscribe(user => {
       this.user = user?.user;
       if (user) {
-        console.log("用戶資料已載入:", this.user);
-        if (user.memberPhoto) {
-          this.convertToBase64(user.memberPhoto);
+        if (user.user.memberPhoto) {
+          this.convertToBase64(user.user.memberPhoto);
         }
       } else {
         console.log("等待 API 返回，用戶資料尚未載入");
@@ -31,14 +31,9 @@ export class ProfileComponent {
     });
   }
   private convertToBase64(photo: any) {
-    if (typeof photo === 'string' && photo.startsWith('data:image')) {
-      this.showUserImage = photo; // 已經是 Base64
-    } else if (photo instanceof Blob || photo instanceof ArrayBuffer) {
-      const reader = new FileReader();
-      reader.readAsDataURL(new Blob([photo])); // 轉換為 Base64
-      reader.onloadend = () => {
-        this.showUserImage = reader.result as string;
-      };
+    if (typeof photo === 'string') {
+      // console.log("處理純 Base64 字串，補上前綴");
+      this.showUserImage = `data:image/png;base64,${photo}`;
     } else {
       console.error("無法解析圖片格式");
     }
@@ -48,13 +43,33 @@ export class ProfileComponent {
     const file = (event.target as HTMLInputElement).files?.[0];
     if (!file) return;
 
-    this.selectedFile = file;
+    this.previewImage = null;
+
 
     const reader = new FileReader();
     reader.onload = () => {
-      this.previewImage = reader.result as string;
+      const base64String = reader.result as string;
+
+      // 取得圖片的 Base64 部分，去除 `data:image/...;base64,`
+      const newBase64 = base64String.split(',')[1];
+      const currentBase64 = this.showUserImage ? this.showUserImage.split(',')[1] : null;
+
+      // 檢查是否與目前的圖片相同
+      if (currentBase64 && newBase64 === currentBase64) {
+        console.warn("這張圖片已經上傳過了！");
+        alert("這張圖片已經上傳過了！");
+        return;
+      }
+      this.selectedFile = file;
+      this.previewImage = base64String;
+
     };
     reader.readAsDataURL(file);
+  }
+
+  clearSelectedFile() {
+    this.selectedFile = null;
+    this.previewImage = null;
   }
 
   uploadProfilePhoto() {
@@ -65,21 +80,20 @@ export class ProfileComponent {
     }
 
     const formData = new FormData();
-    formData.append('memberPhoto', this.selectedFile);
+    formData.append('photo', this.selectedFile);
 
     this.userService.uploadProfilePhoto(formData).subscribe({
       next: res => {
         console.log("圖片上傳成功", res);
-
-        if (this.user) {
-          this.user.memberPhoto = res.memberPhoto;
-        }
-
+        this.alertService.success(`圖片上傳成功`);
+        this.showUserImage = res.memberPhoto;
         this.previewImage = null;
         this.selectedFile = null;
+
       },
       error: err => {
         console.error("圖片上傳失敗", err);
+        this.alertService.error(`圖片上傳失敗, ${err.error.message || '請稍後再試'}`);
       }
     });
   }

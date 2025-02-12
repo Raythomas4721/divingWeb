@@ -1,4 +1,4 @@
-<div class="container mt-5">
+<div class="container mt-5 pb-5">
   <div class="row justify-content-center gap-3 d-flex align-items-stretch">
     <div class="col-md-4">
       <div class="card shadow rounded-3">
@@ -7,7 +7,7 @@
         </div>
         <div class="card-body text-center p-4">
           <h5 class="card-title">{{ user?.memberName }}</h5>
-          <p class="text-muted mb-1">{{ user?.memberEmail }}</p>
+          <p class="mb-1">{{ user?.memberEmail }}</p>
           <div>
             <img [src]="previewImage || showUserImage || 'assets/images/profile/noImage.PNG'" alt="User Photo"
               class="rounded shadow-sm border mb-3" style="width: 220px; height: 200px; object-fit: cover;" />
@@ -16,9 +16,11 @@
             <label for="uploadPhoto" class="btn btn-outline-dark w-100">
               變更圖片
             </label>
-            <button *ngIf="selectedFile" class="btn btn-primary w-100 mt-2" (click)="uploadProfilePhoto()">
-              上傳
-            </button>
+          </div>
+
+          <div class="d-flex gap-2 mt-2 w-100" *ngIf="selectedFile">
+            <button class="btn btn-dark w-50 " (click)="uploadProfilePhoto()">上傳</button>
+            <button class="btn btn-outline-secondary w-50" (click)="clearSelectedFile()">取消</button>
           </div>
         </div>
         <div class="card-body">
@@ -28,7 +30,7 @@
       </div>
     </div>
     <div class="col-md-7">
-      <div class="card mb-4 shadow rounded-3">
+      <div class="card mb-4 shadow rounded-3 h-100">
         <div class="card-header bg-dark text-white">
           <h5 class="mb-0">基本資訊</h5>
         </div>
