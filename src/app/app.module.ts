@@ -18,8 +18,10 @@ import { ProfileComponent } from './components/profile/profile.component';
 import { LightboxModule } from 'ngx-lightbox';
 import { ShopproductshowComponent } from './components/shopproductshow/shopproductshow.component';
 import { CoursedetailsComponent } from './components/coursedetails/coursedetails.component';
+import { CoursecheckoutComponent } from './components/coursecheckout/coursecheckout.component';
+import { CourseorderreceivedComponent } from './components/courseorderreceived/courseorderreceived.component';
+import { UsedproductshowComponent } from './components/usedproductshow/usedproductshow.component';
 import { SiteDetailComponent } from './components/site-detail/site-detail.component';
-import { RouterModule } from '@angular/router';
 import { SiteReserveComponent } from './components/site-reserve/site-reserve.component';
 import { SiteOrderComponent } from './components/site-order/site-order.component';
 @NgModule({
@@ -38,6 +40,9 @@ import { SiteOrderComponent } from './components/site-order/site-order.component
     ProcategoriesComponent,
     ProfileComponent,
     CoursedetailsComponent,
+    CoursecheckoutComponent,
+    CourseorderreceivedComponent,
+    UsedproductshowComponent,
     SiteDetailComponent,
     SiteReserveComponent,
     SiteOrderComponent
@@ -49,8 +54,7 @@ import { SiteOrderComponent } from './components/site-order/site-order.component
     HttpClientModule,
     ReactiveFormsModule,
     FormsModule,
-    LightboxModule,
-    RouterModule
+    LightboxModule
   ],
   providers: [],
   bootstrap: [AppComponent],

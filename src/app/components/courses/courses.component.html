@@ -146,49 +146,92 @@
 				<div class="container">
 					<div class="row c-gutter-60">
 						<main class="col-lg-7 col-xl-8 order-lg-2">
+
 							<article class="post text-center text-md-left vertical-item content-padding hero-bg">
-								<div class="item-media post-thumbnail">
-									<img src="images/gallery/04.jpg" alt="img">
+								<div class="item-media post-thumbnail" routerLink="/coursedetails/1">
+									<!-- 圖片 -->
+									<img src="assets/images/courses/snorkeling_1.jpg" alt="img">
 									<div class="media-links">
-										<a routerLink="/coursedetails/1"   class="abs-link" ></a>
+										<a class="abs-link" ></a>
 									</div>
 								</div><!-- .post-thumbnail -->
+								<!-- 此處有機會再做評分 -->
+								<div>
+									<!-- 收藏愛心按鈕 -->
+    								<a href="#" class="favorite-icon">     
+										<i class="fa-regular fa-heart"></i>
+    								</a>
+								
+								</div>
 								<div class="item-content">
+								
 									<header class="entry-header">
-										<span class="cat-links">
+										<!-- <span class="cat-links"> -->
 
-											<span class="screen-reader-text">Categories</span>
-											<a href="blog-left.html" rel="category tag">
-												Template
-											</a>,
-											<a href="blog-left.html" rel="category tag">
-												Uncategorized
-											</a>
-										</span>
+											<!-- <span class="screen-reader-text">Categories</span> -->
+											<!-- <a   href="blog-left.html" rel="category tag"> -->
+												<!-- Template -->
+											<!-- </a>, -->
+											<!-- <a  href="blog-left.html" rel="category tag"> -->
+												<!-- Uncategorized -->
+											<!-- </a> -->
+										<!-- </span> -->
 										<h3 class="entry-title mb-3">
-											<a href="event-single-left.html" rel="bookmark">
-												Cupiditate ducimus ea eaque error et excepturi
+											<a  routerLink="/coursedetails/1"  rel="bookmark">
+												2/29屏東小琉球浮潛｜推薦蟹老闆｜浮潛找海龜｜免費拍照｜空拍
 											</a>
 										</h3>
+										<!-- <div class="entry-meta">
+											<div class="info-container">
+												<div class="info-item">
+													<i class="fa fa-calendar" aria-hidden="true" style="color: #598aa4"></i>
+													03.12.2019
+												</div> 
+												<div class="info-item">
+													<i class="fa fa-map-marker" style="color: #598aa4"></i>
+													Molestiae numquam officia
+												</div>
+												<div class="info-item">
+													<i class="fa-solid fa-sack-dollar" style="color: #598aa4; font-size: 17px;"></i>
+													45.00
+												</div> 
+											</div>
+										</div> -->
 										<div class="entry-meta">
-											<span>
+											<span >
 												<i class="fa fa-calendar" aria-hidden="true"></i>
-												<a href="event-single-left.html" rel="bookmark">
-													<time class="entry-date published updated" datetime="2018-03-18T15:15:12+00:00">03.12.2019</time>
+												<a  href="event-single-left.html" rel="bookmark">
+													<time class="entry-date published updated" datetime="2018-03-18T15:15:12+00:00">2025.02.28</time>
 												</a>
 											</span>
-											<span>
-												<i class="fa fa-map-marker"></i> <span>Molestiae numquam officia</span>
-											</span>
+											<span >
+												<i class="fa-solid fa-turn-up" style="color: #598aa4;"></i>
+												<span>無分級ungraded</span>
+												<!-- <i class="fa fa-map-marker"></i> <span>Molestiae numquam officia</span> -->
+											</span>	
+											<span >
+												<i class="fa-solid fa-user" style="color: #598aa4;"></i>								
+												<span>李福禧</span>
+												<!-- <i class="fa fa-map-marker"></i> <span>Molestiae numquam officia</span> -->
+											</span>										
 										</div>
 										<!-- .entry-meta -->
 									</header>
 									<!-- .entry-header -->
 									<div class="entry-content">
 										<p>
-											Cupiditate ducimus ea eaque error et excepturi ipsa ipsam, magni modi molestiae numquam officia quo quos ratione sed, similique ut voluptate.
+											小琉球是台灣著名的離島旅遊勝地，更是愛好浮潛等海上活動者的最佳玩樂天堂，這個夏天，就出發來去小琉球浮潛吧！<br>
+											‧親子同樂、全家共遊行程<br>
+											‧教練專業指導、全程跟隨<br>
+											‧免費拍照 ...
+										
+
 										</p>
 									</div><!-- .entry-content -->
+									<div class="post-content">
+										<!-- 價格 -->					
+										<div class="post-price">$1500</div> 									
+									</div>																										
 								</div><!-- .item-content -->
 							</article>
 
@@ -360,12 +403,12 @@
 						<aside class="col-lg-5 col-xl-4 order-lg-1">
 							<div class="ls ms">
 								<div class="widget widget_search">
-									<h3 class="widget-title">Search</h3>
+									<h3 class="widget-title">搜尋</h3>
 									<form role="search" method="get" class="search-form" action="/">
 										<label for="search-form-widget">
 											<span class="screen-reader-text">Search for:</span>
 										</label>
-										<input type="search" id="search-form-widget" class="search-field" placeholder="Search" value="" name="search">
+										<input type="search" id="search-form-widget" class="search-field" placeholder="請輸入" value="" name="search">
 										<button type="submit" class="search-submit">
 											<span class="screen-reader-text">Search</span>
 										</button>
@@ -376,7 +419,7 @@
 
 							<div class="widget widget_categories">
 
-								<h3 class="widget-title">Categories</h3>
+								<h3 class="widget-title">課程種類</h3>
 
 								<ul>
 									<li class="cat-item">
@@ -443,11 +486,11 @@
 
 							<div class="widget widget_recent_posts">
 
-								<h3 class="widget-title">Popular Courses</h3>
+								<h3 class="widget-title">熱門課程</h3>
 								<ul class="list-unstyled">
 									<li class="media">
 										<a class="media-image" href="blog-single-right.html">
-											<img src="images/recent_post1.jpg" alt="img">
+											<img src="/assets/images/courses/snorkeling_2s.jpg" alt="img">
 										</a>
 										<div class="media-body">
 											<h4>
@@ -461,7 +504,7 @@
 
 									<li class="media">
 										<a class="media-image" href="blog-single-right.html">
-											<img src="images/recent_post2.jpg" alt="img">
+											<img src="/assets/images/courses/snorkeling_1s.jpg" alt="img">
 										</a>
 										<div class="media-body">
 											<h4>
@@ -476,7 +519,7 @@
 
 									<li class="media">
 										<a class="media-image" href="blog-single-right.html">
-											<img src="images/recent_post1.jpg" alt="img">
+											<img src="/assets/images/courses/snorkeling_3s.jpg" alt="img">
 										</a>
 										<div class="media-body">
 											<h4>

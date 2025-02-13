@@ -10,6 +10,11 @@ import { CoursesComponent } from './components/courses/courses.component';
 import { SiteRentalComponent } from './components/site-rental/site-rental.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { CoursedetailsComponent } from './components/coursedetails/coursedetails.component';
+import { CoursecheckoutComponent } from './components/coursecheckout/coursecheckout.component';
+import { CourseorderreceivedComponent } from './components/courseorderreceived/courseorderreceived.component';
+
+import { UsedproductshowComponent } from './components/usedproductshow/usedproductshow.component';
+
 import { SiteDetailComponent } from './components/site-detail/site-detail.component';
 import { SiteReserveComponent } from './components/site-reserve/site-reserve.component';
 import { SiteOrderComponent } from './components/site-order/site-order.component';
@@ -25,6 +30,9 @@ const routes: Routes = [
   { path: 'procategories', component: ProcategoriesComponent },
   { path: 'profile', component: ProfileComponent },
   { path: 'coursedetails/:id', component: CoursedetailsComponent },
+  { path: 'coursecheckout', component: CoursecheckoutComponent },
+  { path: 'courseorderreceived', component: CourseorderreceivedComponent },
+  { path: 'usedproductshow/:id', component: UsedproductshowComponent },
   { path: 'site-detail', component: SiteDetailComponent },
   { path: 'site-reserve', component: SiteReserveComponent },
   { path: 'site-order', component: SiteOrderComponent },

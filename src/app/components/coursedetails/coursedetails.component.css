@@ -1,0 +1,51 @@
+
+.favorite-icon {
+    position: absolute; /* 讓愛心按鈕絕對定位 */
+    right: 10px; /* 距離右邊 10px，將愛心圖示移至右邊 */
+    color: rgb(89,138,164); /* 愛心顏色 */
+    font-size: 25px;
+    
+  }
+  
+  .favorite-icon:hover {
+    
+    color:rgb(35, 209, 253); /* 滑鼠懸停時，改變愛心顏色 */
+  }
+  .post-content {
+    position: relative; /* 使內容區域為定位容器 */
+    color: #0d425e;
+   
+  }
+  
+  .post-price {
+    position: absolute; /* 使價格浮動 */
+    right: 10px; /* 距離右邊 10px */
+    font-size: 30px; /* 設定字體大小 */
+    font-weight: bold;
+    color:#166792; /* 設定字體顏色 */
+  }
+  .comment-author h6 {
+    display: inline-block;
+    margin-right: 80px; /* 間隔80px */
+    font-size: 20px;
+}
+
+.comment-author .gender {
+    display: inline-block;
+    color: #0d425e;
+    font-size: 20px;
+    font-weight:400;
+}
+
+.comment-content{
+  font-size: 18px;
+}
+
+.comment-respond{
+  position: relative; /* 使內容區域為定位容器 */
+}
+
+.submit{
+  position: absolute; /* 讓直接購買按鈕絕對定位 */
+  right: 10px;
+}

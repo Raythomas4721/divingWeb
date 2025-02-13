@@ -12,6 +12,7 @@ export class AuthService {
     this.loadUserToken();
   }
   private userId = "";
+  private userName = "";
   private userSubject = new ReplaySubject<UserDTO>(1);
   user$: Observable<UserDTO | null> = this.userSubject.asObservable(); // 讓元件可以監聽用戶資料變化
 
@@ -21,6 +22,7 @@ export class AuthService {
       try {
         const decodedToken: any = jwtDecode(token);
         this.userId = decodedToken.userId;
+        this.userName = decodedToken.name;
         await this.fetchUserProfile();
       } catch (error) {
         console.error("Token 錯誤", error);
@@ -42,4 +44,25 @@ export class AuthService {
       }
     })
   }
+  updateUserProfile() {
+    if (!this.userId) {
+      console.warn("未取得 userId");
+      return;
+    }
+    this.userService.getUserProfile().subscribe({
+      next: (res) => {
+        console.log("用戶資料已更新:", res);
+        this.userSubject.next(res);
+      },
+      error: (err) => {
+        console.error("更新後獲取用戶失敗");
+        this.userSubject.next(null!);
+      }
+    });
+    this.fetchUserProfile();
+  }
+  clearUserProfile() {
+    this.userSubject.next(null!);
+  }
+
 }
