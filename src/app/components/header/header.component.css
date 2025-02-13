@@ -5,3 +5,10 @@
 a.logo img {
   max-width: 70px;
 }
+
+/* Feb 13 */
+button{
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: bold;
+}
