@@ -4,14 +4,24 @@ import { AuthService } from './../../services/auth.service';
 import { Component, OnInit } from '@angular/core';
 import { UserDTO } from 'src/app/interface/userDTO';
 import { filter } from 'rxjs/operators';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.css']
 })
-export class ProfileComponent {
+export class ProfileComponent implements OnInit {
   constructor(private authService: AuthService, private userService: UserService, private alertService: AlertService) { }
+
+  editProfileForm: FormGroup = new FormGroup({
+    memberName: new FormControl('', [Validators.required, Validators.minLength(2)]),
+    memberEmail: new FormControl('', [Validators.required, Validators.email]),
+    memberPhone: new FormControl(''),
+    memberAddress: new FormControl(''),
+    urgentContact: new FormControl(''),
+    urgentPhone: new FormControl('')
+  });
 
   user?: UserDTO | null;
   selectedFile: File | null = null;
