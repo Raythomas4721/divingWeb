@@ -1,4 +1,69 @@
-<div class="container mt-5">
+<!-- 修改個人資料 Modal -->
+<!-- <div class="modal fade" id="editProfileModal" tabindex="-1" role="dialog" aria-labelledby="editProfileModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content p-3">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span style="font-size: 32px">&times;</span>
+      </button>
+
+      <div class="modal-body">
+        <h4 class="text-center text-dark mb-4">修改個人資料</h4>
+
+        <form [formGroup]="editProfileForm" (ngSubmit)="onSubmitEditProfile()">
+
+          <div class="form-group">
+            <label for="editName">會員名稱</label>
+            <input type="text" id="editName" formControlName="memberName" class="form-control" placeholder="輸入會員名稱" />
+            <div *ngIf="editProfileForm.get('memberName')?.invalid && editProfileForm.get('memberName')?.touched"
+              class="text-danger">
+              會員名稱需至少2個字元
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="editEmail">電子郵件</label>
+            <input type="email" id="editEmail" formControlName="memberEmail" class="form-control"
+              placeholder="example@gmail.com" />
+            <div *ngIf="editProfileForm.get('memberEmail')?.invalid && editProfileForm.get('memberEmail')?.touched"
+              class="text-danger">
+              電子郵件格式不正確
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="editPhone">聯絡電話</label>
+            <input type="text" id="editPhone" formControlName="memberPhone" class="form-control" placeholder="輸入聯絡電話" />
+          </div>
+
+          <div class="form-group">
+            <label for="editAddress">居住地址</label>
+            <input type="text" id="editAddress" formControlName="memberAddress" class="form-control"
+              placeholder="輸入居住地址" />
+          </div>
+
+          <div class="form-group">
+            <label for="editUrgentContact">緊急聯絡人</label>
+            <input type="text" id="editUrgentContact" formControlName="urgentContact" class="form-control"
+              placeholder="輸入緊急聯絡人" />
+          </div>
+
+          <div class="form-group">
+            <label for="editUrgentPhone">緊急聯絡電話</label>
+            <input type="text" id="editUrgentPhone" formControlName="urgentPhone" class="form-control"
+              placeholder="輸入緊急聯絡電話" />
+          </div>
+          <div class="d-flex gap-2 mt-3">
+            <button type="submit" class="btn btn-dark w-50" [disabled]="editProfileForm.invalid">儲存變更</button>
+            <button type="button" class="btn btn-outline-secondary w-50" data-dismiss="modal">取消</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div> -->
+
+<div class="container mt-5 pb-5">
   <div class="row justify-content-center gap-3 d-flex align-items-stretch">
     <div class="col-md-4">
       <div class="card shadow rounded-3">
@@ -7,18 +72,20 @@
         </div>
         <div class="card-body text-center p-4">
           <h5 class="card-title">{{ user?.memberName }}</h5>
-          <p class="text-muted mb-1">{{ user?.memberEmail }}</p>
+          <p class="mb-1">{{ user?.memberEmail }}</p>
           <div>
-            <img [src]="previewImage || user?.memberPhoto || 'assets/images/profile/noImage.PNG'" alt="User Photo"
+            <img [src]="previewImage || showUserImage || 'assets/images/profile/noImage.PNG'" alt="User Photo"
               class="rounded shadow-sm border mb-3" style="width: 220px; height: 200px; object-fit: cover;" />
 
             <input type="file" id="uploadPhoto" accept="image/*" (change)="onFileSelected($event)" hidden>
             <label for="uploadPhoto" class="btn btn-outline-dark w-100">
               變更圖片
             </label>
-            <button *ngIf="selectedFile" class="btn btn-primary w-100 mt-2" (click)="uploadProfilePhoto()">
-              上傳
-            </button>
+          </div>
+
+          <div class="d-flex gap-2 mt-2 w-100" *ngIf="selectedFile">
+            <button class="btn btn-dark w-50 " (click)="uploadProfilePhoto()">上傳</button>
+            <button class="btn btn-outline-secondary w-50" (click)="clearSelectedFile()">取消</button>
           </div>
         </div>
         <div class="card-body">
@@ -28,7 +95,7 @@
       </div>
     </div>
     <div class="col-md-7">
-      <div class="card mb-4 shadow rounded-3">
+      <div class="card mb-4 shadow rounded-3 h-100">
         <div class="card-header bg-dark text-white">
           <h5 class="mb-0">基本資訊</h5>
         </div>

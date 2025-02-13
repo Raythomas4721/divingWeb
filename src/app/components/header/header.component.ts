@@ -1,6 +1,6 @@
 import { AuthService } from './../../services/auth.service';
 import { Router } from '@angular/router';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { AlertService } from 'src/app/services/alert.service';
 import { UserService } from 'src/app/services/user.service';
@@ -16,7 +16,7 @@ declare var bootstrap: any;
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css'],
 })
-export class HeaderComponent {
+export class HeaderComponent implements OnInit {
   constructor(
     private userService: UserService,
     private alertService: AlertService,
@@ -120,7 +120,13 @@ export class HeaderComponent {
         $('body').css('padding-right', 0);
         this.errorMessage = '';
         this.userForm.reset();
-        this.alertService.success(`登入成功，歡迎您!`);
+        this.alertService.success(`登入成功，歡迎!`);
+
+        this.authService.updateUserProfile();
+        this.authService.user$.subscribe((user) => {
+          this.user = user;
+          this.userName = user?.memberName || '';
+        });
       },
       error: (err) => {
         this.errorMessage = '請填寫正確的帳號密碼';
@@ -130,10 +136,13 @@ export class HeaderComponent {
   }
 
   logout(): void {
-    this.userService.logout();
-    localStorage.removeItem('user');
+    localStorage.removeItem('token');
     this.isLoggedIn = false;
     this.userName = '';
+    this.authService.clearUserProfile();
     this.alertService.success('已成功登出！');
+    this.authService.user$.subscribe(() => {
+      this.user = null;
+    });
   }
 }

@@ -2,3 +2,25 @@ label[for="uploadPhoto"] {
   cursor: pointer;
   display: block !important;
 }
+
+.bg-dark {
+  background-color: #0D425E !important;
+}
+
+.btn {
+  min-width: fit-content;
+  border-radius: 8px;
+}
+
+.btn-dark {
+  background-color: #0D425E;
+}
+
+.btn-dark:hover {
+  background-color: #082b3e;
+  border: 2px solid white;
+}
+
+.btn-outline-dark:hover {
+  background-color: #0D425E;
+}

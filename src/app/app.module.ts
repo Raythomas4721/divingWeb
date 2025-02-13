@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ShopComponent } from './components/shop/shop.component';
@@ -14,12 +13,17 @@ import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { Sideshopcart } from './components/sideshopcart/side-cart.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-
 import { ProcategoriesComponent } from './components/procategories/procategories.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { LightboxModule } from 'ngx-lightbox';
 import { ShopproductshowComponent } from './components/shopproductshow/shopproductshow.component';
 import { LiteralToBreakPipe } from './components/pipe/literal-to-break.pipe';
+import { CoursedetailsComponent } from './components/coursedetails/coursedetails.component';
+import { CoursecheckoutComponent } from './components/coursecheckout/coursecheckout.component';
+import { CourseorderreceivedComponent } from './components/courseorderreceived/courseorderreceived.component';
+import { UsedproductshowComponent } from './components/usedproductshow/usedproductshow.component';
+import { SiteDetailComponent } from './components/site-detail/site-detail.component';
+import { SiteReserveComponent } from './components/site-reserve/site-reserve.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -36,6 +40,12 @@ import { LiteralToBreakPipe } from './components/pipe/literal-to-break.pipe';
     ProcategoriesComponent,
     ProfileComponent,
     LiteralToBreakPipe,
+    CoursedetailsComponent,
+    CoursecheckoutComponent,
+    CourseorderreceivedComponent,
+    UsedproductshowComponent,
+    SiteDetailComponent,
+    SiteReserveComponent,
   ],
   imports: [
     BrowserModule,

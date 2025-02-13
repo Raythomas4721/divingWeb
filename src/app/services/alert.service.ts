@@ -15,7 +15,7 @@ export class AlertService {
       timerProgressBar: true,
       // toast: true,
       showConfirmButton: false,
-      width: '400px'
+      width: '340px'
     });
   }
   error(title: string): void {

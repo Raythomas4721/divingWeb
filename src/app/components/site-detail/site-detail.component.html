@@ -1,0 +1,343 @@
+<!--[if lt IE 9]>
+		<div class="bg-danger text-center">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/" class="color-main">upgrade your browser</a> to improve your experience.</div>
+	<![endif]-->
+
+
+
+<!-- search modal -->
+<div class="modal" tabindex="-1" role="dialog" aria-labelledby="search_modal" id="search_modal">
+  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+  <div class="widget widget_search">
+    <form method="get" class="searchform search-form" action="/">
+      <div class="form-group">
+        <input type="text" value="" name="search" class="form-control" placeholder="Search keyword"
+          id="modal-search-input">
+      </div>
+      <button type="submit" class="btn">Search</button>
+    </form>
+  </div>
+</div>
+
+<!-- Unyson messages modal -->
+<div class="modal fade" tabindex="-1" role="dialog" id="messages_modal">
+  <div class="fw-messages-wrap ls p-normal">
+    <!-- Uncomment this UL with LI to show messages in modal popup to your user: -->
+    <!--
+		<ul class="list-unstyled">
+			<li>Message To User</li>
+		</ul>
+		-->
+
+  </div>
+</div><!-- eof .modal -->
+
+<div class="modal fade popupLogin" id="popupLogin" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content ds ms overflow-visible s-overlay s-mobile-overlay">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+      <div class="modal-body">
+        <div class="container">
+          <div class="row">
+            <div class="col-12">
+              <h4 class="color-main mb-3">Log in</h4>
+              <form class="form-registration c-mb-20 c-gutter-20" action="/">
+                <div class="row mb-4">
+                  <div class="col-sm-12">
+                    <div class="form-group">
+                      <input type="text" name="name" class="form-control" required placeholder="login"
+                        aria-required="true">
+                    </div>
+                  </div>
+                  <div class="col-sm-12">
+                    <div class="form-group">
+                      <input type="password" name="password" class="form-control" placeholder="password"
+                        aria-required="true" required>
+                    </div>
+                  </div>
+                </div>
+                <a class="registerRedirect " data-dismiss="modal" data-target="#popupRegistr" data-toggle="modal"
+                  href="#">Not a member? Register!</a>
+                <button type="submit" class="btn btn-maincolor mt-30 d-block">Sign In</button>
+              </form>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade popupRegistr" id="popupRegistr" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content ds ms overflow-visible s-overlay s-mobile-overlay">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+      <div class="modal-body">
+        <div class="container">
+          <div class="row">
+            <div class="col-12">
+              <h4 class="color-main mb-4">Registration</h4>
+              <form class="form-registration c-mb-20 c-gutter-20" method="post" action="/">
+                <div class="row">
+                  <div class="col-12">
+                    <div class="form-group">
+                      <input type="text" name="name" class="form-control" required placeholder="login"
+                        aria-required="true">
+                    </div>
+                  </div>
+                  <div class="col-12">
+                    <div class="form-group">
+                      <input type="password" name="password" class="form-control" placeholder="password"
+                        aria-required="true" required>
+                    </div>
+                  </div>
+                  <div class="col-12">
+                    <div class="form-group">
+                      <input type="email" name="email" class="form-control" placeholder="email" required
+                        aria-required="true">
+                    </div>
+                  </div>
+                  <div class="col-12">
+                    <div class="form-group">
+                      <input type="password" name="confirmPassword" class="form-control" placeholder="password" required
+                        aria-required="true">
+                    </div>
+                  </div>
+                  <div class="col-12">
+                    <div class="form-group">
+                      <input type="checkbox" id="agreed" name="agreed" value="agreed" required
+                        aria-required="true"><label for="agreed">I agree to the
+                        rules</label>
+                    </div>
+                  </div>
+                </div>
+                <button type="submit" class="btn btn-maincolor mt-30 d-block">Registration</button>
+              </form>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- wrappers for visual page editor and boxed version of template -->
+<div id="canvas">
+  <div id="box_wrapper">
+
+    <!-- template sections -->
+
+
+    <div class="header_absolute ds cover-background ">
+      <!-- header with three Bootstrap columns - left for logo, center for navigation and right for includes-->
+      <header class="page_header ds ms s-overlay">
+
+        <!-- header toggler -->
+        <span class="toggle_menu"><span></span></span>
+      </header>
+
+    </div>
+
+    <section class="page_title ds s-parallax s-overlay s-pt-160 s-pb-80">
+      <div class="container">
+        <div class="row">
+
+          <div class="col-md-12">
+            <h1>青山農場游池</h1>
+            <ol class="breadcrumb">
+
+            </ol>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <section class=" ls s-py-90 s-py-xl-160 c-gutter-60">
+      <div class="container">
+        <div class="row">
+          <main class="col-lg-7 col-xl-8">
+            <div class="vertical-item content-padding hero-bg">
+              <div class="item-media">
+                <img src="assets\images\sitePhoto\swim (2).jpeg" alt="img">
+              </div>
+              <div class="item-content">
+                <p>
+                  2024年11月完成整修的「青山農場游池」，是夏季降溫的絕佳去處！綠地的場地規劃，在室內設置健康輕食區、健身房、多功能教室；而在室外區則有成人25公尺泳池、兒童池、噴泉池、SPA水療池都適合再去滋養心靈！
+                </p>
+
+                <ul class="list-styled">
+                  <li>空間大小：300平方公尺</li>
+                  <li>可容納人數：80人</li>
+                  <li>無線網路</li>
+                </ul>
+
+                <ul class="list-styled">
+                  <li class="list-styled">時段分為上午、下午、晚上</li>
+                  <li>每個時段$3000</li>
+                  <li>​預約場勘或詢價，敬請填寫線上預約表。</li>
+                  <ul class="list-styled">
+
+                  </ul>
+                </ul>
+                <div>
+                  <h5>聯絡方式</h5>
+                  <p style="margin-bottom: 0.5em;">TEL:(02)2653-0788</p>
+                  <p style="margin-bottom: 0.5em;">Email：cornerhousetw@gmail.com</p>
+                  <p style="margin-bottom: 0;">FB : Corner House 角落文創</p>
+                </div>
+                <div style="margin-top: 2em;">
+                  <h5>交通資訊</h5>
+                  <p style="margin-bottom: 0.5em;">地址：台北市南港區忠孝東路六段21號1 F</p>
+                  <p style="margin-bottom: 0.5em;">捷運：板南線後山埤站 4號出口</p>
+                  <p style="margin-bottom: 0;">停車場：CityParking平面停車場(忠孝東路六段62號)</p>
+
+                  <button type="submit" id="contact_form_submit" name="contact_submit"
+                    class="btn btn-outline-darkgrey btn-medium" style="margin-top: 2em; background-color: yellow;"
+                    routerLink="/site-reserve">預約
+                  </button>
+
+                </div>
+              </div>
+            </div>
+          </main>
+          <aside class="col-lg-5 col-xl-4 affix-aside">
+            <div class="widget widget_categories">
+
+              <h3 class="widget-title">Categories</h3>
+
+              <ul>
+                <li class="cat-item">
+                  <a href="blog-right.html">Kites</a>
+                  <ul class="children">
+                    <li class="cat-item">
+                      <a href="blog-right.html">Kite Surfing</a>
+                    </li>
+                    <li class="cat-item">
+                      <a href="blog-right.html">Surfing</a>
+                    </li>
+                  </ul>
+                </li>
+                <li class="cat-item">
+                  <a href="blog-right.html">Kiteboarding</a>
+                </li>
+                <li class="cat-item">
+                  <a href="blog-right.html">Kite-Surf</a>
+                </li>
+                <li class="cat-item">
+                  <a href="blog-right.html">Windsurf</a>
+                </li>
+                <li class="cat-item">
+                  <a href="blog-right.html">Sailing</a>
+                </li>
+                <li class="cat-item">
+                  <a href="blog-right.html">Kiteschool</a>
+                </li>
+              </ul>
+            </div>
+
+
+          </aside>
+        </div>
+
+      </div>
+    </section>
+
+    <footer class="page_footer ds s-py-90 s-py-xl-160 c-gutter-60">
+      <div class="container">
+        <div class="row">
+          <div class="col-xl-4 col-lg-3 text-center text-lg-left animate" data-animation="fadeInUp">
+            <div class="widget widget_text">
+              <img src="images/logo.png" alt="logo">
+              <p>
+                The estuary is the well-known kite spot in the lagoon. Two launches are possible.
+              </p>
+              <p class="social-icons">
+                <a href="https://www.facebook.com/" class="fa bg-icon rounded-icon fa-facebook" title="facebook"></a>
+                <a href="https://twitter.com/" class="fa bg-icon rounded-icon fa-twitter" title="twitter"></a>
+                <a href="https://www.instagram.com/" class="fa bg-icon rounded-icon fa-instagram" title="instagram"></a>
+              </p>
+            </div>
+            <div class="divider-60 divider-lg-0"></div>
+          </div>
+
+          <div class="col-xl-4 col-lg-5 text-center text-lg-left animate" data-animation="fadeInUp">
+            <div class="widget widget_nav_menu">
+              <h3>Userful Link</h3>
+              <ul class="menu">
+                <li class="menu-item">
+                  <a href="./index_blocks.html">Homeblocks</a>
+                </li>
+                <li class="menu-item">
+                  <a href="./about.html">About</a>
+                </li>
+                <li class="menu-item">
+                  <a href="./team.html">Team</a>
+                </li>
+                <li class="menu-item">
+                  <a href="./contact.html">Contact Us</a>
+                </li>
+                <li class="menu-item">
+                  <a href="./pricing.html">Pricing</a>
+                </li>
+                <li class="menu-item">
+                  <a href="./shortcodes_typography.html">Typography</a>
+                </li>
+                <li class="menu-item">
+                  <a href="./shop-left.html">Shop</a>
+                </li>
+                <li class="menu-item">
+                  <a href="./services2.html">Services</a>
+                </li>
+                <li class="menu-item">
+                  <a href="./service-single.html">Single Service</a>
+                </li>
+                <li class="menu-item">
+                  <a href="./gallery-tiled.html">Gallery</a>
+                </li>
+              </ul>
+            </div>
+            <div class="divider-60 divider-lg-0"></div>
+          </div>
+
+          <div class="col-xl-4 col-lg-4 text-center text-lg-left animate" data-animation="fadeInUp">
+            <div class="widget widget_flickr">
+
+              <h3 class="widget-title">Flickr</h3>
+              <ul class="flickr_ul"></ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <div id="copyright"></div>
+
+    <section class="page_copyright ls s-py-30">
+      <div class="container">
+        <div class="row align-items-center">
+          <div class="col-md-6 text-center text-md-left animate" data-animation="scaleAppear">
+            <p>&copy; Copyright <span class="copyright_year">2020</span> All Rights Reserved</p>
+          </div>
+          <div class="col-md-6 text-center text-md-right animate" data-animation="scaleAppear">
+            <div class="color-darkgrey">
+              <i class="fs-36 fa fa-cc-visa"></i>
+              <i class="fs-36 fa fa-cc-discover"></i>
+              <i class="fs-36 fa fa-cc-mastercard"></i>
+              <i class="fs-36 fa fa-cc-amex"></i>
+              <i class="fs-36 fa fa-cc-paypal"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </div><!-- eof #box_wrapper -->
+</div><!-- eof #canvas -->
