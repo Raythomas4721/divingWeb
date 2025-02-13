@@ -22,6 +22,7 @@ import { ShopproductshowComponent } from './components/shopproductshow/shopprodu
 import { CoursedetailsComponent } from './components/coursedetails/coursedetails.component';
 import { CoursecheckoutComponent } from './components/coursecheckout/coursecheckout.component';
 import { CourseorderreceivedComponent } from './components/courseorderreceived/courseorderreceived.component';
+import { UsedproductshowComponent } from './components/usedproductshow/usedproductshow.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -39,7 +40,8 @@ import { CourseorderreceivedComponent } from './components/courseorderreceived/c
     ProfileComponent,
     CoursedetailsComponent,
     CoursecheckoutComponent,
-    CourseorderreceivedComponent
+    CourseorderreceivedComponent,
+    UsedproductshowComponent
   ],
   imports: [
     BrowserModule,
