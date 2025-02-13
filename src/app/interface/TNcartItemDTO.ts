@@ -12,4 +12,10 @@ export interface TNcartItemDTO {
   creationDate: string | null; // 也可用 Date 型別，看你的需求
   updatedDate: string | null;
   imageUrl?: string | null;
+
+  color?: string; // e.g. "Blue"
+  size?: string; // e.g. "M"
+  thickness?: string; // e.g. "3mm"
+  gender?: string;
+  stock: number;
 }

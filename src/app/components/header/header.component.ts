@@ -21,7 +21,7 @@ export class HeaderComponent {
     private userService: UserService,
     private alertService: AlertService,
     private authService: AuthService
-  ) { }
+  ) {}
 
   userForm = new FormGroup({
     username: new FormControl('', [
@@ -32,36 +32,45 @@ export class HeaderComponent {
   });
   registrForm = new FormGroup({
     name: new FormControl('', [
-      Validators.required, Validators.minLength(2), Validators.maxLength(20)
+      Validators.required,
+      Validators.minLength(2),
+      Validators.maxLength(20),
     ]),
-    email: new FormControl("", [
-      Validators.required, Validators.pattern('^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$')
+    email: new FormControl('', [
+      Validators.required,
+      Validators.pattern('^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$'),
     ]),
-    password: new FormControl("", [
-      Validators.required, Validators.minLength(6), Validators.maxLength(12), Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]+$/)
+    password: new FormControl('', [
+      Validators.required,
+      Validators.minLength(6),
+      Validators.maxLength(12),
+      Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]+$/),
     ]),
-    confirmPassword: new FormControl("", [
-      Validators.required, Validators.minLength(6), Validators.maxLength(12), Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]+$/)
-    ])
-  })
+    confirmPassword: new FormControl('', [
+      Validators.required,
+      Validators.minLength(6),
+      Validators.maxLength(12),
+      Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]+$/),
+    ]),
+  });
   errorMessage = '';
   isLoggedIn = false;
   userName = '';
   user?: UserDTO | null;
 
   ngOnInit(): void {
-    this.authService.user$.subscribe(user => {
+    this.authService.user$.subscribe((user) => {
       if (user) {
         this.user = user;
         this.userName = user.user.memberName;
         this.isLoggedIn = true;
       }
-    })
+    });
   }
   onRegister(): void {
-    const name = this.registrForm.get('name')?.value ?? "";
-    const email = this.registrForm.get('email')?.value ?? "";
-    const password = this.registrForm.get('password')?.value ?? "";
+    const name = this.registrForm.get('name')?.value ?? '';
+    const email = this.registrForm.get('email')?.value ?? '';
+    const password = this.registrForm.get('password')?.value ?? '';
     const confirmPassword = this.registrForm.get('confirmPassword')?.value;
 
     if (password !== confirmPassword) {
@@ -77,20 +86,21 @@ export class HeaderComponent {
       next: (res) => {
         $('#popupRegistr').modal('hide');
         $('.modal-backdrop').remove();
-        this.errorMessage = "";
+        this.errorMessage = '';
         this.userForm.reset();
         this.alertService.success(`歡迎${name}，成為我們的新成員!`);
       },
-      error: err => {
+      error: (err) => {
         if (err.status === 400 && err.error && err.error.message) {
           this.errorMessage = err.error.message;
         } else {
           this.errorMessage = '請再次確認輸入的資訊';
         }
-        this.alertService.error(`註冊失敗，${err.error?.message || '請再次確認輸入的資訊'}`);
-
-      }
-    })
+        this.alertService.error(
+          `註冊失敗，${err.error?.message || '請再次確認輸入的資訊'}`
+        );
+      },
+    });
   }
 
   onLogin(): void {
@@ -108,7 +118,7 @@ export class HeaderComponent {
         $('#popupLogin').modal('hide');
         $('.modal-backdrop').remove();
         $('body').css('padding-right', 0);
-        this.errorMessage = "";
+        this.errorMessage = '';
         this.userForm.reset();
         this.alertService.success(`登入成功，歡迎您!`);
       },
@@ -120,6 +130,7 @@ export class HeaderComponent {
   }
 
   logout(): void {
+    this.userService.logout();
     localStorage.removeItem('user');
     this.isLoggedIn = false;
     this.userName = '';

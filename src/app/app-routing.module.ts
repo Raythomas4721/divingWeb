@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { Sideshopcart } from './components/sideshopcart/side-cart.component';
 import { ShopproductshowComponent } from './components/shopproductshow/shopproductshow.component';
-import { ProcategoriesComponent } from './components/procategories/procategories.component';
+// import { ProcategoriesComponent } from './components/procategories/procategories.component';
 import { HomeComponent } from './components/home/home.component';
 import { ShopComponent } from './components/shop/shop.component';
 import { CoursesComponent } from './components/courses/courses.component';
@@ -19,12 +19,17 @@ const routes: Routes = [
   { path: 'site-rental', component: SiteRentalComponent },
   { path: 'shopcart', component: Sideshopcart },
   { path: 'shopproductshow/:id', component: ShopproductshowComponent },
-  { path: 'procategories', component: ProcategoriesComponent },
+  // { path: 'procategories', component: ProcategoriesComponent },
   { path: 'profile', component: ProfileComponent },
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, { useHash: true })],
+  imports: [
+    RouterModule.forRoot(routes, {
+      useHash: true,
+      onSameUrlNavigation: 'reload',
+    }),
+  ],
   exports: [RouterModule],
 })
 export class AppRoutingModule {}

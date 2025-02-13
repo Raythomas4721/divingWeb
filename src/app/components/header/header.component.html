@@ -1,13 +1,25 @@
 <!-- search modal -->
-<div class="modal" tabindex="-1" role="dialog" aria-labelledby="search_modal" id="search_modal">
+<div
+  class="modal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="search_modal"
+  id="search_modal"
+>
   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
     <span style="font-size: 32px">&times;</span>
   </button>
   <div class="widget widget_search">
     <form method="get" class="searchform search-form" action="/">
       <div class="form-group">
-        <input type="text" value="" name="search" class="form-control" placeholder="Search keyword"
-          id="modal-search-input" />
+        <input
+          type="text"
+          value=""
+          name="search"
+          class="form-control"
+          placeholder="Search keyword"
+          id="modal-search-input"
+        />
       </div>
       <button type="submit" class="btn">搜尋</button>
     </form>
@@ -22,15 +34,21 @@
   <ul class="list-unstyled">
     <li>Message To User</li>
   </ul>
-  -->
-  </div>
+  --></div>
 </div>
 <!-- eof .modal -->
 
 <div class="modal fade popupLogin" id="popupLogin" tabindex="-1" role="dialog">
   <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content ds ms overflow-visible s-overlay s-mobile-overlay">
-      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+    <div
+      class="modal-content ds ms overflow-visible s-overlay s-mobile-overlay"
+    >
+      <button
+        type="button"
+        class="close"
+        data-dismiss="modal"
+        aria-label="Close"
+      >
         <span style="font-size: 32px">&times;</span>
       </button>
       <div class="modal-body">
@@ -38,21 +56,40 @@
           <div class="row">
             <div class="col-12">
               <h4 class="color-main mb-3">登入</h4>
-              <div *ngIf="errorMessage" class="text-center text-danger" style="font-size: larger;">
-                {{errorMessage}}
+              <div
+                *ngIf="errorMessage"
+                class="text-center text-danger"
+                style="font-size: larger"
+              >
+                {{ errorMessage }}
               </div>
-              <form [formGroup]="userForm" (ngSubmit)="onLogin()" class="form-registration c-mb-20 c-gutter-20"
-                action="/">
+              <form
+                [formGroup]="userForm"
+                (ngSubmit)="onLogin()"
+                class="form-registration c-mb-20 c-gutter-20"
+                action="/"
+              >
                 <div class="row mb-4">
                   <div class="col-sm-12">
                     <div class="form-group">
                       <label class="form-label" for="loginName">電子郵件</label>
-                      <input type="text" id="loginName" name="name" formControlName="username" class="form-control"
-                        required placeholder="example@gmail.com" aria-required="true" />
-                      <div *ngIf="
+                      <input
+                        type="text"
+                        id="loginName"
+                        name="name"
+                        formControlName="username"
+                        class="form-control"
+                        required
+                        placeholder="example@gmail.com"
+                        aria-required="true"
+                      />
+                      <div
+                        *ngIf="
                           userForm.get('username')?.invalid &&
                           userForm.get('username')?.touched
-                        " class="text-danger">
+                        "
+                        class="text-danger"
+                      >
                         請輸入正確的電子郵件形式
                       </div>
                     </div>
@@ -60,20 +97,41 @@
                   <div class="col-sm-12">
                     <div class="form-group">
                       <label class="form-label" for="loginPassword">密碼</label>
-                      <input type="password" id="loginPassword" name="password" formControlName="password"
-                        class="form-control" placeholder="password" aria-required="true" required />
-                      <div *ngIf="
+                      <input
+                        type="password"
+                        id="loginPassword"
+                        name="password"
+                        formControlName="password"
+                        class="form-control"
+                        placeholder="password"
+                        aria-required="true"
+                        required
+                      />
+                      <div
+                        *ngIf="
                           userForm.get('password')?.invalid &&
                           userForm.get('password')?.touched
-                        " class="text-danger">
+                        "
+                        class="text-danger"
+                      >
                         密碼不可為空
                       </div>
                     </div>
                   </div>
                 </div>
-                <a class="registerRedirect" data-dismiss="modal" data-target="#popupRegistr" data-toggle="modal"
-                  href="#">還不是會員嗎? 立即註冊!</a>
-                <button type="submit" class="btn btn-maincolor mt-30 d-block" style="justify-self: center;">
+                <a
+                  class="registerRedirect"
+                  data-dismiss="modal"
+                  data-target="#popupRegistr"
+                  data-toggle="modal"
+                  href="#"
+                  >還不是會員嗎? 立即註冊!</a
+                >
+                <button
+                  type="submit"
+                  class="btn btn-maincolor mt-30 d-block"
+                  style="justify-self: center"
+                >
                   登入
                 </button>
               </form>
@@ -85,10 +143,22 @@
   </div>
 </div>
 
-<div class="modal fade popupRegistr" id="popupRegistr" tabindex="-1" role="dialog">
+<div
+  class="modal fade popupRegistr"
+  id="popupRegistr"
+  tabindex="-1"
+  role="dialog"
+>
   <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content ds ms overflow-visible s-overlay s-mobile-overlay">
-      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+    <div
+      class="modal-content ds ms overflow-visible s-overlay s-mobile-overlay"
+    >
+      <button
+        type="button"
+        class="close"
+        data-dismiss="modal"
+        aria-label="Close"
+      >
         <span style="font-size: 32px">&times;</span>
       </button>
       <div class="modal-body">
@@ -96,58 +166,117 @@
           <div class="row">
             <div class="col-12">
               <h4 class="color-main mb-4">註冊會員</h4>
-              <div *ngIf="errorMessage" class="text-center text-danger" style="font-size: larger;">
-                {{errorMessage}}
+              <div
+                *ngIf="errorMessage"
+                class="text-center text-danger"
+                style="font-size: larger"
+              >
+                {{ errorMessage }}
               </div>
-              <form [formGroup]="registrForm" (ngSubmit)="onRegister()" class="form-registration c-mb-20 c-gutter-20"
-                method="post" action="/">
+              <form
+                [formGroup]="registrForm"
+                (ngSubmit)="onRegister()"
+                class="form-registration c-mb-20 c-gutter-20"
+                method="post"
+                action="/"
+              >
                 <div class="row">
                   <div class="col-12">
                     <div class="form-group">
-                      <label class="form-label" for="registerName">使用者名稱</label>
-                      <input type="text" id="registerName" name="name" formControlName="name" class="form-control"
-                        required placeholder="Guest Name" aria-required="true" />
+                      <label class="form-label" for="registerName"
+                        >使用者名稱</label
+                      >
+                      <input
+                        type="text"
+                        id="registerName"
+                        name="name"
+                        formControlName="name"
+                        class="form-control"
+                        required
+                        placeholder="Guest Name"
+                        aria-required="true"
+                      />
                     </div>
-                    <div *ngIf="
-                          registrForm.get('name')?.invalid &&
-                          registrForm.get('name')?.touched
-                        " class="text-danger">
+                    <div
+                      *ngIf="
+                        registrForm.get('name')?.invalid &&
+                        registrForm.get('name')?.touched
+                      "
+                      class="text-danger"
+                    >
                       使用者名稱長度需在2~20字元之內
                     </div>
                   </div>
                   <div class="col-12">
                     <div class="form-group">
-                      <label class="form-label" for="registerEmail">電子郵件</label>
-                      <input type="email" id="registerEmail" name="email" formControlName="email" class="form-control"
-                        placeholder="example@gmail.com" required aria-required="true" />
+                      <label class="form-label" for="registerEmail"
+                        >電子郵件</label
+                      >
+                      <input
+                        type="email"
+                        id="registerEmail"
+                        name="email"
+                        formControlName="email"
+                        class="form-control"
+                        placeholder="example@gmail.com"
+                        required
+                        aria-required="true"
+                      />
                     </div>
-                    <div *ngIf="
-                          registrForm.get('email')?.invalid &&
-                          registrForm.get('email')?.touched
-                        " class="text-danger">
+                    <div
+                      *ngIf="
+                        registrForm.get('email')?.invalid &&
+                        registrForm.get('email')?.touched
+                      "
+                      class="text-danger"
+                    >
                       電子郵件格式不正確
                     </div>
                   </div>
                   <div class="col-12">
                     <div class="form-group">
-                      <label class="form-label" for="registerPassword">密碼</label>
-                      <input type="password" id="registerPassword" name="password" formControlName="password"
-                        class="form-control" placeholder="Password" aria-required="true" required />
+                      <label class="form-label" for="registerPassword"
+                        >密碼</label
+                      >
+                      <input
+                        type="password"
+                        id="registerPassword"
+                        name="password"
+                        formControlName="password"
+                        class="form-control"
+                        placeholder="Password"
+                        aria-required="true"
+                        required
+                      />
                     </div>
-                    <div *ngIf="
-                          registrForm.get('password')?.invalid &&
-                          registrForm.get('password')?.touched
-                        " class="text-danger">
+                    <div
+                      *ngIf="
+                        registrForm.get('password')?.invalid &&
+                        registrForm.get('password')?.touched
+                      "
+                      class="text-danger"
+                    >
                       密碼長度需在6~12字元之內，包含英文大小寫及數字，不可有符號
                     </div>
                   </div>
                   <div class="col-12">
                     <div class="form-group">
-                      <label class="form-label" for="confirmPassword">請再次輸入密碼</label>
-                      <input type="password" id="confirmPassword" name="confirmPassword"
-                        formControlName="confirmPassword" class="form-control" placeholder="Confirm Password" required
-                        aria-required="true" />
-                      <div *ngIf="registrForm.get('confirmPassword')?.errors?.['notMatching']">
+                      <label class="form-label" for="confirmPassword"
+                        >請再次輸入密碼</label
+                      >
+                      <input
+                        type="password"
+                        id="confirmPassword"
+                        name="confirmPassword"
+                        formControlName="confirmPassword"
+                        class="form-control"
+                        placeholder="Confirm Password"
+                        required
+                        aria-required="true"
+                      />
+                      <div
+                        *ngIf="registrForm.get('confirmPassword')?.errors?.['notMatching']"
+                      >
                         <small class="text-danger">密碼不匹配</small>
                       </div>
                     </div>
@@ -159,7 +288,11 @@
                     </div>
                   </div> -->
                 </div>
-                <button type="submit" class="btn btn-maincolor mt-30 d-block" style="justify-self: center;">
+                <button
+                  type="submit"
+                  class="btn btn-maincolor mt-30 d-block"
+                  style="justify-self: center"
+                >
                   快速註冊
                 </button>
               </form>
@@ -185,7 +318,10 @@
           <!-- main nav start -->
           <nav class="top-nav">
             <ul class="nav sf-menu">
-              <li routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+              <li
+                routerLinkActive="active"
+                [routerLinkActiveOptions]="{ exact: true }"
+              >
                 <a routerLink="/">首頁</a>
                 <!-- <ul>
               <li>
@@ -205,7 +341,7 @@
 
               <!-- shop -->
               <li routerLinkActive="active">
-                <a routerLink="/procategories">商品列表</a>
+                <a routerLink="/shop">商品列表</a>
                 <!-- <ul>
                   <li>
                     <a href="blog-right.html">基本浮潛裝備</a>
@@ -296,25 +432,33 @@
                         <a href="shop-account-dashboard.html">Account</a>
                         <ul>
                           <li>
-                            <a href="shop-account-details.html">Account details</a>
+                            <a href="shop-account-details.html"
+                              >Account details</a
+                            >
                           </li>
                           <li>
                             <a href="shop-account-addresses.html">Addresses</a>
                           </li>
                           <li>
-                            <a href="shop-account-address-edit.html">Edit Address</a>
+                            <a href="shop-account-address-edit.html"
+                              >Edit Address</a
+                            >
                           </li>
                           <li>
                             <a href="shop-account-orders.html">Orders</a>
                           </li>
                           <li>
-                            <a href="shop-account-order-single.html">Single Order</a>
+                            <a href="shop-account-order-single.html"
+                              >Single Order</a
+                            >
                           </li>
                           <li>
                             <a href="shop-account-downloads.html">Downloads</a>
                           </li>
                           <li>
-                            <a href="shop-account-password-reset.html">Password Reset</a>
+                            <a href="shop-account-password-reset.html"
+                              >Password Reset</a
+                            >
                           </li>
                           <li>
                             <a href="shop-account-login.html">Login/Logout</a>
@@ -328,10 +472,14 @@
                         <a href="shop-left.html">Left Sidebar</a>
                       </li>
                       <li>
-                        <a href="shop-product-right.html">Product Right Sidebar</a>
+                        <a href="shop-product-right.html"
+                          >Product Right Sidebar</a
+                        >
                       </li>
                       <li>
-                        <a href="shop-product-left.html">Product Left Sidebar</a>
+                        <a href="shop-product-left.html"
+                          >Product Left Sidebar</a
+                        >
                       </li>
                       <li>
                         <a href="shop-cart.html">Cart</a>
@@ -369,7 +517,9 @@
                         <a href="shortcodes_tabs.html">Tabs &amp; Collapse</a>
                       </li>
                       <li>
-                        <a href="shortcodes_bootstrap.html">Bootstrap Elements</a>
+                        <a href="shortcodes_bootstrap.html"
+                          >Bootstrap Elements</a
+                        >
                       </li>
                       <li>
                         <a href="shortcodes_animation.html">Animation</a>
@@ -388,13 +538,17 @@
                     <a href="shortcodes_widgets_default.html">Widgets</a>
                     <ul>
                       <li>
-                        <a href="shortcodes_widgets_default.html">Default Widgets</a>
+                        <a href="shortcodes_widgets_default.html"
+                          >Default Widgets</a
+                        >
                       </li>
                       <li>
                         <a href="shortcodes_widgets_shop.html">Shop Widgets</a>
                       </li>
                       <li>
-                        <a href="shortcodes_widgets_custom.html">Custom Widgets</a>
+                        <a href="shortcodes_widgets_custom.html"
+                          >Custom Widgets</a
+                        >
                       </li>
                     </ul>
                   </li>
@@ -479,7 +633,9 @@
                         <a href="gallery-image.html">3 columns</a>
                       </li>
                       <li>
-                        <a href="gallery-image-4-cols-fullwidth.html">4 columns fullwidth</a>
+                        <a href="gallery-image-4-cols-fullwidth.html"
+                          >4 columns fullwidth</a
+                        >
                       </li>
                     </ul>
                   </li>
@@ -496,7 +652,9 @@
                         <a href="gallery-title.html">3 column</a>
                       </li>
                       <li>
-                        <a href="gallery-title-4-cols-fullwidth.html">4 columns fullwidth</a>
+                        <a href="gallery-title-4-cols-fullwidth.html"
+                          >4 columns fullwidth</a
+                        >
                       </li>
                     </ul>
                   </li>
@@ -513,7 +671,9 @@
                         <a href="gallery-excerpt.html">3 column</a>
                       </li>
                       <li>
-                        <a href="gallery-excerpt-4-cols-fullwidth.html">4 columns fullwdith</a>
+                        <a href="gallery-excerpt-4-cols-fullwidth.html"
+                          >4 columns fullwdith</a
+                        >
                       </li>
                     </ul>
                   </li>
@@ -565,18 +725,28 @@
         </div>
         <div class="col-xl-2 col-lg-3 text-right d-none d-xl-block">
           <!-- <a class="fs-20 links-maincolor-hover" href="tel:+88003532455"><mark>8 800</mark> 353-24-55</a> -->
-          <button *ngIf="!isLoggedIn" class="fs-20 links-maincolor-hover" href="#" data-toggle="modal"
-            data-target="#popupLogin">
+          <button
+            *ngIf="!isLoggedIn"
+            class="fs-20 links-maincolor-hover"
+            href="#"
+            data-toggle="modal"
+            data-target="#popupLogin"
+          >
             立即登入
           </button>
-          <nav *ngIf="isLoggedIn" class="top-nav align-items-center justify-content-end">
+          <nav
+            *ngIf="isLoggedIn"
+            class="top-nav align-items-center justify-content-end"
+          >
             <ul class="nav sf-menu">
               <li>
-                <a routerLink="/profile"><i class="fa-solid fa-user-large" style="font-size: 24px"></i></a>
+                <a routerLink="/profile"
+                  ><i class="fa-solid fa-user-large" style="font-size: 24px"></i
+                ></a>
                 <ul class="user-menu">
                   <li>
                     <p class="text-center font-weight-bold text-primary">
-                      歡迎{{ userName || '您' }}！
+                      歡迎{{ userName || "您" }}！
                     </p>
                   </li>
                   <div class="dropdown-divider"></div>
@@ -598,7 +768,12 @@
                 </ul>
               </li>
               <li>
-                <a routerLink="/shopcart"><i class="fa-solid fa-cart-shopping" style="font-size: 24px"></i></a>
+                <a routerLink="/sideshopcart"
+                  ><i
+                    class="fa-solid fa-cart-shopping"
+                    style="font-size: 24px"
+                  ></i
+                ></a>
               </li>
             </ul>
           </nav>

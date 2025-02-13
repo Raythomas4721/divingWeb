@@ -19,6 +19,7 @@ import { ProcategoriesComponent } from './components/procategories/procategories
 import { ProfileComponent } from './components/profile/profile.component';
 import { LightboxModule } from 'ngx-lightbox';
 import { ShopproductshowComponent } from './components/shopproductshow/shopproductshow.component';
+import { LiteralToBreakPipe } from './components/pipe/literal-to-break.pipe';
 @NgModule({
   declarations: [
     AppComponent,
@@ -34,6 +35,7 @@ import { ShopproductshowComponent } from './components/shopproductshow/shopprodu
     ShopproductshowComponent,
     ProcategoriesComponent,
     ProfileComponent,
+    LiteralToBreakPipe,
   ],
   imports: [
     BrowserModule,

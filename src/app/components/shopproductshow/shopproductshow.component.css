@@ -1,159 +1,143 @@
-.main-image-container {
-  position: relative;
-  margin-bottom: 15px; /* 與下面縮圖列表分開 */
+.images-wrapper {
+  display: flex; /* 讓縮圖和主圖並排 */
+  gap: 1rem; /* 左右之間留一點間距 */
+  align-items: flex-start; /* 如果想對齊頂部，可以用 flex-start */
 }
 
-.product-main-img {
-  display: block;
-  width: 100%;
-  /* 其它樣式，如 object-fit, max-height... */
-}
-
-.hover-img {
-  position: absolute;
-  top: 0;
-  left: 0;
-  opacity: 0;
-  transition: 0.3s;
-  width: 100%;
-  pointer-events: none;
-}
-
-.main-image-container:hover .hover-img {
-  opacity: 1;
+.thumbnails-container {
+  /* 如果想固定寬度，可以寫死或用百分比 */
+  width: 100px;
+  /* 或者直接讓它隨內容高度自動擴展也可 */
 }
 
 .thumbnails-list {
-  display: flex;
-  list-style: none;
-  padding: 0;
+  list-style-type: none; /* 去掉 li 的預設圓點 */
   margin: 0;
-  gap: 10px; /* 縮圖之間的間距 */
+  padding: 0;
 }
 
 .thumbnails-list li {
-  width: 80px; /* 固定縮圖大小 */
-  height: 80px;
-  overflow: hidden;
-  cursor: pointer; /* 讓縮圖可點擊 */
+  margin-bottom: 10px; /* 每個縮圖之間留距 */
 }
 
-.thumbnails-list li img {
-  display: block;
+.thumbnails-list img {
+  width: 100%; /* 根據需求縮放 */
+  cursor: pointer;
+  border: 1px solid #ddd;
+  transition: box-shadow 0.3s ease;
+}
+
+.thumbnails-list img:hover {
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+}
+
+.main-image-container {
+  /* 右側主圖可以佔剩下空間 */
+  flex: 1;
+  max-width: 400px; /* 或者設定一個較固定的最大寬度 */
+  position: relative; /* 如果有 hover-img 切換時可用 */
+}
+
+.product-main-img {
   width: 100%;
-  height: auto;
-  object-fit: cover; /* 若你想要截切 */
+  display: block;
+  cursor: pointer;
 }
 
-/* 讓背景覆蓋整個畫面 */
-.image-overlay {
-  position: fixed;
+.hover-img {
+  /* 例如做 hover 時才顯示，可用其它方式切換 */
+  position: absolute;
   top: 0;
   left: 0;
   width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.7); /* 半透明黑色 */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 9999;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: none;
+}
+.main-image-container:hover .hover-img {
+  display: block;
+}
+.qty-container {
+  display: inline-flex; /* 或 display: flex; */
+  align-items: center; /* 垂直置中 */
+  gap: 0; /* 按鈕與輸入框之間留點距 (可自行調整) */
+  margin-left: 15px;
 }
 
-.image-overlay-content img {
-  max-width: 90vw;
-  max-height: 90vh;
-  cursor: zoom-out;
+.qty-input {
+  width: 200px; /* 輸入框寬度可自行調 */
+  height: 30px;
+  text-align: center; /* 文字置中 */
+  padding: 0;
 }
 
-/* .lightbox-prev,
-.lightbox-next {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: 2rem;
-  background: none;
-  color: #fff;
-  border: none;
-  cursor: pointer;
+/* 按鈕的樣式 (可自行調整大小與外觀) */
+.qty-container .minus,
+.qty-container .plus {
+  width: 30px;
+  height: 30px;
+  padding: 0;
+
+  /* 其他外觀樣式 */
 }
-.lightbox-prev {
-  left: -40px;
+
+label {
+  margin-right: 8px;
 }
-.lightbox-next {
-  right: -40px;
-} */
+
+.color-selector {
+  display: flex;
+  align-items: center; /* 垂直置中 label 和色塊 */
+  /* 如果想要 label 和色塊在同一行，其實可以直接用這樣的彈性布局 */
+}
+
 .color-box {
-  display: inline-block;
-  width: 24px;
-  height: 24px;
-  margin: 5px;
+  width: 25px;
+  height: 25px;
+  margin-left: 8px; /* 控制與前面 label 的間距 */
+  margin-bottom: 8px;
   border: 1px solid #ccc;
   border-radius: 50%;
+  /* 其他需要的樣式 */
+}
+
+.color-box.active {
+  border: 3px solid #a0a0a2;
   cursor: pointer;
 }
-.color-box.disabled {
-  filter: grayscale(100%);
-  pointer-events: none;
-}
-.color-box.active {
-  border: 1px solid rgb(88, 88, 93);
+
+.size-selector,
+.thickness-selector,
+.gender-selector {
+  display: flex;
+  align-items: center; /* 垂直置中 label 和色塊 */
+  /* 如果想要 label 和色塊在同一行，其實可以直接用這樣的彈性布局 */
 }
 
 .size-btn {
-  display: inline-block;
-  border-radius: 4px;
-  margin-right: 8px;
-  width: 24px;
-  height: 24px;
-  margin: 3px;
+  border: 1px rgb(253, 209, 35) solid;
+  width: 30px;
+  height: 25px;
   text-align: center;
-  border: 1px solid rgb(238, 238, 238);
-  cursor: pointer;
-}
-
-.size-btn.active {
-  border: 1px solid rgb(88, 88, 93);
-}
-
-.flex-container {
-  display: flex;
-  /* 如果想讓按鈕之間有點間距，可使用 gap 屬性 (現代瀏覽器支援) */
-  /* 或使用 margin-right on children */
 }
 
 .thickness-btn {
-  border: 1px solid rgb(238, 238, 238);
-  width: 80px;
-  display: flex;
-  /* -webkit-box-align: center; */
-  align-items: center;
-  /* -webkit-box-pack: center; */
-  justify-content: center;
-  height: 43px;
+  border: 1px rgb(253, 209, 35) solid;
+  width: 70px;
+  height: 30px;
+  /* margin-left: 8px; */
   text-align: center;
-  cursor: pointer;
-  line-height: 10px;
-  /* text-transform: uppercase; */
-  font-weight: 400;
-  width: 100%;
-  box-shadow: rgb(238, 238, 238) 0px 0px 0px 1px;
-  cursor: pointer;
 }
 
 .gender-btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 43px;
-  width: 80px;
+  border: 1px rgb(253, 209, 35) solid;
+  width: 70px;
+  height: 30px;
+  /* margin-left: 8px; */
   text-align: center;
+}
+
+.size-btn.active,
+.thickness-btn.active,
+.gender-btn.active {
   cursor: pointer;
-  line-height: 20px;
-  font-weight: 400;
-  width: 100%;
-  box-shadow: rgb(238, 238, 238) 0px 0px 0px 1px;
-  cursor: pointer;
+  background-color: rgb(253, 209, 35);
 }

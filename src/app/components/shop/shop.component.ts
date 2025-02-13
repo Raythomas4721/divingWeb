@@ -11,7 +11,6 @@ import { TnproductService } from './../../services/tnproduct.service';
 import { HttpClient } from '@angular/common/http';
 import { TncategoriesService } from 'src/app/services/tncategories.service';
 import { UserBehaviorService } from 'src/app/services/user-behavior.service';
-import { Lightbox } from 'ngx-lightbox';
 
 @Component({
   selector: 'app-shop',
@@ -21,15 +20,17 @@ import { Lightbox } from 'ngx-lightbox';
 export class ShopComponent implements OnInit {
   album: Array<any> = [];
   // 分類相關
-  categories: TNcategoryDTO[] = [];
+  products: any[] = []; // 分類商品
   mainCats: TNcategoryDTO[] = []; // 1~8
   sideCats: TNcategoryDTO[] = []; // 9~12
 
   // 商品列表
-  products: TNproductDTO[] = [];
+
+  searchResults: TNproductDTO[] = [];
   searchTerm: string = '';
   topProducts: TopProductDTO[] = [];
-
+  // 目前選擇的分類 ID（若無就是 null）
+  selectedCategoryId: number | null = null;
   selectedOrder = 'menu_order';
   guestId: string = '';
 
@@ -40,16 +41,22 @@ export class ShopComponent implements OnInit {
     private router: Router,
     private userBehavior: UserBehaviorService,
     private categoryService: TncategoriesService,
-    private route: ActivatedRoute,
-    private _lightbox: Lightbox
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
     this.loadTopProducts();
+    const guestIdKey = 'guestId';
+    let gid = localStorage.getItem(guestIdKey);
+    if (!gid) {
+      gid = this.generateUUID();
+      localStorage.setItem(guestIdKey, gid);
+    }
+    this.guestId = gid;
+    console.log('GuestId from procategories =>', this.guestId);
     // 1) 載入所有分類，並切出主畫面與側邊要顯示的
     this.categoryService.getAllCategories().subscribe({
       next: (cats) => {
-        this.categories = cats;
         this.mainCats = cats.filter(
           (c) => c.productCategoryId >= 1 && c.productCategoryId <= 8
         );
@@ -61,15 +68,21 @@ export class ShopComponent implements OnInit {
     });
 
     // 2) 監聽路由參數(categoryId)變化，載入對應商品
-    this.route.paramMap.subscribe((params) => {
-      const categoryIdParam = params.get('categoryId');
-      if (categoryIdParam) {
-        const categoryId = +categoryIdParam;
-        this.loadProductsByCategory(categoryId);
-      } else {
-        this.loadAllProducts();
-      }
-    });
+    // this.route.paramMap.subscribe((params) => {
+    //   const categoryIdParam = params.get('categoryId');
+    //   if (categoryIdParam) {
+    //     this.selectedCategoryId = +categoryIdParam;
+    //     this.loadProductsByCategory(this.selectedCategoryId);
+    //     // 清空搜尋結果
+    //     this.searchResults = [];
+    //   } else {
+    //     // 沒有 categoryId => 預設空 => 顯示主分類
+    //     this.selectedCategoryId = null;
+    //     this.products = [];
+    //   }
+    // });
+    // 載入 topProducts
+    this.loadTopProducts();
   }
 
   onOrderChange(event: any): void {
@@ -106,17 +119,34 @@ export class ShopComponent implements OnInit {
     });
   }
   onSearch(): void {
-    const keyword = this.searchTerm.trim();
+    const keyword = this.searchTerm.trim().toLowerCase();
     if (!keyword) {
-      // 如果關鍵字是空的，判斷要回到「全部商品」或「分類商品」
-      const categoryIdParam = this.route.snapshot.paramMap.get('categoryId');
-      if (categoryIdParam) {
-        this.loadProductsByCategory(+categoryIdParam);
-      } else {
-        this.loadAllProducts();
-      }
+      // 如果沒輸入關鍵字，就回到「主分類」狀態
+      this.searchResults = [];
+      this.products = [];
+      this.selectedCategoryId = null;
       return;
     }
+
+    // 2) 紀錄 SEARCH 行為
+    this.userBehavior.logSearchKeyword(keyword).subscribe();
+
+    // 3) 呼叫後端搜尋
+    this.productService.getAllProducts(keyword).subscribe({
+      next: (res) => {
+        this.searchResults = res;
+        // 同時清空 this.products & categoryId，確保只顯示搜尋結果
+        this.products = [];
+        this.selectedCategoryId = null;
+      },
+      error: (err) => console.error(err),
+    });
+
+    // // 在呼叫後端搜尋 API 前，也可記錄一次 SEARCH 行為
+    // this.userBehavior.logSearchKeyword(keyword).subscribe({
+    //   next: (res) => console.log('紀錄SEARCH成功', res),
+    //   error: (err) => console.error('紀錄SEARCH失敗', err),
+    // });
 
     this.productService.getAllProducts(keyword).subscribe({
       next: (data) => {
@@ -130,14 +160,25 @@ export class ShopComponent implements OnInit {
    * 切換到指定的分類（或如果目前已在該分類，就強制刷新商品列表）
    */
   goToShop(categoryId: number) {
-    const currentId = +this.route.snapshot.paramMap.get('categoryId')!;
-    // 如果再次點擊同一分類，就手動載入
-    if (currentId === categoryId) {
-      this.loadProductsByCategory(categoryId); // 強制刷新
-    } else {
-      // 否則就導航到 /shop/:categoryId
-      this.router.navigate(['/shop', categoryId]);
-    }
+    // this.router.navigate(['/shop', categoryId]);
+    this.selectedCategoryId = categoryId; // 若你想在程式記錄現在所選ID
+    this.searchResults = [];
+    this.loadProductsByCategory(categoryId);
+  }
+  clearSearch() {
+    this.searchTerm = '';
+    this.searchResults = [];
+  }
+  generateUUID(): string {
+    // 最常見的 UUID v4 生成方式之一
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(
+      /[xy]/g,
+      function (c) {
+        const r = (Math.random() * 16) | 0,
+          v = c === 'x' ? r : (r & 0x3) | 0x8;
+        return v.toString(16);
+      }
+    );
   }
 
   /**
@@ -147,30 +188,31 @@ export class ShopComponent implements OnInit {
     this.categoryService.getProductsByCategory(categoryId).subscribe({
       next: (data) => {
         this.products = data;
+
         console.log('取得分類', categoryId, '的商品 =>', data);
+        // 清空搜尋
+        this.searchResults = [];
       },
       error: (err) => console.error('取得分類商品失敗:', err),
     });
   }
 
-  /**
-   * 撈取所有商品
-   */
-  private loadAllProducts() {
-    this.productService.getAllProducts().subscribe({
-      next: (allProds) => {
-        this.products = allProds;
-        console.log('取得全部商品 =>', allProds);
-      },
-      error: (err) => {
-        console.error('取得全部商品失敗:', err);
-      },
-    });
-  }
-
   // 照片判斷式
-  hasSecondVersion(filename: string): boolean {
+  hasSecondVersion(filename: string | null): boolean {
     // 如果檔名第一個字是 'M'，就回傳 true
+    if (!filename) {
+      return false;
+    }
+
+    // link 不為 null/undefined，這時才可 safely 呼叫 startsWith
     return filename.startsWith('M');
+  }
+  resetShop() {
+    this.selectedCategoryId = null;
+    this.products = [];
+    this.searchResults = [];
+    // ... 其他該清空的
+    // 如果一開始就只顯示 mainCats，這樣就回到主分類狀態
+    // 如果要重新呼叫 loadTopProducts() / loadCategories() 也可以
   }
 }
