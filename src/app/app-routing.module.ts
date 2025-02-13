@@ -10,6 +10,8 @@ import { CoursesComponent } from './components/courses/courses.component';
 import { SiteRentalComponent } from './components/site-rental/site-rental.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { CoursedetailsComponent } from './components/coursedetails/coursedetails.component';
+import { CoursecheckoutComponent } from './components/coursecheckout/coursecheckout.component';
+import { CourseorderreceivedComponent } from './components/courseorderreceived/courseorderreceived.component';
   
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -22,7 +24,9 @@ const routes: Routes = [
   { path: 'shopproductshow/:id', component: ShopproductshowComponent },
   { path: 'procategories', component: ProcategoriesComponent },
   { path: 'profile', component: ProfileComponent },
-  { path: 'coursedetails/:id', component: CoursedetailsComponent}
+  { path: 'coursedetails/:id', component: CoursedetailsComponent},
+  { path: 'coursecheckout',component: CoursecheckoutComponent},
+  { path: 'courseorderreceived',component: CourseorderreceivedComponent}
 
 ];
 
