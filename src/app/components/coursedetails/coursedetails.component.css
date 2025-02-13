@@ -49,3 +49,12 @@
   position: absolute; /* 讓直接購買按鈕絕對定位 */
   right: 10px;
 }
+
+.excerpt{
+  font-size: 25px;
+  font-weight:500;
+}
+
+.entry-meta .item-meta{
+  font-size: 18PX;
+}

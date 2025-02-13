@@ -49,4 +49,14 @@
     font-weight: bold;
     color:#166792; /* 設定字體顏色 */
   }
+  .cat-item{
+    font-size: 18px; /* 設定字體大小 */
+  }
+  .entry-content{
+    font-size: 18px; /* 設定字體大小 */
+  }
+
+  .entry-meta{
+    font-size: 18px; /* 設定字體大小 */
+  }
   
