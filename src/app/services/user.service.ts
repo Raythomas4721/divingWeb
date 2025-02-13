@@ -29,8 +29,7 @@ export class UserService {
 
   uploadProfilePhoto(formData: FormData): Observable<{ memberPhoto: string }> {
     const headers = new HttpHeaders({
-      'Authorization': `Bearer ${localStorage.getItem('token')}`,
-      'Accept': 'application/json'
+      'Authorization': `Bearer ${localStorage.getItem('token')}`
     });
 
     return this.client.patch<{ memberPhoto: string }>(

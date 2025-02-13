@@ -1,0 +1,108 @@
+h1, h2, h3, h4, h5, h6 {
+  line-height: 1.3em;
+}
+
+.intro_before_featured_word,
+.intro_featured_word {
+  color: #0d425e;
+}
+
+.page_slider.slider-1 .intro_featured_word {
+  margin-top: 40px;
+}
+
+#features .icon-box h3 {
+  font-size: 32px;
+}
+
+.ls {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.service-layout-1 .item-content .item-content-wrap {
+  flex-grow: 1;
+}
+
+.vertical-item .item-media + .item-content {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+ul.products.owl-carousel .product h2 {
+  line-height: 1.5em;
+}
+
+ul.products.owl-carousel .product {
+  display: flex;
+  height: 100%;
+}
+
+ul.products .product .product-inner {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+ul.products .product .product-inner .product-wrap {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+ul.products .product .product-inner .price-wrap {
+  justify-content: end;
+  height: 100%;
+}
+
+.star-rating {
+  height: 25px;
+  letter-spacing: 0.2em;
+  width: 95px;
+}
+
+#price p:nth-of-type(2n), #testimonials p:nth-of-type(2n){
+  max-width: 640px;
+  justify-self: center;
+}
+
+
+.price-layout-1 .price-wrap .plan-sign {
+  top: -24px;
+  left: -8px;
+}
+
+.mb-1{
+  margin-bottom: 16px !important;
+}
+
+.mb-2{
+  margin-bottom: 24px !important;
+}
+
+@media (min-width: 992px) {
+  #gallery p:nth-of-type(2n){
+    padding-right: 16px;
+  }
+}
+
+/* Feb 13 */
+
+.service-layout-1 .item-content {
+  padding: 24px;
+}
+
+.btn {
+  border-radius: 8px;
+}
+
+#price .container{
+  padding-top: 0;
+}
+
+ul.products .product .product-inner .product-wrap {
+  padding: 24px;
+}
+
