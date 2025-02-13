@@ -21,6 +21,7 @@ import { CoursedetailsComponent } from './components/coursedetails/coursedetails
 import { SiteDetailComponent } from './components/site-detail/site-detail.component';
 import { RouterModule } from '@angular/router';
 import { SiteReserveComponent } from './components/site-reserve/site-reserve.component';
+import { SiteOrderComponent } from './components/site-order/site-order.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -38,7 +39,8 @@ import { SiteReserveComponent } from './components/site-reserve/site-reserve.com
     ProfileComponent,
     CoursedetailsComponent,
     SiteDetailComponent,
-    SiteReserveComponent
+    SiteReserveComponent,
+    SiteOrderComponent
 
   ],
   imports: [

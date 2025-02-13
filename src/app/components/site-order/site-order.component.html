@@ -112,8 +112,7 @@
                   <div class="col-12">
                     <div class="form-group">
                       <input type="checkbox" id="agreed" name="agreed" value="agreed" required
-                        aria-required="true"><label for="agreed">I agree to the
-                        rules</label>
+                        aria-required="true"><label for="agreed">I agree to the rules</label>
                     </div>
                   </div>
                 </div>
@@ -134,7 +133,6 @@
 
     <!-- template sections -->
 
-
     <div class="header_absolute ds cover-background ">
       <!-- header with three Bootstrap columns - left for logo, center for navigation and right for includes-->
       <header class="page_header ds ms s-overlay">
@@ -150,109 +148,179 @@
         <div class="row">
 
           <div class="col-md-12">
-            <h1>青山農場游池</h1>
+            <h1>Shop Single Order</h1>
             <ol class="breadcrumb">
-
+              <li class="breadcrumb-item">
+                <a href="./">Home</a>
+              </li>
+              <li class="breadcrumb-item">
+                <a href="#">Shop</a>
+              </li>
+              <li class="breadcrumb-item active">
+                Shop Single Order
+              </li>
             </ol>
           </div>
 
         </div>
       </div>
     </section> -->
-    <!-- 標題欄位 -->
 
-    <section class=" ls s-py-90 s-py-xl-160 c-gutter-60">
+
+    <section class="ls s-py-50">
       <div class="container">
         <div class="row">
-          <!-- <main class="col-lg-7 col-xl-8"> -->
-          <div class="vertical-item content-padding hero-bg">
-            <div class="item-media">
-              <img src="assets\images\sitePhoto\swim (2).jpeg" alt="img" width="300" height="200">
-            </div>
-            <div class="item-content">
-              <h5>青山農場游池</h5>
-              <p class="excerpt">
-                2024年11月完成整修的「青山農場游池」，是夏季降溫的絕佳去處！綠地的場地規劃，在室內設置健康輕食區、健身房、多功能教室；而在室外區則有成人25公尺泳池、兒童池、噴泉池、SPA水療池都適合再去滋養心靈！
-              </p>
 
-              <ul class="list-styled">
-                <li>空間大小：300平方公尺</li>
-                <li>可容納人數：80人</li>
-                <li>無線網路</li>
-              </ul>
+          <div class="d-none d-lg-block divider-70"></div>
 
-              <ul class="list-styled">
-                <li class="list-styled">時段分為上午、下午、晚上</li>
-                <li>每個時段$3000</li>
-                <li>​預約場勘或詢價，敬請填寫線上預約表。</li>
-                <ul class="list-styled">
+          <main class="col-lg-12">
+            <article id="post-1708" class="post-1708 page type-page status-publish hentry">
+              <header class="entry-header">
 
-                </ul>
-              </ul>
-              <div>
-                <h5>聯絡方式</h5>
-                <p style="margin-bottom: 0.5em;">TEL:(02)2562-0008</p>
-                <p style="margin-bottom: 0.5em;">Email：CastlePeakFarmPool@gmail.com</p>
-                <p style="margin-bottom: 0;">FB : Castle Peak Farm Pool 山淨湖泳池</p>
+
+              </header>
+              <!-- .entry-header -->
+              <div class="entry-content">
+                <div class="woocommerce">
+                  <!-- <nav class="woocommerce-MyAccount-navigation">
+
+                  </nav> -->
+
+
+                  <div>
+
+
+
+                    <section class="woocommerce-order-details">
+
+                      <h2 class="woocommerce-order-details__title">訂單明細</h2>
+
+                      <table class="woocommerce-table woocommerce-table--order-details shop_table order_details">
+
+                        <thead>
+                          <tr>
+                            <th class="woocommerce-table__product-name product-name" style="font-size: 1.2em;">場訂</th>
+                            <th class="woocommerce-table__product-table product-total" style="font-size: 1.2em;">總結</th>
+                          </tr>
+                        </thead>
+
+                        <tbody>
+                          <tr class="woocommerce-table__line-item order_item">
+
+                            <td class="woocommerce-table__product-name product-name">
+                              <strong class="wc-item-download-label" style="font-size: 1.2em;">青山農場游池</strong>
+                              <!-- <strong class="product-quantity">*1</strong> -->
+                              <ul class="wc-item-downloads">
+                                <li style="font-size: 1.2em;">
+                                  <strong class="wc-item-download-label">山淨湖泳池</strong>
+                                  <!-- <a href="#">File</a> -->
+                                </li>
+                                <!-- <li>
+                                  <strong class="wc-item-download-label">Download:</strong>
+                                  <a href="#">File</a>
+                                </li> -->
+                              </ul>
+                            </td>
+
+                            <td class="woocommerce-table__product-total product-total">
+                              <span class="woocommerce-Price-amount amount">
+                                <span class="woocommerce-Price-currencySymbol">$</span>6000.00
+                              </span>
+                            </td>
+
+                          </tr>
+
+                        </tbody>
+
+                        <tfoot>
+                          <tr>
+                            <th scope="row" style="font-size: 1.2em;">小計:</th>
+                            <td>
+                              <span class="woocommerce-Price-amount amount">
+                                <span class="woocommerce-Price-currencySymbol">$</span>12.00</span>
+                            </td>
+                          </tr>
+                          <tr>
+                            <th scope="row" style="font-size: 1.2em;">付款方式:</th>
+
+                            <th scope="row">
+
+                              <select [(ngModel)]="selectedPaymentMethod" style="text-align: center;">
+                                <option value="cash">LINE PAY</option>
+                                <option value="credit">APPLE PAY</option>
+                                <option value="paypal">街口支付</option>
+                                <option value="paypal">現場支付</option>
+                              </select>
+                            </th>
+
+                          </tr>
+                          <tr>
+                            <th scope="row" style="font-size: 1.2em;">總金額:</th>
+                            <td>
+                              <span class="woocommerce-Price-amount amount">
+                                <span class="woocommerce-Price-currencySymbol">$</span>12.00</span>
+                            </td>
+                          </tr>
+                        </tfoot>
+
+                      </table>
+
+
+                      <p class="order-again">
+                        <a href="/my-account/view-order/1722/?order_again=1722&amp;_wpnonce=8edf688805" class="button"
+                          style="font-size: 1.2em;">再次購買</a>
+                      </p>
+
+
+                      <section class="woocommerce-customer-details">
+
+                        <h2>顧客資料</h2>
+
+                        <table
+                          class="woocommerce-table woocommerce-table--customer-details shop_table customer_details">
+
+
+                          <tbody>
+                            <tr>
+                              <th style="font-size: 1.2em;">電子郵件</th>
+                              <td style="font-size: 1.2em;">admin@test.com</td>
+                            </tr>
+
+                            <tr>
+                              <th style="font-size: 1.2em;">手機號碼:</th>
+                              <td style="font-size: 1.2em;">0988563215</td>
+                            </tr>
+
+
+                          </tbody>
+                        </table>
+
+
+                        <h3 class="woocommerce-column__title">帳單地址</h3>
+
+                        <address>
+                          John Doe<br>Baker Street, 231<br>London<br>Great Britain<br>12000
+                        </address>
+
+
+                      </section>
+
+                    </section>
+                  </div>
+                </div>
               </div>
-              <div style="margin-top: 2em;">
-                <h5>交通資訊</h5>
-                <p style="margin-bottom: 0.5em;">地址：台北市南港區忠孝東路六段2000</p>
-                <p style="margin-bottom: 0.5em;">捷運：板南線後山埤站 4號出口</p>
-                <p style="margin-bottom: 0;">停車場：CityParking平面停車場(忠孝東路六段62號)</p>
+              <!-- .entry-content -->
+            </article>
 
-                <button type="submit" id="contact_form_submit" name="contact_submit"
-                  class="btn btn-outline-darkgrey btn-medium" style="margin-top: 2em; background-color: yellow;"
-                  routerLink="/site-reserve">預約
-                </button>
+          </main>
 
-              </div>
-            </div>
-          </div>
-          <!-- </main> -->
-          <!-- <aside class="col-lg-5 col-xl-4 affix-aside">
-            <div class="widget widget_categories">
-
-              <h3 class="widget-title">Categories</h3>
-
-              <ul>
-                <li class="cat-item">
-                  <a href="blog-right.html">Kites</a>
-                  <ul class="children">
-                    <li class="cat-item">
-                      <a href="blog-right.html">Kite Surfing</a>
-                    </li>
-                    <li class="cat-item">
-                      <a href="blog-right.html">Surfing</a>
-                    </li>
-                  </ul>
-                </li>
-                <li class="cat-item">
-                  <a href="blog-right.html">Kiteboarding</a>
-                </li>
-                <li class="cat-item">
-                  <a href="blog-right.html">Kite-Surf</a>
-                </li>
-                <li class="cat-item">
-                  <a href="blog-right.html">Windsurf</a>
-                </li>
-                <li class="cat-item">
-                  <a href="blog-right.html">Sailing</a>
-                </li>
-                <li class="cat-item">
-                  <a href="blog-right.html">Kiteschool</a>
-                </li>
-              </ul>
-            </div>
-
-
-          </aside> -->
+          <div class="d-none d-lg-block divider-70"></div>
         </div>
 
       </div>
     </section>
 
-    <footer class="page_footer ds s-py-90 s-py-xl-160 c-gutter-60">
+    <footer class="page_footer ds ms s-py-90 s-py-xl-160 c-gutter-100">
       <div class="container">
         <div class="row">
           <div class="col-xl-4 col-lg-3 text-center text-lg-left animate" data-animation="fadeInUp">
@@ -320,26 +388,16 @@
       </div>
     </footer>
 
-    <div id="copyright"></div>
-
-    <section class="page_copyright ls s-py-30">
+    <section class="page_copyright ls s-py-25">
       <div class="container">
         <div class="row align-items-center">
-          <div class="col-md-6 text-center text-md-left animate" data-animation="scaleAppear">
+          <div class="col-md-12 text-center">
             <p>&copy; Copyright <span class="copyright_year">2020</span> All Rights Reserved</p>
-          </div>
-          <div class="col-md-6 text-center text-md-right animate" data-animation="scaleAppear">
-            <div class="color-darkgrey">
-              <i class="fs-36 fa fa-cc-visa"></i>
-              <i class="fs-36 fa fa-cc-discover"></i>
-              <i class="fs-36 fa fa-cc-mastercard"></i>
-              <i class="fs-36 fa fa-cc-amex"></i>
-              <i class="fs-36 fa fa-cc-paypal"></i>
-            </div>
           </div>
         </div>
       </div>
     </section>
+
 
   </div><!-- eof #box_wrapper -->
 </div><!-- eof #canvas -->

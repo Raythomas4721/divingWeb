@@ -12,6 +12,7 @@ import { ProfileComponent } from './components/profile/profile.component';
 import { CoursedetailsComponent } from './components/coursedetails/coursedetails.component';
 import { SiteDetailComponent } from './components/site-detail/site-detail.component';
 import { SiteReserveComponent } from './components/site-reserve/site-reserve.component';
+import { SiteOrderComponent } from './components/site-order/site-order.component';
 const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'shop', component: ShopComponent },
@@ -26,6 +27,7 @@ const routes: Routes = [
   { path: 'coursedetails/:id', component: CoursedetailsComponent },
   { path: 'site-detail', component: SiteDetailComponent },
   { path: 'site-reserve', component: SiteReserveComponent },
+  { path: 'site-order', component: SiteOrderComponent },
 
 ];
 
