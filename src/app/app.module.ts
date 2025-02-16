@@ -23,6 +23,7 @@ import { CourseorderreceivedComponent } from './components/courseorderreceived/c
 import { UsedproductshowComponent } from './components/usedproductshow/usedproductshow.component';
 import { SiteDetailComponent } from './components/site-detail/site-detail.component';
 import { SiteReserveComponent } from './components/site-reserve/site-reserve.component';
+import { ProductsService } from './services/products.service';
 @NgModule({
   declarations: [
     AppComponent,
@@ -54,7 +55,7 @@ import { SiteReserveComponent } from './components/site-reserve/site-reserve.com
     FormsModule,
     LightboxModule
   ],
-  providers: [],
+  providers: [ProductsService],
   bootstrap: [AppComponent],
 })
 export class AppModule { }
