@@ -13,10 +13,11 @@ import { CoursedetailsComponent } from './components/coursedetails/coursedetails
 import { CoursecheckoutComponent } from './components/coursecheckout/coursecheckout.component';
 import { CourseorderreceivedComponent } from './components/courseorderreceived/courseorderreceived.component';
 
-import { UsedproductshowComponent } from './components/usedproductshow/usedproductshow.component';
+// import { UsedproductshowComponent } from './components/usedproductshow/usedproductshow.component';
 
 import { SiteDetailComponent } from './components/site-detail/site-detail.component';
 import { SiteReserveComponent } from './components/site-reserve/site-reserve.component';
+import { UsedproductshowComponent } from './components/usedproductshow/usedproductshow.component';
 const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'shop', component: ShopComponent },
@@ -31,7 +32,7 @@ const routes: Routes = [
   { path: 'coursedetails/:id', component: CoursedetailsComponent },
   { path: 'coursecheckout', component: CoursecheckoutComponent },
   { path: 'courseorderreceived', component: CourseorderreceivedComponent },
-  { path: 'usedproductshow/:id', component: UsedproductshowComponent },
+  { path: 'usedproductshow', component: UsedproductshowComponent },
   { path: 'site-detail', component: SiteDetailComponent },
   { path: 'site-reserve', component: SiteReserveComponent }
 

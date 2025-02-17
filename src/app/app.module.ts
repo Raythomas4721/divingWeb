@@ -23,6 +23,7 @@ import { CourseorderreceivedComponent } from './components/courseorderreceived/c
 import { UsedproductshowComponent } from './components/usedproductshow/usedproductshow.component';
 import { SiteDetailComponent } from './components/site-detail/site-detail.component';
 import { SiteReserveComponent } from './components/site-reserve/site-reserve.component';
+import { RouterModule } from '@angular/router';
 @NgModule({
   declarations: [
     AppComponent,
@@ -52,7 +53,8 @@ import { SiteReserveComponent } from './components/site-reserve/site-reserve.com
     HttpClientModule,
     ReactiveFormsModule,
     FormsModule,
-    LightboxModule
+    LightboxModule,
+    RouterModule
   ],
   providers: [],
   bootstrap: [AppComponent],
