@@ -58,3 +58,26 @@
 .entry-meta .item-meta{
   font-size: 18PX;
 }
+
+.container {
+  display: flex;
+  justify-content: space-between; /* 等距排列 */
+  margin: 20px;  /* 可以根據需要調整間距 */
+}
+
+.box {
+  flex: 1;  /* 每個盒子會平分空間 */
+  padding: 10px;
+  border: 2px solid red;
+  margin: 0 10px;  /* 設定每個區域之間的間距 */
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+li {
+  margin-bottom: 10px; /* 每個項目的間隔 */
+}
+

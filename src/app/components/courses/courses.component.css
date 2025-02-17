@@ -45,9 +45,11 @@
   .post-price {
     position: absolute; /* 使價格浮動 */
     right: 10px; /* 距離右邊 10px */
-    font-size: 23px; /* 設定字體大小 */
+    font-size: 50px; /* 設定字體大小 */
     font-weight: bold;
     color:#166792; /* 設定字體顏色 */
+    margin-bottom: auto;
+    bottom: 4px;
   }
   .cat-item{
     font-size: 18px; /* 設定字體大小 */
@@ -59,4 +61,6 @@
   .entry-meta{
     font-size: 18px; /* 設定字體大小 */
   }
+
+
   
