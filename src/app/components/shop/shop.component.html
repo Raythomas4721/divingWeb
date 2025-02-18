@@ -40,7 +40,10 @@
                 <!-- 你若想保留 SALE! 就寫在這 -->
                 <span class="onsale">Sale!</span>
 
-                <div class="image-swap-container">
+                <div
+                  class="image-swap-container"
+                  [class.single-img]="!hasSecondVersion(item.imageUrl)"
+                >
                   <a
                     (click)="onClickProduct(item.productId)"
                     href="javascript:void(0)"

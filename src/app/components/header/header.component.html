@@ -342,7 +342,7 @@
 
               <!-- shop -->
               <li routerLinkActive="active">
-                <a routerLink="/shop">商品列表</a>
+                <a (click)="goToShop()">商品列表</a>
                 <!-- <ul>
                   <li>
                     <a href="blog-right.html">基本浮潛裝備</a>
@@ -769,12 +769,18 @@
                 </ul>
               </li>
               <li>
-                <a routerLink="/sideshopcart"
+                <a (click)="this.openCartPanel()"
                   ><i
-                    class="fa-solid fa-cart-shopping"
+                    class="fa-solid fa-cart-arrow-down"
                     style="font-size: 24px"
                   ></i
-                ></a>
+                  ><span
+                    class="Cart-count"
+                    style="display: inline"
+                    *ngIf="cartItemCount > 0"
+                    >{{ cartItemCount }}</span
+                  ></a
+                >
               </li>
             </ul>
           </nav>

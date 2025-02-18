@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable, tap } from 'rxjs';
 import { UserDTO } from '../interface/userDTO';
 import { UserBehaviorService } from './user-behavior.service';
+import { TNcartItemsService } from './tncart-items.service';
 
 @Injectable({
   providedIn: 'root',
@@ -10,7 +11,8 @@ import { UserBehaviorService } from './user-behavior.service';
 export class UserService {
   constructor(
     private client: HttpClient,
-    private userBehaviorService: UserBehaviorService
+    private userBehaviorService: UserBehaviorService,
+    private cartItemsService: TNcartItemsService
   ) {}
   private apiUrl = 'https://localhost:7107/api/TMmemberListsAPI';
 
@@ -41,6 +43,16 @@ export class UserService {
         if (memberId) {
           this.userBehaviorService.setMemberId(memberId);
           console.log(this.userBehaviorService);
+          // 在這裡「另外訂閱」購物車API, 不會阻塞本次 login 的回傳
+          this.cartItemsService.getAll(memberId).subscribe({
+            next: (items) => {
+              this.cartItemsService.setCartItems(items);
+              console.log('抓取後端購物車成功:', items);
+            },
+            error: (err) => {
+              console.error('抓取購物車失敗', err);
+            },
+          });
         }
       })
     );
@@ -70,5 +82,8 @@ export class UserService {
 
     // 清除 memberId
     this.userBehaviorService.setMemberId(null);
+
+    // **清空前端購物車資料**
+    this.cartItemsService.clearCart();
   }
 }
