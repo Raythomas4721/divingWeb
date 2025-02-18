@@ -46,4 +46,9 @@
   .search-bar button:hover {
     background-color: #f39c12;
   }
+  main {
+    max-width: 95%;  /* 增加最大寬度 */
+    margin: 0 auto;  /* 置中 */
+  }
+
   

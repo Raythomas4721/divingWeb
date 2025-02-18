@@ -27,7 +27,8 @@
         <section class="ls s-py-90 s-py-xl-160">
             <div class="container">
               <div class="row c-gutter-60">
-                <main class="offset-lg-1 col-lg-12">
+                <!-- <main class=" col-lg-12"> -->
+                <main >
                   <div class="container">
                     <!-- 放入一個父容器來控制新增課程按鈕與查詢區塊的排列 -->
                     <div class="top-bar">
@@ -57,10 +58,15 @@
                     <table>
                       <thead>
                         <tr>
+                          <th>課程圖片</th>
                           <th>課程名稱</th>
+                          <th>課程敘述</th>
                           <th>分類</th>
                           <th>等級</th>
                           <th>教練</th>
+                          <th>起始日期</th>
+                          <th>建立時間</th>
+                          <th>修改時間</th>
                           <th>價格</th>
                           <th>狀態</th>
                           <th>操作</th>
@@ -69,13 +75,19 @@
                       <tbody>
                         <tr *ngFor="let course of coursesData">
                         <!-- <tr *ngFor="let course of filteredCourses"> -->
+                          <td><img [src]="course.imageData" alt="Course Image" width="200" height="150"></td>
                           <td>{{course['startAt']| date:'MM/dd'}}{{course['categoryName']}}體驗課程｜免費拍照｜免證照</td>
                           <!-- <td>{{ getCategoryName(course.courseCategoryId) }}</td> -->
                           <!-- <td>{{ getLevelName(course.levelId) }}</td> -->
                           <!-- <td>{{ getCoachName(course.coachId) }}</td> -->
+                          <td>{{ course['discription']}}</td>
                           <td>{{ course['categoryName'] }}</td>
                           <td>{{ course['levelName'] }}</td>
                           <td>{{ course['coachName']}}</td>
+                          
+                          <td>{{ course['startAt']|date:'yyyy/MM/dd'}}</td>
+                          <td>{{ course['createdAt']|date:'yyyy/MM/dd HH:mm:ss'}}</td>
+                          <td>{{ course['updatedAt']|date:'yyyy/MM/dd HH:mm:ss'}}</td>
                           <td>{{ course.coursePrice | currency:'TWD': 'symbol':'1.0-0' }}</td>
                           <td>{{ course.courseStatus ? '上架' : '下架' }}</td>
                       <td>
