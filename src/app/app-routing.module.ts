@@ -16,9 +16,7 @@ import { UsedproductshowComponent } from './components/usedproductshow/usedprodu
 import { SiteDetailComponent } from './components/site-detail/site-detail.component';
 import { SiteReserveComponent } from './components/site-reserve/site-reserve.component';
 import { AuthSuccessComponent } from './components/auth-success/auth-success.component';
-
-
-// import { UsedproductshowComponent } from './components/usedproductshow/usedproductshow.component';
+import { CoursesManagementComponent } from './components/coursesmanagement/coursesmanagement.component';
 
 const routes: Routes = [
   { path: 'auth-success', component: AuthSuccessComponent },
@@ -39,6 +37,10 @@ const routes: Routes = [
   { path: 'usedproductshow', component: UsedproductshowComponent },
   { path: 'site-detail', component: SiteDetailComponent },
   { path: 'site-reserve', component: SiteReserveComponent },
+  { path: 'coursesmanagement', component: CoursesManagementComponent },
+  //   { path: 'coursecreateupdate', component:CoursecreateupdateComponent},
+  //   { path: 'course/create', component: CoursecreateupdateComponent },
+  //   { path: 'course/edit/:id', component: CoursecreateupdateComponent }
   { path: '', component: HomeComponent },
   { path: '**', redirectTo: '', pathMatch: 'full' } // 404 頁面導回首頁
 

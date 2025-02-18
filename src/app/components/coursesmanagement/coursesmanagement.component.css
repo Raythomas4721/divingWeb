@@ -1,0 +1,49 @@
+/* top-bar 父容器，使用 flex 來排列新增課程按鈕與查詢區塊 */
+.top-bar {
+    display: flex;
+    align-items: center; /* 垂直居中 */
+    justify-content: space-between; /* 項目之間分開排列 */
+    margin-bottom: 20px; /* 增加底部邊距 */
+  }
+  
+  .add-button {
+    padding: 10px;
+    background-color: #f1c40f;
+    color: white;
+    border: none;
+    cursor: pointer;
+    margin-right: 20px; /* 增加右邊距，讓按鈕與查詢區域有間隔 */
+  }
+  
+  .search-bar {
+    display: flex;
+    align-items: center;
+    gap: 15px; /* 使元素有間距 */
+  }
+  
+  .search-bar select{
+    width: 200px;;
+
+  }
+  .search-bar .short-input {
+    padding: 5px;
+    width: 400px; /* 調整關鍵字輸入框寬度 */
+  }
+  
+  .search-bar .btn-group {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .search-bar button {
+    padding: 5px 10px;
+    background-color: #f1c40f;
+    border: none;
+    color: white;
+    cursor: pointer;
+  }
+  
+  .search-bar button:hover {
+    background-color: #f39c12;
+  }
+  

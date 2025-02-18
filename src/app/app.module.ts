@@ -27,6 +27,9 @@ import { SiteReserveComponent } from './components/site-reserve/site-reserve.com
 import { AuthSuccessComponent } from './components/auth-success/auth-success.component';
 import { RouterModule } from '@angular/router';
 import { ProductsService } from './services/products.service';
+import { CoursesManagementComponent } from './components/coursesmanagement/coursesmanagement.component';
+
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -49,8 +52,8 @@ import { ProductsService } from './services/products.service';
     UsedproductshowComponent,
     SiteDetailComponent,
     SiteReserveComponent,
-    AuthSuccessComponent
-
+    AuthSuccessComponent,
+    CoursesManagementComponent,
   ],
   imports: [
     BrowserModule,
@@ -59,7 +62,8 @@ import { ProductsService } from './services/products.service';
     ReactiveFormsModule,
     FormsModule,
     LightboxModule,
-    RouterModule
+    RouterModule,
+    HttpClientModule
   ],
   providers: [ProductsService],
   bootstrap: [AppComponent],
