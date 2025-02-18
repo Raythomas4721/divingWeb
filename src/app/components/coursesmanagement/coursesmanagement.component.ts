@@ -106,9 +106,9 @@ export class CoursesManagementComponent implements OnInit {
     }
   }
 
-  getCategoryName(categoryId: number): string {
-    return this.courseCategories.find(cat => cat.id === categoryId)?.name || '未知分類';
-  }
+  // getCategoryName(categoryId: number): string {
+  //   return this.courseCategories.find(cat => cat.id === categoryId)?.name || '未知分類';
+  // }
 
   // getLevelName(levelId: number): string {
   //   const levels = { 1: '初級', 2: '中級', 3: '高級' };
