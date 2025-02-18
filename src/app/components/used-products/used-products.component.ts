@@ -1,3 +1,4 @@
+import { OnInit } from '@angular/core';
 // import { Component } from '@angular/core';
 // import { UserDTO } from 'src/app/interface/userDTO';
 // import { AuthService } from 'src/app/services/auth.service';
@@ -29,10 +30,11 @@ import { Component } from '@angular/core';
 import { UserDTO } from 'src/app/interface/userDTO';
 import { AuthService } from 'src/app/services/auth.service';
 import { UserService } from 'src/app/services/user.service';
-// import { ProductsService } from 'src/app/services/products.service';
 import { ProductsService } from '../../services/products.service';
 import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
+import { TUproductDTO } from 'src/app/interface/TUproductDTO';
+
 
 @Component({
   selector: 'app-used-products',
@@ -43,18 +45,21 @@ import { HttpErrorResponse } from '@angular/common/http';
 export class UsedProductsComponent {
 
   user?: UserDTO | null;
+  Products: TUproductDTO[] = [];
   usedProducts: any[] = [];
   selectedProducts: number[] = [];
   filteredProducts: any[] = [];
   searchKeyword: string = '';
   isAllSelected: boolean = false;
+  pageSize: number = 6;
+  pages: number[] = [];
 
   constructor(
     private authService: AuthService,
     private userService: UserService,
     private productsService: ProductsService,
     private router: Router
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.authService.user$.subscribe(user => {

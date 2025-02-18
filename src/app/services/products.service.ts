@@ -10,17 +10,19 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { TUproductDTO } from '../interface/TUproductDTO';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProductsService {
-  public apiUrl = 'https://localhost:7107/TUproductsAPI'; // 修改為實際的 API 端點
+  public apiUrl = 'https://localhost:7107/'; // 修改為實際的 API 端點
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
-  getUsedProducts(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}/used-products`);
+  getUsedProducts(page: number = 1, pageSize: number = 6, keyword?: string, categoryId: number | null = null,): Observable<any> {
+    return this.http.get<TUproductDTO[]>(`${this.apiUrl}api/TUproductsAPI?page=${page}&pageSize=${pageSize}`);
+    // let url = `${this.baseAddress}api/TUproductsAPI?page=${page}&pageSize=${pageSize}`;
   }
 
   deleteProduct(productId: number): Observable<any> {
