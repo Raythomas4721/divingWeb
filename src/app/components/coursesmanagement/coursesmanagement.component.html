@@ -76,7 +76,7 @@
                           <td>{{ course['categoryName'] }}</td>
                           <td>{{ course['levelName'] }}</td>
                           <td>{{ course['coachName']}}</td>
-                          <td>{{ course.coursePrice | currency:'TWD' }}</td>
+                          <td>{{ course.coursePrice | currency:'TWD': 'symbol':'1.0-0' }}</td>
                           <td>{{ course.courseStatus ? '上架' : '下架' }}</td>
                       <td>
                             <button (click)="editCourse(course)">編輯</button>

@@ -40,6 +40,7 @@ export class CoursesManagementComponent implements OnInit {
   
     ngOnInit(): void {
       this.loadCourses();
+      
     }
 
   
