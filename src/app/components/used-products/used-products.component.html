@@ -44,7 +44,7 @@
                 </form>
               </div>
               <ul class="products columns-2">
-                <li *ngFor="let product of Products" class="product">
+                <li *ngFor="let product of usedProducts" class="product">
                   <div class="product-inner rounded shadow p-3 mb-5 bg-body-tertiary rounded">
                     <ul>
                       <!-- <li>
@@ -58,7 +58,8 @@
                       </li>
                     </ul>
                     <a [routerLink]="['/product', product.productId]">
-                      <img class="rounded" [src]="product.tUproductImages" alt="{{ product.productName }}">
+                      <img class="rounded" [src]="'data:image/png;base64,'+product.tUproductImages"
+                        alt="{{ product.productName }}">
                     </a>
                     <div class="product-wrap">
                       <h2 class="woocommerce-loop-product__title">
@@ -282,7 +283,8 @@
                   <a class="next page-numbers" href="shop-left.html">→</a>
                 </li>
               </ul>
-              <button class="sell-button links-maincolor-hover" routerLink="/usedproductshow"> 出售 </button>
+              <button class="btn btn-darkgrey sell-button links-maincolor-hover" routerLink="/usedproductshow"> 出售
+              </button>
             </nav>
           </main>
           <aside class="col-lg-5 col-xl-4 order-lg-1">
