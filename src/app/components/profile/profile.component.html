@@ -1,8 +1,7 @@
-<!-- 修改個人資料 Modal -->
-<!-- <div class="modal fade" id="editProfileModal" tabindex="-1" role="dialog" aria-labelledby="editProfileModalLabel"
+<div class="modal fade" id="editProfileModal" tabindex="-1" role="dialog" aria-labelledby="editProfileModalLabel"
   aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content p-3">
+  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-content p-2 ">
       <button type="button" class="close" data-dismiss="modal" aria-label="Close">
         <span style="font-size: 32px">&times;</span>
       </button>
@@ -23,12 +22,7 @@
 
           <div class="form-group">
             <label for="editEmail">電子郵件</label>
-            <input type="email" id="editEmail" formControlName="memberEmail" class="form-control"
-              placeholder="example@gmail.com" />
-            <div *ngIf="editProfileForm.get('memberEmail')?.invalid && editProfileForm.get('memberEmail')?.touched"
-              class="text-danger">
-              電子郵件格式不正確
-            </div>
+            <input type="email" id="editEmail" formControlName="memberEmail" class="form-control" readonly />
           </div>
 
           <div class="form-group">
@@ -54,14 +48,70 @@
               placeholder="輸入緊急聯絡電話" />
           </div>
           <div class="d-flex gap-2 mt-3">
-            <button type="submit" class="btn btn-dark w-50" [disabled]="editProfileForm.invalid">儲存變更</button>
+            <button type="submit" class="btn btn-dark w-50" (click)="onSubmitEditProfile()"
+              [disabled]="editProfileForm.invalid">儲存變更</button>
             <button type="button" class="btn btn-outline-secondary w-50" data-dismiss="modal">取消</button>
           </div>
         </form>
       </div>
     </div>
   </div>
-</div> -->
+</div>
+
+<div class="modal fade" id="changePasswordModal" tabindex="-1" role="dialog" aria-labelledby="changePasswordModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content p-2">
+
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span style="font-size: 32px">&times;</span>
+      </button>
+
+      <div class="modal-body">
+        <h4 class="text-center text-dark mb-4">更改密碼</h4>
+
+        <form [formGroup]="changePasswordForm" (ngSubmit)="onSubmitChangePassword()">
+
+          <div class="form-group">
+            <label for="currentPassword">舊密碼</label>
+            <input type="password" id="currentPassword" formControlName="currentPassword" class="form-control"
+              placeholder="輸入舊密碼" />
+            <div
+              *ngIf="changePasswordForm.get('currentPassword')?.invalid && changePasswordForm.get('currentPassword')?.touched"
+              class="text-danger">
+              請輸入舊密碼
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="newPassword">新密碼</label>
+            <input type="password" id="newPassword" formControlName="newPassword" class="form-control"
+              placeholder="輸入新密碼" />
+            <div
+              *ngIf="changePasswordForm.get('newPassword')?.invalid && changePasswordForm.get('newPassword')?.touched"
+              class="text-danger">
+              密碼需6~12字元，包含大小寫與數字
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="confirmNewPassword">確認新密碼</label>
+            <input type="password" id="confirmNewPassword" formControlName="confirmNewPassword" class="form-control"
+              placeholder="再次輸入新密碼" />
+            <div *ngIf="changePasswordForm.get('confirmNewPassword')?.errors?.['notMatching']" class="text-danger">
+              新密碼與確認密碼不一致
+            </div>
+          </div>
+
+          <div class="d-flex gap-2 mt-3">
+            <button type="submit" class="btn btn-dark w-50" [disabled]="changePasswordForm.invalid">變更密碼</button>
+            <button type="button" class="btn btn-outline-secondary w-50" data-dismiss="modal">取消</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
 
 <div class="container mt-5 pb-5">
   <div class="row justify-content-center gap-3 d-flex align-items-stretch">
@@ -89,8 +139,8 @@
           </div>
         </div>
         <div class="card-body">
-          <a href="/change-password" class="btn btn-dark w-100 mb-2">更改密碼</a>
-          <a href="/order-history" class="btn btn-outline-dark border w-100">查看訂單紀錄</a>
+          <button class="btn btn-dark w-100 mb-2" (click)="openChangePasswordModal()">更改密碼</button>
+          <button class="btn btn-outline-dark border w-100">查看訂單紀錄</button>
         </div>
       </div>
     </div>
@@ -106,7 +156,7 @@
           <p><strong>居住地址：</strong> {{ user?.memberAddress || '未提供' }}</p>
           <p><strong>緊急聯絡人：</strong> {{ user?.urgentContact || '未提供' }}</p>
           <p><strong>緊急聯絡電話：</strong> {{ user?.urgentPhone || '未提供' }}</p>
-          <a href="/edit-profile" class="btn btn-outline-dark border w-100 mt-3">編輯個人資料</a>
+          <button (click)="openEditProfileModal()" class="btn btn-outline-dark border w-100 mt-3">編輯個人資料</button>
         </div>
       </div>
     </div>

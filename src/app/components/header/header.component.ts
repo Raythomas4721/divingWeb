@@ -49,9 +49,13 @@ export class HeaderComponent implements OnInit {
   user?: UserDTO | null;
 
   ngOnInit(): void {
+    this.authService.isLoggedIn$.subscribe(status => {
+      this.isLoggedIn = status;
+    });
+
     this.authService.user$.subscribe(user => {
       if (user) {
-        this.user = user;
+        this.user = user?.user;
         this.userName = user.user.memberName;
         this.isLoggedIn = true;
       }
@@ -113,8 +117,8 @@ export class HeaderComponent implements OnInit {
 
         this.authService.updateUserProfile();
         this.authService.user$.subscribe(user => {
-          this.user = user;
-          this.userName = user?.memberName || '';
+          this.user = user?.user;
+          this.userName = this.user?.memberName || '';
         });
       },
       error: (err) => {
@@ -123,6 +127,21 @@ export class HeaderComponent implements OnInit {
       },
     });
   }
+
+  loginWithGoogle(): void {
+    window.location.href = 'https://localhost:7107/api/account/google-login';
+  }
+
+  // handleGoogleCallback(): void {
+  //   const urlParams = new URLSearchParams(window.location.search);
+  //   const token = urlParams.get('token');
+  //   if (token) {
+  //     localStorage.setItem('token', token);
+  //     this.authService.updateUserProfile();
+  //     this.alertService.success("Google 登入成功！");
+  //     $('#popupLogin').modal('hide');
+  //   }
+  // }
 
   logout(): void {
     localStorage.removeItem('token');
