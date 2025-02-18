@@ -14,8 +14,10 @@ export class TccoursesService {
   }
   getCourseById(id:number):Observable<any>{
     return this.client.get(`https://localhost:7107/api/TCcourses/${id}`)
-  
+  }
 
+  getCategories(): Observable<any>{
+    return this.client.get('https://localhost:7107/api/TCcourses/categories');
   }
 
 

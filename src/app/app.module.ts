@@ -23,6 +23,9 @@ import { CourseorderreceivedComponent } from './components/courseorderreceived/c
 import { UsedproductshowComponent } from './components/usedproductshow/usedproductshow.component';
 import { SiteDetailComponent } from './components/site-detail/site-detail.component';
 import { SiteReserveComponent } from './components/site-reserve/site-reserve.component';
+import { CoursesManagementComponent } from './components/coursesmanagement/coursesmanagement.component';
+
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -43,8 +46,8 @@ import { SiteReserveComponent } from './components/site-reserve/site-reserve.com
     CourseorderreceivedComponent,
     UsedproductshowComponent,
     SiteDetailComponent,
-    SiteReserveComponent
-
+    SiteReserveComponent,
+    CoursesManagementComponent,
   ],
   imports: [
     BrowserModule,
@@ -52,7 +55,8 @@ import { SiteReserveComponent } from './components/site-reserve/site-reserve.com
     HttpClientModule,
     ReactiveFormsModule,
     FormsModule,
-    LightboxModule
+    LightboxModule,
+    HttpClientModule,   
   ],
   providers: [],
   bootstrap: [AppComponent],

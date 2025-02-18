@@ -1,0 +1,97 @@
+<div id="canvas">
+    <div id="box_wrapper">
+
+        <!-- template sections -->
+        <section class="page_title ds s-parallax s-overlay s-pt-160 s-pb-80">
+            <div class="container">
+                <div class="row">
+
+                    <div class="col-md-12">
+                        <h1>課程管理系統 CoursesManagement</h1>
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">
+                                <a href="./">Home</a>
+                            </li>
+                            <li class="breadcrumb-item">
+                                <a href="#">Courses</a>
+                            </li>
+                            <li class="breadcrumb-item active">
+                                CoursesManagement
+                            </li>
+                        </ol>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+        <section class="ls s-py-90 s-py-xl-160">
+            <div class="container">
+              <div class="row c-gutter-60">
+                <main class="offset-lg-1 col-lg-12">
+                  <div class="container">
+                    <!-- 放入一個父容器來控制新增課程按鈕與查詢區塊的排列 -->
+                    <div class="top-bar">
+                      <!-- 新增課程按鈕 -->
+                      <!-- <button class="add-button" (click)="addCourse()">新增課程</button> -->
+                      <button routerLink="/coursecreateupdate"  class="add-button" >新增課程</button>
+          
+                      <!-- 查詢區塊 -->
+                      <div class="search-bar">
+                        <select [(ngModel)]="selectedCategory" (change)="filterCourses()">
+                          <option value="">全部分類</option>
+                          <option *ngFor="let course of coursesData" [value]="course['courseCategoryId']">
+                            {{ course['categoryName'] }}
+                          </option>
+                        </select>
+          
+                        <input type="text" [(ngModel)]="keyword" placeholder="輸入關鍵字" class="short-input" />
+          
+                        <div class="btn-group">
+                          <button (click)="filterCourses()">查詢</button>
+                          <button (click)="resetFilter()">重設</button>
+                        </div>
+                      </div>
+                    </div>
+          
+                    <!-- 課程列表 -->
+                    <table>
+                      <thead>
+                        <tr>
+                          <th>課程名稱</th>
+                          <th>分類</th>
+                          <th>等級</th>
+                          <th>教練</th>
+                          <th>價格</th>
+                          <th>狀態</th>
+                          <th>操作</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let course of coursesData">
+                        <!-- <tr *ngFor="let course of filteredCourses"> -->
+                          <td>{{course['startAt']| date:'MM/dd'}}{{course['categoryName']}}體驗課程｜免費拍照｜免證照</td>
+                          <!-- <td>{{ getCategoryName(course.courseCategoryId) }}</td> -->
+                          <!-- <td>{{ getLevelName(course.levelId) }}</td> -->
+                          <!-- <td>{{ getCoachName(course.coachId) }}</td> -->
+                          <td>{{ course['categoryName'] }}</td>
+                          <td>{{ course['levelName'] }}</td>
+                          <td>{{ course['coachName']}}</td>
+                          <td>{{ course.coursePrice | currency:'TWD' }}</td>
+                          <td>{{ course.courseStatus ? '上架' : '下架' }}</td>
+                      <td>
+                            <button (click)="editCourse(course)">編輯</button>
+                            <button (click)="deleteCourse(course.courseId)">刪除</button>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </main>
+              </div>
+            </div>
+          </section>
+          
+
+       
+    </div><!-- eof #box_wrapper -->
+</div><!-- eof #canvas -->

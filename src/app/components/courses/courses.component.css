@@ -49,7 +49,7 @@
     font-weight: bold;
     color:#166792; /* 設定字體顏色 */
     margin-bottom: auto;
-    bottom: 4px;
+    bottom: -15px;
   }
   .cat-item{
     font-size: 18px; /* 設定字體大小 */

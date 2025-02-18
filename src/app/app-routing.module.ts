@@ -17,6 +17,8 @@ import { UsedproductshowComponent } from './components/usedproductshow/usedprodu
 
 import { SiteDetailComponent } from './components/site-detail/site-detail.component';
 import { SiteReserveComponent } from './components/site-reserve/site-reserve.component';
+import { CoursesManagementComponent } from './components/coursesmanagement/coursesmanagement.component';
+
 const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'shop', component: ShopComponent },
@@ -33,12 +35,15 @@ const routes: Routes = [
   { path: 'courseorderreceived', component: CourseorderreceivedComponent },
   { path: 'usedproductshow/:id', component: UsedproductshowComponent },
   { path: 'site-detail', component: SiteDetailComponent },
-  { path: 'site-reserve', component: SiteReserveComponent }
-
+  { path: 'site-reserve', component: SiteReserveComponent },
+  { path: 'coursesmanagement', component:CoursesManagementComponent},
+//   { path: 'coursecreateupdate', component:CoursecreateupdateComponent},
+//   { path: 'course/create', component: CoursecreateupdateComponent },
+//   { path: 'course/edit/:id', component: CoursecreateupdateComponent }
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes, { useHash: true })],
-  exports: [RouterModule],
+  exports: [RouterModule]
 })
 export class AppRoutingModule { }
