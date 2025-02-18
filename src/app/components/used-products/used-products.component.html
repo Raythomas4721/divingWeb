@@ -43,16 +43,26 @@
                   </select>
                 </form>
               </div>
-
               <ul class="products columns-2">
-                <li class="product">
+                <li *ngFor="let product of Products" class="product">
                   <div class="product-inner rounded shadow p-3 mb-5 bg-body-tertiary rounded">
-                    <a href="shop-product-left.html">
-                      <img class="rounded" src="assets/images/shop/34.jpg" alt="img">
+                    <ul>
+                      <!-- <li>
+                        <img class="user-avatar" src="https://via.placeholder.com/40" alt="使用者頭像">
+                      </li> -->
+                      <li>
+                        <div class="user-info">
+                          <span class="username">{{ product.sellerId }}</span>
+                          <span class="timestamp">{{ product.createdAt | date:'short' }}</span>
+                        </div>
+                      </li>
+                    </ul>
+                    <a [routerLink]="['/product', product.productId]">
+                      <img class="rounded" [src]="product.tUproductImages" alt="{{ product.productName }}">
                     </a>
                     <div class="product-wrap">
                       <h2 class="woocommerce-loop-product__title">
-                        <a href="shop-product-left.html">潛水面罩</a>
+                        <a href="shop-product-left.html">{{ product.productName }}</a>
                       </h2>
                       <div class="star-rating">
                         <span style="width:80%">Rated <strong class="rating">4.00</strong> out of 5</span>
@@ -60,18 +70,30 @@
                       <div class="price-wrap">
                         <span class="price">
                           <span>
-                            <span>$</span>1299
+                            <span>$</span>{{ product.productPrice }}
                           </span>
                         </span>
                         <a rel="nofollow" href="shop-cart.html"
                           class="button product_type_simple add_to_cart_button">加入購物車</a>
                       </div>
+
                     </div>
                   </div>
                 </li>
 
                 <li class="product">
                   <div class="product-inner rounded shadow p-3 mb-5 bg-body-tertiary rounded">
+                    <ul>
+                      <!-- <li>
+                        <img class="user-avatar" src="https://via.placeholder.com/40" alt="使用者頭像">
+                      </li> -->
+                      <li>
+                        <div class="user-info">
+                          <span class="username">minwang0319</span>
+                          <span class="timestamp">2 天前</span>
+                        </div>
+                      </li>
+                    </ul>
                     <a href="shop-product-left.html">
                       <img class="rounded" src="assets/images/shop/35.jpg" alt="img">
                     </a>
@@ -98,6 +120,17 @@
 
                 <li class="product">
                   <div class="product-inner rounded shadow p-3 mb-5 bg-body-tertiary rounded">
+                    <ul>
+                      <!-- <li>
+                        <img class="user-avatar" src="https://via.placeholder.com/40" alt="使用者頭像">
+                      </li> -->
+                      <li>
+                        <div class="user-info">
+                          <span class="username">minwang0319</span>
+                          <span class="timestamp">2 天前</span>
+                        </div>
+                      </li>
+                    </ul>
                     <a href="shop-product-left.html">
                       <img class="rounded" src="assets/images/shop/36.jpg" alt="img">
                     </a>
@@ -124,6 +157,17 @@
 
                 <li class="product">
                   <div class="product-inner rounded shadow p-3 mb-5 bg-body-tertiary rounded">
+                    <ul>
+                      <!-- <li>
+                        <img class="user-avatar" src="https://via.placeholder.com/40" alt="使用者頭像">
+                      </li> -->
+                      <li>
+                        <div class="user-info">
+                          <span class="username">minwang0319</span>
+                          <span class="timestamp">2 天前</span>
+                        </div>
+                      </li>
+                    </ul>
                     <a href="shop-product-left.html">
                       <img class="rounded" src="assets/images/shop/37.jpg" alt="img">
                     </a>
@@ -150,6 +194,17 @@
 
                 <li class="product">
                   <div class="product-inner rounded shadow p-3 mb-5 bg-body-tertiary rounded">
+                    <ul>
+                      <!-- <li>
+                        <img class="user-avatar" src="https://via.placeholder.com/40" alt="使用者頭像">
+                      </li> -->
+                      <li>
+                        <div class="user-info">
+                          <span class="username">minwang0319</span>
+                          <span class="timestamp">2 天前</span>
+                        </div>
+                      </li>
+                    </ul>
                     <a href="shop-product-left.html">
                       <img class="rounded" src="assets/images/shop/44.jpg" alt="img">
                     </a>
@@ -176,6 +231,17 @@
 
                 <li class="product">
                   <div class="product-inner rounded shadow p-3 mb-5 bg-body-tertiary rounded">
+                    <ul>
+                      <!-- <li>
+                        <img class="user-avatar" src="https://via.placeholder.com/40" alt="使用者頭像">
+                      </li> -->
+                      <li>
+                        <div class="user-info">
+                          <span class="username">minwang0319</span>
+                          <span class="timestamp">2 天前</span>
+                        </div>
+                      </li>
+                    </ul>
                     <a href="shop-product-left.html">
                       <img class="rounded" src="assets/images/shop/40.jpg" alt="img">
                     </a>
@@ -215,7 +281,11 @@
                 <li>
                   <a class="next page-numbers" href="shop-left.html">→</a>
                 </li>
+                <li>
+                  <button class="sell-button links-maincolor-hover" routerLink="/usedproductshow"> 出售 </button>
+                </li>
               </ul>
+
             </nav>
           </main>
           <aside class="col-lg-5 col-xl-4 order-lg-1">

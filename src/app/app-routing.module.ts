@@ -17,6 +17,9 @@ import { SiteDetailComponent } from './components/site-detail/site-detail.compon
 import { SiteReserveComponent } from './components/site-reserve/site-reserve.component';
 import { AuthSuccessComponent } from './components/auth-success/auth-success.component';
 
+
+// import { UsedproductshowComponent } from './components/usedproductshow/usedproductshow.component';
+
 const routes: Routes = [
   { path: 'auth-success', component: AuthSuccessComponent },
   { path: 'profile', component: ProfileComponent },
@@ -33,7 +36,7 @@ const routes: Routes = [
   { path: 'coursedetails/:id', component: CoursedetailsComponent },
   { path: 'coursecheckout', component: CoursecheckoutComponent },
   { path: 'courseorderreceived', component: CourseorderreceivedComponent },
-  { path: 'usedproductshow/:id', component: UsedproductshowComponent },
+  { path: 'usedproductshow', component: UsedproductshowComponent },
   { path: 'site-detail', component: SiteDetailComponent },
   { path: 'site-reserve', component: SiteReserveComponent },
   { path: '', component: HomeComponent },

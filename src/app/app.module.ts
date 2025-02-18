@@ -25,6 +25,8 @@ import { UsedproductshowComponent } from './components/usedproductshow/usedprodu
 import { SiteDetailComponent } from './components/site-detail/site-detail.component';
 import { SiteReserveComponent } from './components/site-reserve/site-reserve.component';
 import { AuthSuccessComponent } from './components/auth-success/auth-success.component';
+import { RouterModule } from '@angular/router';
+import { ProductsService } from './services/products.service';
 @NgModule({
   declarations: [
     AppComponent,
@@ -57,8 +59,9 @@ import { AuthSuccessComponent } from './components/auth-success/auth-success.com
     ReactiveFormsModule,
     FormsModule,
     LightboxModule,
+    RouterModule
   ],
-  providers: [],
+  providers: [ProductsService],
   bootstrap: [AppComponent],
 })
 export class AppModule { }
