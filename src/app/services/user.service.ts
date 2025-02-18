@@ -26,18 +26,10 @@ export class UserService {
     };
     return this.client.post(`${this.apiUrl}/login`, body, httpOptions).pipe(
       tap((response: any) => {
-        // 1) 假設後端回傳 { token, memberId, ... }
         const { token, memberId } = response;
 
-        // 2) 將 token 存進 localStorage
         if (token) {
           localStorage.setItem('token', token);
-        }
-
-        // 3) 設定 userBehaviorService 的 memberId
-        if (memberId) {
-          this.userBehaviorService.setMemberId(memberId);
-          console.log(this.userBehaviorService);
         }
       })
     );
