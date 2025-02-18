@@ -73,6 +73,10 @@
                 </div>
                 <a class="registerRedirect" data-dismiss="modal" data-target="#popupRegistr" data-toggle="modal"
                   href="#">還不是會員嗎? 立即註冊!</a>
+                <button type="button" class="btn btn-outline-primary w-100 mt-2 p-2" (click)="loginWithGoogle()">
+                  <img src="assets/images/google-logo.webp" alt="Google Logo" width="32" class="mr-2">
+                  使用 Google 登入
+                </button>
                 <button type="submit" class="btn btn-maincolor mt-30 d-block" style="justify-self: center;">
                   登入
                 </button>
@@ -206,7 +210,7 @@
 
               <!-- shop -->
               <li routerLinkActive="active">
-                <a routerLink="/procategories">商品列表</a>
+                <a routerLink="/shop">商品列表</a>
                 <!-- <ul>
                   <li>
                     <a href="blog-right.html">基本浮潛裝備</a>
@@ -415,7 +419,7 @@
                 <ul class="user-menu">
                   <li>
                     <p class="text-center font-weight-bold text-primary">
-                      歡迎{{ userName || '您' }}！
+                      歡迎{{ userName || "您" }}！
                     </p>
                   </li>
                   <div class="dropdown-divider"></div>

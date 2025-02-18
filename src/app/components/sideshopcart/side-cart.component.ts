@@ -43,8 +43,11 @@ export class Sideshopcart {
     this.isCartVisible = false;
   }
   // 簡單示範：移除單一商品
-  removeItem(index: number) {
-    this.cartItemsService.removeItem(index);
+  removeItem(variantId: number, memberId?: number) {
+    this.cartItemsService.removeItem(variantId, memberId).subscribe({
+      next: (res) => console.log('刪除成功', res),
+      error: (err) => console.error('刪除失敗', err),
+    });
   }
 
   // 點擊 Update cart

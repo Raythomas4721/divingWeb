@@ -12,15 +12,15 @@ import { ProfileComponent } from './components/profile/profile.component';
 import { CoursedetailsComponent } from './components/coursedetails/coursedetails.component';
 import { CoursecheckoutComponent } from './components/coursecheckout/coursecheckout.component';
 import { CourseorderreceivedComponent } from './components/courseorderreceived/courseorderreceived.component';
-
 import { UsedproductshowComponent } from './components/usedproductshow/usedproductshow.component';
-
 import { SiteDetailComponent } from './components/site-detail/site-detail.component';
 import { SiteReserveComponent } from './components/site-reserve/site-reserve.component';
+import { AuthSuccessComponent } from './components/auth-success/auth-success.component';
 import { CoursesManagementComponent } from './components/coursesmanagement/coursesmanagement.component';
 
 const routes: Routes = [
-  { path: '', component: HomeComponent },
+  { path: 'auth-success', component: AuthSuccessComponent },
+  { path: 'profile', component: ProfileComponent },
   { path: 'shop', component: ShopComponent },
   { path: 'shop/:categoryId', component: ShopComponent },
   { path: 'used-products', component: UsedProductsComponent },
@@ -28,22 +28,31 @@ const routes: Routes = [
   { path: 'site-rental', component: SiteRentalComponent },
   { path: 'shopcart', component: Sideshopcart },
   { path: 'shopproductshow/:id', component: ShopproductshowComponent },
-  { path: 'procategories', component: ProcategoriesComponent },
+  // { path: 'procategories', component: ProcategoriesComponent },
   { path: 'profile', component: ProfileComponent },
+  { path: 'procategories', component: ProcategoriesComponent },
   { path: 'coursedetails/:id', component: CoursedetailsComponent },
   { path: 'coursecheckout', component: CoursecheckoutComponent },
   { path: 'courseorderreceived', component: CourseorderreceivedComponent },
-  { path: 'usedproductshow/:id', component: UsedproductshowComponent },
+  { path: 'usedproductshow', component: UsedproductshowComponent },
   { path: 'site-detail', component: SiteDetailComponent },
   { path: 'site-reserve', component: SiteReserveComponent },
-  { path: 'coursesmanagement', component:CoursesManagementComponent},
-//   { path: 'coursecreateupdate', component:CoursecreateupdateComponent},
-//   { path: 'course/create', component: CoursecreateupdateComponent },
-//   { path: 'course/edit/:id', component: CoursecreateupdateComponent }
+  { path: 'coursesmanagement', component: CoursesManagementComponent },
+  //   { path: 'coursecreateupdate', component:CoursecreateupdateComponent},
+  //   { path: 'course/create', component: CoursecreateupdateComponent },
+  //   { path: 'course/edit/:id', component: CoursecreateupdateComponent }
+  { path: '', component: HomeComponent },
+  { path: '**', redirectTo: '', pathMatch: 'full' } // 404 頁面導回首頁
+
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, { useHash: true })],
-  exports: [RouterModule]
+  imports: [
+    RouterModule.forRoot(routes, {
+      useHash: true,
+      onSameUrlNavigation: 'reload',
+    }),
+  ],
+  exports: [RouterModule],
 })
 export class AppRoutingModule { }

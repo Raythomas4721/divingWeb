@@ -33,6 +33,7 @@
               <div class="product-inner">
                 <span class="onsale">Sale!</span>
                 <div class="image-swap-container">
+                  <!-- 圖片部分 -->
                   <a
                     (click)="onClickProduct(product.productId)"
                     href="javascript:void(0)"
@@ -40,23 +41,25 @@
                     <img
                       [src]="'assets/images/shop/' + product.imageUrl"
                       alt="商品圖片"
-                      class="zoom-img"
                     />
                   </a>
-                </div>
-                <div class="product-wrap">
-                  <h2 class="woocommerce-loop-product__title">
-                    <a [routerLink]="['/shopproductshow', product.productId]">
-                      {{ product.productName }}</a
-                    >
-                  </h2>
-                  <div class="star-rating">
-                    <span style="width: 80%"
-                      >Rated <strong class="rating">4.00</strong> out of 5</span
-                    >
-                  </div>
-                  <div class="price-wrap">
-                    <span class="price"> ${{ product.unitPrice }} </span>
+
+                  <!-- 疊加在圖片上的「商品資訊」 -->
+                  <div>
+                    <h2 class="woocommerce-loop-product__title">
+                      <a [routerLink]="['/shopproductshow', product.productId]">
+                        {{ product.productName }}
+                      </a>
+                    </h2>
+                    <div class="star-rating">
+                      <span style="width: 80%"
+                        >Rated <strong class="rating">4.00</strong> out of
+                        5</span
+                      >
+                    </div>
+                    <div class="price-wrap">
+                      <span class="price"> ${{ product.unitPrice }} </span>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -73,37 +76,39 @@
             >
               <div class="product-inner">
                 <!-- 如果有特價或想固定顯示，預設加上 "Sale!" 之類 -->
-                <span class="onsale">Sale!</span>
+                <!-- <span class="onsale">Sale!</span> -->
 
                 <!-- 圖片區(此處可改成cat對應圖片、或固定img) -->
-                <a href="javascript:void(0)">
-                  <img
-                    [src]="'assets/images/shop/' + cat.imageFileName"
-                    alt="商品圖片"
-                  />
-                </a>
+                <div class="image-swap-container">
+                  <a href="javascript:void(0)">
+                    <img
+                      [src]="'assets/images/shop/' + cat.imageFileName"
+                      alt="商品圖片"
+                      class="zoom-img"
+                    />
+                  </a>
+                  <div class="product-overlay">
+                    <!-- 顯示分類名稱 (cat.categoryName) -->
+                    <h2 class="woocommerce-loop-product__title">
+                      {{ cat.categoryName }}
+                    </h2>
 
-                <div class="product-wrap">
-                  <!-- 顯示分類名稱 (cat.categoryName) -->
-                  <h2 class="woocommerce-loop-product__title">
-                    {{ cat.categoryName }}
-                  </h2>
+                    <!-- 若想顯示星星評價，可固定或依cat屬性動態
+                      <div class="star-rating">
+                        <span style="width: 80%"
+                          >Rated <strong class="rating">4.00</strong> out of
+                          5</span
+                        >
+                      </div> -->
 
-                  <!-- 若想顯示星星評價，可固定或依cat屬性動態 -->
-                  <div class="star-rating">
-                    <span style="width: 80%"
-                      >Rated <strong class="rating">4.00</strong> out of 5</span
-                    >
-                  </div>
-
-                  <!-- 價格區 (可自行增減) -->
-                  <div class="price-wrap">
-                    <span class="price">
-                      <span><span>$</span>250</span> –
-                      <span class="woocommerce-Price-amount amount">
-                        <span>$</span>1350
-                      </span>
-                    </span>
+                    <!-- 價格區 (可自行增減) -->
+                    <!-- <div class="price-wrap">
+                        <span class="price">
+                          <span><span>$</span>250</span> –
+                          <span class="woocommerce-Price-amount amount">
+                            <span>$</span>1350
+                          </span>
+                        </span> -->
                     <!-- 若只做分類列，可拿掉加購物車按鈕 -->
                     <!-- <a
                     rel="nofollow"
@@ -112,6 +117,7 @@
                   >
                     Add to cart
                   </a> -->
+                    <!-- </div> -->
                   </div>
                 </div>
               </div>

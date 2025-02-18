@@ -1,62 +1,75 @@
-import { SharedcartService } from './../../services/sharedcart.service';
-import { ActivatedRoute, Router } from '@angular/router';
 import { TNcartItemDTO } from 'src/app/interface/TNcartItemDTO';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
+
 import { TNcartItemsService } from './../../services/tncart-items.service';
-import { Component, OnInit } from '@angular/core';
+import { SharedcartService } from './../../services/sharedcart.service';
+import { UserBehaviorService } from 'src/app/services/user-behavior.service';
+import { AuthService } from 'src/app/services/auth.service';
+import { UserDTO } from 'src/app/interface/userDTO';
+
 import {
-  ColorDTO,
-  SizeDTO,
   TNproductDTO,
   TNprovariantDTO,
+  ColorDTO,
+  SizeDTO,
 } from 'src/app/interface/TNproductDTO';
-import { TnproductService } from './../../services/tnproduct.service';
-import { HttpClient } from '@angular/common/http';
+
+import { Lightbox, IAlbum } from 'ngx-lightbox';
+import { TnproductService } from 'src/app/services/tnproduct.service';
 
 @Component({
   selector: 'app-shopproductshow',
   templateUrl: './shopproductshow.component.html',
   styleUrls: ['./shopproductshow.component.css'],
 })
-export class ShopproductshowComponent implements OnInit {
-  // 圖片相簿
-  album: Array<{ src: string; caption?: string; thumb?: string }> = [];
+export class ShopproductshowComponent implements OnInit, OnDestroy {
+  private enterTime!: number; // 用來記錄進入商品頁的時間(毫秒) 以計算 dwell time
+  album: IAlbum[] = []; // Lightbox 圖片陣列
 
   productId: number | null = null;
   productDetail: TNproductDTO | null = null;
 
-  // 從後端取得的變體清單 (主要用來找 thickness/gender => 可視需求保留)
+  // 從後端撈取的變體資料 (若只靠後端 addCart 檢查，可以不顯示庫存)
   productVariants: TNprovariantDTO[] = [];
 
-  // 從後端 API (colors?productId=xxx) / (sizes?productId=xxx) 取得
+  // 從後端各 API 撈到的顏色/尺寸/厚度/款式
   colors: ColorDTO[] = [];
   sizes: SizeDTO[] = [];
-  // 其他屬性 (厚度 / 款式) 用簡單的 id/name
   thicknesses: Array<{ id: number; name: string }> = [];
   genders: Array<{ id: number; name: string }> = [];
 
-  // 選擇的 color / size / thickness / gender
+  // 使用者選擇的變體
   selectedColor: number | null = null;
   selectedSize: number | null = null;
   selectedThickness: number | null = null;
   selectedGender: number | null = null;
-  // 最後找到的對應 variant
   selectedVariant: TNprovariantDTO | null = null;
-  quantity = 1;
 
-  // Modal 相關
-  isModalOpen = false;
-  selectedImage = '';
+  quantity = 1; // 使用者輸入的購買數量
 
   constructor(
     private route: ActivatedRoute,
+    private http: HttpClient,
     private productService: TnproductService,
     private cartItemsService: TNcartItemsService,
-    private http: HttpClient,
-    private router: Router,
-    private sharedcartService: SharedcartService
+    private sharedcartService: SharedcartService,
+    private userBehaviorService: UserBehaviorService,
+    private authService: AuthService,
+    private lightbox: Lightbox
   ) {}
 
-  ngOnInit() {
+  user?: UserDTO | null;
+
+  ngOnInit(): void {
+    this.enterTime = Date.now();
+
+    // 監聽使用者資訊 (若需要帶 memberId 給後端)
+    this.authService.user$.subscribe((u) => {
+      this.user = u?.user;
+    });
+
     // 1) 取得路由參數
     this.productId = Number(this.route.snapshot.paramMap.get('id'));
     if (!this.productId) {
@@ -64,182 +77,91 @@ export class ShopproductshowComponent implements OnInit {
       return;
     }
 
-    // 2) 取得單一商品詳細
-    this.productService.getSingleProduct(this.productId).subscribe({
-      next: (res) => {
-        this.productDetail = res;
-        console.log('單一商品: ', this.productDetail);
+    // 2) 紀錄 VIEW_PRODUCT 行為 (可帶 productId)
+    this.userBehaviorService.logViewProduct(this.productId).subscribe();
 
-        // 如果有 imageUrl 就放到 album
-        if (this.productDetail.imageUrl && this.productDetail.imageUrl.length) {
-          for (const filename of this.productDetail.imageUrl) {
-            const fullPath = 'assets/images/shop/' + filename;
-            this.album.push({
-              src: fullPath,
-              caption: filename,
-              thumb: fullPath,
+    // 3) 撈取商品詳細 (不含庫存檢查)
+    this.productService.getSingleProduct(this.productId).subscribe({
+      next: (res: TNproductDTO | null) => {
+        this.productDetail = res;
+        // 做圖片 album (主圖 + 檢查 -1.jpg, -2.jpg)
+        if (this.productDetail?.imageUrl) {
+          // 若後端只存一張
+          if (!this.productDetail.images) {
+            this.productDetail.images = [];
+          }
+          const mainImg = this.productDetail.imageUrl;
+          this.productDetail.images.push(mainImg);
+
+          const mainFullPath = 'assets/images/shop/' + mainImg;
+          this.album.push({
+            src: mainFullPath,
+            thumb: mainFullPath,
+            caption: mainImg,
+          });
+
+          // 檢查 -1.jpg, -2.jpg ...
+          const baseName = mainImg.replace('.jpg', '');
+          for (let i = 1; i <= 2; i++) {
+            const guessName = `${baseName}-${i}.jpg`;
+            const guessPath = `assets/images/shop/${guessName}`;
+            this.http.head(guessPath, { observe: 'response' }).subscribe({
+              next: (resp) => {
+                if (resp.status === 200) {
+                  this.productDetail?.images?.push(guessName);
+                  this.album.push({
+                    src: guessPath,
+                    thumb: guessPath,
+                    caption: guessName,
+                  });
+                }
+              },
+              error: (err) => {
+                if (err.status !== 404) {
+                  console.error('檔案檢查發生錯誤:', err);
+                }
+              },
             });
           }
         }
       },
-      error: (err) => {
-        console.error('取得單一商品失敗', err);
-      },
+      error: (err: any) => console.error('取得商品詳細失敗:', err),
     });
 
-    // 3) 從後端拿 color / size (含 hasStock)
-    //   這樣就不用透過 productVariants 來做 distinct
+    // 4) 撈取顏色/尺寸 (若需要使用者先選擇)
     this.productService.getColorsForProduct(this.productId).subscribe({
-      next: (colorList) => {
+      next: (colorList: any[]) => {
         this.colors = colorList.filter((c) => c.colorId !== 0);
-        console.log('Colors =>', this.colors);
       },
-      error: (err) => console.error('取得顏色清單失敗', err),
+      error: (err: any) => console.error('取得 color 失敗', err),
     });
 
     this.productService.getSizesForProduct(this.productId).subscribe({
-      next: (sizeList) => {
+      next: (sizeList: any[]) => {
         this.sizes = sizeList.filter((s) => s.sizeId !== 0);
-        console.log('Sizes =>', this.sizes);
       },
-      error: (err) => console.error('取得尺寸清單失敗', err),
+      error: (err: any) => console.error('取得 size 失敗', err),
     });
 
-    // 4) 仍需 productVariants 來決定 thickness, gender ？(視需求)
+    // 5) 撈取 variants (若你想前端顯示更多資訊)
     this.productService.getProductVariants(this.productId).subscribe({
-      next: (variants) => {
-        this.productVariants = variants;
-        console.log('變體清單: ', this.productVariants);
-
-        // thickness
+      next: (vars: any[]) => {
+        this.productVariants = vars;
+        // 可能從 variants 提取 thickness/gender
         this.thicknesses = this.extractDistinctOptions(
-          variants.map((v) => v.thicknessId).filter((tid) => tid !== 0),
+          vars.map((v) => v.thicknessId).filter((id) => id !== 0),
           (id) => this.getThicknessName(id)
         );
-        // gender
         this.genders = this.extractDistinctOptions(
-          variants.map((v) => v.genderId).filter((tid) => tid !== 0),
+          vars.map((v) => v.genderId).filter((id) => id !== 0),
           (id) => this.getGenderName(id)
         );
-
-        // 若需要預設：可取第一筆
-        if (variants.length > 0) {
-          const first = variants[0];
-          // 先不設定 color/size => 由 user 自行點選
-          this.selectedThickness = first.thicknessId;
-          this.selectedGender = first.genderId;
-          this.selectedVariant = first;
-        }
       },
-      error: (err) => {
-        console.error('取得變體資料失敗', err);
-      },
+      error: (err: any) => console.error('取得 variants 失敗', err),
     });
   }
 
-  /** 當使用者點擊「顏色」時 */
-  onColorClick(c: ColorDTO) {
-    if (!c.hasStock) {
-      return; // 無庫存就跳過
-    }
-    this.selectedColor = c.colorId;
-    this.onVariantChange();
-  }
-
-  /** 當使用者點擊「尺寸」時 */
-  onSizeClick(s: SizeDTO) {
-    if (!s.hasStock) {
-      return;
-    }
-    this.selectedSize = s.sizeId;
-    this.onVariantChange();
-  }
-
-  onThicknessClick(t: { id: number; name: string }) {
-    this.selectedThickness = t.id; // 設為當前選擇
-    this.onVariantChange(); // 重新匹配 variant
-  }
-  onGenderClick(g: { id: number; name: string }) {
-    this.selectedGender = g.id;
-    this.onVariantChange();
-  }
-  /**
-   * 當 thickness / gender 變動時 (如果也想用點選方式則自行改)
-   * 目前是 template `<select>` or something
-   */
-  onVariantChange(): void {
-    if (!this.productVariants.length) {
-      this.selectedVariant = null;
-      return;
-    }
-
-    this.selectedVariant =
-      this.productVariants.find(
-        (v) =>
-          v.colorId === this.selectedColor &&
-          v.sizeId === this.selectedSize &&
-          v.thicknessId === this.selectedThickness &&
-          v.genderId === this.selectedGender
-      ) ?? null;
-    // 若找不到表示無此組合
-    if (!this.selectedVariant) {
-      console.warn('找不到對應變體，可能此組合無庫存');
-    }
-  }
-
-  /** 加入購物車 */
-  onConfirmAddToCart(): void {
-    if (!this.productDetail) {
-      console.warn('尚未載入商品資料');
-      return;
-    }
-    if (!this.selectedVariant) {
-      alert('請先選擇顏色 / 尺寸 / 厚度 / 款式');
-      return;
-    }
-
-    // 在此檢查庫存
-    // 1) 若 stock <= 0
-    if (this.selectedVariant.stock <= 0) {
-      alert('此商品已無庫存');
-      return;
-    }
-    // 2) 若輸入數量 > stock
-    if (this.quantity > this.selectedVariant.stock) {
-      alert(`庫存不足，目前剩餘 ${this.selectedVariant.stock} 件`);
-      return;
-    }
-    const newItem: TNcartItemDTO = {
-      memberId: 1,
-      productName: this.productDetail.productName,
-      uproductId: this.productDetail.productId,
-      productvariantsId: this.selectedVariant
-        ? this.selectedVariant.productvariantsId
-        : null,
-      quantity: this.quantity,
-      unitpriceatCart: this.productDetail.unitPrice,
-      imageUrl: this.productDetail.imageUrl,
-      isLocked: false,
-      condition: 'new',
-      creationDate: new Date().toISOString(),
-      updatedDate: new Date().toISOString(),
-    };
-
-    // 1. 加進 CartService
-    this.cartItemsService.addToCart(newItem);
-
-    // 2. 打開 SideCart
-    this.sharedcartService.openCartPanel();
-  }
-  /* 顯示「庫存可否加購」：讓按鈕自動 disabled (選擇性) */
-  get canAddToCart(): boolean {
-    return (
-      !!this.selectedVariant && // 有找到 variant
-      this.selectedVariant.stock > 0 && // 庫存大於 0
-      this.quantity > 0 && // 使用者輸入的數量要大於 0
-      this.quantity <= this.selectedVariant.stock // 不能超過庫存
-    );
-  }
+  /** 提取不同 ID => {id, name} */
   private extractDistinctOptions(
     ids: number[],
     getName: (id: number) => string
@@ -250,7 +172,8 @@ export class ShopproductshowComponent implements OnInit {
       name: getName(id),
     }));
   }
-  /* 將 ID map 成顯示名稱 (thickness/gender) */
+
+  // Example thickness name
   private getThicknessName(id: number): string {
     switch (id) {
       case 1:
@@ -265,6 +188,8 @@ export class ShopproductshowComponent implements OnInit {
         return `厚度ID:${id}`;
     }
   }
+
+  // Example gender name
   private getGenderName(id: number): string {
     switch (id) {
       case 1:
@@ -280,18 +205,172 @@ export class ShopproductshowComponent implements OnInit {
     }
   }
 
-  /** 是否有第二版本檔名 (例如 M_....) */
-  hasSecondVersion(filename: string): boolean {
-    return filename.startsWith('M');
+  /** 點顏色 */
+  onColorClick(c: ColorDTO) {
+    if (!c.hasStock) {
+      // 前端可阻擋無庫存顏色
+      return;
+    }
+    this.selectedColor = c.colorId;
+    // do something
+    console.log('選擇color=', c.colorId);
   }
 
-  /** 圖片 Modal */
-  openModal(imageUrl: string) {
-    console.log('openModal() triggered, imgUrl =', imageUrl);
-    this.selectedImage = imageUrl;
-    this.isModalOpen = true;
+  onSizeClick(s: SizeDTO) {
+    if (!s.hasStock) {
+      return;
+    }
+    this.selectedSize = s.sizeId;
   }
-  closeModal() {
-    this.isModalOpen = false;
+
+  onThicknessClick(t: { id: number; name: string }) {
+    this.selectedThickness = t.id;
+  }
+
+  onGenderClick(g: { id: number; name: string }) {
+    this.selectedGender = g.id;
+  }
+
+  /** 若你仍想前端找到 selectedVariant, 可保留 */
+  onVariantChange() {
+    // ex: find match in productVariants ...
+  }
+
+  /** 使用 ngx-lightbox 顯示大圖 */
+  openLightbox(index: number): void {
+    this.lightbox.open(this.album, index);
+  }
+  closeLightbox(): void {
+    this.lightbox.close();
+  }
+
+  /** 數量 +/- */
+  increaseQuantity() {
+    if (this.quantity < 99) {
+      this.quantity++;
+    }
+  }
+  decreaseQuantity() {
+    if (this.quantity > 1) {
+      this.quantity--;
+    }
+  }
+  onQuantityChange() {
+    if (this.quantity < 1) this.quantity = 1;
+    if (this.quantity > 99) this.quantity = 99;
+  }
+
+  /** 最終 => 呼叫後端 addCart API 做庫存檢查+加購物車 */
+  onConfirmAddToCart() {
+    // 1) 若 productDetail 還沒載入
+    if (!this.productDetail) {
+      alert('商品資料尚未載入');
+      return;
+    }
+
+    // ============ 動態檢查四個變體 =============
+
+    // (A) 若前端顯示 color (this.colors.length > 0)，就要檢查是否 user 已選 color
+    if (this.colors.length > 0 && !this.selectedColor) {
+      alert('請先選擇顏色');
+      return;
+    }
+
+    // (B) 若前端顯示 size (this.sizes.length > 0)，就要檢查是否 user 已選 size
+    if (this.sizes.length > 0 && !this.selectedSize) {
+      alert('請先選擇尺寸');
+      return;
+    }
+
+    // (C) 若前端顯示 thickness (this.thicknesses.length > 0)，就要檢查是否 user 已選 thickness
+    if (this.thicknesses.length > 0 && !this.selectedThickness) {
+      alert('請先選擇厚度');
+      return;
+    }
+
+    // (D) 若前端顯示 gender (this.genders.length > 0)，就要檢查是否 user 已選 gender
+    if (this.genders.length > 0 && !this.selectedGender) {
+      alert('請先選擇款式');
+      return;
+    }
+
+    // 2) 組合要傳給後端的 payload
+    const payload = {
+      productId: this.productId,
+      colorId: this.selectedColor ?? 0, // 若沒顯示 color，就帶0
+      sizeId: this.selectedSize ?? 0,
+      thicknessId: this.selectedThickness ?? 0,
+      genderId: this.selectedGender ?? 0,
+      quantity: this.quantity,
+      memberId: this.user?.memberId || 1,
+    };
+    console.log('將要傳給後端的 payload:', payload);
+
+    // 3) 呼叫後端 /api/TNproductvariants/addCart
+    this.http
+      .post('https://localhost:7107/api/TNproductvariants/addCart', payload)
+      .subscribe({
+        next: (res: any) => {
+          if (res.success) {
+            // 前端更新暫存購物車 + 開panel
+            const newItem: TNcartItemDTO = {
+              memberId: payload.memberId,
+              productvariantsId: res.productvariantsId,
+              productName: this.productDetail?.productName || '',
+              uproductId: this.productId || 0,
+              quantity: this.quantity,
+              unitpriceatCart: this.productDetail?.unitPrice || 0,
+              imageUrl: this.productDetail?.imageUrl || '',
+              isLocked: false,
+              condition: 'new',
+              creationDate: new Date().toISOString(),
+              updatedDate: new Date().toISOString(),
+
+              color: this.findColorNameById(payload.colorId),
+              size: this.findSizeNameById(payload.sizeId),
+              thickness: this.findThicknessNameById(payload.thicknessId),
+              gender: this.findGenderNameById(payload.genderId),
+              stock: 0,
+            };
+
+            this.cartItemsService.addToCart(newItem);
+            this.sharedcartService.openCartPanel();
+
+            // alert('加入購物車成功(後端已檢查庫存)!');
+          } else {
+            alert(res.message || '無法加入購物車');
+          }
+        },
+        error: (err) => {
+          console.error('加入購物車失敗:', err);
+          alert('系統異常，無法加入購物車');
+        },
+      });
+  }
+
+  /** 離開頁面 => 紀錄停留時間 */
+  ngOnDestroy(): void {
+    const leaveTime = Date.now();
+    const dwellSeconds = (leaveTime - this.enterTime) / 1000;
+    this.userBehaviorService
+      .logDwellTime(this.productId!, dwellSeconds)
+      .subscribe();
+  }
+
+  findColorNameById(colorId: number): string {
+    const c = this.colors.find((x) => x.colorId === colorId);
+    return c ? c.color : 'N/A';
+  }
+  findSizeNameById(sizeId: number): string {
+    const s = this.sizes.find((x) => x.sizeId === sizeId);
+    return s ? s.size : 'N/A';
+  }
+  findThicknessNameById(thickId: number): string {
+    const t = this.thicknesses.find((x) => x.id === thickId);
+    return t ? t.name : 'N/A';
+  }
+  findGenderNameById(genderId: number): string {
+    const g = this.genders.find((x) => x.id === genderId);
+    return g ? g.name : 'N/A';
   }
 }

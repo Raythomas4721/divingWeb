@@ -57,22 +57,21 @@ export class TNcartItemsService {
 
   // 其他操作 (移除、清空) 略...
 
-  removeItem(productId: number): Observable<string> {
+  removeItem(variantId: number, memberId?: number): Observable<string> {
     // 先從 BehaviorSubject 中移除
     const items = this.getCartItems();
-    const idx = items.findIndex((item) => item.productvariantsId === productId);
+    const idx = items.findIndex((item) => item.productvariantsId === variantId);
     if (idx > -1) {
       items.splice(idx, 1);
       this.cartItemsSubject.next(items);
     }
 
-    // 呼叫後端 API 進行刪除 (假設用id刪)
-    // 你的後端若是以 productvariantsId 當作路由，改成:
-    // return this.client.delete<string>(`${this.baseUrl}/byVariant/${productId}`);
-    // 這裡僅示範:
-    return this.client.delete<string>(`${this.baseUrl}/${productId}`);
+    let url = `${this.baseUrl}/byVariant/${variantId}`;
+    if (memberId) {
+      url += `?memberId=${memberId}`;
+    }
+    return this.client.delete<string>(url);
   }
-
   /**
    * 2) 套用優惠碼 (apply coupon)
    *   - 視後端API需求，可能要POST或GET, 這裡僅示範

@@ -1,7 +1,8 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 import { UserDTO } from '../interface/userDTO';
+import { UserBehaviorService } from './user-behavior.service';
 
 @Injectable({
   providedIn: 'root',
@@ -14,28 +15,56 @@ export class UserService {
     const headers = {
       name: name,
       email: email,
-      password: password
-    }
-    return this.client.post(`${this.apiUrl}/register`, headers)
+      password: password,
+    };
+    return this.client.post(`${this.apiUrl}/register`, headers);
   }
   login(username: string, password: string): Observable<any> {
-    const headers = { email: username, password: password };
-    return this.client.post(`${this.apiUrl}/login`, headers);
+    const body = { email: username, password: password };
+    const httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+    };
+    return this.client.post(`${this.apiUrl}/login`, body, httpOptions).pipe(
+      tap((response: any) => {
+        const { token, memberId } = response;
+
+        if (token) {
+          localStorage.setItem('token', token);
+        }
+      })
+    );
   }
   getUserProfile(): Observable<UserDTO> {
-    const headers = new HttpHeaders().set('Authorization', `Bearer ${localStorage.getItem('token')}`);
+    const headers = new HttpHeaders().set(
+      'Authorization',
+      `Bearer ${localStorage.getItem('token')}`
+    );
     return this.client.get<UserDTO>(`${this.apiUrl}/profile`, { headers });
   }
 
   uploadProfilePhoto(formData: FormData): Observable<{ memberPhoto: string }> {
     const headers = new HttpHeaders({
-      'Authorization': `Bearer ${localStorage.getItem('token')}`
+      Authorization: `Bearer ${localStorage.getItem('token')}`,
     });
 
-    return this.client.patch<{ memberPhoto: string }>(
+    return this.client.put<{ memberPhoto: string }>(
       `${this.apiUrl}/ChangeUserPhoto`,
       formData,
       { headers, reportProgress: true }
     );
+  }
+
+  updateUserProfile(updatedProfile: any) {
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${localStorage.getItem('token')}`
+    });
+    return this.client.put(`${this.apiUrl}/UpdateUserInfo`, updatedProfile, { headers })
+  }
+
+  changePassword(changePasswordData: any) {
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${localStorage.getItem('token')}`
+    });
+    return this.client.put(`${this.apiUrl}/changePassword`, changePasswordData, { headers })
   }
 }

@@ -17,12 +17,16 @@ import { ProcategoriesComponent } from './components/procategories/procategories
 import { ProfileComponent } from './components/profile/profile.component';
 import { LightboxModule } from 'ngx-lightbox';
 import { ShopproductshowComponent } from './components/shopproductshow/shopproductshow.component';
+import { LiteralToBreakPipe } from './components/pipe/literal-to-break.pipe';
 import { CoursedetailsComponent } from './components/coursedetails/coursedetails.component';
 import { CoursecheckoutComponent } from './components/coursecheckout/coursecheckout.component';
 import { CourseorderreceivedComponent } from './components/courseorderreceived/courseorderreceived.component';
 import { UsedproductshowComponent } from './components/usedproductshow/usedproductshow.component';
 import { SiteDetailComponent } from './components/site-detail/site-detail.component';
 import { SiteReserveComponent } from './components/site-reserve/site-reserve.component';
+import { AuthSuccessComponent } from './components/auth-success/auth-success.component';
+import { RouterModule } from '@angular/router';
+import { ProductsService } from './services/products.service';
 import { CoursesManagementComponent } from './components/coursesmanagement/coursesmanagement.component';
 
 
@@ -41,12 +45,14 @@ import { CoursesManagementComponent } from './components/coursesmanagement/cours
     ShopproductshowComponent,
     ProcategoriesComponent,
     ProfileComponent,
+    LiteralToBreakPipe,
     CoursedetailsComponent,
     CoursecheckoutComponent,
     CourseorderreceivedComponent,
     UsedproductshowComponent,
     SiteDetailComponent,
     SiteReserveComponent,
+    AuthSuccessComponent,
     CoursesManagementComponent,
   ],
   imports: [
@@ -56,9 +62,10 @@ import { CoursesManagementComponent } from './components/coursesmanagement/cours
     ReactiveFormsModule,
     FormsModule,
     LightboxModule,
-    HttpClientModule,   
+    RouterModule,
+    HttpClientModule
   ],
-  providers: [],
+  providers: [ProductsService],
   bootstrap: [AppComponent],
 })
 export class AppModule { }
