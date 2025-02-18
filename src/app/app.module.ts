@@ -24,6 +24,7 @@ import { CourseorderreceivedComponent } from './components/courseorderreceived/c
 import { UsedproductshowComponent } from './components/usedproductshow/usedproductshow.component';
 import { SiteDetailComponent } from './components/site-detail/site-detail.component';
 import { SiteReserveComponent } from './components/site-reserve/site-reserve.component';
+import { AuthSuccessComponent } from './components/auth-success/auth-success.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -46,6 +47,8 @@ import { SiteReserveComponent } from './components/site-reserve/site-reserve.com
     UsedproductshowComponent,
     SiteDetailComponent,
     SiteReserveComponent,
+    AuthSuccessComponent
+
   ],
   imports: [
     BrowserModule,
@@ -58,4 +61,4 @@ import { SiteReserveComponent } from './components/site-reserve/site-reserve.com
   providers: [],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule { }

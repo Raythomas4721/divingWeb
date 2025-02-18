@@ -8,10 +8,7 @@ import { UserBehaviorService } from './user-behavior.service';
   providedIn: 'root',
 })
 export class UserService {
-  constructor(
-    private client: HttpClient,
-    private userBehaviorService: UserBehaviorService
-  ) {}
+  constructor(private client: HttpClient) { }
   private apiUrl = 'https://localhost:7107/api/TMmemberListsAPI';
 
   register(name: string, email: string, password: string) {
@@ -58,17 +55,24 @@ export class UserService {
       Authorization: `Bearer ${localStorage.getItem('token')}`,
     });
 
-    return this.client.patch<{ memberPhoto: string }>(
+    return this.client.put<{ memberPhoto: string }>(
       `${this.apiUrl}/ChangeUserPhoto`,
       formData,
       { headers, reportProgress: true }
     );
   }
-  logout() {
-    // 清除 token
-    localStorage.removeItem('token');
 
-    // 清除 memberId
-    this.userBehaviorService.setMemberId(null);
+  updateUserProfile(updatedProfile: any) {
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${localStorage.getItem('token')}`
+    });
+    return this.client.put(`${this.apiUrl}/UpdateUserInfo`, updatedProfile, { headers })
+  }
+
+  changePassword(changePasswordData: any) {
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${localStorage.getItem('token')}`
+    });
+    return this.client.put(`${this.apiUrl}/changePassword`, changePasswordData, { headers })
   }
 }

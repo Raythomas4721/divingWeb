@@ -15,17 +15,21 @@ export class AuthService {
   private userName = "";
   private userSubject = new ReplaySubject<UserDTO>(1);
   user$: Observable<UserDTO | null> = this.userSubject.asObservable(); // 讓元件可以監聽用戶資料變化
+  private isLoggedInSubject = new BehaviorSubject<boolean>(false);
+  isLoggedIn$: Observable<boolean> = this.isLoggedInSubject.asObservable();
 
   private async loadUserToken() {
     const token = localStorage.getItem("token");
     if (token) {
       try {
         const decodedToken: any = jwtDecode(token);
-        this.userId = decodedToken.userId;
-        this.userName = decodedToken.name;
+        this.isLoggedInSubject.next(true);
+        this.userId = decodedToken.sub || decodedToken.userId || '';
+        this.userName = decodedToken.name || 'Google 用戶';
         await this.fetchUserProfile();
       } catch (error) {
         console.error("Token 錯誤", error);
+        this.isLoggedInSubject.next(false);
       }
     }
   }
@@ -37,10 +41,12 @@ export class AuthService {
       next: res => {
         console.log('用戶資料:', res);
         this.userSubject.next(res);
+        this.isLoggedInSubject.next(true);
       },
       error: err => {
         console.log('獲取用戶失敗', err);
         this.userSubject.next(null!);
+        this.isLoggedInSubject.next(false);
       }
     })
   }
@@ -63,6 +69,7 @@ export class AuthService {
   }
   clearUserProfile() {
     this.userSubject.next(null!);
+    this.isLoggedInSubject.next(false);
   }
 
 }
