@@ -81,8 +81,8 @@ export class UsedProductsComponent {
       },
       error: (error: HttpErrorResponse) => {
         console.error('載入二手商品失敗:', error);
-        alert('請先登入會員!');
-        this.router.navigate(['user/login']);
+        // alert('請先登入會員!');
+        // this.router.navigate(['user/login']);
       }
     });
   }
