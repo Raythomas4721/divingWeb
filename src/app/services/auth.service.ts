@@ -3,17 +3,19 @@ import { UserService } from './user.service';
 import { UserDTO } from '../interface/userDTO';
 import { jwtDecode } from 'jwt-decode';
 import { BehaviorSubject, Observable, ReplaySubject } from 'rxjs';
+import { AlertService } from './alert.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  constructor(private userService: UserService) {
+  constructor(private userService: UserService, private alertService: AlertService) {
     this.loadUserToken();
   }
   private userId = "";
   private userName = "";
   private userSubject = new ReplaySubject<UserDTO>(1);
+
   user$: Observable<UserDTO | null> = this.userSubject.asObservable(); // 讓元件可以監聽用戶資料變化
   private isLoggedInSubject = new BehaviorSubject<boolean>(false);
   isLoggedIn$: Observable<boolean> = this.isLoggedInSubject.asObservable();
@@ -47,6 +49,7 @@ export class AuthService {
         console.log('獲取用戶失敗', err);
         this.userSubject.next(null!);
         this.isLoggedInSubject.next(false);
+        this.alertService.error('登入失敗');
       }
     })
   }

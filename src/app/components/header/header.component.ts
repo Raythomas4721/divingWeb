@@ -113,8 +113,7 @@ export class HeaderComponent implements OnInit {
         $('body').css('padding-right', 0);
         this.errorMessage = "";
         this.userForm.reset();
-        this.alertService.success(`登入成功，歡迎!`);
-
+        this.alertService.success(`歡迎! 登入成功`);
         this.authService.updateUserProfile();
         this.authService.user$.subscribe(user => {
           this.user = user?.user;
