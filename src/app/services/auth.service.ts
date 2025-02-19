@@ -6,14 +6,15 @@ import { BehaviorSubject, Observable, ReplaySubject } from 'rxjs';
 import { AlertService } from './alert.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthService {
   constructor(private userService: UserService, private alertService: AlertService) {
     this.loadUserToken();
   }
-  private userId = "";
-  private userName = "";
+
+  private userId = '';
+  private userName = '';
   private userSubject = new ReplaySubject<UserDTO>(1);
 
   user$: Observable<UserDTO | null> = this.userSubject.asObservable(); // 讓元件可以監聽用戶資料變化
@@ -21,7 +22,7 @@ export class AuthService {
   isLoggedIn$: Observable<boolean> = this.isLoggedInSubject.asObservable();
 
   private async loadUserToken() {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem('token');
     if (token) {
       try {
         const decodedToken: any = jwtDecode(token);
@@ -30,7 +31,7 @@ export class AuthService {
         this.userName = decodedToken.name || 'Google 用戶';
         await this.fetchUserProfile();
       } catch (error) {
-        console.error("Token 錯誤", error);
+        console.error('Token 錯誤', error);
         this.isLoggedInSubject.next(false);
       }
     }
@@ -60,19 +61,20 @@ export class AuthService {
     }
     this.userService.getUserProfile().subscribe({
       next: (res) => {
-        console.log("用戶資料已更新:", res);
+        console.log('用戶資料:', res);
         this.userSubject.next(res);
+        this.isLoggedInSubject.next(true);
       },
       error: (err) => {
-        console.error("更新後獲取用戶失敗");
+        console.log('獲取用戶失敗', err);
         this.userSubject.next(null!);
-      }
+        this.isLoggedInSubject.next(false);
+      },
     });
-    this.fetchUserProfile();
   }
+
   clearUserProfile() {
     this.userSubject.next(null!);
     this.isLoggedInSubject.next(false);
   }
-
 }

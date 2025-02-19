@@ -24,17 +24,38 @@
           </div>
           <!-- 商品細項 (如顏色、尺寸等) -->
           <div class="product-detail">
-            Color: {{ item || "N/A" }}
-            <br />
-            Size: {{ item || "One Size" }}
+            <div
+              class="color-field"
+              *ngIf="item.color && item.color !== '無選擇'"
+            >
+              Color:
+              <span
+                class="color-swatch"
+                [style.backgroundColor]="item.color"
+              ></span>
+            </div>
+            <div *ngIf="item.size && item.size !== '無選擇'">
+              Size: {{ item.size }}
+            </div>
+            <!-- Thickness -->
+            <div *ngIf="item.thickness !== '無選擇'">
+              Thickness: {{ item.thickness }}
+            </div>
+
+            <!-- Gender -->
+            <div *ngIf="item.gender !== '無選擇'">
+              Gender: {{ item.gender }}
+            </div>
           </div>
 
           <!-- 若有缺貨狀態，可顯示提示 -->
-          <div class="out-of-stock" *ngIf="item">Out of stock</div>
+          <div class="out-of-stock" *ngIf="item.stock <= 0">Out of stock</div>
 
           <!-- 金額 & 數量 -->
           <div class="product-row">
-            <div class="product-price">\${{ item.unitpriceatCart }}</div>
+            <div class="product-price">
+              ${{ item.unitpriceatCart | number : "1.0-0" }}
+            </div>
             <div class="product-quantity">
               <span>{{ item.quantity }}</span>
             </div>
@@ -43,7 +64,7 @@
         <!-- 移除商品 -->
         <button
           class="remove-item"
-          (click)="removeItem(i)"
+          (click)="removeItem(item.productvariantsId!, item.memberId!)"
           aria-label="Remove item"
         >
           <i class="fa fa-trash" aria-hidden="true"></i>
@@ -96,6 +117,9 @@
       [disabled]="hasError"
       (click)="proceedToCheckout()"
     > -->
-    <button>CHECKOUT SECURELY</button>
+    <button (click)="proceedToCheckout()">
+      CHECKOUT SECURELY
+      <i class="fa-regular fa-credit-card" style="font-size: 24px"></i>
+    </button>
   </div>
 </div>

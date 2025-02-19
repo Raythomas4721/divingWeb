@@ -7,8 +7,28 @@ a.logo img {
 }
 
 /* Feb 13 */
-button{
+button {
   border-radius: 8px;
   font-size: 16px;
   font-weight: bold;
+}
+
+.Cart-count {
+  position: absolute;
+  z-index: 5;
+  display: none;
+  background-color: crimson;
+  font-size: 11px;
+  width: 18px;
+  height: 18px;
+  line-height: 18px;
+  text-align: center;
+  border-radius: 50%;
+  color: white;
+  right: -14px;
+  top: 20px;
+  text-indent: -1px;
+}
+a {
+  cursor: pointer;
 }

@@ -16,6 +16,9 @@ import { UsedproductshowComponent } from './components/usedproductshow/usedprodu
 import { SiteDetailComponent } from './components/site-detail/site-detail.component';
 import { SiteReserveComponent } from './components/site-reserve/site-reserve.component';
 import { AuthSuccessComponent } from './components/auth-success/auth-success.component';
+import { CoursesManagementComponent } from './components/coursesmanagement/coursesmanagement.component';
+import { CoursecreateComponent } from './coursecreate/coursecreate.component';
+
 
 const routes: Routes = [
   { path: 'auth-success', component: AuthSuccessComponent },
@@ -27,20 +30,35 @@ const routes: Routes = [
   { path: 'site-rental', component: SiteRentalComponent },
   { path: 'shopcart', component: Sideshopcart },
   { path: 'shopproductshow/:id', component: ShopproductshowComponent },
+  // { path: 'procategories', component: ProcategoriesComponent },
+  { path: 'profile', component: ProfileComponent },
   { path: 'procategories', component: ProcategoriesComponent },
   { path: 'coursedetails/:id', component: CoursedetailsComponent },
   { path: 'coursecheckout', component: CoursecheckoutComponent },
   { path: 'courseorderreceived', component: CourseorderreceivedComponent },
-  { path: 'usedproductshow/:id', component: UsedproductshowComponent },
+  { path: 'usedproductshow', component: UsedproductshowComponent },
   { path: 'site-detail', component: SiteDetailComponent },
   { path: 'site-reserve', component: SiteReserveComponent },
+  { path: 'coursesmanagement', component: CoursesManagementComponent },
+  { path: 'coursecreate', component: CoursecreateComponent },
+  //   { path: 'course/create', component: CoursecreateupdateComponent },
+  //   { path: 'course/edit/:id', component: CoursecreateupdateComponent }
   { path: '', component: HomeComponent },
-  { path: '**', redirectTo: '', pathMatch: 'full' } // 404 頁面導回首頁
+  { path: '**', redirectTo: '', pathMatch: 'full' }, // 404 頁面導回首頁
+
+
 
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, { useHash: true, scrollPositionRestoration: 'top' },)],
+  imports: [
+    RouterModule.forRoot(routes, {
+      useHash: true,
+      onSameUrlNavigation: 'reload',
+      scrollPositionRestoration: 'top'
+    }),
+
+  ],
   exports: [RouterModule],
 })
 export class AppRoutingModule { }

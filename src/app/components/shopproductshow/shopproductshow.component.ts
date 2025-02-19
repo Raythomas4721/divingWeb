@@ -1,62 +1,165 @@
-import { SharedcartService } from './../../services/sharedcart.service';
-import { ActivatedRoute, Router } from '@angular/router';
 import { TNcartItemDTO } from 'src/app/interface/TNcartItemDTO';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
+
 import { TNcartItemsService } from './../../services/tncart-items.service';
-import { Component, OnInit } from '@angular/core';
+import { SharedcartService } from './../../services/sharedcart.service';
+import { UserBehaviorService } from 'src/app/services/user-behavior.service';
+import { AuthService } from 'src/app/services/auth.service';
+import { UserDTO } from 'src/app/interface/userDTO';
+
 import {
-  ColorDTO,
-  SizeDTO,
   TNproductDTO,
   TNprovariantDTO,
+  ColorDTO,
+  SizeDTO,
 } from 'src/app/interface/TNproductDTO';
-import { TnproductService } from './../../services/tnproduct.service';
-import { HttpClient } from '@angular/common/http';
+
+import { Lightbox, IAlbum } from 'ngx-lightbox';
+import { TnproductService } from 'src/app/services/tnproduct.service';
+import { CommonModule } from '@angular/common';
+import {
+  FormBuilder,
+  FormGroup,
+  Validators,
+  FormsModule,
+  ReactiveFormsModule,
+} from '@angular/forms';
+import { TnreviewService } from 'src/app/services/tnreview.service';
+import { TNreviewDTO } from 'src/app/interface/TNreviewDTO';
 
 @Component({
   selector: 'app-shopproductshow',
   templateUrl: './shopproductshow.component.html',
   styleUrls: ['./shopproductshow.component.css'],
 })
-export class ShopproductshowComponent implements OnInit {
-  // 圖片相簿
-  album: Array<{ src: string; caption?: string; thumb?: string }> = [];
+export class ShopproductshowComponent implements OnInit, OnDestroy {
+  user?: UserDTO | null;
+  private enterTime!: number; // 用來記錄進入商品頁的時間(毫秒) 以計算 dwell time
+  album: IAlbum[] = []; // Lightbox 圖片陣列
 
   productId: number | null = null;
   productDetail: TNproductDTO | null = null;
-
-  // 從後端取得的變體清單 (主要用來找 thickness/gender => 可視需求保留)
+  // 從後端撈取的變體資料 (若只靠後端 addCart 檢查，可以不顯示庫存)
   productVariants: TNprovariantDTO[] = [];
 
-  // 從後端 API (colors?productId=xxx) / (sizes?productId=xxx) 取得
+  // 從後端各 API 撈到的顏色/尺寸/厚度/款式
   colors: ColorDTO[] = [];
   sizes: SizeDTO[] = [];
-  // 其他屬性 (厚度 / 款式) 用簡單的 id/name
   thicknesses: Array<{ id: number; name: string }> = [];
   genders: Array<{ id: number; name: string }> = [];
 
-  // 選擇的 color / size / thickness / gender
+  // 使用者選擇的變體
   selectedColor: number | null = null;
   selectedSize: number | null = null;
   selectedThickness: number | null = null;
   selectedGender: number | null = null;
-  // 最後找到的對應 variant
   selectedVariant: TNprovariantDTO | null = null;
-  quantity = 1;
 
-  // Modal 相關
-  isModalOpen = false;
-  selectedImage = '';
-
+  quantity = 1; // 使用者輸入的購買數量
+  //商品描述欄位
+  attributes: { label: string; values: string[] }[] = [];
+  cartItems: TNcartItemDTO[] = [];
+  //使用者評分
+  reviewForm!: FormGroup;
+  successMessage = '';
+  errorMessage = '';
+  reviews: TNreviewDTO[] = [];
+  avgRating: number = 0;
+  reviewCount: number = 0;
+  editingReview: TNreviewDTO | null = null;
+  get ratingWidth(): number {
+    // (avgRating / 5) * 100
+    return (this.avgRating / 5) * 100;
+  }
   constructor(
     private route: ActivatedRoute,
+    private http: HttpClient,
     private productService: TnproductService,
     private cartItemsService: TNcartItemsService,
-    private http: HttpClient,
-    private router: Router,
-    private sharedcartService: SharedcartService
+    private sharedcartService: SharedcartService,
+    private userBehaviorService: UserBehaviorService,
+    private authService: AuthService,
+    private lightbox: Lightbox,
+    private fb: FormBuilder,
+    private reviewService: TnreviewService
   ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
+    // 監聽使用者資訊 (若需要帶 memberId 給後端)
+    this.authService.user$.subscribe((u) => {
+      this.user = u?.user;
+      if (this.user?.memberId) {
+        this.reviewForm.patchValue({ memberId: this.user.memberId });
+      }
+    });
+    this.cartItemsService.cartItems$.subscribe((items) => {
+      this.cartItems = items;
+    });
+    // (A) 先讀取路由參數
+    this.productId = Number(this.route.snapshot.paramMap.get('id'));
+    if (!this.productId) {
+      console.error('無法取得商品ID');
+      return;
+    }
+
+    // (B) 建立 Reactive Form
+    this.reviewForm = this.fb.group({
+      productId: [null],
+      memberId: [null],
+      reviewRating: [
+        null,
+        [Validators.required, Validators.min(1), Validators.max(5)],
+      ],
+      reviewContent: ['', Validators.required],
+    });
+
+    // (C) 將 productId 帶入表單
+    this.reviewForm.patchValue({
+      productId: this.productId,
+      memberId: this.user?.memberId,
+    });
+    this.http
+      .get<TNreviewDTO[]>(
+        `https://localhost:7107/api/TNreviews/product/${this.productId}`
+      )
+      .subscribe({
+        next: (res) => {
+          this.reviews = res;
+          // 計算平均評分
+          let total = 0;
+          this.reviews.forEach((r) => {
+            total += r.reviewRating;
+          });
+          const count = this.reviews.length;
+          if (count > 0) {
+            this.avgRating = total / count; // 例如 4.33
+          } else {
+            this.avgRating = 0;
+          }
+
+          this.reviewCount = count; // 總評論數
+
+          const existingReview = this.reviews.find(
+            (r) => r.memberId === this.user?.memberId
+          );
+          if (existingReview) {
+            this.editingReview = existingReview;
+            // 預填表單
+            this.reviewForm.setValue({
+              productId: existingReview.productId,
+              memberId: existingReview.memberId,
+              reviewRating: existingReview.reviewRating,
+              reviewContent: existingReview.reviewContent,
+            });
+          }
+        },
+        error: (err) => console.error('撈取評論失敗', err),
+      });
+
+    this.enterTime = Date.now();
+
     // 1) 取得路由參數
     this.productId = Number(this.route.snapshot.paramMap.get('id'));
     if (!this.productId) {
@@ -64,182 +167,241 @@ export class ShopproductshowComponent implements OnInit {
       return;
     }
 
-    // 2) 取得單一商品詳細
-    this.productService.getSingleProduct(this.productId).subscribe({
-      next: (res) => {
-        this.productDetail = res;
-        console.log('單一商品: ', this.productDetail);
+    // 2) 紀錄 VIEW_PRODUCT 行為 (可帶 productId)
+    this.userBehaviorService.logViewProduct(this.productId).subscribe();
 
-        // 如果有 imageUrl 就放到 album
-        if (this.productDetail.imageUrl && this.productDetail.imageUrl.length) {
-          for (const filename of this.productDetail.imageUrl) {
-            const fullPath = 'assets/images/shop/' + filename;
-            this.album.push({
-              src: fullPath,
-              caption: filename,
-              thumb: fullPath,
+    // 3) 撈取商品詳細 (不含庫存檢查)
+    this.productService.getSingleProduct(this.productId).subscribe({
+      next: (res: TNproductDTO | null) => {
+        this.productDetail = res;
+        // 做圖片 album (主圖 + 檢查 -1.jpg, -2.jpg)
+        if (this.productDetail?.imageUrl) {
+          // 若後端只存一張
+          if (!this.productDetail.images) {
+            this.productDetail.images = [];
+          }
+          const mainImg = this.productDetail.imageUrl;
+          this.productDetail.images.push(mainImg);
+
+          const mainFullPath = 'assets/images/shop/' + mainImg;
+          this.album.push({
+            src: mainFullPath,
+            thumb: mainFullPath,
+            caption: mainImg,
+          });
+
+          // 檢查 -1.jpg, -2.jpg ...
+          const baseName = mainImg.replace('.jpg', '');
+          for (let i = 1; i <= 2; i++) {
+            const guessName = `${baseName}-${i}.jpg`;
+            const guessPath = `assets/images/shop/${guessName}`;
+            this.http.head(guessPath, { observe: 'response' }).subscribe({
+              next: (resp) => {
+                if (resp.status === 200) {
+                  this.productDetail?.images?.push(guessName);
+                  this.album.push({
+                    src: guessPath,
+                    thumb: guessPath,
+                    caption: guessName,
+                  });
+                }
+              },
+              error: (err) => {
+                if (err.status !== 404) {
+                  console.error('檔案檢查發生錯誤:', err);
+                }
+              },
             });
           }
         }
       },
-      error: (err) => {
-        console.error('取得單一商品失敗', err);
-      },
+      error: (err: any) => console.error('取得商品詳細失敗:', err),
     });
 
-    // 3) 從後端拿 color / size (含 hasStock)
-    //   這樣就不用透過 productVariants 來做 distinct
+    // 4) 撈取顏色/尺寸 (若需要使用者先選擇)
     this.productService.getColorsForProduct(this.productId).subscribe({
-      next: (colorList) => {
+      next: (colorList: any[]) => {
         this.colors = colorList.filter((c) => c.colorId !== 0);
-        console.log('Colors =>', this.colors);
+        this.buildAttributes(); // 更新
       },
-      error: (err) => console.error('取得顏色清單失敗', err),
+      error: (err: any) => console.error('取得 color 失敗', err),
     });
 
     this.productService.getSizesForProduct(this.productId).subscribe({
-      next: (sizeList) => {
+      next: (sizeList: any[]) => {
         this.sizes = sizeList.filter((s) => s.sizeId !== 0);
-        console.log('Sizes =>', this.sizes);
+        this.buildAttributes(); // 更新
       },
-      error: (err) => console.error('取得尺寸清單失敗', err),
+      error: (err: any) => console.error('取得 size 失敗', err),
     });
 
-    // 4) 仍需 productVariants 來決定 thickness, gender ？(視需求)
+    // 5) 撈取 variants (若你想前端顯示更多資訊)
     this.productService.getProductVariants(this.productId).subscribe({
-      next: (variants) => {
-        this.productVariants = variants;
-        console.log('變體清單: ', this.productVariants);
-
-        // thickness
+      next: (vars: any[]) => {
+        this.productVariants = vars;
+        // 可能從 variants 提取 thickness/gender
         this.thicknesses = this.extractDistinctOptions(
-          variants.map((v) => v.thicknessId).filter((tid) => tid !== 0),
+          vars.map((v) => v.thicknessId).filter((id) => id !== 0),
           (id) => this.getThicknessName(id)
         );
-        // gender
         this.genders = this.extractDistinctOptions(
-          variants.map((v) => v.genderId).filter((tid) => tid !== 0),
+          vars.map((v) => v.genderId).filter((id) => id !== 0),
           (id) => this.getGenderName(id)
         );
-
-        // 若需要預設：可取第一筆
-        if (variants.length > 0) {
-          const first = variants[0];
-          // 先不設定 color/size => 由 user 自行點選
-          this.selectedThickness = first.thicknessId;
-          this.selectedGender = first.genderId;
-          this.selectedVariant = first;
-        }
+        this.buildAttributes(); // 更新
       },
-      error: (err) => {
-        console.error('取得變體資料失敗', err);
-      },
+      error: (err: any) => console.error('取得 variants 失敗', err),
     });
   }
 
-  /** 當使用者點擊「顏色」時 */
-  onColorClick(c: ColorDTO) {
-    if (!c.hasStock) {
-      return; // 無庫存就跳過
-    }
-    this.selectedColor = c.colorId;
-    this.onVariantChange();
+  // ★ 小函式：用來產生一個 array，長度 = rating
+  createStarsArray(rating: number): number[] {
+    return Array.from({ length: rating }, (_, i) => i);
   }
+  onReviewSubmit() {
+    // console.log('Form Valid?', this.reviewForm.valid);
+    // console.log('productId.errors', this.reviewForm.get('productId')?.errors);
+    // console.log('memberId.errors', this.reviewForm.get('memberId')?.errors);
+    // console.log(
+    //   'reviewRating.errors',
+    //   this.reviewForm.get('reviewRating')?.errors
+    // );
+    // console.log(
+    //   'reviewContent.errors',
+    //   this.reviewForm.get('reviewContent')?.errors
+    // );
 
-  /** 當使用者點擊「尺寸」時 */
-  onSizeClick(s: SizeDTO) {
-    if (!s.hasStock) {
+    // if (!this.reviewForm?.valid) {
+    //   console.warn('Form is invalid!');
+    //   return;
+    // }
+    if (!this.user?.memberId) {
+      alert('尚未登入, 無法發表評論');
       return;
     }
-    this.selectedSize = s.sizeId;
-    this.onVariantChange();
-  }
-
-  onThicknessClick(t: { id: number; name: string }) {
-    this.selectedThickness = t.id; // 設為當前選擇
-    this.onVariantChange(); // 重新匹配 variant
-  }
-  onGenderClick(g: { id: number; name: string }) {
-    this.selectedGender = g.id;
-    this.onVariantChange();
-  }
-  /**
-   * 當 thickness / gender 變動時 (如果也想用點選方式則自行改)
-   * 目前是 template `<select>` or something
-   */
-  onVariantChange(): void {
-    if (!this.productVariants.length) {
-      this.selectedVariant = null;
-      return;
-    }
-
-    this.selectedVariant =
-      this.productVariants.find(
-        (v) =>
-          v.colorId === this.selectedColor &&
-          v.sizeId === this.selectedSize &&
-          v.thicknessId === this.selectedThickness &&
-          v.genderId === this.selectedGender
-      ) ?? null;
-    // 若找不到表示無此組合
-    if (!this.selectedVariant) {
-      console.warn('找不到對應變體，可能此組合無庫存');
-    }
-  }
-
-  /** 加入購物車 */
-  onConfirmAddToCart(): void {
-    if (!this.productDetail) {
-      console.warn('尚未載入商品資料');
-      return;
-    }
-    if (!this.selectedVariant) {
-      alert('請先選擇顏色 / 尺寸 / 厚度 / 款式');
-      return;
-    }
-
-    // 在此檢查庫存
-    // 1) 若 stock <= 0
-    if (this.selectedVariant.stock <= 0) {
-      alert('此商品已無庫存');
-      return;
-    }
-    // 2) 若輸入數量 > stock
-    if (this.quantity > this.selectedVariant.stock) {
-      alert(`庫存不足，目前剩餘 ${this.selectedVariant.stock} 件`);
-      return;
-    }
-    const newItem: TNcartItemDTO = {
-      memberId: 1,
-      productName: this.productDetail.productName,
-      uproductId: this.productDetail.productId,
-      productvariantsId: this.selectedVariant
-        ? this.selectedVariant.productvariantsId
-        : null,
-      quantity: this.quantity,
-      unitpriceatCart: this.productDetail.unitPrice,
-      imageUrl: this.productDetail.imageUrl,
-      isLocked: false,
-      condition: 'new',
-      creationDate: new Date().toISOString(),
-      updatedDate: new Date().toISOString(),
+    const payload = {
+      memberId: this.user.memberId,
+      memberName: this.user.memberName,
+      productId: this.productId!,
+      reviewRating: this.reviewForm.value.reviewRating,
+      reviewContent: this.reviewForm.value.reviewContent,
     };
-
-    // 1. 加進 CartService
-    this.cartItemsService.addToCart(newItem);
-
-    // 2. 打開 SideCart
-    this.sharedcartService.openCartPanel();
+    if (this.editingReview) {
+      // =========== 更新 ===============
+      this.updateReview(payload);
+    } else {
+      // =========== 新增 ===============
+      this.createReview(payload);
+    }
   }
-  /* 顯示「庫存可否加購」：讓按鈕自動 disabled (選擇性) */
-  get canAddToCart(): boolean {
-    return (
-      !!this.selectedVariant && // 有找到 variant
-      this.selectedVariant.stock > 0 && // 庫存大於 0
-      this.quantity > 0 && // 使用者輸入的數量要大於 0
-      this.quantity <= this.selectedVariant.stock // 不能超過庫存
-    );
+
+  editReview(r: TNreviewDTO) {
+    this.editingReview = r;
+    this.reviewForm.setValue({
+      productId: r.productId,
+      memberId: r.memberId,
+      reviewRating: r.reviewRating,
+      reviewContent: r.reviewContent,
+    });
   }
+
+  createReview(payload: any) {
+    this.reviewService.addReview(payload).subscribe({
+      next: (res: TNreviewDTO) => {
+        alert('Review added successfully!');
+        // push
+        this.reviews.push(res);
+        // reset
+        this.reviewForm.reset();
+      },
+      error: (err) => {
+        console.error(err);
+        if (err.status === 403) {
+          alert('尚未購買過此商品，無法評價');
+        } else if (
+          err.status === 400 &&
+          err.error === 'You already wrote a review for this product.'
+        ) {
+          alert('已經對此商品留過評論!');
+        } else {
+          alert('發生錯誤: ' + err.message);
+        }
+      },
+    });
+  }
+  updateReview(payload: any) {
+    if (!this.editingReview) return;
+
+    payload.reviewId = this.editingReview.reviewId;
+    this.http
+      .put(
+        `https://localhost:7107/api/TNreviews/${this.editingReview.reviewId}`,
+        payload
+      )
+      .subscribe({
+        next: (res) => {
+          alert('Review updated successfully!');
+          const index = this.reviews.findIndex(
+            (r) => r.reviewId === this.editingReview!.reviewId
+          );
+          if (index > -1) {
+            this.reviews[index].reviewRating = payload.reviewRating;
+            this.reviews[index].reviewContent = payload.reviewContent;
+          }
+          this.reviewForm.reset();
+          this.editingReview = null;
+        },
+        error: (err) => {
+          console.error(err);
+          if (err.status === 403) {
+            alert("You can't edit others' review");
+          } else {
+            alert('Update failed');
+          }
+        },
+      });
+  }
+  removeReview(reviewId: number) {
+    if (!confirm('確定要刪除這則評論嗎？')) return;
+    const memberId = this.user?.memberId;
+
+    this.http
+      .delete(`https://localhost:7107/api/TNreviews/${reviewId}`, {
+        body: { memberId: memberId }, // 這裡帶給後端
+      })
+      .subscribe({
+        next: (res) => {
+          alert('Review deleted!');
+          // 從 reviews 陣列移除
+          this.reviews = this.reviews.filter((r) => r.reviewId !== reviewId);
+        },
+        error: (err) => {
+          console.error(err);
+          alert('Delete failed');
+        },
+      });
+  }
+  onStarClick(star: number, event: MouseEvent) {
+    event.preventDefault(); // 阻止 <a> 預設跳轉
+    // 用 patchValue() 或 setValue() 來更新表單控制
+    this.reviewForm?.patchValue({ reviewRating: star });
+    console.log('選到星星=', star, ',表單值=', this.reviewForm?.value);
+  }
+
+  buildAttributes() {
+    // 注意要先確保 this.colors, this.sizes ... 都有值
+    this.attributes = [
+      {
+        label: 'Color',
+        values: this.colors.map((c) => this.parseRgbToName(c.color)),
+      },
+      { label: 'Size', values: this.sizes.map((s) => s.size) },
+      { label: 'Thickness', values: this.thicknesses.map((t) => t.name) },
+      { label: 'Gender', values: this.genders.map((g) => g.name) },
+    ].filter((attr) => attr.values.length > 0); // 過濾空的
+  }
+
+  /** 提取不同 ID => {id, name} */
   private extractDistinctOptions(
     ids: number[],
     getName: (id: number) => string
@@ -250,7 +412,8 @@ export class ShopproductshowComponent implements OnInit {
       name: getName(id),
     }));
   }
-  /* 將 ID map 成顯示名稱 (thickness/gender) */
+
+  // Example thickness name
   private getThicknessName(id: number): string {
     switch (id) {
       case 1:
@@ -265,6 +428,8 @@ export class ShopproductshowComponent implements OnInit {
         return `厚度ID:${id}`;
     }
   }
+
+  // Example gender name
   private getGenderName(id: number): string {
     switch (id) {
       case 1:
@@ -280,18 +445,229 @@ export class ShopproductshowComponent implements OnInit {
     }
   }
 
-  /** 是否有第二版本檔名 (例如 M_....) */
-  hasSecondVersion(filename: string): boolean {
-    return filename.startsWith('M');
+  /** 點顏色 */
+  onColorClick(c: ColorDTO) {
+    if (!c.hasStock) {
+      // 前端可阻擋無庫存顏色
+      return;
+    }
+    this.selectedColor = c.colorId;
+    this.onVariantChange();
+    // do something
+    console.log('選擇color=', c.colorId);
   }
 
-  /** 圖片 Modal */
-  openModal(imageUrl: string) {
-    console.log('openModal() triggered, imgUrl =', imageUrl);
-    this.selectedImage = imageUrl;
-    this.isModalOpen = true;
+  onSizeClick(s: SizeDTO) {
+    if (!s.hasStock) {
+      return;
+    }
+    this.selectedSize = s.sizeId;
+    this.onVariantChange();
   }
-  closeModal() {
-    this.isModalOpen = false;
+
+  onThicknessClick(t: { id: number; name: string }) {
+    this.selectedThickness = t.id;
+    this.onVariantChange();
+  }
+
+  onGenderClick(g: { id: number; name: string }) {
+    this.selectedGender = g.id;
+    this.onVariantChange();
+  }
+
+  /** 若你仍想前端找到 selectedVariant, 可保留 */
+  onVariantChange() {
+    // 假設商品有 color, size, thickness, gender 的組合
+    const needColor = this.colors.length > 0;
+    const needSize = this.sizes.length > 0;
+    const needThick = this.thicknesses.length > 0;
+    const needGender = this.genders.length > 0;
+
+    // 若需要而沒選，暫時不顯示
+    if (needColor && !this.selectedColor) {
+      this.selectedVariant = null;
+      return;
+    }
+    if (needSize && !this.selectedSize) {
+      this.selectedVariant = null;
+      return;
+    }
+    if (needThick && !this.selectedThickness) {
+      this.selectedVariant = null;
+      return;
+    }
+    if (needGender && !this.selectedGender) {
+      this.selectedVariant = null;
+      return;
+    }
+
+    this.selectedVariant =
+      this.productVariants.find(
+        (v) =>
+          (needColor ? v.colorId === this.selectedColor : true) &&
+          (needSize ? v.sizeId === this.selectedSize : true) &&
+          (needThick ? v.thicknessId === this.selectedThickness : true) &&
+          (needGender ? v.genderId === this.selectedGender : true)
+      ) || null;
+  }
+
+  /** 使用 ngx-lightbox 顯示大圖 */
+  openLightbox(index: number): void {
+    this.lightbox.open(this.album, index);
+    console.log('album=', this.album);
+  }
+  closeLightbox(): void {
+    this.lightbox.close();
+  }
+
+  /** 數量 +/- */
+  increaseQuantity() {
+    if (this.quantity < 99) {
+      this.quantity++;
+    }
+  }
+  decreaseQuantity() {
+    if (this.quantity > 1) {
+      this.quantity--;
+    }
+  }
+  onQuantityChange() {
+    if (this.quantity < 1) this.quantity = 1;
+    if (this.quantity > 99) this.quantity = 99;
+  }
+
+  /** 最終 => 呼叫後端 addCart API 做庫存檢查+加購物車 */
+  onConfirmAddToCart() {
+    // 1) 若 productDetail 還沒載入
+    if (!this.productDetail) {
+      alert('商品資料尚未載入');
+      return;
+    }
+
+    // ============ 動態檢查四個變體 =============
+
+    // (A) 若前端顯示 color (this.colors.length > 0)，就要檢查是否 user 已選 color
+    if (this.colors.length > 0 && !this.selectedColor) {
+      alert('請先選擇顏色');
+      return;
+    }
+
+    // (B) 若前端顯示 size (this.sizes.length > 0)，就要檢查是否 user 已選 size
+    if (this.sizes.length > 0 && !this.selectedSize) {
+      alert('請先選擇尺寸');
+      return;
+    }
+
+    // (C) 若前端顯示 thickness (this.thicknesses.length > 0)，就要檢查是否 user 已選 thickness
+    if (this.thicknesses.length > 0 && !this.selectedThickness) {
+      alert('請先選擇厚度');
+      return;
+    }
+
+    // (D) 若前端顯示 gender (this.genders.length > 0)，就要檢查是否 user 已選 gender
+    if (this.genders.length > 0 && !this.selectedGender) {
+      alert('請先選擇款式');
+      return;
+    }
+    //確認抓到正確的memberId
+    const realMemberId = this.user?.memberId;
+
+    if (!realMemberId) {
+      // 引導使用者登入
+      alert('請先登入再加入購物車');
+      console.log('realMemberId', realMemberId);
+      return;
+    }
+
+    // 2) 組合要傳給後端的 payload
+    const payload = {
+      productId: this.productId,
+      colorId: this.selectedColor ?? 0, // 若沒顯示 color，就帶0
+      sizeId: this.selectedSize ?? 0,
+      thicknessId: this.selectedThickness ?? 0,
+      genderId: this.selectedGender ?? 0,
+      quantity: this.quantity,
+      memberId: realMemberId,
+    };
+    console.log('將要傳給後端的 payload:', payload);
+
+    // 3) 呼叫後端 /api/TNproductvariants/addCart
+    this.http
+      .post('https://localhost:7107/api/TNproductvariants/addCart', payload)
+      .subscribe({
+        next: (res: any) => {
+          if (res.success) {
+            // 前端更新暫存購物車 + 開panel
+            const newItem: TNcartItemDTO = {
+              memberId: payload.memberId,
+              productvariantsId: res.productvariantsId,
+              productName: this.productDetail?.productName ?? '', // or fallback to this.productDetail?.productName
+              uproductId: res.uproductId ?? null,
+              quantity: payload.quantity,
+              unitpriceatCart: res.price,
+              imageUrl: res.imageUrl,
+              isLocked: false,
+              condition: 'new',
+              creationDate: new Date().toISOString(),
+              updatedDate: new Date().toISOString(),
+
+              color: res.colorName,
+              size: res.sizeName,
+              thickness: res.thicknessName,
+              gender: res.genderName,
+              stock: 0,
+            };
+            console.log('後端回傳:', res);
+            this.cartItemsService.addToCart(newItem);
+            this.sharedcartService.openCartPanel();
+
+            // alert('加入購物車成功(後端已檢查庫存)!');
+          } else {
+            alert(res.message || '無法加入購物車');
+          }
+        },
+        error: (err) => {
+          console.error('加入購物車失敗:', err);
+          alert('系統異常，無法加入購物車');
+        },
+      });
+  }
+
+  /** 離開頁面 => 紀錄停留時間 */
+  ngOnDestroy(): void {
+    const leaveTime = Date.now();
+    const dwellSeconds = (leaveTime - this.enterTime) / 1000;
+    this.userBehaviorService
+      .logDwellTime(this.productId!, dwellSeconds)
+      .subscribe();
+  }
+
+  findColorNameById(colorId: number): string {
+    const c = this.colors.find((x) => x.colorId === colorId);
+    return c ? c.color : 'N/A';
+  }
+  findSizeNameById(sizeId: number): string {
+    const s = this.sizes.find((x) => x.sizeId === sizeId);
+    return s ? s.size : 'N/A';
+  }
+  findThicknessNameById(thickId: number): string {
+    const t = this.thicknesses.find((x) => x.id === thickId);
+    return t ? t.name : 'N/A';
+  }
+  findGenderNameById(genderId: number): string {
+    const g = this.genders.find((x) => x.id === genderId);
+    return g ? g.name : 'N/A';
+  }
+  //color rgb換成文字
+  private rgbToNameMap: Record<string, string> = {
+    'rgb(56, 124, 220)': '藍色',
+    'rgb(0, 0, 0)': '黑色',
+    'rgb(234, 234, 234)': '白色',
+    'rgb(246, 0, 123)': '紅色',
+  };
+
+  private parseRgbToName(rgb: string): string {
+    // 如果有在 map 裡，就回傳對應的名稱；否則就直接回傳原字串
+    return this.rgbToNameMap[rgb] || rgb;
   }
 }
