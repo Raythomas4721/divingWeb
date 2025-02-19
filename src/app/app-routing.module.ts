@@ -40,15 +40,15 @@ const routes: Routes = [
   { path: 'site-detail', component: SiteDetailComponent },
   { path: 'site-reserve', component: SiteReserveComponent },
   { path: 'coursesmanagement', component: CoursesManagementComponent },
-  { path: 'coursecreate', component:CoursecreateComponent },
-  
+  { path: 'coursecreate', component: CoursecreateComponent },
+
   //   { path: 'course/create', component: CoursecreateupdateComponent },
   //   { path: 'course/edit/:id', component: CoursecreateupdateComponent }
   { path: '', component: HomeComponent },
   { path: '**', redirectTo: '', pathMatch: 'full' }, // 404 頁面導回首頁
-  { path: 'coursecreate', component:CoursecreateComponent },
-  
-  
+  { path: 'coursecreate', component: CoursecreateComponent },
+
+
 
 ];
 
@@ -57,8 +57,9 @@ const routes: Routes = [
     RouterModule.forRoot(routes, {
       useHash: true,
       onSameUrlNavigation: 'reload',
+      scrollPositionRestoration: 'top'
     }),
-    
+
   ],
   exports: [RouterModule],
 })
