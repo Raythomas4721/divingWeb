@@ -29,9 +29,15 @@ export class CoursesManagementComponent implements OnInit {
   //   { id: 3, name: '有氧' }
   // ];
   keyword: string = '';
-  selectedCategory: string = '';
   coursesData: any[] = [];// 確保型別為陣列
-  courseCategories: { [key: string]: string; } | undefined
+  originalCoursesData: any[] = []; 
+  // courseCategories: { [key: string]: string; } | undefined
+  courseCategories: Category[] = []; // 存儲課程分類
+  selectedCategory: string = ''; // 選擇的分類 ID
+
+
+  sortBy: string = ''; // 排序欄位
+  sortDirection: 'asc' | 'desc' = 'asc'; // 升序或降序
 
   constructor(private coursesService: TccoursesService) {}
 
@@ -40,19 +46,40 @@ export class CoursesManagementComponent implements OnInit {
   
     ngOnInit(): void {
       this.loadCourses();
+      this.loadCategories(); // 載入分類
       
     }
 
   
 
+    sortCourses(column: string) {
+      if (this.sortBy === column) {
+        // 如果點擊相同欄位，就切換排序方向
+        this.sortDirection = this.sortDirection === 'asc' ? 'desc' : 'asc';
+      } else {
+        // 點擊新的欄位，改變排序依據
+        this.sortBy = column;
+        this.sortDirection = 'asc';
+      }
+    
+      this.coursesData.sort((a: any, b: any) => {
+        let valueA = a[column];
+        let valueB = b[column];
+    
+        // 確保時間轉換為時間戳
+        if (column.includes('At')) {
+          valueA = new Date(valueA).getTime();
+          valueB = new Date(valueB).getTime();
+        }
+    
+        if (this.sortDirection === 'asc') {
+          return valueA > valueB ? 1 : -1;
+        } else {
+          return valueA < valueB ? 1 : -1;
+        }
+      });
+    }
   loadCourses() {
-    // 假設這些課程來自 API
-    // this.courses = [
-    //   { courseId: 1, courseCategoryId: 1, levelId: 1, coachId: 101, coursePrice: 1500, discription: '基礎瑜珈', courseStatus: true },
-    //   { courseId: 2, courseCategoryId: 2, levelId: 2, coachId: 102, coursePrice: 2000, discription: '肌力訓練', courseStatus: false },
-    //   { courseId: 3, courseCategoryId: 3, levelId: 1, coachId: 103, coursePrice: 1200, discription: '有氧燃脂', courseStatus: true }
-    // ];
-    // this.filteredCourses = [...this.courses];
     this.coursesService.getCourses().subscribe(
       (data) => {
         // 檢查 `data` 是否為陣列，若不是則初始化為空陣列
@@ -62,14 +89,23 @@ export class CoursesManagementComponent implements OnInit {
           return;
         }
 
+        // 儲存原始課程數據
+      this.originalCoursesData = data.map(course => ({
+        ...course,
+        imageData: course.photo 
+          ? `data:image/jpeg;base64,${course.photo}` 
+          : 'assets/images/courses/noImage_500x300.png'
+      }));
+
         // 確保 `data` 是有效陣列後再執行 map()
-        this.coursesData = data.map(course => ({
-          ...course,
-          imageData: course.photo 
-            ? `data:image/jpeg;base64,${course.photo}` 
-            : 'assets/images/courses/noImage_500x300.png' // 預設圖片
-        }));
-        
+        // this.coursesData = data.map(course => ({
+        //   ...course,
+        //   imageData: course.photo 
+        //     ? `data:image/jpeg;base64,${course.photo}` 
+        //     : 'assets/images/courses/noImage_500x300.png' // 預設圖片
+        // }));
+        // 預設 coursesData 也是原始數據
+      this.coursesData = [...this.originalCoursesData];
         console.log('課程資料:', this.coursesData);
       },
       (error) => {
@@ -78,18 +114,47 @@ export class CoursesManagementComponent implements OnInit {
     );
   }
 
+  loadCategories() {
+    this.coursesService.getCategories().subscribe(
+      (data: Category[]) => {
+        if (!Array.isArray(data)) {
+          console.error('API 回傳的分類資料不是陣列:', data);
+          this.courseCategories = [];
+          return;
+        }
+        this.courseCategories = data;
+      },
+      (error) => {
+        console.error('獲取分類數據失敗', error);
+      }
+    );
+  }
+
   filterCourses() {
-    // this.filteredCourses = this.courses.filter(course => {
-    //   const matchCategory = this.selectedCategory ? course.courseCategoryId == +this.selectedCategory : true;
-    //   const matchKeyword = this.keyword ? course.discription.includes(this.keyword) : true;
-    //   return matchCategory && matchKeyword;
-    // });
+    // 先回復到完整的課程列表
+  this.coursesData = this.originalCoursesData.filter(course => {
+    // 檢查是否有選擇分類
+    const matchCategory = this.selectedCategory
+      ? course.courseCategoryId == +this.selectedCategory
+      : true;
+
+    // 關鍵字搜尋（針對課程名稱、描述等）
+    const matchKeyword = this.keyword
+      ? course.discription.toLowerCase().includes(this.keyword.toLowerCase()) || 
+        course.categoryName.toLowerCase().includes(this.keyword.toLowerCase()) ||
+        course.levelName.toLowerCase().includes(this.keyword.toLowerCase()) ||
+        course.coachName.toLowerCase().includes(this.keyword.toLowerCase())
+      : true;
+
+    // 同時符合分類與關鍵字才會顯示
+    return matchCategory && matchKeyword;
+  });
   }
 
   resetFilter() {
     this.keyword = '';
     this.selectedCategory = '';
-    // this.filteredCourses = [...this.courses];
+    this.coursesData = [...this.originalCoursesData]; // 回復原始課程數據 
   }
 
   addCourse() {
@@ -106,9 +171,13 @@ export class CoursesManagementComponent implements OnInit {
       this.filterCourses();
     }
   }
+  getCategoryName(categoryId: number): string {
+    const category = this.courseCategories.find(cat => cat.id === categoryId);
+    return category ? category.name : '未知分類';
+  }
 
   // getCategoryName(categoryId: number): string {
-  //   return this.courseCategories.find(cat => cat.id === categoryId)?.name || '未知分類';
+  //   // return this.courseCategories.find(cat => cat.id === categoryId)?.name || '未知分類';
   // }
 
   // getLevelName(levelId: number): string {
