@@ -164,82 +164,55 @@
 
 
 			<section class="ls s-py-90 s-py-xl-160 c-gutter-60">
-				<div class="container">
-					<div class="row">
-						<main class="col-lg-12">
-							<div class="container mx-auto p-6 bg-white shadow-lg rounded-lg">
-								<h2 class="text-2xl font-bold mb-4">新增課程</h2>
-								<form >
-								  
-								  <!-- 課程名稱 -->
-								  <div class="mb-4">
-									<label class="block font-medium">課程名稱</label>
-									<input formControlName="courseName" class="w-full p-2 border rounded" placeholder="輸入課程名稱">
+				
+					
+						
+							<div class="container">
+								<div class="form-container">
+								  <label for="courseName">課程名稱</label>
+								  <input id="courseName" type="text"  placeholder="請輸入課程名稱">
+							  
+								  <label for="courseCategoryId">課程類別</label>
+								  <select id="courseCategoryId" >
+									<option  [value]=""> category.name</option>
+								  </select>
+							  
+								  <label for="levelId">難度</label>
+								  <select id="levelId">
+									<option  [value]="">evel.name </option>
+								  </select>
+							  
+								  <label for="coachId">教練</label>
+								  <select id="coachId" >
+									<option  [value]="">coach.name </option>
+								  </select>
+							  
+								  <label for="coursePrice">價格</label>
+								  <input id="coursePrice" type="number" >
+							  
+								  <label for="description">課程描述</label>
+								  <textarea id="description"  placeholder="請輸入課程描述"></textarea>
+							  
+								  <label for="courseStatus">是否上架</label>
+								  <div>
+									<input type="radio" id="sale"  [value]="true"> <label for="sale">販售中</label>
+									<input type="radio" id="notSale"  [value]="false"> <label for="notSale">未販售</label>
 								  </div>
-								  
-								  <!-- 課程類別 -->
-								  <div class="mb-4">
-									<label class="block font-medium">課程類別</label>
-									<select formControlName="courseCategoryId" class="w-full p-2 border rounded">
-									  <option  [value]="">category.name </option>
-									</select>
+							  
+								  <label for="startAt">開始時間</label>
+								  <input id="startAt" type="datetime-local" >
+							  
+								  <button  class="btn add-btn">新增課程</button>
+								  <button  class="btn back-btn">返回</button>
+								</div>
+								<div class="image-upload">
+								  <div class="drop-zone" >
+									<p>拖曳圖片到這裡或點擊選擇圖片</p>
+									<input type="file"  hidden #fileInput>
+									<button (click)="fileInput.click()" class="btn upload-btn">選擇圖片</button>
 								  </div>
-								  
-								  <!-- 等級 -->
-								  <div class="mb-4">
-									<label class="block font-medium">等級</label>
-									<select formControlName="levelId" class="w-full p-2 border rounded">
-									  <option [value]=""> level.name </option>
-									</select>
-								  </div>
-								  
-								  <!-- 教練 -->
-								  <div class="mb-4">
-									<label class="block font-medium">教練</label>
-									<select formControlName="coachId" class="w-full p-2 border rounded">
-									  <option  [value]="">coach.name </option>
-									</select>
-								  </div>
-								  
-								  <!-- 價格 -->
-								  <div class="mb-4">
-									<label class="block font-medium">價格</label>
-									<input type="number" formControlName="coursePrice" class="w-full p-2 border rounded">
-								  </div>
-								  
-								  <!-- 課程描述 -->
-								  <div class="mb-4">
-									<label class="block font-medium">課程描述</label>
-									<textarea formControlName="description" class="w-full p-2 border rounded" rows="3"></textarea>
-								  </div>
-								  
-								  <!-- 課程狀態 -->
-								  <div class="mb-4">
-									<label class="block font-medium">是否上架</label>
-									<div>
-									  <label><input type="radio" formControlName="courseStatus" [value]="true"> 上架</label>
-									  <label class="ml-4"><input type="radio" formControlName="courseStatus" [value]="false"> 下架</label>
-									</div>
-								  </div>
-								  
-								  <!-- 開始時間 -->
-								  <div class="mb-4">
-									<label class="block font-medium">開始時間</label>
-									<input type="datetime-local" formControlName="startAt" class="w-full p-2 border rounded">
-								  </div>
-								  
-								  <!-- 上傳圖片 -->
-								  <div class="mb-4">
-									<label class="block font-medium">課程圖片</label>
-									<input type="file"  class="w-full p-2 border rounded">
-								  </div>
-								  
-								  <!-- 按鈕區域 -->
-								  <div class="flex justify-end space-x-4">
-									<button type="submit" class="bg-green-500 text-white px-4 py-2 rounded">新增課程</button>
-									<button type="button" class="bg-gray-500 text-white px-4 py-2 rounded" >返回</button>
-								  </div>
-								</form>
+								  <img  [src]="" class="preview-img">
+								</div>
 							  </div>
 							  
 							
@@ -249,10 +222,9 @@
 							
 							
 
-						</main>
-					</div>
-
-				</div>
+						
+					
+				
 			</section>
 
 
