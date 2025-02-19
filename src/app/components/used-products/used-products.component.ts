@@ -71,13 +71,17 @@ export class UsedProductsComponent {
         console.log("等待 API 返回，用戶資料尚未載入");
       }
     });
+    this.loadUsedProducts();
+
   }
 
   loadUsedProducts(): void {
     this.productsService.getUsedProducts().subscribe({
       next: (data: any[]) => {
         this.usedProducts = data;
+
         this.filteredProducts = [...this.usedProducts];
+        console.log(this.filteredProducts);
       },
       error: (error: HttpErrorResponse) => {
         console.error('載入二手商品失敗:', error);
