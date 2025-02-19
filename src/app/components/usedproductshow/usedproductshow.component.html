@@ -51,6 +51,9 @@
             <div class="woocommerce-notices-wrapper">
               <div class="container-fluid mt-5 py-1">
                 <div class="container">
+                  <div *ngIf="isLoading" class="text-center">
+                    <p>載入中...</p>
+                  </div>
                   <form>
                     <div class="row mt-3 mb-3 justify-content-center">
                       <!-- 圖片上傳 -->
