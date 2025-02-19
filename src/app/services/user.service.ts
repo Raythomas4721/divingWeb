@@ -3,12 +3,17 @@ import { Injectable } from '@angular/core';
 import { Observable, tap } from 'rxjs';
 import { UserDTO } from '../interface/userDTO';
 import { UserBehaviorService } from './user-behavior.service';
+import { TNcartItemsService } from './tncart-items.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserService {
-  constructor(private client: HttpClient) { }
+  constructor(
+    private client: HttpClient,
+    private userBehaviorService: UserBehaviorService,
+    private cartItemsService: TNcartItemsService
+  ) {}
   private apiUrl = 'https://localhost:7107/api/TMmemberListsAPI';
 
   register(name: string, email: string, password: string) {
@@ -30,6 +35,22 @@ export class UserService {
 
         if (token) {
           localStorage.setItem('token', token);
+        }
+
+        // 3) 設定 userBehaviorService 的 memberId
+        if (memberId) {
+          this.userBehaviorService.setMemberId(memberId);
+          console.log(this.userBehaviorService);
+          // 在這裡「另外訂閱」購物車API, 不會阻塞本次 login 的回傳
+          this.cartItemsService.getAll(memberId).subscribe({
+            next: (items) => {
+              this.cartItemsService.setCartItems(items);
+              console.log('抓取後端購物車成功:', items);
+            },
+            error: (err) => {
+              console.error('抓取購物車失敗', err);
+            },
+          });
         }
       })
     );
@@ -56,15 +77,26 @@ export class UserService {
 
   updateUserProfile(updatedProfile: any) {
     const headers = new HttpHeaders({
-      'Authorization': `Bearer ${localStorage.getItem('token')}`
+      Authorization: `Bearer ${localStorage.getItem('token')}`,
     });
-    return this.client.put(`${this.apiUrl}/UpdateUserInfo`, updatedProfile, { headers })
+    return this.client.put(`${this.apiUrl}/UpdateUserInfo`, updatedProfile, {
+      headers,
+    });
   }
 
   changePassword(changePasswordData: any) {
     const headers = new HttpHeaders({
-      'Authorization': `Bearer ${localStorage.getItem('token')}`
+      Authorization: `Bearer ${localStorage.getItem('token')}`,
     });
-    return this.client.put(`${this.apiUrl}/changePassword`, changePasswordData, { headers })
+    return this.client.put(
+      `${this.apiUrl}/changePassword`,
+      changePasswordData,
+      { headers }
+    );
+    // 清除 memberId
+    this.userBehaviorService.setMemberId(null);
+
+    // **清空前端購物車資料**
+    this.cartItemsService.clearCart();
   }
 }

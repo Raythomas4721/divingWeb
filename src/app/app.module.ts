@@ -25,10 +25,9 @@ import { UsedproductshowComponent } from './components/usedproductshow/usedprodu
 import { SiteDetailComponent } from './components/site-detail/site-detail.component';
 import { SiteReserveComponent } from './components/site-reserve/site-reserve.component';
 import { AuthSuccessComponent } from './components/auth-success/auth-success.component';
-
 import { ProductsService } from './services/products.service';
 import { CoursesManagementComponent } from './components/coursesmanagement/coursesmanagement.component';
-
+import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { CoursecreateComponent } from './coursecreate/coursecreate.component';
 
@@ -63,8 +62,8 @@ import { CoursecreateComponent } from './coursecreate/coursecreate.component';
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    ReactiveFormsModule,
     FormsModule,
+    ReactiveFormsModule,
     LightboxModule,
     RouterModule,
     HttpClientModule,
