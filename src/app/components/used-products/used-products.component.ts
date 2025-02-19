@@ -51,7 +51,7 @@ export class UsedProductsComponent {
   filteredProducts: any[] = [];
   searchKeyword: string = '';
   isAllSelected: boolean = false;
-  pageSize: number = 6;
+  pageSize: number = 8;
   pages: number[] = [];
 
   constructor(

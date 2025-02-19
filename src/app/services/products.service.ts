@@ -20,7 +20,7 @@ export class ProductsService {
 
   constructor(private http: HttpClient) { }
 
-  getUsedProducts(page: number = 1, pageSize: number = 6, keyword?: string, categoryId: number | null = null,): Observable<any> {
+  getUsedProducts(page: number = 1, pageSize: number = 8, keyword?: string, categoryId: number | null = null,): Observable<any> {
     return this.http.get<TUproductDTO[]>(`${this.apiUrl}api/TUproductsAPI?page=${page}&pageSize=${pageSize}`);
     // let url = `${this.baseAddress}api/TUproductsAPI?page=${page}&pageSize=${pageSize}`;
 
