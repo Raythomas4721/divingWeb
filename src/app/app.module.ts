@@ -25,9 +25,12 @@ import { UsedproductshowComponent } from './components/usedproductshow/usedprodu
 import { SiteDetailComponent } from './components/site-detail/site-detail.component';
 import { SiteReserveComponent } from './components/site-reserve/site-reserve.component';
 import { AuthSuccessComponent } from './components/auth-success/auth-success.component';
-import { RouterModule } from '@angular/router';
+
 import { ProductsService } from './services/products.service';
 import { CoursesManagementComponent } from './components/coursesmanagement/coursesmanagement.component';
+
+import { RouterModule } from '@angular/router';
+import { CoursecreateComponent } from './components/coursecreate/coursecreate.component';
 
 
 @NgModule({
@@ -54,6 +57,7 @@ import { CoursesManagementComponent } from './components/coursesmanagement/cours
     SiteReserveComponent,
     AuthSuccessComponent,
     CoursesManagementComponent,
+    CoursecreateComponent,
   ],
   imports: [
     BrowserModule,
@@ -63,7 +67,7 @@ import { CoursesManagementComponent } from './components/coursesmanagement/cours
     FormsModule,
     LightboxModule,
     RouterModule,
-    HttpClientModule
+    HttpClientModule,
   ],
   providers: [ProductsService],
   bootstrap: [AppComponent],

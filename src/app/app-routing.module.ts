@@ -17,6 +17,8 @@ import { SiteDetailComponent } from './components/site-detail/site-detail.compon
 import { SiteReserveComponent } from './components/site-reserve/site-reserve.component';
 import { AuthSuccessComponent } from './components/auth-success/auth-success.component';
 import { CoursesManagementComponent } from './components/coursesmanagement/coursesmanagement.component';
+import { CoursecreateComponent } from './components/coursecreate/coursecreate.component';
+
 
 const routes: Routes = [
   { path: 'auth-success', component: AuthSuccessComponent },
@@ -38,11 +40,15 @@ const routes: Routes = [
   { path: 'site-detail', component: SiteDetailComponent },
   { path: 'site-reserve', component: SiteReserveComponent },
   { path: 'coursesmanagement', component: CoursesManagementComponent },
-  //   { path: 'coursecreateupdate', component:CoursecreateupdateComponent},
+  { path: 'coursecreate', component:CoursecreateComponent },
+  
   //   { path: 'course/create', component: CoursecreateupdateComponent },
   //   { path: 'course/edit/:id', component: CoursecreateupdateComponent }
   { path: '', component: HomeComponent },
-  { path: '**', redirectTo: '', pathMatch: 'full' } // 404 頁面導回首頁
+  { path: '**', redirectTo: '', pathMatch: 'full' }, // 404 頁面導回首頁
+  { path: 'coursecreate', component:CoursecreateComponent },
+  
+  
 
 ];
 
@@ -52,6 +58,7 @@ const routes: Routes = [
       useHash: true,
       onSameUrlNavigation: 'reload',
     }),
+    
   ],
   exports: [RouterModule],
 })

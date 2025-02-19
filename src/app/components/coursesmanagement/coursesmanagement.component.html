@@ -28,13 +28,14 @@
             <div class="container">
               <div class="row c-gutter-60">
                 <!-- <main class=" col-lg-12"> -->
-                <main >
+                <main>
                   <div class="container">
                     <!-- 放入一個父容器來控制新增課程按鈕與查詢區塊的排列 -->
                     <div class="top-bar">
                       <!-- 新增課程按鈕 -->
                       <!-- <button class="add-button" (click)="addCourse()">新增課程</button> -->
-                      <button routerLink="/coursecreateupdate"  class="add-button" >新增課程</button>
+                      <button  routerLink="/coursecreate"  class="add-button">新增課程</button> 
+                      <!-- <button> 本身不是 <a>，需要用 Angular 綁定方式，無法直接支援 routerLink，需要用 [routerLink] -->
           
                       <!-- 查詢區塊 -->
                       <div class="search-bar">
@@ -45,17 +46,18 @@
                           </option>
                         </select>
           
-                        <input type="text" [(ngModel)]="keyword" placeholder="輸入關鍵字" class="short-input" />
+                        <input type="text" [(ngModel)]="keyword"  (input)="filterCourses()"  placeholder="輸入關鍵字搜尋" class="short-input" />
+                       
           
                         <div class="btn-group">
-                          <button (click)="filterCourses()">查詢</button>
-                          <button (click)="resetFilter()">重設</button>
+                          <button  style="background-color: #0d425e"  (click)="filterCourses()">查詢</button>
+                          <button  style="background-color: #0d425e"  (click)="resetFilter()">重設</button>
                         </div>
                       </div>
                     </div>
           
                     <!-- 課程列表 -->
-                    <table>
+                    <table class="course-table">
                       <thead>
                         <tr>
                           <th>課程圖片</th>
@@ -64,10 +66,10 @@
                           <th>分類</th>
                           <th>等級</th>
                           <th>教練</th>
-                          <th>起始日期</th>
-                          <th>建立時間</th>
-                          <th>修改時間</th>
-                          <th>價格</th>
+                          <th (click)="sortCourses('startAt')">起始日期 <i class="fa-solid fa-sort" style="color: #0d425e;"></i></th>
+                          <th (click)="sortCourses('createdAt')" >建立時間 <i class="fa-solid fa-sort" style="color: #0d425e;"></i></th>
+                          <th (click)="sortCourses('updatedAt')" >修改時間 <i class="fa-solid fa-sort" style="color: #0d425e;"></i></th>
+                          <th (click)="sortCourses('coursePrice')">價格 <i class="fa-solid fa-sort" style="color: #0d425e;"></i></th>
                           <th>狀態</th>
                           <th>操作</th>
                         </tr>
@@ -75,7 +77,7 @@
                       <tbody>
                         <tr *ngFor="let course of coursesData">
                         <!-- <tr *ngFor="let course of filteredCourses"> -->
-                          <td><img [src]="course.imageData" alt="Course Image" width="200" height="150"></td>
+                          <td><img [src]="course.imageData" alt="Course Image" width="200" height="150" ></td>
                           <td>{{course['startAt']| date:'MM/dd'}}{{course['categoryName']}}體驗課程｜免費拍照｜免證照</td>
                           <!-- <td>{{ getCategoryName(course.courseCategoryId) }}</td> -->
                           <!-- <td>{{ getLevelName(course.levelId) }}</td> -->
@@ -90,9 +92,9 @@
                           <td>{{ course['updatedAt']|date:'yyyy/MM/dd HH:mm:ss'}}</td>
                           <td>{{ course.coursePrice | currency:'TWD': 'symbol':'1.0-0' }}</td>
                           <td>{{ course.courseStatus ? '上架' : '下架' }}</td>
-                      <td>
-                            <button (click)="editCourse(course)">編輯</button>
-                            <button (click)="deleteCourse(course.courseId)">刪除</button>
+                          <td>
+                            <button  class="table-btn" (click)="editCourse(course)">編輯</button>
+                            <button  class="table-btn mt-1" style="background-color:darksalmon;"  (click)="deleteCourse(course.courseId)">刪除</button>
                           </td>
                         </tr>
                       </tbody>
