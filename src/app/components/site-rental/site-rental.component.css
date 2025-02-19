@@ -1,0 +1,15 @@
+.entry-meta {
+  display: flex;
+  /* 使用 Flexbox */
+  align-items: center;
+  /* 垂直置中對齊 */
+}
+
+.entry-meta span {
+  margin-right: 20px;
+  /* 添加右邊距以分隔元素 */
+}
+
+.venueAddress {
+  font-size: 3ex;
+}

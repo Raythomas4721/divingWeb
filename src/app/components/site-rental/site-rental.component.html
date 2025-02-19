@@ -181,198 +181,102 @@
       </div>
     </section>
 
+
+    <!-- <article *ngFor="let course of siteDetails"
+      class="post text-center text-md-left vertical-item content-padding hero-bg">
+      {{course['venueName']}}{{course['venueAddress']}} -->
+
+
     <section class="ls s-py-90 s-py-xl-160">
       <div class="container">
         <div class="row c-gutter-60">
           <main class="col-lg-7 col-xl-8 order-lg-2">
-            <!-- 圖1 -->
-            <article class="post text-center text-md-left vertical-item content-padding hero-bg">
-              <div class="item-media post-thumbnail">
-                <img src="assets\images\sitePhoto\swim (1).jpeg" alt="img">
-                <div class="media-links">
-                  <a class="abs-link" href="event-single-left.html"></a>
-                </div>
-              </div><!-- .post-thumbnail -->
-              <div class="item-content">
-                <header class="entry-header">
-                  <!-- <span class="cat-links">
+            <!-- 資料開頭 -->
+            <article *ngFor="let siteDetails of siteDetails"
+              class="post text-center text-md-left vertical-item content-padding hero-bg">
 
-                    <span class="screen-reader-text">Categories</span>
-                    <a href="blog-left.html" rel="category tag">
-                      Template
-                    </a>,
-                    <a href="blog-left.html" rel="category tag">
-                      Uncategorized
-                    </a>
-                  </span> -->
-                  <h3 class="entry-title mb-3">
-                    <a routerLink="/site-detail" rel="bookmark">山淨湖泳池</a>
-                  </h3>
-                  <div class="entry-meta">
-                    <span>
-                      <i class="fa fa-calendar" aria-hidden="true"></i>
-                      <a href="event-single-left.html" rel="bookmark">
-                        <time class="entry-date published updated"
-                          datetime="2018-03-18T15:15:12+00:00">01.12.2025</time>
-                      </a>
-                    </span>
-                    <span>
-                      <i class="fa fa-map-marker"></i> <span>台北市文山區</span>
-                    </span>
+              <article class="post text-center text-md-left vertical-item content-padding hero-bg">
+                <div class="item-media post-thumbnail">
+                  <img src="assets\images\sitePhoto\swim (1).jpeg" alt="img">
+                  <div class="media-links">
+                    <a class="abs-link" href="event-single-left.html"></a>
                   </div>
-                  <!-- .entry-meta -->
-                </header>
-                <!-- .entry-header -->
-                <div class="entry-content">
-                  <p>
-                    每年夏季最受歡迎的，莫過於天山上的「山淨湖泳池」！因身處靜僻的山上，到達相對有難度，更大特色為採用「天然山泉水」作為池水，良好水質沒有刺鼻的氯味、具有清涼溫度。而為了維持清潔度，入池前必須先沖洗身體，也別塗抹防曬油。泳池兩側深度分別為150及185公分，不只能好好消暑，也有不少人在旁邊野餐、曬太陽，氛圍相當愜意，門票60元。
-                  </p>
-                </div><!-- .entry-content -->
-              </div><!-- .item-content -->
+                </div>
+                <div class="item-content">
+                  <header class="entry-header">
+
+                    <h3>{{siteDetails['venueName']}}</h3>
+
+                    <!-- 時間 -->
+                    <div class="entry-meta d-flex align-items-center">
+                      <span class="venueAddress">
+
+                        <i class="fa fa-calendar" aria-hidden="true"></i>
+                        <a href="event-single-left.html" rel="bookmark">
+                          <time class="entry-date published updated"
+                            datetime="2018-03-18T15:15:12+00:00">01.12.2025</time>
+                        </a>
+                      </span>
+                      <!-- 地點 -->
+                      <span class="venueAddress">
+                        {{ siteDetails['venueAddress'] }}
+                      </span>
+                    </div>
+
+
+                    <!-- .entry-meta -->
+                  </header>
+                  <!-- .entry-header -->
+                  <div class="entry-content">
+                    <p routerLink="/site-detail" rel="bookmark">
+                      {{siteDetails['venueName']}}
+                    </p>
+                  </div><!-- .entry-content -->
+                </div><!-- .item-content -->
+
+
+
+                <!-- 圖2 -->
+                <!-- <article class="post text-center text-md-left vertical-item content-padding hero-bg">
+                  <div class="item-media post-thumbnail">
+                    <img src="assets\images\sitePhoto\swim (2).jpeg" alt="img">
+                    <div class="media-links">
+                      <a class="abs-link" href="event-single-left.html"></a>
+                    </div>
+                  </div>
+                  <div class="item-content">
+                    <header class="entry-header">
+
+                      <div>
+                        <h3>{{course['venueName']}}</h3>
+                      </div>
+
+                      <span>
+                        <i class="fa fa-calendar" aria-hidden="true"></i>
+                        <a href="event-single-left.html" rel="bookmark">
+                          <time class="entry-date published updated"
+                            datetime="2018-03-18T15:15:12+00:00">02.01.2025</time>
+                        </a>
+                      </span>
+                      <span>
+                        <h5>{{course['venueAddress']}}</h5>
+                      </span>
+
+
+                    </header>
+
+                    <div class="entry-content">
+                      <p>
+                        2024年11月完成整修的「青山農場游池」，是夏季降溫的絕佳去處！綠地的場地規劃，在室內設置健康輕食區、健身房、多功能教室；而在室外區則有成人25公尺泳池、兒童池、噴泉池、SPA水療池都適合再去滋養心靈！
+                      </p>
+                    </div>
+                  </div>
+                </article> -->
+              </article>
             </article>
-            <!-- 圖2 -->
-            <article class="post text-center text-md-left vertical-item content-padding hero-bg">
-              <div class="item-media post-thumbnail">
-                <img src="assets\images\sitePhoto\swim (2).jpeg" alt="img">
-                <div class="media-links">
-                  <a class="abs-link" href="event-single-left.html"></a>
-                </div>
-              </div><!-- .post-thumbnail -->
-              <div class="item-content">
-                <header class="entry-header">
-                  <!-- <span class="cat-links">
-
-                    <span class="screen-reader-text">Categories</span>
-                    <a href="blog-left.html" rel="category tag">
-                      Template
-                    </a>,
-                    <a href="blog-left.html" rel="category tag">
-                      Uncategorized
-                    </a>
-                  </span> -->
-                  <h3 class="entry-title mb-3">
-                    <a routerLink="/site-detail" rel="bookmark">青山農場游池</a>
-                  </h3>
-                  <div class="entry-meta">
-                    <span>
-                      <i class="fa fa-calendar" aria-hidden="true"></i>
-                      <a href="event-single-left.html" rel="bookmark">
-                        <time class="entry-date published updated"
-                          datetime="2018-03-18T15:15:12+00:00">02.01.2025</time>
-                      </a>
-                    </span>
-                    <span>
-                      <i class="fa fa-map-marker"></i> <span>台中市北區</span>
-                    </span>
-                  </div>
-                  <!-- .entry-meta -->
-                </header>
-                <!-- .entry-header -->
-                <div class="entry-content">
-                  <p>
-                    2024年11月完成整修的「青山農場游池」，是夏季降溫的絕佳去處！綠地的場地規劃，在室內設置健康輕食區、健身房、多功能教室；而在室外區則有成人25公尺泳池、兒童池、噴泉池、SPA水療池都適合再去滋養心靈！
-                  </p>
-                </div><!-- .entry-content -->
-              </div><!-- .item-content -->
-            </article>
-            <!-- 圖3 -->
-            <!-- <article class="post text-center text-md-left vertical-item content-padding hero-bg">
-              <div class="item-media post-thumbnail">
-                <img src="assets\images\sitePhoto\swim (3).jpeg" alt="img">
-                <div class="media-links">
-                  <a class="abs-link" href="event-single-left.html"></a>
-                </div>
-              </div>
-              <div class="item-content">
-                <header class="entry-header">
-                  <span class="cat-links">
-
-                    <span class="screen-reader-text">Categories</span>
-                    <a href="blog-left.html" rel="category tag">
-                      Template
-                    </a>,
-                    <a href="blog-left.html" rel="category tag">
-                      Uncategorized
-                    </a>
-                  </span>
-                  <h3 class="entry-title mb-3">
-                    <a href="event-single-left.html" rel="bookmark">
-                      Aliquam amet atque deleniti dignissimos dolor
-                    </a>
-                  </h3>
-                  <div class="entry-meta">
-                    <span>
-                      <i class="fa fa-calendar" aria-hidden="true"></i>
-                      <a href="event-single-left.html" rel="bookmark">
-                        <time class="entry-date published updated"
-                          datetime="2018-03-18T15:15:12+00:00">03.12.2019</time>
-                      </a>
-                    </span>
-                    <span>
-                      <i class="fa fa-map-marker"></i> <span>Molestiae numquam officia</span>
-                    </span>
-                  </div>
-
-                </header>
-
-                <div class="entry-content">
-                  <p>
-                    Aliquam amet, atque deleniti dignissimos dolor ducimus eaque eos error et facere ipsam iste
-                    laboriosam molestias optio quam quod saepe tempore voluptates.
-                  </p>
-                </div>
-              </div>
-            </article> -->
-            <!-- 圖4 -->
-            <!-- <article class="post text-center text-md-left vertical-item content-padding hero-bg">
-              <div class="item-media post-thumbnail">
-                <img src="assets\images\sitePhoto\swim (4).jpeg" alt="img">
-                <div class="media-links">
-                  <a class="abs-link" href="event-single-left.html"></a>
-                </div>
-              </div>
-              <div class="item-content">
-                <header class="entry-header">
-                  <span class="cat-links">
-
-                    <span class="screen-reader-text">Categories</span>
-                    <a href="blog-left.html" rel="category tag">
-                      Template
-                    </a>,
-                    <a href="blog-left.html" rel="category tag">
-                      Uncategorized
-                    </a>
-                  </span>
-                  <h3 class="entry-title mb-3">
-                    <a href="event-single-left.html" rel="bookmark">
-                      Aliquam amet atque deleniti dignissimos dolor
-                    </a>
-                  </h3>
-                  <div class="entry-meta">
-                    <span>
-                      <i class="fa fa-calendar" aria-hidden="true"></i>
-                      <a href="event-single-left.html" rel="bookmark">
-                        <time class="entry-date published updated"
-                          datetime="2018-03-18T15:15:12+00:00">03.12.2019</time>
-                      </a>
-                    </span>
-                    <span>
-                      <i class="fa fa-map-marker"></i> <span>Molestiae numquam officia</span>
-                    </span>
-                  </div>
-
-                </header>
-
-                <div class="entry-content">
-                  <p>
-                    Aliquam amet, atque deleniti dignissimos dolor ducimus eaque eos error et facere ipsam iste
-                    laboriosam molestias optio quam quod saepe tempore voluptates.
-                  </p>
-                </div>
-              </div>
-            </article> -->
 
 
+            <!-- 分頁 -->
             <nav class="navigation pagination" role="navigation">
               <h2 class="screen-reader-text">Posts navigation</h2>
               <div class="nav-links">
@@ -380,18 +284,22 @@
                   <i class="fa fa-chevron-left"></i>
                   <span class="screen-reader-text">Previous page</span>
                 </a>
-                <a class="page-numbers" href="events-right.html">
-                  <span class="meta-nav screen-reader-text">Page </span>
-                  1
-                </a>
+
                 <span class="page-numbers current">
                   <span class="meta-nav screen-reader-text">Page </span>
-                  2
+                  1
                 </span>
+
+                <a class="page-numbers" href="events-right.html">
+                  <span class="meta-nav screen-reader-text">Page </span>
+                  2
+                </a>
+
                 <a class="page-numbers" href="events-right.html">
                   <span class="meta-nav screen-reader-text">Page </span>
                   3
                 </a>
+
                 <a class="next page-numbers" href="events-right.html">
                   <span class="screen-reader-text">Next page</span>
                   <i class="fa fa-chevron-right"></i>
