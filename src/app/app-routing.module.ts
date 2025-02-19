@@ -17,7 +17,7 @@ import { SiteDetailComponent } from './components/site-detail/site-detail.compon
 import { SiteReserveComponent } from './components/site-reserve/site-reserve.component';
 import { AuthSuccessComponent } from './components/auth-success/auth-success.component';
 import { CoursesManagementComponent } from './components/coursesmanagement/coursesmanagement.component';
-import { CoursecreateComponent } from './components/coursecreate/coursecreate.component';
+import { CoursecreateComponent } from './coursecreate/coursecreate.component';
 
 
 const routes: Routes = [

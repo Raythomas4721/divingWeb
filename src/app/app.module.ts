@@ -30,7 +30,7 @@ import { ProductsService } from './services/products.service';
 import { CoursesManagementComponent } from './components/coursesmanagement/coursesmanagement.component';
 
 import { RouterModule } from '@angular/router';
-import { CoursecreateComponent } from './components/coursecreate/coursecreate.component';
+import { CoursecreateComponent } from './coursecreate/coursecreate.component';
 
 
 @NgModule({
