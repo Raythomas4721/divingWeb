@@ -29,7 +29,7 @@ import { RouterModule } from '@angular/router';
 import { ProductsService } from './services/products.service';
 import { CoursesManagementComponent } from './components/coursesmanagement/coursesmanagement.component';
 
-
+import { CommonModule } from '@angular/common';
 @NgModule({
   declarations: [
     AppComponent,
@@ -59,13 +59,13 @@ import { CoursesManagementComponent } from './components/coursesmanagement/cours
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    ReactiveFormsModule,
     FormsModule,
+    ReactiveFormsModule,
     LightboxModule,
     RouterModule,
-    HttpClientModule
+    HttpClientModule,
   ],
   providers: [ProductsService],
   bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

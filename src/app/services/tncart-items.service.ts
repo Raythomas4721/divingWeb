@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { TNcartItemDTO } from '../interface/TNcartItemDTO';
 
 @Injectable({
@@ -11,19 +11,36 @@ export class TNcartItemsService {
   private cartItemsSubject = new BehaviorSubject<TNcartItemDTO[]>([]);
   cartItems$ = this.cartItemsSubject.asObservable();
 
-  constructor(private client: HttpClient) {}
+  constructor(private client: HttpClient) {
+    const stored = localStorage.getItem('cartItems');
+    if (stored) {
+      const parsed = JSON.parse(stored) as TNcartItemDTO[];
+      this.cartItemsSubject.next(parsed);
+    }
+  }
+
   getCartItems(): TNcartItemDTO[] {
     return this.cartItemsSubject.value;
   }
   getAll(memberId: number): Observable<TNcartItemDTO[]> {
-    return this.client.get<TNcartItemDTO[]>(
-      `${this.baseUrl}?memberId=${memberId}`
-    );
+    return this.client
+      .get<TNcartItemDTO[]>(`${this.baseUrl}?memberId=${memberId}`)
+      .pipe(
+        tap((items) => {
+          // 更新 BehaviorSubject
+          console.log('Service getAll() 拿回來的購物車資料:', items);
+          this.cartItemsSubject.next(items);
+        })
+      );
   }
 
   // 2. 取得單一購物車項目
   getById(id: number): Observable<TNcartItemDTO> {
     return this.client.get<TNcartItemDTO>(`${this.baseUrl}/${id}`);
+  }
+
+  private updateLocalStorage(items: TNcartItemDTO[]): void {
+    localStorage.setItem('cartItems', JSON.stringify(items));
   }
 
   // 新增或更新購物車
@@ -48,29 +65,41 @@ export class TNcartItemsService {
         });
       }
     } else {
-      // 否則 push 進去
-      items.push(newItem);
+      // 否則新增
+      this.create(newItem).subscribe({
+        next: (createdItem) => {
+          // 後端回傳最新的 cartitemId(若有)
+          items.push(createdItem);
+          this.cartItemsSubject.next(items);
+          console.log('正在呼叫 create/update', newItem);
+          this.updateLocalStorage(items);
+        },
+        error: (err) => console.error('後端新增失敗:', err),
+      });
     }
-
-    this.cartItemsSubject.next(items);
   }
 
   // 其他操作 (移除、清空) 略...
 
   removeItem(variantId: number, memberId?: number): Observable<string> {
-    // 先從 BehaviorSubject 中移除
-    const items = this.getCartItems();
-    const idx = items.findIndex((item) => item.productvariantsId === variantId);
-    if (idx > -1) {
-      items.splice(idx, 1);
-      this.cartItemsSubject.next(items);
-    }
-
+    // (1) 先呼叫後端
     let url = `${this.baseUrl}/byVariant/${variantId}`;
-    if (memberId) {
-      url += `?memberId=${memberId}`;
-    }
-    return this.client.delete<string>(url);
+    if (memberId) url += `?memberId=${memberId}`;
+
+    return this.client.delete<string>(url).pipe(
+      tap((res) => {
+        // 後端刪除成功後，再更新 BehaviorSubject
+        const items = this.getCartItems();
+        const idx = items.findIndex(
+          (item) => item.productvariantsId === variantId
+        );
+        if (idx > -1) {
+          items.splice(idx, 1);
+          this.cartItemsSubject.next(items);
+          this.updateLocalStorage(items);
+        }
+      })
+    );
   }
   /**
    * 2) 套用優惠碼 (apply coupon)
@@ -95,6 +124,10 @@ export class TNcartItemsService {
     );
   }
 
+  setCartItems(items: TNcartItemDTO[]) {
+    this.cartItemsSubject.next(items);
+  }
+
   // 其它已存在的 CRUD方法
   // ==========================
   create(item: TNcartItemDTO): Observable<TNcartItemDTO> {
@@ -107,5 +140,14 @@ export class TNcartItemsService {
 
   delete(id: number): Observable<string> {
     return this.client.delete<string>(`${this.baseUrl}/${id}`);
+  }
+  clearCart() {
+    // 本地 BehaviorSubject 重置
+    this.cartItemsSubject.next([]);
+
+    // 呼叫後端 e.g. DELETE /api/TNcartItems/clear?memberId=xxx
+    // return this.client.delete<any>(
+    //   `${this.baseUrl}/clear?memberId=${memberId}`
+    // );
   }
 }
