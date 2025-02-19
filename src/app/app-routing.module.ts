@@ -45,16 +45,16 @@ const routes: Routes = [
   //   { path: 'course/edit/:id', component: CoursecreateupdateComponent }
   { path: '', component: HomeComponent },
   { path: '**', redirectTo: '', pathMatch: 'full' }, // 404 頁面導回首頁
-  { path: 'coursecreate', component: CoursecreateComponent },
 ];
 
 @NgModule({
   imports: [
     RouterModule.forRoot(routes, {
       anchorScrolling: 'enabled', // 啟用錨點自動滾動
-      scrollPositionRestoration: 'enabled',
+      // scrollPositionRestoration: 'enabled',
       useHash: true,
       onSameUrlNavigation: 'reload',
+      scrollPositionRestoration: 'top',
     }),
   ],
   exports: [RouterModule],
