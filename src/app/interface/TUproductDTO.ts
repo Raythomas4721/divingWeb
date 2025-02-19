@@ -1,6 +1,7 @@
 export interface TUproductDTO {
   productId: number;
   sellerId: number;
+  memberName: string;
   categoryId: number;
   productName: string;
   productDescription: string;
