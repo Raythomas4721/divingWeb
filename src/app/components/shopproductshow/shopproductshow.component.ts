@@ -635,8 +635,7 @@ export class ShopproductshowComponent implements OnInit, OnDestroy {
 
   /** 離開頁面 => 紀錄停留時間 */
   ngOnDestroy(): void {
-    const leaveTime = Date.now();
-    const dwellSeconds = (leaveTime - this.enterTime) / 1000;
+    const dwellSeconds = Math.floor((Date.now() - this.enterTime) / 1000);
     this.userBehaviorService
       .logDwellTime(this.productId!, dwellSeconds)
       .subscribe();

@@ -10,6 +10,7 @@ import { UserDTO } from 'src/app/interface/userDTO';
 import { take } from 'rxjs';
 import { SharedcartService } from './../../services/sharedcart.service';
 import { TNcartItemsService } from '../../services/tncart-items.service';
+import { UserBehaviorService } from '../../services/user-behavior.service';
 
 // 強制讓 Bootstrap 綁定 jQuery
 declare var bootstrap: any;
@@ -26,7 +27,8 @@ export class HeaderComponent implements OnInit {
     private userService: UserService,
     private alertService: AlertService,
     private authService: AuthService,
-    private cartItemsService: TNcartItemsService
+    private cartItemsService: TNcartItemsService,
+    private userBehaviorService: UserBehaviorService
   ) {}
   cartItemCount = 0;
   userForm = new FormGroup({
@@ -178,6 +180,11 @@ export class HeaderComponent implements OnInit {
     this.authService.user$.subscribe(() => {
       this.user = null;
     });
+    // 清除 memberId
+    this.userBehaviorService.setMemberId(null);
+
+    // **清空前端購物車資料**
+    this.cartItemsService.clearCart();
   }
 
   openCartPanel() {

@@ -220,7 +220,7 @@
           role="tab"
           aria-controls="tab-description"
         >
-          <a href="#tab-description">購物須知</a>
+          <a [routerLink]="[]" fragment="tab-description">購物須知</a>
         </li>
         <li
           class="additional_information_tab active"
@@ -228,7 +228,9 @@
           role="tab"
           aria-controls="tab-additional_information"
         >
-          <a href="#tab-additional_information">商品描述</a>
+          <a [routerLink]="[]" fragment="tab-additional_information"
+            >商品描述</a
+          >
         </li>
         <li
           class="reviews_tab"
@@ -236,7 +238,7 @@
           role="tab"
           aria-controls="tab-reviews"
         >
-          <a href="#tab-reviews">評論</a>
+          <a [routerLink]="[]" fragment="tab-reviews">評論</a>
         </li>
       </ul>
 

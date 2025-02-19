@@ -19,7 +19,6 @@ import { AuthSuccessComponent } from './components/auth-success/auth-success.com
 import { CoursesManagementComponent } from './components/coursesmanagement/coursesmanagement.component';
 import { CoursecreateComponent } from './coursecreate/coursecreate.component';
 
-
 const routes: Routes = [
   { path: 'auth-success', component: AuthSuccessComponent },
   { path: 'profile', component: ProfileComponent },
@@ -40,26 +39,24 @@ const routes: Routes = [
   { path: 'site-detail', component: SiteDetailComponent },
   { path: 'site-reserve', component: SiteReserveComponent },
   { path: 'coursesmanagement', component: CoursesManagementComponent },
-  { path: 'coursecreate', component:CoursecreateComponent },
-  
+  { path: 'coursecreate', component: CoursecreateComponent },
+
   //   { path: 'course/create', component: CoursecreateupdateComponent },
   //   { path: 'course/edit/:id', component: CoursecreateupdateComponent }
   { path: '', component: HomeComponent },
   { path: '**', redirectTo: '', pathMatch: 'full' }, // 404 頁面導回首頁
-  { path: 'coursecreate', component:CoursecreateComponent },
-  
-  
-
+  { path: 'coursecreate', component: CoursecreateComponent },
 ];
 
 @NgModule({
   imports: [
     RouterModule.forRoot(routes, {
+      anchorScrolling: 'enabled', // 啟用錨點自動滾動
+      scrollPositionRestoration: 'enabled',
       useHash: true,
       onSameUrlNavigation: 'reload',
     }),
-    
   ],
   exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

@@ -93,10 +93,5 @@ export class UserService {
       changePasswordData,
       { headers }
     );
-    // 清除 memberId
-    this.userBehaviorService.setMemberId(null);
-
-    // **清空前端購物車資料**
-    this.cartItemsService.clearCart();
   }
 }
