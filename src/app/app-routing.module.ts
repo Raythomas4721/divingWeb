@@ -41,12 +41,11 @@ const routes: Routes = [
   { path: 'site-reserve', component: SiteReserveComponent },
   { path: 'coursesmanagement', component: CoursesManagementComponent },
   { path: 'coursecreate', component:CoursecreateComponent },
-  
   //   { path: 'course/create', component: CoursecreateupdateComponent },
   //   { path: 'course/edit/:id', component: CoursecreateupdateComponent }
   { path: '', component: HomeComponent },
   { path: '**', redirectTo: '', pathMatch: 'full' }, // 404 頁面導回首頁
-  { path: 'coursecreate', component:CoursecreateComponent },
+  
   
   
 
