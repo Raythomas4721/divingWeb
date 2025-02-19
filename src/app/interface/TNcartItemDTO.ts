@@ -2,7 +2,7 @@
 export interface TNcartItemDTO {
   cartitemId?: number;
   memberId: number | null; // 如果允許 null，就要看資料庫設定
-  uproductId: number;
+  uproductId?: number | null;
   productvariantsId?: number | null;
   productName: string;
   quantity: number;

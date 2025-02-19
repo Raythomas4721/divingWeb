@@ -8,7 +8,7 @@
   
   .add-button {
     padding: 10px;
-    background-color: #f1c40f;
+    background-color:#0d425e;
     color: white;
     border: none;
     cursor: pointer;
@@ -46,4 +46,34 @@
   .search-bar button:hover {
     background-color: #f39c12;
   }
+  main {
+    max-width: 95%;  /* 增加最大寬度 */
+    margin: 0 auto;  /* 置中 */
+  }
+
+  table {
+    width: 100%;
+    table-layout: fixed;  /* 確保寬度按照百分比分配 */
+  }
   
+  th:nth-child(1) { width: 15%; }   /* 課程圖片 */
+  th:nth-child(2) { width: 15%; }   /* 課程圖片 */
+  th:nth-child(3) { width: 15%; }   /* 課程圖片 */
+  th:nth-child(4) { width: 3%; }   /* 課程圖片 */
+  th:nth-child(5) { width: 3%; }   /* 課程圖片 */
+  th:nth-child(6) { width: 3%; }   /* 課程圖片 */
+
+  .table-btn {
+    width: 100%; /* 讓按鈕撐滿 td */
+    max-width: 120px; /* 限制最大寬度，避免過大 */
+    padding: 5px; /* 增加按鈕內邊距 */
+    box-sizing: border-box; /* 確保 padding 不影響寬度 */
+  }
+  .course-table{
+    display: block;
+    text-align: center;
+  }
+
+   button{
+     border-radius: 5px;
+   }

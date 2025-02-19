@@ -1,0 +1,263 @@
+<!-- <p>coursecheckout works!</p> -->
+ 	<!--[if lt IE 9]>
+		<div class="bg-danger text-center">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/" class="color-main">upgrade your browser</a> to improve your experience.</div>
+	<![endif]-->
+
+	<!-- <div class="preloader">
+		<div class="preloader_image pulse"></div>
+	</div> -->
+
+	<!-- search modal -->
+	<div class="modal" tabindex="-1" role="dialog" aria-labelledby="search_modal" id="search_modal">
+		<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			<span aria-hidden="true">&times;</span>
+		</button>
+		<div class="widget widget_search">
+			<form method="get" class="searchform search-form" action="/">
+				<div class="form-group">
+					<input type="text" value="" name="search" class="form-control" placeholder="Search keyword" id="modal-search-input">
+				</div>
+				<button type="submit" class="btn">Search</button>
+			</form>
+		</div>
+	</div>
+
+	<!-- Unyson messages modal -->
+	<div class="modal fade" tabindex="-1" role="dialog" id="messages_modal">
+		<div class="fw-messages-wrap ls p-normal">
+			<!-- Uncomment this UL with LI to show messages in modal popup to your user: -->
+			<!--
+		<ul class="list-unstyled">
+			<li>Message To User</li>
+		</ul>
+		-->
+
+		</div>
+	</div><!-- eof .modal -->
+
+	<div class="modal fade popupLogin" id="popupLogin" tabindex="-1" role="dialog" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content ds ms overflow-visible s-overlay s-mobile-overlay">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<div class="modal-body">
+					<div class="container">
+						<div class="row">
+							<div class="col-12">
+								<h4 class="color-main mb-3">Log in</h4>
+								<form class="form-registration c-mb-20 c-gutter-20" action="/">
+									<div class="row mb-4">
+										<div class="col-sm-12">
+											<div class="form-group">
+												<input type="text" name="name" class="form-control" required placeholder="login" aria-required="true">
+											</div>
+										</div>
+										<div class="col-sm-12">
+											<div class="form-group">
+												<input type="password" name="password" class="form-control" placeholder="password" aria-required="true" required>
+											</div>
+										</div>
+									</div>
+									<a class="registerRedirect " data-dismiss="modal" data-target="#popupRegistr" data-toggle="modal" href="#">Not a member? Register!</a>
+									<button type="submit" class="btn btn-maincolor mt-30 d-block">Sign In</button>
+								</form>
+
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="modal fade popupRegistr" id="popupRegistr" tabindex="-1" role="dialog" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content ds ms overflow-visible s-overlay s-mobile-overlay">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<div class="modal-body">
+					<div class="container">
+						<div class="row">
+							<div class="col-12">
+								<h4 class="color-main mb-4">Registration</h4>
+								<form class="form-registration c-mb-20 c-gutter-20" method="post" action="/">
+									<div class="row">
+										<div class="col-12">
+											<div class="form-group">
+												<input type="text" name="name" class="form-control" required placeholder="login" aria-required="true">
+											</div>
+										</div>
+										<div class="col-12">
+											<div class="form-group">
+												<input type="password" name="password" class="form-control" placeholder="password" aria-required="true" required>
+											</div>
+										</div>
+										<div class="col-12">
+											<div class="form-group">
+												<input type="email" name="email" class="form-control" placeholder="email" required aria-required="true">
+											</div>
+										</div>
+										<div class="col-12">
+											<div class="form-group">
+												<input type="password" name="confirmPassword" class="form-control" placeholder="password" required aria-required="true">
+											</div>
+										</div>
+										<div class="col-12">
+											<div class="form-group">
+												<input type="checkbox" id="agreed" name="agreed" value="agreed" required aria-required="true"><label for="agreed">I agree to the rules</label>
+											</div>
+										</div>
+									</div>
+									<button type="submit" class="btn btn-maincolor mt-30 d-block">Registration</button>
+								</form>
+
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- wrappers for visual page editor and boxed version of template -->
+	<div id="canvas">
+		<div id="box_wrapper">
+
+			<!-- template sections -->
+
+			<div class="header_absolute ds cover-background ">
+				<!-- header with three Bootstrap columns - left for logo, center for navigation and right for includes-->
+				<header class="page_header ds ms s-overlay">
+					<div class="container-fluid">
+						
+					</div>
+					<!-- header toggler -->
+					<span class="toggle_menu"><span></span></span>
+				</header>
+
+			</div>
+
+			<section class="page_title ds s-parallax s-overlay s-pt-160 s-pb-80">
+				<div class="container">
+					<div class="row">
+
+						<div class="col-md-12">
+							<h1>結帳</h1>
+							<ol class="breadcrumb">
+								<li class="breadcrumb-item">
+									<a href="./">Home</a>
+								</li>
+								<li class="breadcrumb-item">
+									<a href="#">Courses</a>
+								</li>
+								<li class="breadcrumb-item active">
+									Checkout
+								</li>
+							</ol>
+						</div>
+
+					</div>
+				</div>
+			</section>
+
+
+			<section class="ls s-py-90 s-py-xl-160 c-gutter-60">
+				<div class="container">
+					<div class="row">
+						<main class="col-lg-12">
+							<div class="container mx-auto p-6 bg-white shadow-lg rounded-lg">
+								<h2 class="text-2xl font-bold mb-4">新增課程</h2>
+								<form >
+								  
+								  <!-- 課程名稱 -->
+								  <div class="mb-4">
+									<label class="block font-medium">課程名稱</label>
+									<input formControlName="courseName" class="w-full p-2 border rounded" placeholder="輸入課程名稱">
+								  </div>
+								  
+								  <!-- 課程類別 -->
+								  <div class="mb-4">
+									<label class="block font-medium">課程類別</label>
+									<select formControlName="courseCategoryId" class="w-full p-2 border rounded">
+									  <option  [value]="">category.name </option>
+									</select>
+								  </div>
+								  
+								  <!-- 等級 -->
+								  <div class="mb-4">
+									<label class="block font-medium">等級</label>
+									<select formControlName="levelId" class="w-full p-2 border rounded">
+									  <option [value]=""> level.name </option>
+									</select>
+								  </div>
+								  
+								  <!-- 教練 -->
+								  <div class="mb-4">
+									<label class="block font-medium">教練</label>
+									<select formControlName="coachId" class="w-full p-2 border rounded">
+									  <option  [value]="">coach.name </option>
+									</select>
+								  </div>
+								  
+								  <!-- 價格 -->
+								  <div class="mb-4">
+									<label class="block font-medium">價格</label>
+									<input type="number" formControlName="coursePrice" class="w-full p-2 border rounded">
+								  </div>
+								  
+								  <!-- 課程描述 -->
+								  <div class="mb-4">
+									<label class="block font-medium">課程描述</label>
+									<textarea formControlName="description" class="w-full p-2 border rounded" rows="3"></textarea>
+								  </div>
+								  
+								  <!-- 課程狀態 -->
+								  <div class="mb-4">
+									<label class="block font-medium">是否上架</label>
+									<div>
+									  <label><input type="radio" formControlName="courseStatus" [value]="true"> 上架</label>
+									  <label class="ml-4"><input type="radio" formControlName="courseStatus" [value]="false"> 下架</label>
+									</div>
+								  </div>
+								  
+								  <!-- 開始時間 -->
+								  <div class="mb-4">
+									<label class="block font-medium">開始時間</label>
+									<input type="datetime-local" formControlName="startAt" class="w-full p-2 border rounded">
+								  </div>
+								  
+								  <!-- 上傳圖片 -->
+								  <div class="mb-4">
+									<label class="block font-medium">課程圖片</label>
+									<input type="file"  class="w-full p-2 border rounded">
+								  </div>
+								  
+								  <!-- 按鈕區域 -->
+								  <div class="flex justify-end space-x-4">
+									<button type="submit" class="bg-green-500 text-white px-4 py-2 rounded">新增課程</button>
+									<button type="button" class="bg-gray-500 text-white px-4 py-2 rounded" >返回</button>
+								  </div>
+								</form>
+							  </div>
+							  
+							
+
+							
+
+							
+							
+
+						</main>
+					</div>
+
+				</div>
+			</section>
+
+
+
+		</div><!-- eof #box_wrapper -->
+	</div><!-- eof #canvas -->
+
+

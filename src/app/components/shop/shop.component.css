@@ -141,3 +141,9 @@
 .image-swap-container:hover .primary-img {
   opacity: 0;
 }
+.image-swap-container.single-img:hover .primary-img {
+  opacity: 1 !important; /* 保持可見 */
+}
+.image-swap-container.single-img:hover .hover-img {
+  opacity: 0 !important; /* 就算有 hover-img, 也不顯示 */
+}

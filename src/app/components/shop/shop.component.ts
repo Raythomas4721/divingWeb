@@ -187,7 +187,7 @@ export class ShopComponent implements OnInit {
   private loadProductsByCategory(categoryId: number) {
     this.categoryService.getProductsByCategory(categoryId).subscribe({
       next: (data) => {
-        this.products = data;
+        this.products = data.sort(() => Math.random() - 0.5);
 
         console.log('取得分類', categoryId, '的商品 =>', data);
         // 清空搜尋

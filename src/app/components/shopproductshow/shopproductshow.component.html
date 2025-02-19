@@ -53,7 +53,7 @@
           <figure class="main-image-container">
             <img
               class="product-main-img"
-              [src]="album[0]?.src"
+              [src]="album[0].src"
               alt="主圖"
               (click)="openLightbox(0)"
             />
@@ -69,36 +69,29 @@
             />
           </figure>
         </div>
-
-        <!-- Modal 不變 -->
-        <!-- <div
-          class="image-overlay"
-          *ngIf="isModalOpen"
-          (click)="closeLightbox()"
-        >
-          <div class="image-overlay-content" (click)="$event.stopPropagation()">
-            <img [src]="selectedImage" alt="放大圖" />
-          </div>
-        </div> -->
       </div>
 
       <!-- 右邊：商品摘要/資訊區 -->
       <div class="col-lg-6 col-md-12 product-summary-col">
         <div class="summary entry-summary" *ngIf="productDetail">
-          <h1 class="product_title entry-title">
+          <h2 class="product_title entry-title">
             {{ productDetail.productName }}
-          </h1>
+          </h2>
+
           <div class="star-rating">
-            <span style="width: 72.6%"
-              >Rated <strong class="rating">4.33</strong> out of 5 based on
-              <span class="rating">3</span> customer ratings</span
-            >
+            <span [style.width]="ratingWidth + '%'">
+              Rated
+              <strong class="rating">{{ avgRating | number : "1.2-2" }}</strong>
+              out of 5 based on
+              <span class="rating">{{ reviewCount }}</span> customer ratings
+            </span>
           </div>
           <a href="#reviews" class="woocommerce-review-link" rel="nofollow"
-            >(<span class="count">3</span> customer reviews)</a
+            >(<span class="count">{{ reviews.length }}</span> customer
+            reviews)</a
           >
 
-          <p>
+          <p style="font-size: larger">
             價格:
             {{
               productDetail.unitPrice
@@ -165,6 +158,20 @@
             </div>
 
             <br />
+            <!-- 若有 selectedVariant，就顯示庫存狀況 -->
+            <p *ngIf="selectedVariant">
+              <ng-container *ngIf="selectedVariant.stock === 0">
+                <span style="color: gray">目前無庫存</span>
+              </ng-container>
+
+              <ng-container
+                *ngIf="selectedVariant.stock > 0 && selectedVariant.stock <= 10"
+              >
+                <span style="color: red">
+                  <<庫存僅剩 {{ selectedVariant.stock }} 件>>
+                </span>
+              </ng-container>
+            </p>
             <!-- 數量 -->
 
             <label for="qtyInput">數量:</label>
@@ -204,17 +211,7 @@
       </div>
     </div>
 
-    <!-- 如果需要 SKU, Category, Tag ...
-            <div class="product_meta">
-              <span class="sku_wrapper"
-                >SKU: <span class="sku">{{ productDetail?.sku }}</span>
-              </span>
-            </div>
-          </div>
-
-
-
-<-- 下面表格欄 -->
+    <!-- <-- 下面表格欄 -->
     <div class="woocommerce-tabs wc-tabs-wrapper">
       <ul class="tabs wc-tabs" role="tablist">
         <li
@@ -231,7 +228,7 @@
           role="tab"
           aria-controls="tab-additional_information"
         >
-          <a href="#tab-additional_information">Additional information</a>
+          <a href="#tab-additional_information">商品描述</a>
         </li>
         <li
           class="reviews_tab"
@@ -239,7 +236,7 @@
           role="tab"
           aria-controls="tab-reviews"
         >
-          <a href="#tab-reviews">Reviews (3)</a>
+          <a href="#tab-reviews">評論</a>
         </li>
       </ul>
 
@@ -270,247 +267,159 @@
         role="tabpanel"
         aria-labelledby="tab-title-additional_information"
       >
-        <h2>Additional information</h2>
+        <h2>商品描述</h2>
 
-        <table class="shop_attributes">
+        <table
+          class="shop_attributes"
+          *ngIf="attributes.length > 0; else noInfo"
+        >
           <tbody>
-            <tr>
-              <th>Color</th>
+            <tr *ngFor="let attr of attributes">
+              <th>{{ attr.label }}</th>
               <td>
-                <p>Blue</p>
-              </td>
-            </tr>
-            <tr>
-              <th>Size</th>
-              <td>
-                <p>
-                  X Small, Small, Medium, Large, X Large, XX Large, XXX Large
-                </p>
+                <p>{{ attr.values.join(", ") }}</p>
               </td>
             </tr>
           </tbody>
         </table>
+        <ng-template #noInfo>
+          <p>No additional information.</p>
+        </ng-template>
       </div>
+
       <div
         class="panel wc-tab"
         id="tab-reviews"
         role="tabpanel"
         aria-labelledby="tab-title-reviews"
       >
-        <div id="reviews">
-          <div id="comments">
-            <h2>3 reviews for <span>Ship Your Idea</span></h2>
+        <!-- 這裡顯示舊的評論列表 ... -->
 
-            <ol class="commentlist">
-              <li class="comment even thread-even depth-1" id="li-comment-34">
-                <div id="comment-34" class="comment_container">
-                  <img
-                    alt="img"
-                    src="http://2.gravatar.com/avatar/babdd787a9577a0e615246ac79cf2826?s=60&amp;d=mm&amp;r=g"
-                    srcset="
-                      http://2.gravatar.com/avatar/babdd787a9577a0e615246ac79cf2826?s=120&amp;d=mm&amp;r=g 2x
-                    "
-                    class="avatar avatar-60 photo"
-                    height="60"
-                    width="60"
-                  />
-                  <div class="comment-text">
-                    <div class="star-rating">
-                      <span style="width: 80%"
-                        >Rated <strong class="rating">4</strong> out of 5</span
-                      >
-                    </div>
-                    <p class="meta">
-                      <strong>James Koster</strong> <span>–</span>
-                      <time datetime="2013-06-07T11:43:13+00:00"
-                        >June 7, 2013
-                      </time>
-                    </p>
+        <div class="single-review" *ngFor="let r of reviews">
+          <p class="review-header">
+            <span style="font-size: larger">
+              <strong>會員:{{ r.memberName }}</strong>
+            </span>
+            <!-- 只有是同一個使用者，才顯示「編輯/刪除」按鈕 -->
+            <span class="review-actions" *ngIf="r.memberId === user?.memberId">
+              <button class="edit-btn" (click)="editReview(r)">
+                <i class="fa-solid fa-pen"></i>
+              </button>
+              <button class="remove-review" (click)="removeReview(r.reviewId!)">
+                <i class="fa fa-trash"></i>
+              </button>
+            </span>
+          </p>
 
-                    <div class="description">
-                      <p>
-                        Nice T-shirt, I got one in black. Goes with anything!
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </li>
-              <!-- #comment-## -->
-              <li
-                class="comment odd alt thread-odd thread-alt depth-1"
-                id="li-comment-35"
+          <!-- 顯示星星 (r.reviewRating 個) -->
+          <div class="review-meta">
+            <div class="review-stars">
+              <i
+                class="fa fa-star"
+                *ngFor="let star of createStarsArray(r.reviewRating)"
               >
-                <div id="comment-35" class="comment_container">
-                  <img
-                    alt="img"
-                    src="http://0.gravatar.com/avatar/f0cde930b42c79145194679d5b6e3b1d?s=60&amp;d=mm&amp;r=g"
-                    srcset="
-                      http://0.gravatar.com/avatar/f0cde930b42c79145194679d5b6e3b1d?s=120&amp;d=mm&amp;r=g 2x
-                    "
-                    class="avatar avatar-60 photo"
-                    height="60"
-                    width="60"
-                  />
-                  <div class="comment-text">
-                    <div class="star-rating">
-                      <span style="width: 80%"
-                        >Rated <strong class="rating">4</strong> out of 5</span
-                      >
-                    </div>
-                    <p class="meta">
-                      <strong>Cobus Bester</strong> <span>–</span>
-                      <time datetime="2013-06-07T11:55:15+00:00"
-                        >June 7, 2013
-                      </time>
-                    </p>
-
-                    <div class="description">
-                      <p>Very comfortable shirt, and I love the graphic!</p>
-                    </div>
-                  </div>
-                </div>
-              </li>
-              <!-- #comment-## -->
-              <li class="comment even thread-even depth-1" id="li-comment-36">
-                <div id="comment-36" class="comment_container">
-                  <img
-                    alt="img"
-                    src="http://1.gravatar.com/avatar/7a6df00789e50714fcde1b759befcc84?s=60&amp;d=mm&amp;r=g"
-                    srcset="
-                      http://1.gravatar.com/avatar/7a6df00789e50714fcde1b759befcc84?s=120&amp;d=mm&amp;r=g 2x
-                    "
-                    class="avatar avatar-60 photo"
-                    height="60"
-                    width="60"
-                  />
-                  <div class="comment-text">
-                    <div class="star-rating">
-                      <span style="width: 100%"
-                        >Rated <strong class="rating">5</strong> out of 5</span
-                      >
-                    </div>
-                    <p class="meta">
-                      <strong>Stuart</strong>
-                      <span>–</span>
-                      <time datetime="2013-06-07T13:02:14+00:00"
-                        >June 7, 2013
-                      </time>
-                    </p>
-
-                    <div class="description">
-                      <p>
-                        Great T-shirt quality, Great Design and Great Service.
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </li>
-              <!-- #comment-## -->
-            </ol>
-          </div>
-
-          <div id="review_form_wrapper">
-            <div id="review_form">
-              <div id="respond" class="comment-respond">
-                <span id="reply-title" class="comment-reply-title"
-                  >Add a review
-                  <small>
-                    <a
-                      rel="nofollow"
-                      id="cancel-comment-reply-link"
-                      href="#respond"
-                      style="display: none"
-                      >Cancel reply</a
-                    >
-                  </small>
-                </span>
-                <form
-                  action="/"
-                  method="post"
-                  id="commentform"
-                  class="comment-form"
-                  novalidate=""
-                >
-                  <p class="comment-notes">
-                    <span id="email-notes"
-                      >Your email address will not be published.</span
-                    >
-                    Required fields are marked
-                    <span class="required">*</span>
-                  </p>
-                  <div class="comment-form-rating">
-                    <label>Your rating</label>
-                    <p class="stars">
-                      <span>
-                        <a class="star-1" href="#">1</a>
-                        <a class="star-2" href="#">2</a>
-                        <a class="star-3" href="#">3</a>
-                        <a class="star-4" href="#">4</a>
-                        <a class="star-5" href="#">5</a>
-                      </span>
-                    </p>
-                  </div>
-                  <p class="comment-form-comment">
-                    <label for="comment"
-                      >Your review <span class="required">*</span>
-                    </label>
-                    <textarea
-                      id="comment"
-                      name="comment"
-                      cols="45"
-                      rows="8"
-                      aria-required="true"
-                      required=""
-                    >
-                    </textarea>
-                  </p>
-                  <p class="comment-form-author">
-                    <label for="author"
-                      >Name <span class="required">*</span>
-                    </label>
-                    <input
-                      id="author"
-                      name="author"
-                      type="text"
-                      value=""
-                      size="30"
-                      aria-required="true"
-                      required=""
-                    />
-                  </p>
-                  <p class="comment-form-email">
-                    <label for="email"
-                      >Email <span class="required">*</span>
-                    </label>
-                    <input
-                      id="email"
-                      name="email"
-                      type="email"
-                      value=""
-                      size="30"
-                      aria-required="true"
-                      required=""
-                    />
-                  </p>
-                  <p class="form-submit">
-                    <input
-                      name="submit"
-                      type="submit"
-                      id="submit"
-                      class="submit"
-                      value="Submit"
-                    />
-                  </p>
-                </form>
-              </div>
-              <!-- #respond -->
+              </i>
             </div>
           </div>
-
-          <div class="clear"></div>
+          <div class="review-content-line">
+            <p style="font-size: larger">{{ r.reviewContent }}</p>
+            <p class="text-muted">
+              評論日期: {{ r.createdDate | date : "yyyy/MM/dd" }}
+            </p>
+          </div>
         </div>
+        <div id="review_form_wrapper">
+          <div id="review_form">
+            <div id="respond" class="comment-respond">
+              <span id="reply-title" class="comment-reply-title">
+                填寫評論
+                <!-- <small>
+                  <a
+                    rel="nofollow"
+                    id="cancel-comment-reply-link"
+                    href="#respond"
+                    style="display: none"
+                    >Cancel reply</a
+                  >
+                </small> -->
+              </span>
+
+              <!-- Reactive Form -->
+              <form [formGroup]="reviewForm" class="comment-form">
+                <!-- <p class="comment-notes">
+                  <span>您的評論可幫助其他人</span>
+                  <span class="required">*</span>
+                </p> -->
+                <div class="comment-form-rating">
+                  <!-- <label>商品評分</label> -->
+                  <p class="star">
+                    <span
+                      >商品評分:
+                      <!-- 用 *ngFor 產生 1~5 星 -->
+                      <a
+                        *ngFor="let star of [1, 2, 3, 4, 5]"
+                        href="#"
+                        (click)="onStarClick(star, $event)"
+                        [class.active]="
+                          reviewForm.get('reviewRating')?.value >= star
+                        "
+                      >
+                        <i
+                          class="fa"
+                          [ngClass]="{
+                            'fas fa-star':
+                              reviewForm.get('reviewRating')?.value >= star,
+                            'far fa-star':
+                              reviewForm.get('reviewRating')?.value < star
+                          }"
+                        ></i>
+                      </a>
+                    </span>
+                  </p>
+                </div>
+
+                <p class="comment-form-comment">
+                  <label for="comment"
+                    >Your review <span class="required">*</span></label
+                  >
+                  <textarea
+                    id="comment"
+                    rows="8"
+                    formControlName="reviewContent"
+                  ></textarea>
+                </p>
+
+                <!-- 移除 Email，改顯示 Name (若要讓後端接收 memberName, 可 hidden input or 於後端從 session 取) -->
+                <p class="comment-form-author">
+                  <label for="author"
+                    >Name <span class="required">*</span></label
+                  >
+                  <input
+                    id="author"
+                    type="text"
+                    [value]="user?.memberName"
+                    readonly
+                  />
+                </p>
+
+                <p class="form-submit">
+                  <button
+                    type="button"
+                    class="submit"
+                    (click)="onReviewSubmit()"
+                  >
+                    Submit
+                  </button>
+                </p>
+              </form>
+            </div>
+          </div>
+        </div>
+
+        <div class="clear"></div>
       </div>
     </div>
   </div>
+
   <!-- 側邊欄 (略) -->
 </section>

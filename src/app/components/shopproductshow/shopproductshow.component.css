@@ -34,7 +34,7 @@
 .main-image-container {
   /* 右側主圖可以佔剩下空間 */
   flex: 1;
-  max-width: 400px; /* 或者設定一個較固定的最大寬度 */
+  max-width: 600px; /* 或者設定一個較固定的最大寬度 */
   position: relative; /* 如果有 hover-img 切換時可用 */
 }
 
@@ -140,4 +140,58 @@ label {
 .gender-btn.active {
   cursor: pointer;
   background-color: rgb(253, 209, 35);
+}
+
+.star a {
+  text-decoration: none;
+  color: #ccc; /* 未選的星星顏色 */
+  margin-right: 5px;
+  /* 你也可以用 font-awesome icon 代替文字 */
+}
+
+.star a.active {
+  color: rgb(253, 209, 35); /* 選中的星星顏色 */
+}
+
+.star a:hover {
+  color: rgb(253, 209, 35); /* 滑鼠經過可變色 */
+}
+
+.review-header {
+  display: flex; /* 水平排列 */
+  justify-content: space-between; /* 左右兩端對齊 */
+  align-items: center; /* 垂直置中(可選) */
+  margin-bottom: 8px; /* 與後面區塊留一點距離 */
+}
+
+.review-actions button {
+  /* 讓按鈕小一點 */
+  font-size: 1rem; /* 縮小字體 */
+  padding: 2px 6px; /* 按鈕內邊距 */
+  margin-left: 8px; /* 按鈕之間留間距 */
+  cursor: pointer;
+  /* 其他你想的樣式，如 background, color... */
+}
+
+.review-actions button i {
+  /* 若想再縮小 icon */
+  font-size: 0.9rem;
+}
+.review-content-line {
+  display: flex; /* 水平排列 */
+  justify-content: space-between; /* 左右兩端對齊：左邊內容、右邊日期 */
+  align-items: flex-start; /* 可依需求, 也可 center 等 */
+  margin-top: 8px; /* 與前面留距 (可自由調) */
+}
+
+/* 讓日期字體再小一些 */
+.review-content-line .review-date {
+  font-size: 0.3rem; /* 縮小字體 */
+  color: #666; /* 顏色偏灰 (可調) */
+  margin: 0; /* 取消預設 <p> 的上下margin */
+}
+
+/* 內容同理可調整 */
+.review-content-line .review-text {
+  margin: 0; /* 取消預設 <p> margin, 你可自行控制 */
 }
