@@ -10,7 +10,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { TUproductDTO } from '../interface/TUproductDTO';
+import { TUproductDTO, TUcreateproductDTO, TUcategory, TUcondition } from '../interface/TUproductDTO';
 
 @Injectable({
   providedIn: 'root'
@@ -23,8 +23,20 @@ export class ProductsService {
   getUsedProducts(page: number = 1, pageSize: number = 8, keyword?: string, categoryId: number | null = null,): Observable<any> {
     return this.http.get<TUproductDTO[]>(`${this.apiUrl}api/TUproductsAPI?page=${page}&pageSize=${pageSize}`);
     // let url = `${this.baseAddress}api/TUproductsAPI?page=${page}&pageSize=${pageSize}`;
-
   }
+  getUsedCategory() {
+    return this.http.get<TUcategory[]>(`${this.apiUrl}api/TUproductCategories`)
+  }
+  getUsedCondition() {
+    return this.http.get<TUcondition[]>(`${this.apiUrl}api/TUproductCondition`)
+  }
+  /** 新增商品 */
+  //  createUsedProduct(product: TUcreateproductDTO): Observable<any> {
+  //   return this.http.post<any>(this.apiUrl, product, { withCredentials: true }).pipe(catchError(this.handleError));
+  // }
+  //  createProduct(product: createProduct): Observable<any> {
+  //   return this.http.post<any>(this.baseUrl, product, { withCredentials: true }).pipe(catchError(this.handleError));
+  // }
 
   deleteProduct(productId: number): Observable<any> {
     return this.http.delete<any>(`${this.apiUrl}/delete-product/${productId}`);

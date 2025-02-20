@@ -104,9 +104,8 @@
                         <!-- 商品類別 -->
                         <div class="form-group">
                           <label for="productCategoryId"><i class="fa-solid fa-cube icon"></i>&nbsp;&nbsp;商品類別</label>
-                          <select class="form-control" id="productCategory" formControlName="fProductCategoryId"
-                            required>
-                            <option>
+                          <select class="form-control" id="productCategory" formControlName="categoryId" required>
+                            <option *ngFor="let item of usedCategory" [value]="item.categoryId">{{item.categoryName}}
                             </option>
                           </select>
                         </div>
@@ -132,7 +131,8 @@
 
                           <select class="form-control" id="productCategory" formControlName="fProductCategoryId"
                             required>
-                            <option>
+                            <option *ngFor="let item of usedCondition" [value]="item.productConditionId">
+                              {{item.condition}}
                             </option>
                           </select>
 
@@ -161,7 +161,7 @@
                         <!-- 送出按鈕 -->
                         <button type="submit" class="btn btn-darkgrey m-3"><i
                             class="fa-solid fa-arrow-up"></i>&nbsp;&nbsp;上架</button>
-                        <button class="btn btn-darkgrey m-3" [routerLink]="['/products', 'myProduct']"><i
+                        <button class="btn btn-darkgrey m-3" routerLink="/used-products"><i
                             class="fa-solid fa-xmark"></i>&nbsp;取消</button>
                       </div>
 

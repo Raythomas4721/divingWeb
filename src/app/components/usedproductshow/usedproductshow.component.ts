@@ -5,7 +5,8 @@ import { UserService } from 'src/app/services/user.service';
 import { ProductsService } from '../../services/products.service';
 import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
-import { TUcreateproductDTO, TUproductDTO } from 'src/app/interface/TUproductDTO';
+import { TUcategory, TUcreateproductDTO, TUproductDTO, TUcondition } from 'src/app/interface/TUproductDTO';
+import { FormControl, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-usedproductshow',
@@ -15,7 +16,18 @@ import { TUcreateproductDTO, TUproductDTO } from 'src/app/interface/TUproductDTO
 export class UsedproductshowComponent implements OnInit {
   user?: UserDTO | null;
   usedProducts: TUcreateproductDTO[] = [];
+  usedCategory: TUcategory[] = [];
+  usedCondition: TUcondition[] = [];
   isLoading = true; // 用來顯示載入狀態
+
+  UPForm = new FormGroup({
+    categoryId: new FormControl(),
+    productName: new FormControl(),
+    productDescription: new FormControl(),
+    productPrice: new FormControl(),
+    productConditionId: new FormControl()
+  })
+
 
   constructor(private productService: ProductsService, private authService: AuthService) { }
 
@@ -31,6 +43,8 @@ export class UsedproductshowComponent implements OnInit {
       }
     });
     this.loadUsedProducts();
+    this.loadCategory();
+    this.loadCondition();
   }
   loadUsedProducts(): void {
     this.productService.getUsedProducts().subscribe({
@@ -43,6 +57,23 @@ export class UsedproductshowComponent implements OnInit {
         this.isLoading = false;
       }
     });
+  }
+
+  loadCategory() {
+    this.productService.getUsedCategory().subscribe({
+      next: (data: TUcategory[]) => {
+        this.usedCategory = data;
+        console.log('categories', this.usedCategory);
+      }
+    })
+  }
+  loadCondition() {
+    this.productService.getUsedCondition().subscribe({
+      next: (data: TUcondition[]) => {
+        this.usedCondition = data;
+        console.log('condition', this.usedCondition);
+      }
+    })
   }
 
   removeImage(productIndex: number, imageIndex: number): void {

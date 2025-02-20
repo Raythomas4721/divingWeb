@@ -1,6 +1,6 @@
 export interface TUproductDTO {
   productId: number;
-  sellerId: number;
+  sellerName: string;
   memberName: string;
   categoryId: number;
   productName: string;
@@ -14,11 +14,20 @@ export interface TUproductDTO {
 }
 
 export interface TUcreateproductDTO {
-  productId: number;
+  // productId: number;
   categoryId: number;
   productName: string;
   productDescription: string;
   productPrice: number;
-  productStatus: boolean;
+  // productStatus: boolean;
+  productConditionId: number;
   tUproductImages: string[];
+}
+export interface TUcategory {
+  categoryId: number;
+  categoryName: string;
+}
+export interface TUcondition {
+  productConditionId: number;
+  condition: string;
 }
