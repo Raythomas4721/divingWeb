@@ -27,6 +27,7 @@ const routes: Routes = [
   { path: 'shop/:categoryId', component: ShopComponent },
   { path: 'used-products', component: UsedProductsComponent },
   { path: 'courses', component: CoursesComponent },
+  { path: 'courses/:id', component: CoursedetailsComponent }, 
   { path: 'site-rental', component: SiteRentalComponent },
   { path: 'shopcart', component: Sideshopcart },
   { path: 'shopproductshow/:id', component: ShopproductshowComponent },

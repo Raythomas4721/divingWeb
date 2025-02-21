@@ -148,7 +148,8 @@
 						<main class="col-lg-7 col-xl-8 order-lg-2">
 
 							<article *ngFor="let course of coursesData"  class="post text-center text-md-left vertical-item content-padding hero-bg">
-								<div class="item-media post-thumbnail" routerLink="/coursedetails/1">
+								<!-- <div class="item-media post-thumbnail" routerLink="/coursedetails/1"> -->
+								<div class="item-media post-thumbnail" [routerLink]="['/courses', course.courseId]">
 									<!-- 圖片 -->
 									<!-- <img src="assets/images/courses/snorkeling_1.jpg" alt="img">
 									<div class="media-links">
@@ -180,7 +181,8 @@
 											<!-- </a> -->
 										<!-- </span> -->
 										<h3 class="entry-title mb-3">
-											<a  routerLink="/coursedetails/1"  rel="bookmark">
+											<!-- <a  routerLink="/coursedetails/1"  rel="bookmark"> -->
+											<a  [routerLink]="['/courses', course.courseId]"  rel="bookmark">
 												{{course['startAt']| date:'MM/dd'}}{{course['categoryName']}}體驗課程｜免費拍照｜免證照
 											</a>
 										</h3>
