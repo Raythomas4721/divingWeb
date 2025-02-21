@@ -20,8 +20,17 @@ export class ProductsService {
 
   constructor(private http: HttpClient) { }
 
-  getUsedProducts(page: number = 1, pageSize: number = 8, keyword?: string, categoryId: number | null = null,): Observable<any> {
-    return this.http.get<TUproductDTO[]>(`${this.apiUrl}api/TUproductsAPI?page=${page}&pageSize=${pageSize}`);
+  getUsedProducts(page: number = 1, pageSize: number = 8, categoryId: number | null = null): Observable<any> {
+    var queryString = `?page=${page}&pageSize=${pageSize}`;
+    // if (keyword) {
+    //   queryString += `&keyword=${keyword}`
+    // }
+    console.log(categoryId);
+    if (categoryId) {
+      queryString += `&categoryId=${categoryId}`
+    }
+    console.log('url:', queryString);
+    return this.http.get<TUproductDTO[]>(`${this.apiUrl}api/TUproductsAPI${queryString}`);
     // let url = `${this.baseAddress}api/TUproductsAPI?page=${page}&pageSize=${pageSize}`;
   }
   getUsedCategory() {

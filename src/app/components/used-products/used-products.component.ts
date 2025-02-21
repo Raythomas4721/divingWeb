@@ -9,12 +9,10 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { TUproductDTO, TUcategory } from 'src/app/interface/TUproductDTO';
 import { FormControl, FormGroup } from '@angular/forms';
 
-
 @Component({
   selector: 'app-used-products',
   templateUrl: './used-products.component.html',
   styleUrls: ['./used-products.component.css']
-
 })
 export class UsedProductsComponent {
 
@@ -27,8 +25,8 @@ export class UsedProductsComponent {
   searchKeyword: string = '';
   isAllSelected: boolean = false;
   pageSize: number = 8;
-  pages: number[] = [];
-
+  page: number[] = [];
+  categoryId: number | null = null;
   UPForm = new FormGroup({
     categoryId: new FormControl(),
     productName: new FormControl(),
@@ -49,7 +47,6 @@ export class UsedProductsComponent {
       this.user = user?.user;
       if (user) {
         console.log("用戶資料已載入:", this.user);
-        this.loadUsedProducts();
       } else {
         console.log("等待 API 返回，用戶資料尚未載入");
       }
@@ -59,13 +56,33 @@ export class UsedProductsComponent {
   }
 
   loadUsedProducts(): void {
-    this.productsService.getUsedProducts().subscribe({
+    this.productsService.getUsedProducts(1, 8, this.categoryId).subscribe({
       next: (data: any[]) => {
+        //console.log('test', data);
         this.usedProducts = data;
-        console.log(data);
+        //console.log(data);
 
         this.filteredProducts = [...this.usedProducts];
-        console.log(this.filteredProducts);
+        //console.log(this.filteredProducts);
+      },
+      error: (error: HttpErrorResponse) => {
+        console.error('載入二手商品失敗:', error);
+        // alert('請先登入會員!');
+        // this.router.navigate(['user/login']);
+      }
+    });
+  }
+
+  loadUsedProductsTest(categoryId: number | null): void {
+    console.log('click!', categoryId);
+    this.productsService.getUsedProducts(1, 8, categoryId).subscribe({
+      next: (data: any[]) => {
+        console.log('test', data);
+        this.usedProducts = data;
+        //console.log(data);
+
+        this.filteredProducts = [...this.usedProducts];
+        //console.log(this.filteredProducts);
       },
       error: (error: HttpErrorResponse) => {
         console.error('載入二手商品失敗:', error);
@@ -78,7 +95,7 @@ export class UsedProductsComponent {
     this.productsService.getUsedCategory().subscribe({
       next: (data: TUcategory[]) => {
         this.usedCategory = data;
-        console.log('categories', this.usedCategory);
+        //console.log('categories', this.usedCategory);
       }
     })
   }

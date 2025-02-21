@@ -124,7 +124,7 @@
               <h3 class="widget-title">分類</h3>
               <ul class="product-categories" formControlName="categoryId">
                 <li class="cat-item" *ngFor="let item of usedCategory">
-                  <a href="shop-right.html">{{item.categoryName}}</a>
+                  <a (click)="loadUsedProductsTest(item.categoryId)">{{item.categoryName}}</a>
                   <span class="count">(6)</span>
                 </li>
               </ul>
