@@ -6,7 +6,8 @@ import { UserService } from 'src/app/services/user.service';
 import { ProductsService } from '../../services/products.service';
 import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
-import { TUproductDTO } from 'src/app/interface/TUproductDTO';
+import { TUproductDTO, TUcategory } from 'src/app/interface/TUproductDTO';
+import { FormControl, FormGroup } from '@angular/forms';
 
 
 @Component({
@@ -20,12 +21,21 @@ export class UsedProductsComponent {
   user?: UserDTO | null;
   Products: TUproductDTO[] = [];
   usedProducts: any[] = [];
+  usedCategory: TUcategory[] = [];
   selectedProducts: number[] = [];
   filteredProducts: any[] = [];
   searchKeyword: string = '';
   isAllSelected: boolean = false;
   pageSize: number = 8;
   pages: number[] = [];
+
+  UPForm = new FormGroup({
+    categoryId: new FormControl(),
+    productName: new FormControl(),
+    productDescription: new FormControl(),
+    productPrice: new FormControl(),
+    productConditionId: new FormControl()
+  })
 
   constructor(
     private authService: AuthService,
@@ -45,7 +55,7 @@ export class UsedProductsComponent {
       }
     });
     this.loadUsedProducts();
-
+    this.loadCategory();
   }
 
   loadUsedProducts(): void {
@@ -63,6 +73,14 @@ export class UsedProductsComponent {
         // this.router.navigate(['user/login']);
       }
     });
+  }
+  loadCategory() {
+    this.productsService.getUsedCategory().subscribe({
+      next: (data: TUcategory[]) => {
+        this.usedCategory = data;
+        console.log('categories', this.usedCategory);
+      }
+    })
   }
 
   searchProducts(): void {

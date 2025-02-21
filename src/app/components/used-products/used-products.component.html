@@ -122,22 +122,10 @@
 
             <div class="widget woocommerce widget_product_categories">
               <h3 class="widget-title">分類</h3>
-              <ul class="product-categories">
-                <li class="cat-item">
-                  <a href="shop-right.html">面罩與呼吸管</a>
+              <ul class="product-categories" formControlName="categoryId">
+                <li class="cat-item" *ngFor="let item of usedCategory">
+                  <a href="shop-right.html">{{item.categoryName}}</a>
                   <span class="count">(6)</span>
-                </li>
-                <li class="cat-item">
-                  <a href="shop-right.html">防護與保暖裝備</a>
-                  <span class="count">(8)</span>
-                </li>
-                <li class="cat-item">
-                  <a href="shop-right.html">蛙鞋</a>
-                  <span class="count">(4)</span>
-                </li>
-                <li class="cat-item">
-                  <a href="shop-right.html">其他配件</a>
-                  <span class="count">(9)</span>
                 </li>
               </ul>
             </div>

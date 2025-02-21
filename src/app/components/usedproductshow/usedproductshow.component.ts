@@ -29,7 +29,10 @@ export class UsedproductshowComponent implements OnInit {
   })
 
 
-  constructor(private productService: ProductsService, private authService: AuthService) { }
+  constructor(
+    private productsService: ProductsService,
+    private authService: AuthService
+  ) { }
 
   // 必須要有 ngOnInit 方法
   ngOnInit(): void {
@@ -47,7 +50,7 @@ export class UsedproductshowComponent implements OnInit {
     this.loadCondition();
   }
   loadUsedProducts(): void {
-    this.productService.getUsedProducts().subscribe({
+    this.productsService.getUsedProducts().subscribe({
       next: (data: TUcreateproductDTO[]) => {
         this.usedProducts = data;
         this.isLoading = false;
@@ -60,7 +63,7 @@ export class UsedproductshowComponent implements OnInit {
   }
 
   loadCategory() {
-    this.productService.getUsedCategory().subscribe({
+    this.productsService.getUsedCategory().subscribe({
       next: (data: TUcategory[]) => {
         this.usedCategory = data;
         console.log('categories', this.usedCategory);
@@ -68,7 +71,7 @@ export class UsedproductshowComponent implements OnInit {
     })
   }
   loadCondition() {
-    this.productService.getUsedCondition().subscribe({
+    this.productsService.getUsedCondition().subscribe({
       next: (data: TUcondition[]) => {
         this.usedCondition = data;
         console.log('condition', this.usedCondition);
