@@ -120,7 +120,10 @@ export class Sideshopcart {
           this.isCartVisible = false;
 
           // 5) 導到訂單確認頁 (若有)
-          this.router.navigate(['/order-received', res.orderId]);
+          const orderId = res.orderId;
+          const ecpayUrl = `https://localhost:7107/api/TNorders/createECPayPayment/${orderId}`;
+          window.location.href = ecpayUrl;
+          console.log('ecpayUrl=', ecpayUrl);
         },
         error: (err) => {
           console.error('建立訂單失敗:', err);
