@@ -2,9 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { TccoursesService } from 'src/app/services/tccourses.service';
 
-
-
-
 @Component({
   selector: 'app-coursedetails',
   templateUrl: './coursedetails.component.html',
@@ -13,6 +10,7 @@ import { TccoursesService } from 'src/app/services/tccourses.service';
 export class CoursedetailsComponent implements OnInit {
   courseData: any = {};  // 確保不會 undefined
   imageData: string = 'assets/images/courses/noImage_500x300.png'; // 預設圖片
+  coachImageData: string = 'assets/images/courses/defaultCoach.jpg'; // 預設教練圖片
 
   constructor(
     private route: ActivatedRoute,
@@ -31,10 +29,19 @@ export class CoursedetailsComponent implements OnInit {
     this.coursesService.getCourseById(id).subscribe(
       (data) => {
         this.courseData = data;
-
-        // 檢查是否有圖片
-        if (data.photo) {
-          this.imageData = `data:image/jpeg;base64,${data.photo}`;
+  
+        // ✅ 確保教練照片顯示
+        if (data.base64CoachPhoto) {
+          this.coachImageData = `data:image/jpeg;base64,${data.base64CoachPhoto}`;
+        } else {
+          this.coachImageData = 'assets/images/courses/defaultCoach.jpg'; // 預設教練圖片
+        }
+  
+        // ✅ 確保課程圖片顯示
+        if (data.base64Photo) {
+          this.imageData = `data:image/jpeg;base64,${data.base64Photo}`;
+        } else {
+          this.imageData = 'assets/images/courses/noImage_500x300.png'; // 預設課程圖片
         }
       },
       (error) => {
@@ -42,4 +49,5 @@ export class CoursedetailsComponent implements OnInit {
       }
     );
   }
+  
 }

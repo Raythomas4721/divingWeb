@@ -1,83 +1,210 @@
-
-.favorite-icon {
-    position: absolute; /* 讓愛心按鈕絕對定位 */
-    right: 10px; /* 距離右邊 10px，將愛心圖示移至右邊 */
-    color: rgb(89,138,164); /* 愛心顏色 */
-    font-size: 25px;
-    
-  }
-  
-  .favorite-icon:hover {
-    
-    color:rgb(35, 209, 253); /* 滑鼠懸停時，改變愛心顏色 */
-  }
-  .post-content {
-    position: relative; /* 使內容區域為定位容器 */
-    color: #0d425e;
-   
-  }
-  
-  .post-price {
-    position: absolute; /* 使價格浮動 */
-    right: 10px; /* 距離右邊 10px */
-    font-size: 30px; /* 設定字體大小 */
-    font-weight: bold;
-    color:#166792; /* 設定字體顏色 */
-  }
-  .comment-author h6 {
-    display: inline-block;
-    margin-right: 80px; /* 間隔80px */
-    font-size: 20px;
-}
-
-.comment-author .gender {
-    display: inline-block;
-    color: #0d425e;
-    font-size: 20px;
-    font-weight:400;
-}
-
-.comment-content{
-  font-size: 18px;
-}
-
-.comment-respond{
-  position: relative; /* 使內容區域為定位容器 */
-}
-
-.submit{
-  position: absolute; /* 讓直接購買按鈕絕對定位 */
-  right: 10px;
-}
-
-.excerpt{
-  font-size: 25px;
-  font-weight:500;
-}
-
-.entry-meta .item-meta{
-  font-size: 18PX;
-}
-
-.container {
+/* 讓 section 置中 */
+.ls.s-py-90.s-py-xl-160 {
   display: flex;
-  justify-content: space-between; /* 等距排列 */
-  margin: 20px;  /* 可以根據需要調整間距 */
+  justify-content: center;
 }
 
-.box {
-  flex: 1;  /* 每個盒子會平分空間 */
-  padding: 10px;
-  border: 2px solid red;
-  margin: 0 10px;  /* 設定每個區域之間的間距 */
+/* 讓 container 保持在畫面中央 */
+.container {
+  width: 90%;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
-ul {
+/* 愛心按鈕樣式 */
+.favorite-icon {
+  position: absolute;
+  right: 10px;
+  color: rgb(89,138,164);
+  font-size: 25px;
+}
+
+.favorite-icon:hover {
+  color: rgb(35, 209, 253);
+}
+
+/* 文章摘要樣式 */
+.excerpt {
+  font-size: 25px;
+  font-weight: 500;
+}
+
+/* 費用包含區塊 (三等分) */
+.list-styled-container {
+  width: 100%;
+}
+
+.cost-container {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.cost-box {
+  flex: 1;
+  padding: 15px;
+  border-radius: 8px;
+  min-height: 200px;
+  box-sizing: border-box;
+}
+
+/* RWD：小螢幕改為直排 */
+@media (max-width: 768px) {
+  .cost-container {
+    flex-direction: column;
+  }
+  .cost-box {
+    width: 100%;
+  }
+}
+
+/* 費用清單樣式 */
+.list-styled {
   list-style-type: none;
-  padding: 0;
+  padding-left: 0;
 }
 
-li {
-  margin-bottom: 10px; /* 每個項目的間隔 */
+.list-styled li::before {
+  content: "✔ ";
+  color: #007bff;
 }
+
+/* 課程亮點區塊 (三等分) */
+.benefits-container {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.benefit-box {
+  flex: 1;
+  padding: 15px;
+  border: 2px solid rgb(122, 221, 254);
+  border-radius: 20px;
+  background-color: rgb(122, 221, 254);
+  text-align: center;
+  color: azure;
+  font-size: 18px;
+  font-weight: 400;
+  min-height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* RWD：當螢幕小於 768px 時，改為直排 */
+@media (max-width: 768px) {
+  .benefits-container {
+    flex-direction: column;
+    align-items: center;
+  }
+  .benefit-box {
+    width: 80%;
+  }
+}
+
+/* 讓價格區塊靠右 */
+.post-content {
+  position: relative;
+  color: #0d425e;
+}
+
+.post-price {
+  font-size: 30px;
+  font-weight: bold;
+  color: #166792;
+}
+
+/* 價格與按鈕並排 */
+.price-buy-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  margin-top: 10px;
+}
+
+/* 直接購買按鈕樣式 */
+.buy-button {
+  background-color: #FFC107;
+  color: #0d425e;
+  font-size: 18px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  font-weight: bold;
+  white-space: nowrap;
+}
+
+/* RWD：小螢幕時，價格與按鈕改為直排 */
+@media (max-width: 768px) {
+  .price-buy-container {
+    flex-direction: column;
+    align-items: center;
+  }
+  .post-price {
+    margin-bottom: 10px;
+  }
+}
+
+/* ============================== */
+/* 🔹 教練資訊 & 社群媒體配置區塊 */
+/* ============================== */
+
+/* 主容器：教練圖片 + 教練資訊 (左側)，社群媒體 (右側) */
+.comment-container {
+  display: flex;
+  align-items: center;  /* 🔹 讓內容垂直居中 */
+  justify-content: space-between; /* 🔹 左側教練資訊，右側社群媒體 */
+  gap: 20px;
+  width: 100%;
+}
+
+/* 左側：教練資訊（包含圖片） */
+.comment-meta {
+  display: flex;
+  align-items: center; /* ✅ 讓圖片 & 文字垂直置中 */
+  justify-content: flex-start; /* ✅ 讓內容靠左 */
+  flex: 1;
+  gap: 15px; /* ✅ 圖片與文字間距 */
+}
+
+/* 教練圖片 - 確保始終為圓形 */
+.coach-image {
+  width: 120px; /* ✅ 設定固定寬高，確保為圓形 */
+  height: 120px;
+  border-radius: 50%; /* ✅ 讓圖片強制為圓形 */
+  object-fit: cover; /* ✅ 確保圖片完整顯示，避免拉伸 */
+  display: block; /* ✅ 避免 inline 元素影響 */
+  margin-top: -15px; /* ✅ 讓圖片向上移動 15px */
+}
+/* 教練資訊 */
+.coach-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* ✅ 確保教練名稱 & 經歷與圖片對齊 */
+}
+/* 教練名稱與經歷樣式 */
+.coach-info h6 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.coach-info p {
+  margin: 5px 0 0;
+  font-size: 16px;
+  color: #555;
+}
+
+/* 右側：社群媒體按鈕 */
+.comment-content {
+  flex: 1;
+  text-align: right; /* 🔹 讓社群媒體按鈕靠右對齊 */
+}
+
+/* ============================== */
 
