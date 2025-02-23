@@ -220,7 +220,7 @@
           role="tab"
           aria-controls="tab-description"
         >
-          <a href="#tab-description">購物須知</a>
+          <a [routerLink]="[]" fragment="tab-description">購物須知</a>
         </li>
         <li
           class="additional_information_tab active"
@@ -228,7 +228,9 @@
           role="tab"
           aria-controls="tab-additional_information"
         >
-          <a href="#tab-additional_information">商品描述</a>
+          <a [routerLink]="[]" fragment="tab-additional_information"
+            >商品描述</a
+          >
         </li>
         <li
           class="reviews_tab"
@@ -236,7 +238,7 @@
           role="tab"
           aria-controls="tab-reviews"
         >
-          <a href="#tab-reviews">評論</a>
+          <a [routerLink]="[]" fragment="tab-reviews">評論</a>
         </li>
       </ul>
 
@@ -380,7 +382,7 @@
 
                 <p class="comment-form-comment">
                   <label for="comment"
-                    >Your review <span class="required">*</span></label
+                    >你的評論 <span class="required">*</span></label
                   >
                   <textarea
                     id="comment"
@@ -392,7 +394,7 @@
                 <!-- 移除 Email，改顯示 Name (若要讓後端接收 memberName, 可 hidden input or 於後端從 session 取) -->
                 <p class="comment-form-author">
                   <label for="author"
-                    >Name <span class="required">*</span></label
+                    >會員名稱: <span class="required">*</span></label
                   >
                   <input
                     id="author"
@@ -408,7 +410,7 @@
                     class="submit"
                     (click)="onReviewSubmit()"
                   >
-                    Submit
+                    送出
                   </button>
                 </p>
               </form>

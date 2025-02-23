@@ -24,7 +24,14 @@ import { CourseorderreceivedComponent } from './components/courseorderreceived/c
 import { UsedproductshowComponent } from './components/usedproductshow/usedproductshow.component';
 import { SiteDetailComponent } from './components/site-detail/site-detail.component';
 import { SiteReserveComponent } from './components/site-reserve/site-reserve.component';
+import { AuthSuccessComponent } from './components/auth-success/auth-success.component';
+import { ProductsService } from './services/products.service';
+import { CoursesManagementComponent } from './components/coursesmanagement/coursesmanagement.component';
 import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
+import { CoursecreateComponent } from './coursecreate/coursecreate.component';
+import { EcpayResultComponent } from './components/ecpay-result/ecpay-result.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -47,6 +54,10 @@ import { CommonModule } from '@angular/common';
     UsedproductshowComponent,
     SiteDetailComponent,
     SiteReserveComponent,
+    AuthSuccessComponent,
+    CoursesManagementComponent,
+    CoursecreateComponent,
+    EcpayResultComponent,
   ],
   imports: [
     BrowserModule,
@@ -55,8 +66,10 @@ import { CommonModule } from '@angular/common';
     FormsModule,
     ReactiveFormsModule,
     LightboxModule,
+    RouterModule,
+    HttpClientModule,
   ],
-  providers: [],
+  providers: [ProductsService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

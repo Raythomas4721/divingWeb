@@ -8,6 +8,7 @@ import { SharedcartService } from './../../services/sharedcart.service';
 import { UserBehaviorService } from 'src/app/services/user-behavior.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { UserDTO } from 'src/app/interface/userDTO';
+import { AlertService } from 'src/app/services/alert.service';
 
 import {
   TNproductDTO,
@@ -61,16 +62,18 @@ export class ShopproductshowComponent implements OnInit, OnDestroy {
   //商品描述欄位
   attributes: { label: string; values: string[] }[] = [];
   cartItems: TNcartItemDTO[] = [];
-  //使用者評分
+
+  // (A) 評論相關
   reviewForm!: FormGroup;
   successMessage = '';
   errorMessage = '';
-  reviews: TNreviewDTO[] = [];
-  avgRating: number = 0;
-  reviewCount: number = 0;
+  reviews: TNreviewDTO[] = []; // 全部評論
+  avgRating: number = 0; // 平均評分
+  reviewCount: number = 0; // 評論數量
   editingReview: TNreviewDTO | null = null;
+
+  // 動態計算星星寬度
   get ratingWidth(): number {
-    // (avgRating / 5) * 100
     return (this.avgRating / 5) * 100;
   }
   constructor(
@@ -83,7 +86,8 @@ export class ShopproductshowComponent implements OnInit, OnDestroy {
     private authService: AuthService,
     private lightbox: Lightbox,
     private fb: FormBuilder,
-    private reviewService: TnreviewService
+    private reviewService: TnreviewService,
+    private alertService: AlertService
   ) {}
 
   ngOnInit(): void {
@@ -106,8 +110,8 @@ export class ShopproductshowComponent implements OnInit, OnDestroy {
 
     // (B) 建立 Reactive Form
     this.reviewForm = this.fb.group({
-      productId: [null],
-      memberId: [null],
+      productId: [this.productId],
+      memberId: [this.user?.memberId],
       reviewRating: [
         null,
         [Validators.required, Validators.min(1), Validators.max(5)],
@@ -116,47 +120,35 @@ export class ShopproductshowComponent implements OnInit, OnDestroy {
     });
 
     // (C) 將 productId 帶入表單
-    this.reviewForm.patchValue({
-      productId: this.productId,
-      memberId: this.user?.memberId,
-    });
-    this.http
-      .get<TNreviewDTO[]>(
-        `https://localhost:7107/api/TNreviews/product/${this.productId}`
-      )
-      .subscribe({
-        next: (res) => {
-          this.reviews = res;
-          // 計算平均評分
-          let total = 0;
-          this.reviews.forEach((r) => {
-            total += r.reviewRating;
+    this.reviewService.getAllReviewsByProduct(this.productId).subscribe({
+      next: (reviews) => {
+        this.reviews = reviews;
+        // 檢查是否已經評論過 => 如果有就帶入表單
+        const existingReview = this.reviews.find(
+          (r) => r.memberId === this.user?.memberId
+        );
+        if (existingReview) {
+          this.editingReview = existingReview;
+          // 預填表單
+          this.reviewForm.setValue({
+            productId: existingReview.productId,
+            memberId: existingReview.memberId,
+            reviewRating: existingReview.reviewRating,
+            reviewContent: existingReview.reviewContent,
           });
-          const count = this.reviews.length;
-          if (count > 0) {
-            this.avgRating = total / count; // 例如 4.33
-          } else {
-            this.avgRating = 0;
-          }
+        }
+      },
+      error: (err) => console.error('撈取評論失敗', err),
+    });
 
-          this.reviewCount = count; // 總評論數
-
-          const existingReview = this.reviews.find(
-            (r) => r.memberId === this.user?.memberId
-          );
-          if (existingReview) {
-            this.editingReview = existingReview;
-            // 預填表單
-            this.reviewForm.setValue({
-              productId: existingReview.productId,
-              memberId: existingReview.memberId,
-              reviewRating: existingReview.reviewRating,
-              reviewContent: existingReview.reviewContent,
-            });
-          }
-        },
-        error: (err) => console.error('撈取評論失敗', err),
-      });
+    // 4) 撈取「平均評分、評論數」
+    this.reviewService.getReviewStatsByProduct(this.productId).subscribe({
+      next: (stats) => {
+        this.avgRating = stats.avgRating; // 例如 4.3
+        this.reviewCount = stats.reviewCount; // 例如 12
+      },
+      error: (err) => console.error('撈取評分/評論數失敗', err),
+    });
 
     this.enterTime = Date.now();
 
@@ -254,29 +246,25 @@ export class ShopproductshowComponent implements OnInit, OnDestroy {
     });
   }
 
+  private refreshReviewStats() {
+    if (!this.productId) return;
+    this.reviewService.getReviewStatsByProduct(this.productId).subscribe({
+      next: (stats) => {
+        this.avgRating = stats.avgRating;
+        this.reviewCount = stats.reviewCount;
+      },
+      error: (err) => console.error('更新評分失敗', err),
+    });
+  }
+
   // ★ 小函式：用來產生一個 array，長度 = rating
   createStarsArray(rating: number): number[] {
     return Array.from({ length: rating }, (_, i) => i);
   }
   onReviewSubmit() {
-    // console.log('Form Valid?', this.reviewForm.valid);
-    // console.log('productId.errors', this.reviewForm.get('productId')?.errors);
-    // console.log('memberId.errors', this.reviewForm.get('memberId')?.errors);
-    // console.log(
-    //   'reviewRating.errors',
-    //   this.reviewForm.get('reviewRating')?.errors
-    // );
-    // console.log(
-    //   'reviewContent.errors',
-    //   this.reviewForm.get('reviewContent')?.errors
-    // );
-
-    // if (!this.reviewForm?.valid) {
-    //   console.warn('Form is invalid!');
-    //   return;
-    // }
     if (!this.user?.memberId) {
-      alert('尚未登入, 無法發表評論');
+      this.alertService.error('尚未登入, 無法發表評論');
+
       return;
     }
     const payload = {
@@ -308,21 +296,22 @@ export class ShopproductshowComponent implements OnInit, OnDestroy {
   createReview(payload: any) {
     this.reviewService.addReview(payload).subscribe({
       next: (res: TNreviewDTO) => {
-        alert('Review added successfully!');
-        // push
+        this.alertService.success('評論新增成功');
         this.reviews.push(res);
-        // reset
+        // ★ 新增完成後，重新計算星星 & 數量
+        this.refreshReviewStats();
+        // 清空表單
         this.reviewForm.reset();
       },
       error: (err) => {
         console.error(err);
         if (err.status === 403) {
-          alert('尚未購買過此商品，無法評價');
+          this.alertService.error('尚未購買過此商品，無法評價');
         } else if (
           err.status === 400 &&
           err.error === 'You already wrote a review for this product.'
         ) {
-          alert('已經對此商品留過評論!');
+          this.alertService.error('已經對此商品留過評論!');
         } else {
           alert('發生錯誤: ' + err.message);
         }
@@ -340,7 +329,8 @@ export class ShopproductshowComponent implements OnInit, OnDestroy {
       )
       .subscribe({
         next: (res) => {
-          alert('Review updated successfully!');
+          this.alertService.success('評論修改成功');
+          // 1) 找到對應的評論，更新內容
           const index = this.reviews.findIndex(
             (r) => r.reviewId === this.editingReview!.reviewId
           );
@@ -348,15 +338,20 @@ export class ShopproductshowComponent implements OnInit, OnDestroy {
             this.reviews[index].reviewRating = payload.reviewRating;
             this.reviews[index].reviewContent = payload.reviewContent;
           }
+
+          // 2) 重新計算平均評分 & 評論數
+          this.refreshReviewStats();
+
+          // 3) 重置表單與狀態
           this.reviewForm.reset();
           this.editingReview = null;
         },
         error: (err) => {
           console.error(err);
           if (err.status === 403) {
-            alert("You can't edit others' review");
+            this.alertService.error('您無法修改評論');
           } else {
-            alert('Update failed');
+            this.alertService.error('您無法修改失敗');
           }
         },
       });
@@ -367,17 +362,20 @@ export class ShopproductshowComponent implements OnInit, OnDestroy {
 
     this.http
       .delete(`https://localhost:7107/api/TNreviews/${reviewId}`, {
-        body: { memberId: memberId }, // 這裡帶給後端
+        body: { memberId: memberId },
       })
       .subscribe({
         next: (res) => {
-          alert('Review deleted!');
-          // 從 reviews 陣列移除
+          this.alertService.success('評論刪除成功');
+          // 1) 從本機 reviews 陣列中移除
           this.reviews = this.reviews.filter((r) => r.reviewId !== reviewId);
+
+          // 2) 重新計算平均評分 & 評論數
+          this.refreshReviewStats();
         },
         error: (err) => {
           console.error(err);
-          alert('Delete failed');
+          this.alertService.error('刪除評論失敗');
         },
       });
   }
@@ -548,25 +546,25 @@ export class ShopproductshowComponent implements OnInit, OnDestroy {
 
     // (A) 若前端顯示 color (this.colors.length > 0)，就要檢查是否 user 已選 color
     if (this.colors.length > 0 && !this.selectedColor) {
-      alert('請先選擇顏色');
+      this.alertService.error('請先選擇顏色');
       return;
     }
 
     // (B) 若前端顯示 size (this.sizes.length > 0)，就要檢查是否 user 已選 size
     if (this.sizes.length > 0 && !this.selectedSize) {
-      alert('請先選擇尺寸');
+      this.alertService.error('請先選擇尺寸');
       return;
     }
 
     // (C) 若前端顯示 thickness (this.thicknesses.length > 0)，就要檢查是否 user 已選 thickness
     if (this.thicknesses.length > 0 && !this.selectedThickness) {
-      alert('請先選擇厚度');
+      this.alertService.error('請先選擇厚度');
       return;
     }
 
     // (D) 若前端顯示 gender (this.genders.length > 0)，就要檢查是否 user 已選 gender
     if (this.genders.length > 0 && !this.selectedGender) {
-      alert('請先選擇款式');
+      this.alertService.error('請先選擇款式');
       return;
     }
     //確認抓到正確的memberId
@@ -574,7 +572,7 @@ export class ShopproductshowComponent implements OnInit, OnDestroy {
 
     if (!realMemberId) {
       // 引導使用者登入
-      alert('請先登入再加入購物車');
+      this.alertService.error('請先登入再加入購物車');
       console.log('realMemberId', realMemberId);
       return;
     }
@@ -635,8 +633,7 @@ export class ShopproductshowComponent implements OnInit, OnDestroy {
 
   /** 離開頁面 => 紀錄停留時間 */
   ngOnDestroy(): void {
-    const leaveTime = Date.now();
-    const dwellSeconds = (leaveTime - this.enterTime) / 1000;
+    const dwellSeconds = Math.floor((Date.now() - this.enterTime) / 1000);
     this.userBehaviorService
       .logDwellTime(this.productId!, dwellSeconds)
       .subscribe();

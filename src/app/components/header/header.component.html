@@ -128,6 +128,19 @@
                   >還不是會員嗎? 立即註冊!</a
                 >
                 <button
+                  type="button"
+                  class="btn btn-outline-primary w-100 mt-2 p-2"
+                  (click)="loginWithGoogle()"
+                >
+                  <img
+                    src="assets/images/google-logo.webp"
+                    alt="Google Logo"
+                    width="32"
+                    class="mr-2"
+                  />
+                  使用 Google 登入
+                </button>
+                <button
                   type="submit"
                   class="btn btn-maincolor mt-30 d-block"
                   style="justify-self: center"
@@ -398,12 +411,13 @@
 
               <li routerLinkActive="active">
                 <a routerLink="/courses">潛水課程</a>
+
                 <ul>
                   <li>
-                    <a href="about.html">About</a>
+                    <a routerLink="/courses" href="">關於課程</a>
                   </li>
 
-                  <li>
+                  <!-- <li>
                     <a href="services.html">Our Services</a>
                     <ul>
                       <li>
@@ -419,201 +433,10 @@
                         <a href="service-single.html">Single Service</a>
                       </li>
                     </ul>
-                  </li>
+                  </li> -->
 
                   <li>
-                    <a href="pricing.html">Pricing</a>
-                  </li>
-
-                  <!-- shop -->
-                  <li>
-                    <a href="shop-right.html">Shop</a>
-                    <ul>
-                      <li>
-                        <a href="shop-account-dashboard.html">Account</a>
-                        <ul>
-                          <li>
-                            <a href="shop-account-details.html"
-                              >Account details</a
-                            >
-                          </li>
-                          <li>
-                            <a href="shop-account-addresses.html">Addresses</a>
-                          </li>
-                          <li>
-                            <a href="shop-account-address-edit.html"
-                              >Edit Address</a
-                            >
-                          </li>
-                          <li>
-                            <a href="shop-account-orders.html">Orders</a>
-                          </li>
-                          <li>
-                            <a href="shop-account-order-single.html"
-                              >Single Order</a
-                            >
-                          </li>
-                          <li>
-                            <a href="shop-account-downloads.html">Downloads</a>
-                          </li>
-                          <li>
-                            <a href="shop-account-password-reset.html"
-                              >Password Reset</a
-                            >
-                          </li>
-                          <li>
-                            <a href="shop-account-login.html">Login/Logout</a>
-                          </li>
-                        </ul>
-                      </li>
-                      <li>
-                        <a href="shop-right.html">Right Sidebar</a>
-                      </li>
-                      <li>
-                        <a href="shop-left.html">Left Sidebar</a>
-                      </li>
-                      <li>
-                        <a href="shop-product-right.html"
-                          >Product Right Sidebar</a
-                        >
-                      </li>
-                      <li>
-                        <a href="shop-product-left.html"
-                          >Product Left Sidebar</a
-                        >
-                      </li>
-                      <li>
-                        <a href="shop-cart.html">Cart</a>
-                      </li>
-                      <li>
-                        <a href="shop-checkout.html">Checkout</a>
-                      </li>
-                      <li>
-                        <a href="shop-order-received.html">Order Received</a>
-                      </li>
-                    </ul>
-                  </li>
-                  <!-- eof shop -->
-
-                  <!-- features -->
-                  <li>
-                    <a href="shortcodes_iconbox.html">Shortcodes</a>
-                    <ul>
-                      <li>
-                        <a href="shortcodes_typography.html">Typography</a>
-                      </li>
-                      <li>
-                        <a href="shortcodes_buttons.html">Buttons</a>
-                      </li>
-                      <li>
-                        <a href="shortcodes_pricing.html">Pricing</a>
-                      </li>
-                      <li>
-                        <a href="shortcodes_iconbox.html">Icon Boxes</a>
-                      </li>
-                      <li>
-                        <a href="shortcodes_progress.html">Progress</a>
-                      </li>
-                      <li>
-                        <a href="shortcodes_tabs.html">Tabs &amp; Collapse</a>
-                      </li>
-                      <li>
-                        <a href="shortcodes_bootstrap.html"
-                          >Bootstrap Elements</a
-                        >
-                      </li>
-                      <li>
-                        <a href="shortcodes_animation.html">Animation</a>
-                      </li>
-                      <li>
-                        <a href="shortcodes_icons.html">Template Icons</a>
-                      </li>
-                      <li>
-                        <a href="shortcodes_socialicons.html">Social Icons</a>
-                      </li>
-                    </ul>
-                  </li>
-                  <!-- eof shortcodes -->
-
-                  <li>
-                    <a href="shortcodes_widgets_default.html">Widgets</a>
-                    <ul>
-                      <li>
-                        <a href="shortcodes_widgets_default.html"
-                          >Default Widgets</a
-                        >
-                      </li>
-                      <li>
-                        <a href="shortcodes_widgets_shop.html">Shop Widgets</a>
-                      </li>
-                      <li>
-                        <a href="shortcodes_widgets_custom.html"
-                          >Custom Widgets</a
-                        >
-                      </li>
-                    </ul>
-                  </li>
-
-                  <!-- events -->
-                  <li>
-                    <a href="events-left.html">Events</a>
-                    <ul>
-                      <li>
-                        <a href="events-left.html">Left Sidebar</a>
-                      </li>
-                      <li>
-                        <a href="events-right.html">Right Sidebar</a>
-                      </li>
-                      <li>
-                        <a href="events-full.html">Full Width</a>
-                      </li>
-                      <li>
-                        <a href="event-single-left.html">Single Event</a>
-                        <ul>
-                          <li>
-                            <a href="event-single-left.html">Left Sidebar</a>
-                          </li>
-                          <li>
-                            <a href="event-single-right.html">Right Sidebar</a>
-                          </li>
-                          <li>
-                            <a href="event-single-full.html">Full Width</a>
-                          </li>
-                        </ul>
-                      </li>
-                    </ul>
-                  </li>
-                  <!-- eof events -->
-
-                  <li>
-                    <a href="team.html">Team</a>
-                    <ul>
-                      <li>
-                        <a href="team.html">Team List</a>
-                      </li>
-                      <li>
-                        <a href="team-single.html">Team Member</a>
-                      </li>
-                    </ul>
-                  </li>
-
-                  <li>
-                    <a href="comingsoon.html">Comingsoon</a>
-                  </li>
-
-                  <li>
-                    <a href="faq.html">FAQ</a>
-                    <ul>
-                      <li>
-                        <a href="faq.html">FAQ</a>
-                      </li>
-                      <li>
-                        <a href="faq2.html">FAQ 2</a>
-                      </li>
-                    </ul>
-                  </li>
-                  <li>
-                    <a href="404.html">404</a>
+                    <a routerLink="/coursesmanagement" href="">課程管理系統</a>
                   </li>
                 </ul>
               </li>

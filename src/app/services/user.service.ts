@@ -31,10 +31,8 @@ export class UserService {
     };
     return this.client.post(`${this.apiUrl}/login`, body, httpOptions).pipe(
       tap((response: any) => {
-        // 1) 假設後端回傳 { token, memberId, ... }
         const { token, memberId } = response;
 
-        // 2) 將 token 存進 localStorage
         if (token) {
           localStorage.setItem('token', token);
         }
@@ -70,20 +68,30 @@ export class UserService {
       Authorization: `Bearer ${localStorage.getItem('token')}`,
     });
 
-    return this.client.patch<{ memberPhoto: string }>(
+    return this.client.put<{ memberPhoto: string }>(
       `${this.apiUrl}/ChangeUserPhoto`,
       formData,
       { headers, reportProgress: true }
     );
   }
-  logout() {
-    // 清除 token
-    localStorage.removeItem('token');
 
-    // 清除 memberId
-    this.userBehaviorService.setMemberId(null);
+  updateUserProfile(updatedProfile: any) {
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${localStorage.getItem('token')}`,
+    });
+    return this.client.put(`${this.apiUrl}/UpdateUserInfo`, updatedProfile, {
+      headers,
+    });
+  }
 
-    // **清空前端購物車資料**
-    this.cartItemsService.clearCart();
+  changePassword(changePasswordData: any) {
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${localStorage.getItem('token')}`,
+    });
+    return this.client.put(
+      `${this.apiUrl}/changePassword`,
+      changePasswordData,
+      { headers }
+    );
   }
 }

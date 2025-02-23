@@ -10,6 +10,7 @@ import { UserDTO } from 'src/app/interface/userDTO';
 import { take } from 'rxjs';
 import { SharedcartService } from './../../services/sharedcart.service';
 import { TNcartItemsService } from '../../services/tncart-items.service';
+import { UserBehaviorService } from '../../services/user-behavior.service';
 
 // 強制讓 Bootstrap 綁定 jQuery
 declare var bootstrap: any;
@@ -26,7 +27,8 @@ export class HeaderComponent implements OnInit {
     private userService: UserService,
     private alertService: AlertService,
     private authService: AuthService,
-    private cartItemsService: TNcartItemsService
+    private cartItemsService: TNcartItemsService,
+    private userBehaviorService: UserBehaviorService
   ) {}
   cartItemCount = 0;
   userForm = new FormGroup({
@@ -65,9 +67,13 @@ export class HeaderComponent implements OnInit {
   user?: UserDTO | null;
 
   ngOnInit(): void {
+    this.authService.isLoggedIn$.subscribe((status) => {
+      this.isLoggedIn = status;
+    });
+
     this.authService.user$.subscribe((user) => {
       if (user) {
-        this.user = user;
+        this.user = user?.user;
         this.userName = user.user.memberName;
         this.isLoggedIn = true;
       }
@@ -150,6 +156,21 @@ export class HeaderComponent implements OnInit {
     });
   }
 
+  loginWithGoogle(): void {
+    window.location.href = 'https://localhost:7107/api/account/google-login';
+  }
+
+  // handleGoogleCallback(): void {
+  //   const urlParams = new URLSearchParams(window.location.search);
+  //   const token = urlParams.get('token');
+  //   if (token) {
+  //     localStorage.setItem('token', token);
+  //     this.authService.updateUserProfile();
+  //     this.alertService.success("Google 登入成功！");
+  //     $('#popupLogin').modal('hide');
+  //   }
+  // }
+
   logout(): void {
     localStorage.removeItem('token');
     this.isLoggedIn = false;
@@ -159,6 +180,11 @@ export class HeaderComponent implements OnInit {
     this.authService.user$.subscribe(() => {
       this.user = null;
     });
+    // 清除 memberId
+    this.userBehaviorService.setMemberId(null);
+
+    // **清空前端購物車資料**
+    this.cartItemsService.clearCart();
   }
 
   openCartPanel() {

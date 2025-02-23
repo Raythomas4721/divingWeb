@@ -6,6 +6,7 @@ import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 import { UserDTO } from 'src/app/interface/userDTO';
+import { AlertService } from 'src/app/services/alert.service';
 
 @Component({
   selector: 'app-side-cart',
@@ -28,7 +29,8 @@ export class Sideshopcart {
     private sharedcartService: SharedcartService,
     private http: HttpClient,
     private router: Router,
-    private authService: AuthService
+    private authService: AuthService,
+    private alertService: AlertService
   ) {}
 
   ngOnInit(): void {
@@ -57,8 +59,15 @@ export class Sideshopcart {
   // 簡單示範：移除單一商品
   removeItem(variantId: number, memberId?: number) {
     this.cartItemsService.removeItem(variantId, memberId).subscribe({
-      next: (res) => console.log('刪除成功', res),
-      error: (err) => console.error('刪除失敗', err),
+      next: (res) => {
+        console.log('刪除成功', res);
+        // 如果想用成功通知：
+        this.alertService.success('已刪除該商品');
+      },
+      error: (err) => {
+        console.error('刪除失敗', err);
+        this.alertService.error('刪除商品失敗');
+      },
     });
   }
 
@@ -85,6 +94,7 @@ export class Sideshopcart {
   proceedToCheckout() {
     if (this.hasError) {
       console.log('無法進行結帳，購物車存在缺貨或錯誤');
+      this.alertService.error('無法結帳：有缺貨商品或其他錯誤');
       return;
     }
 
@@ -94,8 +104,8 @@ export class Sideshopcart {
     const payload = {
       memberId: memberId,
       paymentMethod: 'CreditCard',
-      shipAddress: '台北市xx區xx路xx號',
-      shipPhone: '09xx-xxx-xxx',
+      shipAddress: this.user?.memberAddress,
+      shipPhone: this.user?.memberPhone,
       orderItems: this.cartItems.map((item) => ({
         productvariantsId: item.productvariantsId,
         unitPriceAtOrder: item.unitpriceatCart,
@@ -111,10 +121,9 @@ export class Sideshopcart {
       .subscribe({
         next: (res) => {
           console.log('訂單已建立:', res);
-          alert('訂單建立成功，訂單編號:' + res.orderId);
 
           // ====> 3) 只清空前端的購物車，不呼叫後端
-          this.cartItemsService.clearCart();
+          // this.cartItemsService.clearCart();
 
           // 4) 收合 side-cart
           this.isCartVisible = false;
@@ -123,7 +132,7 @@ export class Sideshopcart {
           const orderId = res.orderId;
           const ecpayUrl = `https://localhost:7107/api/TNorders/createECPayPayment/${orderId}`;
           window.location.href = ecpayUrl;
-          console.log('ecpayUrl=', ecpayUrl);
+          // this.alertService.success('訂單建立成功，訂單編號:' + res.orderId);
         },
         error: (err) => {
           console.error('建立訂單失敗:', err);
