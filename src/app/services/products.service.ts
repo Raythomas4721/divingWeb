@@ -39,15 +39,14 @@ export class ProductsService {
   getUsedCondition() {
     return this.http.get<TUcondition[]>(`${this.apiUrl}api/TUproductCondition`)
   }
-  /** 新增商品 */
-  //  createUsedProduct(product: TUcreateproductDTO): Observable<any> {
-  //   return this.http.post<any>(this.apiUrl, product, { withCredentials: true }).pipe(catchError(this.handleError));
+  // createUsedProduct(newProduct?: TUcreateproductDTO): Observable<any> {
+  //   return this.http.post<TUproductDTO[]>(`${this.apiUrl}api/TUproductsAPI`)
   // }
-  //  createProduct(product: createProduct): Observable<any> {
-  //   return this.http.post<any>(this.baseUrl, product, { withCredentials: true }).pipe(catchError(this.handleError));
-  // }
+  createUsedProduct(product: TUcreateproductDTO): Observable<any> {
+    return this.http.post<TUproductDTO>(`${this.apiUrl}api/TUproductsAPI`, product);
+  }
 
   deleteProduct(productId: number): Observable<any> {
-    return this.http.delete<any>(`${this.apiUrl}/delete-product/${productId}`);
+    return this.http.delete<TUproductDTO[]>(`${this.apiUrl}api/TUproductsAPI/${productId}`);
   }
 }

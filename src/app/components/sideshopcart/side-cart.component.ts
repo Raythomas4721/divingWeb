@@ -6,7 +6,8 @@ import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 import { UserDTO } from 'src/app/interface/userDTO';
-
+//二手
+import { TUproductDTO, TUcategory } from 'src/app/interface/TUproductDTO';
 @Component({
   selector: 'app-side-cart',
   templateUrl: './side-cart.component.html',
@@ -22,6 +23,8 @@ export class Sideshopcart {
   user?: UserDTO | null;
   subTotal: number = 0;
   total: number = 0;
+  //二手
+
 
   constructor(
     private cartItemsService: TNcartItemsService,

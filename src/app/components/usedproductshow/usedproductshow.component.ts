@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef  } from '@angular/core';
 import { UserDTO } from 'src/app/interface/userDTO';
 import { AuthService } from 'src/app/services/auth.service';
 import { UserService } from 'src/app/services/user.service';
@@ -19,13 +19,20 @@ export class UsedproductshowComponent implements OnInit {
   usedCategory: TUcategory[] = [];
   usedCondition: TUcondition[] = [];
   isLoading = true; // 用來顯示載入狀態
-
+  // 用來儲存圖片預覽的 Base64 字串
+  previewUrls: string[] = [];
+  @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
+    // 利用 @ViewChild 觸發選擇檔案
+    triggerFileSelect(): void {
+      this.fileInput.nativeElement.click();
+    }
   UPForm = new FormGroup({
     categoryId: new FormControl(),
     productName: new FormControl(),
     productDescription: new FormControl(),
     productPrice: new FormControl(),
-    productConditionId: new FormControl()
+    productConditionId: new FormControl(),
+    tUproductImages: new FormControl(),
   })
 
 
@@ -78,8 +85,60 @@ export class UsedproductshowComponent implements OnInit {
       }
     })
   }
+    // 表單送出時的動作
+    onSubmit(): void {
+      if (this.UPForm.invalid) {
+        console.warn("請填寫完整商品資訊");
+        return;
+      }
 
-  removeImage(productIndex: number, imageIndex: number): void {
-    this.usedProducts[productIndex].tUproductImages.splice(imageIndex, 1);
+      const formData = this.UPForm.value;
+      // 準備符合 DTO 格式的商品資料
+      const newProduct: TUcreateproductDTO = {
+        categoryId: formData.categoryId!,
+        productName: formData.productName!,
+        productDescription: formData.productDescription!,
+        productPrice: formData.productPrice!,
+        productConditionId: formData.productConditionId!,
+        tUproductImages: formData.tUproductImages! // 圖片為 Base64 陣列
+      };
+
+      // 呼叫 service 來儲存商品
+      this.productsService.createUsedProduct(newProduct).subscribe({
+        next: (response) => {
+          console.log("商品上架成功:", response);
+          alert("商品已成功上架！");
+        },
+        error: (error) => {
+          console.error("商品上架失敗:", error);
+          alert("商品上架失敗，請稍後再試！");
+        }
+      });
+    }
+  // 當選擇圖片時觸發
+  onFileSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (!input.files || input.files.length === 0) {
+      return;
+    }
+
+    // 清空先前的預覽（若需要）
+    this.previewUrls = [];
+
+    // 遍歷所有選取的檔案
+    Array.from(input.files).forEach(file => {
+      const reader = new FileReader();
+      reader.onload = (e: any) => {
+        // 將讀取結果（Base64 字串）加入 previewUrls 陣列
+        this.previewUrls.push(e.target.result);
+      };
+      reader.readAsDataURL(file);
+    });
+  }
+  // removeImage(productIndex: number, imageIndex: number): void {
+  //   this.usedProducts[productIndex].tUproductImages.splice(imageIndex, 1);
+  // }
+  removeImage(index: number): void {
+    this.previewUrls.splice(index, 1);
   }
 }

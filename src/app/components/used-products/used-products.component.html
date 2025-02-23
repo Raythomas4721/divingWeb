@@ -65,9 +65,14 @@
                       <h2 class="woocommerce-loop-product__title">
                         <a href="shop-product-left.html">{{ product.productName }}</a>
                       </h2>
-                      <div class="star-rating">
-                        <span style="width:80%">Rated <strong class="rating">4.00</strong> out of 5</span>
+                      <div class="product-wrap">
+                        <h4 class="woocommerce-loop-product__title">
+                          <span>{{ product.productDescription }}</span>
+                        </h4>
                       </div>
+                      <!-- <div class="star-rating">
+                        <span style="width:80%">Rated <strong class="rating">4.00</strong> out of 5</span>
+                      </div> -->
                       <div class="price-wrap">
                         <span class="price">
                           <span>
@@ -75,7 +80,8 @@
                           </span>
                         </span>
                         <a rel="nofollow" href="shop-cart.html"
-                          class="button product_type_simple add_to_cart_button">加入購物車</a>
+                        class="button product_type_simple add_to_cart_button"
+                        (click)="onConfirmAddToCart()">加入購物車</a>
                       </div>
                     </div>
                   </div>
@@ -97,13 +103,14 @@
                   <a class="next page-numbers" href="shop-left.html">→</a>
                 </li>
               </ul>
-              <button class="btn btn-darkgrey sell-button links-maincolor-hover" routerLink="/usedproductshow"> 出售
+              <button class="btn btn-darkgrey sell-button links-maincolor-hover" [routerLink]="user?'/usedproductshow':'/auth-success'"> 出售
               </button>
+              <!-- <button class="btn btn-darkgrey sell-button links-maincolor-hover" (click)="checkSellAccess()">出售</button> -->
             </nav>
           </main>
           <aside class="col-lg-3 col-xl-2 order-lg-1">
             <div class="ls ms">
-              <div class="widget widget_product_search">
+              <!-- <div class="widget widget_product_search">
 
                 <h3 class="widget-title">搜尋</h3>
 
@@ -117,14 +124,37 @@
                     placeholder="搜尋商品" value="" name="search">
                   <input type="submit" value="Search">
                 </form>
+              </div> -->
+              <div class="widget widget_product_search">
+                <h3 class="widget-title">搜尋</h3>
+                <form role="search" class="woocommerce-product-search" (ngSubmit)="searchProducts()">
+                  <label class="screen-reader-text" for="searchField">
+                    Search for:
+                  </label>
+                  <input
+                    type="search"
+                    id="searchField"
+                    class="search-field"
+                    placeholder="搜尋商品"
+                    [(ngModel)]="searchKeyword"
+                    name="searchTerm"
+                  />
+                  <input type="submit" value="Search">
+                </form>
               </div>
+
+
             </div>
 
             <div class="widget woocommerce widget_product_categories">
               <h3 class="widget-title">分類</h3>
               <ul class="product-categories" formControlName="categoryId">
+                <li class="cat-item">
+                  <a class="links-maincolor-hover" (click)="loadUsedProductsTest(null)">全部</a>
+                  <span class="count"></span>
+                </li>
                 <li class="cat-item" *ngFor="let item of usedCategory">
-                  <a (click)="loadUsedProductsTest(item.categoryId)">{{item.categoryName}}</a>
+                  <a class="links-maincolor-hover" (click)="loadUsedProductsTest(item.categoryId)">{{item.categoryName}}</a>
                   <span class="count">(6)</span>
                 </li>
               </ul>

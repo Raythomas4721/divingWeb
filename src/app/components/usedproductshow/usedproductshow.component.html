@@ -51,10 +51,10 @@
             <div class="woocommerce-notices-wrapper">
               <div class="container-fluid mt-5 py-1">
                 <div class="container">
-                  <div *ngIf="isLoading" class="text-center">
+                  <!-- <div *ngIf="isLoading" class="text-center">
                     <p>載入中...</p>
-                  </div>
-                  <form>
+                  </div> -->
+                  <form [formGroup]="UPForm" (ngSubmit)="onSubmit()">
                     <div class="row mt-3 mb-3 justify-content-center">
                       <!-- 圖片上傳 -->
                       <div class="col-md-6 d-flex flex-column align-items-center bg-light shadow p-3">
@@ -62,29 +62,47 @@
                           <i class="fa-regular fa-image fa-2xl mt-5"></i>
                           <p class="text-muted mt-2">拖曳圖片到這裡或點擊選擇圖片</p>
                           <!-- 顯示錯誤訊息 -->
-                          <button type="button" class="btn btn-darkgrey m-3"><i
+                          <button type="button" class="btn btn-darkgrey m-3" (click)="fileInput.click()" (click)="triggerFileSelect()" ><i
                               class="fa-solid fa-check"></i>&nbsp;&nbsp;選擇圖片</button>
                           <p class="text-info mt-2">最多上傳 6 張圖片</p>
-                          <input type="file" class="form-control-file d-none" />
+                          <input type="file"#fileInput (change)="onFileSelected($event)" multiple accept="image/*" class="form-control-file d-none" />
                         </div>
 
                         <!-- 預覽圖片區域 -->
-                        <div class="container">
+                        <!-- <div class="container">
                           <div class="row d-flex row-cols-3 flex-wrap justify-content-start">
                             <div class="col-auto position-relative p-2">
-                              <div class="position-absolute top-0 start-0" style="top: 4px; left: 8px;">
-                                <!-- 封面標籤 -->
-
+                              <div class="container">
+                                <div class="row d-flex row-cols-3 flex-wrap justify-content-start">
+                                  <div class="col-auto position-relative p-2" *ngFor="let url of previewUrls; let i = index">
+                                    <img [src]="url" style="width: 160px; height:160px; object-fit: contain;">
+                                  </div>
+                                </div>
                               </div>
-                              <div class="position-absolute top-0 end-0" style="top: 10px; right: 10px;">
+                              <div class="position-absolute top-0 end-0" style="top: 10px; right: 10px;"> -->
                                 <!-- 刪除按鈕 -->
                                 <!-- <button type="button" class="btn btn-primary rounded-pill btn-sm ">
 
                                 </button> -->
-                              </div>
+                              <!-- </div> -->
                               <!-- 預覽圖片 -->
-                              <img src="/src/assets/images/404.jpg" class=""
+                              <!-- <img src="/src/assets/images/404.jpg" class=""
                                 style="width: 160px; height:160px; object-fit: contain;">
+                            </div>
+                          </div>
+                        </div> -->
+                        <div class="container">
+                          <div class="row d-flex row-cols-3 flex-wrap justify-content-start">
+                            <div class="col-auto position-relative p-2" *ngFor="let url of previewUrls | slice:0:3; let i = index">
+                              <img [src]="url" style="width: 160px; height:160px; object-fit: contain;">
+                              <!-- 刪除按鈕，位於圖片右上角 -->
+                              <button
+      type="button"
+      class="btn btn-danger btn-sm position-absolute top-0 end-0"
+      (click)="removeImage(i)"
+      style="transform: translate(-50%, 50%);">
+      <i class="fa-solid fa-xmark" style="font-size: 0.75rem;"></i>
+    </button>
                             </div>
                           </div>
                         </div>
@@ -123,13 +141,13 @@
                         <div class="form-group">
                           <label for="productDescription">商品描述</label>
                           <textarea id="productDescription" class="form-control" rows="3"
-                            formControlName="fProductDescription" placeholder="請描述產品狀況並包含買家可能感興趣的任何細節。"></textarea>
+                            formControlName="productDescription" placeholder="請描述產品狀況並包含買家可能感興趣的任何細節。"></textarea>
                         </div>
                         <!-- 商品狀況 -->
                         <div class="form-group">
                           <label>商品狀況</label>
 
-                          <select class="form-control" id="productCategory" formControlName="fProductCategoryId"
+                          <select class="form-control" id="productCategory" formControlName="productConditionId"
                             required>
                             <option *ngFor="let item of usedCondition" [value]="item.productConditionId">
                               {{item.condition}}
