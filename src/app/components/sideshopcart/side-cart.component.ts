@@ -122,7 +122,7 @@ export class Sideshopcart {
           console.log('訂單已建立:', res);
 
           // ====> 3) 只清空前端的購物車，不呼叫後端
-          // this.cartItemsService.clearCart();
+          this.cartItemsService.clearCart();
 
           // 4) 收合 side-cart
           this.isCartVisible = false;
