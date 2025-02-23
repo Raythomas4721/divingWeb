@@ -144,6 +144,8 @@ export class TNcartItemsService {
   clearCart() {
     // 本地 BehaviorSubject 重置
     this.cartItemsSubject.next([]);
+    // 2) 清空本地 localStorage
+    this.updateLocalStorage([]);
 
     // 呼叫後端 e.g. DELETE /api/TNcartItems/clear?memberId=xxx
     // return this.client.delete<any>(

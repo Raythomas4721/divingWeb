@@ -45,8 +45,7 @@ export class Sideshopcart {
     });
     // 監聽使用者資訊
     this.authService.user$.subscribe((u) => {
-      this.user = u?.user; // 假設 u 下還有 user
-      // 或者直接 user = u;
+      this.user = u;
     });
   }
   openCart() {

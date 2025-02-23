@@ -313,7 +313,8 @@ export class ShopproductshowComponent implements OnInit, OnDestroy {
         ) {
           this.alertService.error('已經對此商品留過評論!');
         } else {
-          alert('發生錯誤: ' + err.message);
+          this.alertService.error('尚未購買過此商品，無法評價');
+          // alert('發生錯誤: ' + err.message);
         }
       },
     });
@@ -538,7 +539,7 @@ export class ShopproductshowComponent implements OnInit, OnDestroy {
   onConfirmAddToCart() {
     // 1) 若 productDetail 還沒載入
     if (!this.productDetail) {
-      alert('商品資料尚未載入');
+      // alert('商品資料尚未載入');
       return;
     }
 
@@ -621,12 +622,12 @@ export class ShopproductshowComponent implements OnInit, OnDestroy {
 
             // alert('加入購物車成功(後端已檢查庫存)!');
           } else {
-            alert(res.message || '無法加入購物車');
+            // alert(res.message || '無法加入購物車');
           }
         },
         error: (err) => {
           console.error('加入購物車失敗:', err);
-          alert('系統異常，無法加入購物車');
+          // alert('系統異常，無法加入購物車');
         },
       });
   }
