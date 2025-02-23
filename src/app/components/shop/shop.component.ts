@@ -7,6 +7,7 @@ import {
   TNproductDTO,
   TopProductDTO,
 } from 'src/app/interface/TNproductDTO';
+import { TnreviewService } from 'src/app/services/tnreview.service';
 import { TnproductService } from './../../services/tnproduct.service';
 import { HttpClient } from '@angular/common/http';
 import { TncategoriesService } from 'src/app/services/tncategories.service';
@@ -47,7 +48,8 @@ export class ShopComponent implements OnInit {
     private router: Router,
     private userBehavior: UserBehaviorService,
     private categoryService: TncategoriesService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private reviewService: TnreviewService
   ) {}
 
   ngOnInit(): void {
@@ -193,9 +195,22 @@ export class ShopComponent implements OnInit {
   private loadProductsByCategory(categoryId: number) {
     this.categoryService.getProductsByCategory(categoryId).subscribe({
       next: (data) => {
-        this.products = data.sort(() => Math.random() - 0.5);
+        // 先把商品放到 this.products
+        this.products = data;
+        // 額外呼叫每個商品的平均評分
+        this.products.forEach((p) => {
+          this.reviewService.getReviewStatsByProduct(p.productId).subscribe({
+            next: (stats) => {
+              // 在 p 新增兩個屬性：p.avgRating, p.reviewCount
+              p['avgRating'] = stats.avgRating;
+              p['reviewCount'] = stats.reviewCount;
+            },
+            error: (err) => console.error('取得評分失敗', err),
+          });
+        });
+        // demo: 也可以隨機 sort
+        this.products.sort(() => Math.random() - 0.5);
 
-        console.log('取得分類', categoryId, '的商品 =>', data);
         // 清空搜尋
         this.searchResults = [];
       },

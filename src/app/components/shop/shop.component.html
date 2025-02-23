@@ -72,9 +72,15 @@
                       {{ item.productName }}
                     </a>
                   </h2>
+                  <!-- 星等顯示 (與單品頁相同結構) -->
                   <div class="star-rating">
-                    <span style="width: 80%">
-                      Rated <strong class="rating">4.00</strong> out of 5
+                    <!-- 這裡的 width 依據 item.avgRating 來動態算 -->
+                    <span [style.width]="(item.avgRating / 5) * 100 + '%'">
+                      Rated
+                      <strong class="rating">{{
+                        item.avgRating | number : "1.2-2"
+                      }}</strong>
+                      out of 5
                     </span>
                   </div>
                   <div class="price-wrap">
