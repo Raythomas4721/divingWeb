@@ -34,6 +34,12 @@ export class ShopComponent implements OnInit {
   selectedOrder = 'menu_order';
   guestId: string = '';
 
+  avgRating: number = 0;
+  get ratingWidth(): number {
+    // (avgRating / 5) * 100
+    return (this.avgRating / 5) * 100;
+  }
+
   constructor(
     private cartItemsService: TNcartItemsService,
     private productService: TnproductService,

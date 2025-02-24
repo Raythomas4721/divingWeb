@@ -5,7 +5,7 @@
       <main class="col-lg-7 col-xl-8">
         <!-- 排序區 (可加可不加) -->
         <div class="products-selection">
-          <p class="woocommerce-result-count">Showing all 23 results</p>
+          <p class="woocommerce-result-count">每頁顯示20個商品</p>
           <form class="woocommerce-ordering" method="get">
             <select
               name="orderby"
@@ -150,7 +150,7 @@
         </div>
 
         <div class="widget woocommerce widget_product_categories">
-          <h3 class="widget-title">Categories</h3>
+          <h3 class="widget-title">商品分類</h3>
           <ul class="product-categories">
             <li
               class="cat-item"
@@ -163,7 +163,7 @@
         </div>
 
         <div class="widget woocommerce widget_top_rated_products">
-          <h3 class="widget-title">Top Products</h3>
+          <h3 class="widget-title">熱門商品</h3>
           <ul class="product_list_widget">
             <li *ngFor="let product of topProducts">
               <a [routerLink]="['/shopproductshow', product.productId]">
