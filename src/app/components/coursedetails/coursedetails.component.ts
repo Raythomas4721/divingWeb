@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { UserDTO } from 'src/app/interface/userDTO';
+import { AuthService } from 'src/app/services/auth.service';
 import { TccoursesService } from 'src/app/services/tccourses.service';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-coursedetails',
@@ -12,11 +15,14 @@ export class CoursedetailsComponent implements OnInit {
   imageData: string = 'assets/images/courses/noImage_500x300.png'; // 預設圖片
   coachImageData: string = 'assets/images/courses/defaultCoach.jpg'; // 預設教練圖片
   courseId:number=-1;
+  user?: UserDTO | null;
 
   constructor(
     private route: ActivatedRoute,
     private coursesService: TccoursesService,
-    private router:Router
+    private router:Router,
+    private authService: AuthService,
+    private userService: UserService,
 
   ) {}
 
@@ -26,6 +32,17 @@ export class CoursedetailsComponent implements OnInit {
     if (this.courseId) {
       this.loadCourseDetails(this.courseId);
     }
+
+    this.authService.user$.subscribe(user => {
+      this.user = user?.user;
+      if (user) {
+        console.log("用戶資料已載入:", this.user);
+      } else {
+        console.log("等待 API 返回，用戶資料尚未載入");
+      }
+    });
+
+    console.log(this.user)
   }
 
   loadCourseDetails(id: number): void {

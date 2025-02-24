@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { UserDTO } from 'src/app/interface/userDTO';
+import { AuthService } from 'src/app/services/auth.service';
 import { TccoursesService } from 'src/app/services/tccourses.service';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-courses',
@@ -12,11 +15,25 @@ export class CoursesComponent implements OnInit {
   filteredCourses: any[] = []; // 篩選後的課程
   searchTerm: string = ''; // 關鍵字搜尋
   selectedCategory: string = ''; // 選擇的課程分類
+  user?: UserDTO | null;
 
-  constructor(private coursesService: TccoursesService) {}
+  constructor(
+    private coursesService: TccoursesService,
+    private authService: AuthService,
+    private userService: UserService,
+  ) {}
 
   ngOnInit(): void {
     this.loadCourses();
+
+    this.authService.user$.subscribe(user => {
+      this.user = user?.user;
+      if (user) {
+        console.log("用戶資料已載入:", this.user);
+      } else {
+        console.log("等待 API 返回，用戶資料尚未載入");
+      }
+    });
   }
 
   loadCourses(): void {

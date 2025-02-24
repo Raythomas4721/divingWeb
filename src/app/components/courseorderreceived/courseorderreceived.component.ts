@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { UserDTO } from 'src/app/interface/userDTO';
+import { AuthService } from 'src/app/services/auth.service';
 import { TccoursesService } from 'src/app/services/tccourses.service';
+import { UserService } from 'src/app/services/user.service';
 
 interface Course {
   courseId: number;
@@ -41,13 +44,28 @@ export class CourseorderreceivedComponent implements OnInit{
   
     sortBy: string = ''; // 排序欄位
     sortDirection: 'asc' | 'desc' = 'asc'; // 升序或降序
+    
+    user?: UserDTO | null;
   
-    constructor(private coursesService: TccoursesService) {}
+    constructor(
+      private coursesService: TccoursesService,
+      private authService: AuthService,
+      private userService: UserService,
+    ) {}
   
     
       ngOnInit(): void {
         this.loadCourses();
         this.loadCategories(); // 載入分類
+
+        this.authService.user$.subscribe(user => {
+          this.user = user?.user;
+          if (user) {
+            console.log("用戶資料已載入:", this.user);
+          } else {
+            console.log("等待 API 返回，用戶資料尚未載入");
+          }
+        });
         
       }
   
