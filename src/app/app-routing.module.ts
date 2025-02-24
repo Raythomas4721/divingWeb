@@ -36,6 +36,7 @@ const routes: Routes = [
   { path: 'procategories', component: ProcategoriesComponent },
   { path: 'coursedetails/:id', component: CoursedetailsComponent },
   { path: 'coursecheckout', component: CoursecheckoutComponent },
+  { path: 'coursecheckout/:id', component: CoursecheckoutComponent },
   { path: 'courseorderreceived', component: CourseorderreceivedComponent },
   { path: 'usedproductshow', component: UsedproductshowComponent },
   { path: 'site-detail', component: SiteDetailComponent },
@@ -55,7 +56,7 @@ const routes: Routes = [
 @NgModule({
   imports: [
     RouterModule.forRoot(routes, {
-      useHash: true,
+      useHash: true,  //  可能影響 `state
       onSameUrlNavigation: 'reload',
       scrollPositionRestoration: 'top'
     }),

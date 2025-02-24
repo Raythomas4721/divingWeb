@@ -1,0 +1,29 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh; /* 確保 body 至少與視窗一樣高 */
+    margin: 0; /* 清除預設外邊距 */
+  }
+  
+.container {
+    width: 50%; /* 或者使用 vw 單位，例如 50vw */
+    height: auto; /* 根據內容自適應，也可以設定相應比例 */
+  }
+.arrow-button {
+    font-size: 16px;
+    transform: scale(0.6);
+    /* 依需求可調整按鈕的邊界與外觀 */
+    border: none;
+    /* background: transparent; */
+    background: #f1c40f;
+    cursor: pointer;
+  }
+#place_order{
+    display: block;
+    margin: 0 auto;
+  }
+  main.col-lg-12 {
+    width: 80%; /* 可根據需求調整，例如 70% 或 90% */
+    margin: 0 auto;
+  }

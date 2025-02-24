@@ -1,919 +1,362 @@
 <!-- <p>coursecheckout works!</p> -->
- 	<!--[if lt IE 9]>
-		<div class="bg-danger text-center">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/" class="color-main">upgrade your browser</a> to improve your experience.</div>
-	<![endif]-->
+<!--[if lt IE 9]>
+    <div class="bg-danger text-center">
+        You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/" class="color-main">upgrade your browser</a> to improve your experience.
+    </div>
+<![endif]-->
 
-	<!-- <div class="preloader">
-		<div class="preloader_image pulse"></div>
-	</div> -->
+<!-- <div class="preloader">
+    <div class="preloader_image pulse"></div>
+</div> -->
 
-	<!-- search modal -->
-	<div class="modal" tabindex="-1" role="dialog" aria-labelledby="search_modal" id="search_modal">
-		<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-			<span aria-hidden="true">&times;</span>
-		</button>
-		<div class="widget widget_search">
-			<form method="get" class="searchform search-form" action="/">
-				<div class="form-group">
-					<input type="text" value="" name="search" class="form-control" placeholder="Search keyword" id="modal-search-input">
-				</div>
-				<button type="submit" class="btn">Search</button>
-			</form>
-		</div>
-	</div>
+<!-- search modal -->
+<div class="modal" tabindex="-1" role="dialog" aria-labelledby="search_modal" id="search_modal">
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+    <div class="widget widget_search">
+        <form method="get" class="searchform search-form" action="/">
+            <div class="form-group">
+                <input type="text" value="" name="search" class="form-control" placeholder="Search keyword" id="modal-search-input">
+            </div>
+            <button type="submit" class="btn">Search</button>
+        </form>
+    </div>
+</div>
 
-	<!-- Unyson messages modal -->
-	<div class="modal fade" tabindex="-1" role="dialog" id="messages_modal">
-		<div class="fw-messages-wrap ls p-normal">
-			<!-- Uncomment this UL with LI to show messages in modal popup to your user: -->
-			<!--
-		<ul class="list-unstyled">
-			<li>Message To User</li>
-		</ul>
-		-->
+<!-- Unyson messages modal -->
+<div class="modal fade" tabindex="-1" role="dialog" id="messages_modal">
+    <div class="fw-messages-wrap ls p-normal">
+        <!-- Uncomment this UL with LI to show messages in modal popup to your user:
+        <ul class="list-unstyled">
+            <li>Message To User</li>
+        </ul>
+        -->
+    </div>
+</div>
+<!-- eof .modal -->
 
-		</div>
-	</div><!-- eof .modal -->
+<div class="modal fade popupLogin" id="popupLogin" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content ds ms overflow-visible s-overlay s-mobile-overlay">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <div class="modal-body">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12">
+                            <h4 class="color-main mb-3">Log in</h4>
+                            <form class="form-registration c-mb-20 c-gutter-20" action="/">
+                                <div class="row mb-4">
+                                    <div class="col-sm-12">
+                                        <div class="form-group">
+                                            <input type="text" name="name" class="form-control" required placeholder="login" aria-required="true">
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12">
+                                        <div class="form-group">
+                                            <input type="password" name="password" class="form-control" placeholder="password" aria-required="true" required>
+                                        </div>
+                                    </div>
+                                </div>
+                                <a class="registerRedirect" data-dismiss="modal" data-target="#popupRegistr" data-toggle="modal" href="#">Not a member? Register!</a>
+                                <button type="submit" class="btn btn-maincolor mt-30 d-block">Sign In</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
-	<div class="modal fade popupLogin" id="popupLogin" tabindex="-1" role="dialog" aria-hidden="true">
-		<div class="modal-dialog modal-dialog-centered" role="document">
-			<div class="modal-content ds ms overflow-visible s-overlay s-mobile-overlay">
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-					<span aria-hidden="true">&times;</span>
-				</button>
-				<div class="modal-body">
-					<div class="container">
-						<div class="row">
-							<div class="col-12">
-								<h4 class="color-main mb-3">Log in</h4>
-								<form class="form-registration c-mb-20 c-gutter-20" action="/">
-									<div class="row mb-4">
-										<div class="col-sm-12">
-											<div class="form-group">
-												<input type="text" name="name" class="form-control" required placeholder="login" aria-required="true">
-											</div>
-										</div>
-										<div class="col-sm-12">
-											<div class="form-group">
-												<input type="password" name="password" class="form-control" placeholder="password" aria-required="true" required>
-											</div>
-										</div>
+<div class="modal fade popupRegistr" id="popupRegistr" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content ds ms overflow-visible s-overlay s-mobile-overlay">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <div class="modal-body">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12">
+                            <h4 class="color-main mb-4">Registration</h4>
+                            <form class="form-registration c-mb-20 c-gutter-20" method="post" action="/">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="form-group">
+                                            <input type="text" name="name" class="form-control" required placeholder="login" aria-required="true">
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="form-group">
+                                            <input type="password" name="password" class="form-control" placeholder="password" aria-required="true" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="form-group">
+                                            <input type="email" name="email" class="form-control" placeholder="email" required aria-required="true">
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="form-group">
+                                            <input type="password" name="confirmPassword" class="form-control" placeholder="password" required aria-required="true">
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="form-group">
+                                            <input type="checkbox" id="agreed" name="agreed" value="agreed" required aria-required="true">
+                                            <label for="agreed">I agree to the rules</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn btn-maincolor mt-30 d-block">Registration</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- wrappers for visual page editor and boxed version of template -->
+<div id="canvas">
+    <div id="box_wrapper">
+        <!-- template sections -->
+        <div class="header_absolute ds cover-background">
+            <!-- header with three Bootstrap columns - left for logo, center for navigation and right for includes-->
+            <header class="page_header ds ms s-overlay">
+                <div class="container-fluid">
+                </div>
+                <!-- header toggler -->
+                <span class="toggle_menu"><span></span></span>
+            </header>
+        </div>
+
+        <section class="page_title ds s-parallax s-overlay s-pt-160 s-pb-80">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h1>結帳</h1>
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">
+                                <a href="./">Home</a>
+                            </li>
+                            <li class="breadcrumb-item">
+                                <a href="#">Courses</a>
+                            </li>
+                            <li class="breadcrumb-item active">Checkout</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="ls s-py-90 s-py-xl-160 c-gutter-60">
+            <div class="container">
+                <div class="row">
+                    <main class="col-lg-12">
+                        <form name="checkout" method="post" class="checkout woocommerce-checkout" action="/" enctype="multipart/form-data" novalidate="novalidate">
+                            
+                            <div class="col2-set" id="customer_details">
+                                <div class="col-1">
+                                    <div class="woocommerce-billing-fields">
+                                        <h3>信用卡結帳</h3>
+                                        <div class="woocommerce-billing-fields__field-wrapper">
+                                            <p class="form-row form-row-wide validate-required" id="cardholder_name_field" data-priority="10">
+                                                <label for="cardholder_name">持卡人姓名 <abbr class="required" title="required">*</abbr></label>
+                                                <input type="text" class="input-text" name="cardholder_name" id="cardholder_name" placeholder="持卡人姓名" required>
+                                            </p>
+                                            <p class="form-row form-row-wide validate-required" id="card_number_field" data-priority="20">
+                                                <label for="card_number">信用卡號 <abbr class="required" title="required">*</abbr></label>
+                                                <input type="text" class="input-text" name="card_number" id="card_number" placeholder="信用卡號" required>
+                                            </p>
+                                            <p class="form-row form-row-first validate-required" id="card_expiry_field" data-priority="30">
+                                                <label for="card_expiry">到期日 <abbr class="required" title="required">*</abbr></label>
+                                                <input type="text" class="input-text" name="card_expiry" id="card_expiry" placeholder="MM/YY" required>
+                                            </p>
+                                            <p class="form-row form-row-last validate-required" id="card_cvv_field" data-priority="40">
+                                                <label for="card_cvv">安全碼 <abbr class="required" title="required">*</abbr></label>
+                                                <input type="text" class="input-text" name="card_cvv" id="card_cvv" placeholder="CVV" required>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <h3 id="order_review_heading">您的訂單</h3>
+
+                            <div id="order_review" class="woocommerce-checkout-review-order">
+                                <table  class="shop_table woocommerce-checkout-review-order-table">
+                                    <thead>
+                                        <tr>
+                                            <th class="product-name">商品</th>
+                                            <th class="product-total">金額</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody *ngIf="courseData">
+                                        <tr class="cart_item">
+                                            <td class="product-name">
+                                                <!-- 屏東小琉球｜自由潛水 體驗潛水（無需證照） -->
+												{{courseData['startAt']| date:'MM/dd'}}{{courseData['categoryName']}}體驗課程｜免費拍照｜免證照
+                                                <div class="quantity-selector" style="display: inline-flex; align-items: center; margin-left: 10px;">
+                                                    <button type="button" class="decrement arrow-button" (click)="changeQuantity(-1)">&#9664;</button>
+                                                    <span class="quantity-value" style="padding: 0 10px; min-width: 20px; text-align: center;">
+                                                        {{ quantity }}
+                                                    </span>
+                                                    <button type="button" class="increment arrow-button" (click)="changeQuantity(1)">&#9654;</button>
+                                                </div>
+                                            </td>
+                                            <td class="product-total">
+                                                <span class="woocommerce-Price-amount amount">
+                                                    <span class="woocommerce-Price-currencySymbol">$</span>{{courseData['coursePrice']}}</span>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                    <tfoot>                                        
+                                        <tr class="order-total">
+                                            <th>合計</th>
+                                            <td>
+                                                <strong>
+                                                    <span class="woocommerce-Price-amount amount">
+                                                        <span class="woocommerce-Price-currencySymbol">$</span>{{courseData['coursePrice']*quantity}}
+                                                    </span>
+                                                </strong>
+                                            </td>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+
+                                <!-- <div id="payment" class="woocommerce-checkout-payment">
+                                    <ul class="wc_payment_methods payment_methods methods">
+                                        <li class="wc_payment_method payment_method_cheque">
+                                            <input id="payment_method_cheque" type="radio" class="input-radio" name="payment_method" value="cheque" checked="checked" data-order_button_text="">
+                                            <div class="payment_box payment_method_cheque" style="display: none;">
+                                                <p>Please send a check to Store Name, Store Street, Store Town, Store State / County, Store Postcode.</p>
+                                            </div>
+                                        </li>
+                                        <li class="wc_payment_method payment_method_cod">
+                                            <input id="payment_method_cod" type="radio" class="input-radio" name="payment_method" value="cod" data-order_button_text="">
+                                        </li>
+                                    </ul>
+                                    <div class="form-row place-order">
+                                        <noscript>
+                                            Since your browser does not support JavaScript, or it is disabled, please ensure you click the
+                                            &lt;em&gt;Update Totals&lt;/em&gt; button before placing your order. You may be charged more
+                                            than the amount stated above if you fail to do so. &lt;br/&gt;&lt;input type="submit"
+                                            class="button alt" name="woocommerce_checkout_update_totals" value="Update totals" /&gt;
+                                        </noscript>
+                                        <input type="submit" [routerLink]="['/courseorderreceived']" name="woocommerce_checkout_place_order" id="place_order" value="確認" data-value="Place order">
+                                    </div>
+                                </div> -->
+                            </div>
+                        </form>
+						<div id="payment" class="woocommerce-checkout-payment">
+							<ul class="wc_payment_methods payment_methods methods">
+								<li class="wc_payment_method payment_method_cheque">
+									<input id="payment_method_cheque" type="radio" class="input-radio" name="payment_method" value="cheque" checked="checked" data-order_button_text="">
+									<div class="payment_box payment_method_cheque" style="display: none;">
+										<p>Please send a check to Store Name, Store Street, Store Town, Store State / County, Store Postcode.</p>
 									</div>
-									<a class="registerRedirect " data-dismiss="modal" data-target="#popupRegistr" data-toggle="modal" href="#">Not a member? Register!</a>
-									<button type="submit" class="btn btn-maincolor mt-30 d-block">Sign In</button>
-								</form>
-
+								</li>
+								<li class="wc_payment_method payment_method_cod">
+									<input id="payment_method_cod" type="radio" class="input-radio" name="payment_method" value="cod" data-order_button_text="">
+								</li>
+							</ul>
+							<div class="form-row place-order">
+								<noscript>
+									Since your browser does not support JavaScript, or it is disabled, please ensure you click the
+									&lt;em&gt;Update Totals&lt;/em&gt; button before placing your order. You may be charged more
+									than the amount stated above if you fail to do so. &lt;br/&gt;&lt;input type="submit"
+									class="button alt" name="woocommerce_checkout_update_totals" value="Update totals" /&gt;
+								</noscript>
+								<input type="submit" [routerLink]="['/courseorderreceived']" name="woocommerce_checkout_place_order" id="place_order" value="確認" data-value="Place order"  (click)="submitOrder()">
 							</div>
 						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-
-	<div class="modal fade popupRegistr" id="popupRegistr" tabindex="-1" role="dialog" aria-hidden="true">
-		<div class="modal-dialog modal-dialog-centered" role="document">
-			<div class="modal-content ds ms overflow-visible s-overlay s-mobile-overlay">
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-					<span aria-hidden="true">&times;</span>
-				</button>
-				<div class="modal-body">
-					<div class="container">
-						<div class="row">
-							<div class="col-12">
-								<h4 class="color-main mb-4">Registration</h4>
-								<form class="form-registration c-mb-20 c-gutter-20" method="post" action="/">
-									<div class="row">
-										<div class="col-12">
-											<div class="form-group">
-												<input type="text" name="name" class="form-control" required placeholder="login" aria-required="true">
-											</div>
-										</div>
-										<div class="col-12">
-											<div class="form-group">
-												<input type="password" name="password" class="form-control" placeholder="password" aria-required="true" required>
-											</div>
-										</div>
-										<div class="col-12">
-											<div class="form-group">
-												<input type="email" name="email" class="form-control" placeholder="email" required aria-required="true">
-											</div>
-										</div>
-										<div class="col-12">
-											<div class="form-group">
-												<input type="password" name="confirmPassword" class="form-control" placeholder="password" required aria-required="true">
-											</div>
-										</div>
-										<div class="col-12">
-											<div class="form-group">
-												<input type="checkbox" id="agreed" name="agreed" value="agreed" required aria-required="true"><label for="agreed">I agree to the rules</label>
-											</div>
-										</div>
-									</div>
-									<button type="submit" class="btn btn-maincolor mt-30 d-block">Registration</button>
-								</form>
-
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-
-	<!-- wrappers for visual page editor and boxed version of template -->
-	<div id="canvas">
-		<div id="box_wrapper">
-
-			<!-- template sections -->
-
-			<div class="header_absolute ds cover-background ">
-				<!-- header with three Bootstrap columns - left for logo, center for navigation and right for includes-->
-				<header class="page_header ds ms s-overlay">
-					<div class="container-fluid">
-						
-					</div>
-					<!-- header toggler -->
-					<span class="toggle_menu"><span></span></span>
-				</header>
-
-			</div>
-
-			<section class="page_title ds s-parallax s-overlay s-pt-160 s-pb-80">
-				<div class="container">
-					<div class="row">
-
-						<div class="col-md-12">
-							<h1>結帳</h1>
-							<ol class="breadcrumb">
-								<li class="breadcrumb-item">
-									<a href="./">Home</a>
-								</li>
-								<li class="breadcrumb-item">
-									<a href="#">Courses</a>
-								</li>
-								<li class="breadcrumb-item active">
-									Checkout
-								</li>
-							</ol>
-						</div>
-
-					</div>
-				</div>
-			</section>
-
-
-			<section class="ls s-py-90 s-py-xl-160 c-gutter-60">
-				<div class="container">
-					<div class="row">
-						<main class="col-lg-12">
-
-							<div class="woocommerce-info"><a routerLink="login"  href="#" class="showlogin">點擊登入</a>
-							</div>
-
-							<form class="woocomerce-form woocommerce-form-login login" method="post" >
-
-
-								<!-- <p>If you have shopped with us before, please enter your details in the boxes below. If you are a new customer,
-									please proceed to the Billing &amp; Shipping section.</p> -->
-
-								<p class="form-row form-row-first">
-									<label for="username">帳號 <span class="required">*</span>
-									</label>
-									<input type="text" class="input-text" name="username" id="username">
-								</p>
-								<p class="form-row form-row-last">
-									<label for="password">密碼 <span class="required">*</span>
-									</label>
-									<input class="input-text" type="password" name="password" id="password">
-								</p>
-								<div class="clear">
-
-								</div>
-
-
-								<p class="form-row">
-
-									<input type="submit" class="button" name="login" value="登入">
-									<label>
-										<input name="rememberme" type="checkbox" id="rememberme" value="forever">
-										<span>記住我</span>
-									</label>
-								</p>
-								<p class="lost_password">
-									<a href="shop-account-password-reset.html">忘記密碼</a>
-								</p>
-
-								<div class="clear">
-
-								</div>
-
-
-							</form>
-
-							<!-- <div class="woocommerce-info">Have a coupon? <a href="#" class="showcoupon">Click here to enter your code</a>
-							</div>
-
-							<form class="checkout_coupon" method="post" style="display: none;">
-
-								<p class="form-row form-row-first">
-									<input type="text" name="coupon_code" class="input-text" placeholder="Coupon code" id="coupon_code" value="">
-								</p>
-
-								<p class="form-row form-row-last">
-									<input type="submit" class="button" name="apply_coupon" value="Apply coupon">
-								</p>
-
-								<div class="clear">
-
-								</div>
-							</form> -->
-
-							<form name="checkout" method="post" class="checkout woocommerce-checkout" action="/" enctype="multipart/form-data" novalidate="novalidate">
-
-
-								<div class="woocommerce-NoticeGroup woocommerce-NoticeGroup-checkout">
-									<ul class="woocommerce-error">
-										<li><strong>帳單姓名</strong> 為必填</li>
-										<!-- <li><strong>Billing Last name</strong> is a required field.</li> -->
-										<!-- <li>請輸入正確郵遞區號</li> -->
-									</ul>
-								</div>
-
-
-								<div class="col2-set" id="customer_details">
-									<div class="col-1">
-										<div class="woocommerce-billing-fields">
-
-											<h3>帳單明細</h3>
-
-
-											<div class="woocommerce-billing-fields__field-wrapper">
-												<p class="form-row form-row-first validate-required woocommerce-invalid woocommerce-invalid-required-field" id="billing_first_name_field" data-priority="10">
-													<label for="billing_first_name" class="">名字 <abbr class="required" title="required">*</abbr>
-													</label>
-													<input type="text" class="input-text " name="billing_first_name" id="billing_first_name" placeholder="名字*" value="" autocomplete="given-name" autofocus="autofocus">
-												</p>
-												<p class="form-row form-row-last validate-required" id="billing_last_name_field" data-priority="20">
-													<label for="billing_last_name" class="">姓氏 <abbr class="required" title="required">*</abbr>
-													</label>
-													<input type="text" class="input-text " name="billing_last_name" id="billing_last_name" placeholder="姓氏*" value="" autocomplete="family-name">
-												</p>
-	
-												<p class="form-row form-row-wide address-field update_totals_on_change validate-required woocommerce-validated" id="billing_country_field" data-priority="40">
-													<label for="billing_country" class="">城市
-														<abbr class="required" title="required">*</abbr>
-													</label>
-													<select name="billing_country" id="billing_country" class="country_to_state country_select  select2-hidden-accessible" autocomplete="country" tabindex="-1" aria-hidden="true">
-														<option value="">選擇城市</option>
-														<option value="AX">台北市</option>
-														<option value="AF">Afghanistan</option>
-														<option value="AL">Albania</option>
-														<option value="DZ">Algeria</option>
-														<option value="AS">American Samoa</option>
-														<option value="AD">Andorra</option>
-														<option value="AO">Angola</option>
-														<option value="AI">Anguilla</option>
-														<option value="AQ">Antarctica</option>
-														<option value="AG">Antigua and Barbuda</option>
-														<option value="AR">Argentina</option>
-														<option value="AM">Armenia</option>
-														<option value="AW">Aruba</option>
-														<option value="AU">Australia</option>
-														<option value="AT">Austria</option>
-														<option value="AZ">Azerbaijan</option>
-														<option value="BS">Bahamas</option>
-														<option value="BH">Bahrain</option>
-														<option value="BD">Bangladesh</option>
-														<option value="BB">Barbados</option>
-														<option value="BY">Belarus</option>
-														<option value="PW">Belau</option>
-														<option value="BE">Belgium</option>
-														<option value="BZ">Belize</option>
-														<option value="BJ">Benin</option>
-														<option value="BM">Bermuda</option>
-														<option value="BT">Bhutan</option>
-														<option value="BO">Bolivia</option>
-														<option value="BQ">Bonaire, Saint Eustatius and Saba</option>
-														<option value="BA">Bosnia and Herzegovina</option>
-														<option value="BW">Botswana</option>
-														<option value="BV">Bouvet Island</option>
-														<option value="BR">Brazil</option>
-														<option value="IO">British Indian Ocean Territory</option>
-														<option value="VG">British Virgin Islands</option>
-														<option value="BN">Brunei</option>
-														<option value="BG">Bulgaria</option>
-														<option value="BF">Burkina Faso</option>
-														<option value="BI">Burundi</option>
-														<option value="KH">Cambodia</option>
-														<option value="CM">Cameroon</option>
-														<option value="CA">Canada</option>
-														<option value="CV">Cape Verde</option>
-														<option value="KY">Cayman Islands</option>
-														<option value="CF">Central African Republic</option>
-														<option value="TD">Chad</option>
-														<option value="CL">Chile</option>
-														<option value="CN">China</option>
-														<option value="CX">Christmas Island</option>
-														<option value="CC">Cocos (Keeling) Islands</option>
-														<option value="CO">Colombia</option>
-														<option value="KM">Comoros</option>
-														<option value="CG">Congo (Brazzaville)</option>
-														<option value="CD">Congo (Kinshasa)</option>
-														<option value="CK">Cook Islands</option>
-														<option value="CR">Costa Rica</option>
-														<option value="HR">Croatia</option>
-														<option value="CU">Cuba</option>
-														<option value="CW">Curaçao</option>
-														<option value="CY">Cyprus</option>
-														<option value="CZ">Czech Republic</option>
-														<option value="DK">Denmark</option>
-														<option value="DJ">Djibouti</option>
-														<option value="DM">Dominica</option>
-														<option value="DO">Dominican Republic</option>
-														<option value="EC">Ecuador</option>
-														<option value="EG">Egypt</option>
-														<option value="SV">El Salvador</option>
-														<option value="GQ">Equatorial Guinea</option>
-														<option value="ER">Eritrea</option>
-														<option value="EE">Estonia</option>
-														<option value="ET">Ethiopia</option>
-														<option value="FK">Falkland Islands</option>
-														<option value="FO">Faroe Islands</option>
-														<option value="FJ">Fiji</option>
-														<option value="FI">Finland</option>
-														<option value="FR">France</option>
-														<option value="GF">French Guiana</option>
-														<option value="PF">French Polynesia</option>
-														<option value="TF">French Southern Territories</option>
-														<option value="GA">Gabon</option>
-														<option value="GM">Gambia</option>
-														<option value="GE">Georgia</option>
-														<option value="DE">Germany</option>
-														<option value="GH">Ghana</option>
-														<option value="GI">Gibraltar</option>
-														<option value="GR">Greece</option>
-														<option value="GL">Greenland</option>
-														<option value="GD">Grenada</option>
-														<option value="GP">Guadeloupe</option>
-														<option value="GU">Guam</option>
-														<option value="GT">Guatemala</option>
-														<option value="GG">Guernsey</option>
-														<option value="GN">Guinea</option>
-														<option value="GW">Guinea-Bissau</option>
-														<option value="GY">Guyana</option>
-														<option value="HT">Haiti</option>
-														<option value="HM">Heard Island and McDonald Islands</option>
-														<option value="HN">Honduras</option>
-														<option value="HK">Hong Kong</option>
-														<option value="HU">Hungary</option>
-														<option value="IS">Iceland</option>
-														<option value="IN">India</option>
-														<option value="ID">Indonesia</option>
-														<option value="IR">Iran</option>
-														<option value="IQ">Iraq</option>
-														<option value="IE">Ireland</option>
-														<option value="IM">Isle of Man</option>
-														<option value="IL">Israel</option>
-														<option value="IT">Italy</option>
-														<option value="CI">Ivory Coast</option>
-														<option value="JM">Jamaica</option>
-														<option value="JP">Japan</option>
-														<option value="JE">Jersey</option>
-														<option value="JO">Jordan</option>
-														<option value="KZ">Kazakhstan</option>
-														<option value="KE">Kenya</option>
-														<option value="KI">Kiribati</option>
-														<option value="KW">Kuwait</option>
-														<option value="KG">Kyrgyzstan</option>
-														<option value="LA">Laos</option>
-														<option value="LV">Latvia</option>
-														<option value="LB">Lebanon</option>
-														<option value="LS">Lesotho</option>
-														<option value="LR">Liberia</option>
-														<option value="LY">Libya</option>
-														<option value="LI">Liechtenstein</option>
-														<option value="LT">Lithuania</option>
-														<option value="LU">Luxembourg</option>
-														<option value="MO">Macao S.A.R., China</option>
-														<option value="MK">Macedonia</option>
-														<option value="MG">Madagascar</option>
-														<option value="MW">Malawi</option>
-														<option value="MY">Malaysia</option>
-														<option value="MV">Maldives</option>
-														<option value="ML">Mali</option>
-														<option value="MT">Malta</option>
-														<option value="MH">Marshall Islands</option>
-														<option value="MQ">Martinique</option>
-														<option value="MR">Mauritania</option>
-														<option value="MU">Mauritius</option>
-														<option value="YT">Mayotte</option>
-														<option value="MX">Mexico</option>
-														<option value="FM">Micronesia</option>
-														<option value="MD">Moldova</option>
-														<option value="MC">Monaco</option>
-														<option value="MN">Mongolia</option>
-														<option value="ME">Montenegro</option>
-														<option value="MS">Montserrat</option>
-														<option value="MA">Morocco</option>
-														<option value="MZ">Mozambique</option>
-														<option value="MM">Myanmar</option>
-														<option value="NA">Namibia</option>
-														<option value="NR">Nauru</option>
-														<option value="NP">Nepal</option>
-														<option value="NL">Netherlands</option>
-														<option value="NC">New Caledonia</option>
-														<option value="NZ">New Zealand</option>
-														<option value="NI">Nicaragua</option>
-														<option value="NE">Niger</option>
-														<option value="NG">Nigeria</option>
-														<option value="NU">Niue</option>
-														<option value="NF">Norfolk Island</option>
-														<option value="KP">North Korea</option>
-														<option value="MP">Northern Mariana Islands</option>
-														<option value="NO">Norway</option>
-														<option value="OM">Oman</option>
-														<option value="PK">Pakistan</option>
-														<option value="PS">Palestinian Territory</option>
-														<option value="PA">Panama</option>
-														<option value="PG">Papua New Guinea</option>
-														<option value="PY">Paraguay</option>
-														<option value="PE">Peru</option>
-														<option value="PH">Philippines</option>
-														<option value="PN">Pitcairn</option>
-														<option value="PL">Poland</option>
-														<option value="PT">Portugal</option>
-														<option value="PR">Puerto Rico</option>
-														<option value="QA">Qatar</option>
-														<option value="RE">Reunion</option>
-														<option value="RO">Romania</option>
-														<option value="RU">Russia</option>
-														<option value="RW">Rwanda</option>
-														<option value="ST">São Tomé and Príncipe</option>
-														<option value="BL">Saint Barthélemy</option>
-														<option value="SH">Saint Helena</option>
-														<option value="KN">Saint Kitts and Nevis</option>
-														<option value="LC">Saint Lucia</option>
-														<option value="SX">Saint Martin (Dutch part)</option>
-														<option value="MF">Saint Martin (French part)</option>
-														<option value="PM">Saint Pierre and Miquelon</option>
-														<option value="VC">Saint Vincent and the Grenadines</option>
-														<option value="WS">Samoa</option>
-														<option value="SM">San Marino</option>
-														<option value="SA">Saudi Arabia</option>
-														<option value="SN">Senegal</option>
-														<option value="RS">Serbia</option>
-														<option value="SC">Seychelles</option>
-														<option value="SL">Sierra Leone</option>
-														<option value="SG">Singapore</option>
-														<option value="SK">Slovakia</option>
-														<option value="SI">Slovenia</option>
-														<option value="SB">Solomon Islands</option>
-														<option value="SO">Somalia</option>
-														<option value="ZA">South Africa</option>
-														<option value="GS">South Georgia/Sandwich Islands</option>
-														<option value="KR">South Korea</option>
-														<option value="SS">South Sudan</option>
-														<option value="ES">Spain</option>
-														<option value="LK">Sri Lanka</option>
-														<option value="SD">Sudan</option>
-														<option value="SR">Suriname</option>
-														<option value="SJ">Svalbard and Jan Mayen</option>
-														<option value="SZ">Swaziland</option>
-														<option value="SE">Sweden</option>
-														<option value="CH">Switzerland</option>
-														<option value="SY">Syria</option>
-														<option value="TW">Taiwan</option>
-														<option value="TJ">Tajikistan</option>
-														<option value="TZ">Tanzania</option>
-														<option value="TH">Thailand</option>
-														<option value="TL">Timor-Leste</option>
-														<option value="TG">Togo</option>
-														<option value="TK">Tokelau</option>
-														<option value="TO">Tonga</option>
-														<option value="TT">Trinidad and Tobago</option>
-														<option value="TN">Tunisia</option>
-														<option value="TR">Turkey</option>
-														<option value="TM">Turkmenistan</option>
-														<option value="TC">Turks and Caicos Islands</option>
-														<option value="TV">Tuvalu</option>
-														<option value="UG">Uganda</option>
-														<option value="UA">Ukraine</option>
-														<option value="AE">United Arab Emirates</option>
-														<option value="GB">United Kingdom (UK)</option>
-														<option value="US" selected="selected">United States (US)</option>
-														<option value="UM">United States (US) Minor Outlying Islands</option>
-														<option value="VI">United States (US) Virgin Islands</option>
-														<option value="UY">Uruguay</option>
-														<option value="UZ">Uzbekistan</option>
-														<option value="VU">Vanuatu</option>
-														<option value="VA">Vatican</option>
-														<option value="VE">Venezuela</option>
-														<option value="VN">Vietnam</option>
-														<option value="WF">Wallis and Futuna</option>
-														<option value="EH">Western Sahara</option>
-														<option value="YE">Yemen</option>
-														<option value="ZM">Zambia</option>
-														<option value="ZW">Zimbabwe</option>
-													</select>
-												</p>
-												<p class="form-row form-row-wide address-field update_totals_on_change validate-required woocommerce-validated" id="billing_country_field" data-priority="40">
-													<label for="billing_country" class="">行政區
-														<abbr class="required" title="required">*</abbr>
-													</label>
-													<select name="billing_country" id="billing_country" class="country_to_state country_select  select2-hidden-accessible" autocomplete="country" tabindex="-1" aria-hidden="true">
-														<option value="">選擇行政區</option>
-														<option value="AX">大安區</option>
-														<option value="AF">Afghanistan</option>
-														<option value="AL">Albania</option>
-														<option value="DZ">Algeria</option>
-														<option value="AS">American Samoa</option>
-														<option value="AD">Andorra</option>
-														<option value="AO">Angola</option>
-														<option value="AI">Anguilla</option>
-														<option value="AQ">Antarctica</option>
-														<option value="AG">Antigua and Barbuda</option>
-														<option value="AR">Argentina</option>
-														<option value="AM">Armenia</option>
-														<option value="AW">Aruba</option>
-														<option value="AU">Australia</option>
-														<option value="AT">Austria</option>
-														<option value="AZ">Azerbaijan</option>
-														<option value="BS">Bahamas</option>
-														<option value="BH">Bahrain</option>
-														<option value="BD">Bangladesh</option>
-														<option value="BB">Barbados</option>
-														<option value="BY">Belarus</option>
-														<option value="PW">Belau</option>
-														<option value="BE">Belgium</option>
-														<option value="BZ">Belize</option>
-														<option value="BJ">Benin</option>
-														<option value="BM">Bermuda</option>
-														<option value="BT">Bhutan</option>
-														<option value="BO">Bolivia</option>
-														<option value="BQ">Bonaire, Saint Eustatius and Saba</option>
-														<option value="BA">Bosnia and Herzegovina</option>
-														<option value="BW">Botswana</option>
-														<option value="BV">Bouvet Island</option>
-														<option value="BR">Brazil</option>
-														<option value="IO">British Indian Ocean Territory</option>
-														<option value="VG">British Virgin Islands</option>
-														<option value="BN">Brunei</option>
-														<option value="BG">Bulgaria</option>
-														<option value="BF">Burkina Faso</option>
-														<option value="BI">Burundi</option>
-														<option value="KH">Cambodia</option>
-														<option value="CM">Cameroon</option>
-														<option value="CA">Canada</option>
-														<option value="CV">Cape Verde</option>
-														<option value="KY">Cayman Islands</option>
-														<option value="CF">Central African Republic</option>
-														<option value="TD">Chad</option>
-														<option value="CL">Chile</option>
-														<option value="CN">China</option>
-														<option value="CX">Christmas Island</option>
-														<option value="CC">Cocos (Keeling) Islands</option>
-														<option value="CO">Colombia</option>
-														<option value="KM">Comoros</option>
-														<option value="CG">Congo (Brazzaville)</option>
-														<option value="CD">Congo (Kinshasa)</option>
-														<option value="CK">Cook Islands</option>
-														<option value="CR">Costa Rica</option>
-														<option value="HR">Croatia</option>
-														<option value="CU">Cuba</option>
-														<option value="CW">Curaçao</option>
-														<option value="CY">Cyprus</option>
-														<option value="CZ">Czech Republic</option>
-														<option value="DK">Denmark</option>
-														<option value="DJ">Djibouti</option>
-														<option value="DM">Dominica</option>
-														<option value="DO">Dominican Republic</option>
-														<option value="EC">Ecuador</option>
-														<option value="EG">Egypt</option>
-														<option value="SV">El Salvador</option>
-														<option value="GQ">Equatorial Guinea</option>
-														<option value="ER">Eritrea</option>
-														<option value="EE">Estonia</option>
-														<option value="ET">Ethiopia</option>
-														<option value="FK">Falkland Islands</option>
-														<option value="FO">Faroe Islands</option>
-														<option value="FJ">Fiji</option>
-														<option value="FI">Finland</option>
-														<option value="FR">France</option>
-														<option value="GF">French Guiana</option>
-														<option value="PF">French Polynesia</option>
-														<option value="TF">French Southern Territories</option>
-														<option value="GA">Gabon</option>
-														<option value="GM">Gambia</option>
-														<option value="GE">Georgia</option>
-														<option value="DE">Germany</option>
-														<option value="GH">Ghana</option>
-														<option value="GI">Gibraltar</option>
-														<option value="GR">Greece</option>
-														<option value="GL">Greenland</option>
-														<option value="GD">Grenada</option>
-														<option value="GP">Guadeloupe</option>
-														<option value="GU">Guam</option>
-														<option value="GT">Guatemala</option>
-														<option value="GG">Guernsey</option>
-														<option value="GN">Guinea</option>
-														<option value="GW">Guinea-Bissau</option>
-														<option value="GY">Guyana</option>
-														<option value="HT">Haiti</option>
-														<option value="HM">Heard Island and McDonald Islands</option>
-														<option value="HN">Honduras</option>
-														<option value="HK">Hong Kong</option>
-														<option value="HU">Hungary</option>
-														<option value="IS">Iceland</option>
-														<option value="IN">India</option>
-														<option value="ID">Indonesia</option>
-														<option value="IR">Iran</option>
-														<option value="IQ">Iraq</option>
-														<option value="IE">Ireland</option>
-														<option value="IM">Isle of Man</option>
-														<option value="IL">Israel</option>
-														<option value="IT">Italy</option>
-														<option value="CI">Ivory Coast</option>
-														<option value="JM">Jamaica</option>
-														<option value="JP">Japan</option>
-														<option value="JE">Jersey</option>
-														<option value="JO">Jordan</option>
-														<option value="KZ">Kazakhstan</option>
-														<option value="KE">Kenya</option>
-														<option value="KI">Kiribati</option>
-														<option value="KW">Kuwait</option>
-														<option value="KG">Kyrgyzstan</option>
-														<option value="LA">Laos</option>
-														<option value="LV">Latvia</option>
-														<option value="LB">Lebanon</option>
-														<option value="LS">Lesotho</option>
-														<option value="LR">Liberia</option>
-														<option value="LY">Libya</option>
-														<option value="LI">Liechtenstein</option>
-														<option value="LT">Lithuania</option>
-														<option value="LU">Luxembourg</option>
-														<option value="MO">Macao S.A.R., China</option>
-														<option value="MK">Macedonia</option>
-														<option value="MG">Madagascar</option>
-														<option value="MW">Malawi</option>
-														<option value="MY">Malaysia</option>
-														<option value="MV">Maldives</option>
-														<option value="ML">Mali</option>
-														<option value="MT">Malta</option>
-														<option value="MH">Marshall Islands</option>
-														<option value="MQ">Martinique</option>
-														<option value="MR">Mauritania</option>
-														<option value="MU">Mauritius</option>
-														<option value="YT">Mayotte</option>
-														<option value="MX">Mexico</option>
-														<option value="FM">Micronesia</option>
-														<option value="MD">Moldova</option>
-														<option value="MC">Monaco</option>
-														<option value="MN">Mongolia</option>
-														<option value="ME">Montenegro</option>
-														<option value="MS">Montserrat</option>
-														<option value="MA">Morocco</option>
-														<option value="MZ">Mozambique</option>
-														<option value="MM">Myanmar</option>
-														<option value="NA">Namibia</option>
-														<option value="NR">Nauru</option>
-														<option value="NP">Nepal</option>
-														<option value="NL">Netherlands</option>
-														<option value="NC">New Caledonia</option>
-														<option value="NZ">New Zealand</option>
-														<option value="NI">Nicaragua</option>
-														<option value="NE">Niger</option>
-														<option value="NG">Nigeria</option>
-														<option value="NU">Niue</option>
-														<option value="NF">Norfolk Island</option>
-														<option value="KP">North Korea</option>
-														<option value="MP">Northern Mariana Islands</option>
-														<option value="NO">Norway</option>
-														<option value="OM">Oman</option>
-														<option value="PK">Pakistan</option>
-														<option value="PS">Palestinian Territory</option>
-														<option value="PA">Panama</option>
-														<option value="PG">Papua New Guinea</option>
-														<option value="PY">Paraguay</option>
-														<option value="PE">Peru</option>
-														<option value="PH">Philippines</option>
-														<option value="PN">Pitcairn</option>
-														<option value="PL">Poland</option>
-														<option value="PT">Portugal</option>
-														<option value="PR">Puerto Rico</option>
-														<option value="QA">Qatar</option>
-														<option value="RE">Reunion</option>
-														<option value="RO">Romania</option>
-														<option value="RU">Russia</option>
-														<option value="RW">Rwanda</option>
-														<option value="ST">São Tomé and Príncipe</option>
-														<option value="BL">Saint Barthélemy</option>
-														<option value="SH">Saint Helena</option>
-														<option value="KN">Saint Kitts and Nevis</option>
-														<option value="LC">Saint Lucia</option>
-														<option value="SX">Saint Martin (Dutch part)</option>
-														<option value="MF">Saint Martin (French part)</option>
-														<option value="PM">Saint Pierre and Miquelon</option>
-														<option value="VC">Saint Vincent and the Grenadines</option>
-														<option value="WS">Samoa</option>
-														<option value="SM">San Marino</option>
-														<option value="SA">Saudi Arabia</option>
-														<option value="SN">Senegal</option>
-														<option value="RS">Serbia</option>
-														<option value="SC">Seychelles</option>
-														<option value="SL">Sierra Leone</option>
-														<option value="SG">Singapore</option>
-														<option value="SK">Slovakia</option>
-														<option value="SI">Slovenia</option>
-														<option value="SB">Solomon Islands</option>
-														<option value="SO">Somalia</option>
-														<option value="ZA">South Africa</option>
-														<option value="GS">South Georgia/Sandwich Islands</option>
-														<option value="KR">South Korea</option>
-														<option value="SS">South Sudan</option>
-														<option value="ES">Spain</option>
-														<option value="LK">Sri Lanka</option>
-														<option value="SD">Sudan</option>
-														<option value="SR">Suriname</option>
-														<option value="SJ">Svalbard and Jan Mayen</option>
-														<option value="SZ">Swaziland</option>
-														<option value="SE">Sweden</option>
-														<option value="CH">Switzerland</option>
-														<option value="SY">Syria</option>
-														<option value="TW">Taiwan</option>
-														<option value="TJ">Tajikistan</option>
-														<option value="TZ">Tanzania</option>
-														<option value="TH">Thailand</option>
-														<option value="TL">Timor-Leste</option>
-														<option value="TG">Togo</option>
-														<option value="TK">Tokelau</option>
-														<option value="TO">Tonga</option>
-														<option value="TT">Trinidad and Tobago</option>
-														<option value="TN">Tunisia</option>
-														<option value="TR">Turkey</option>
-														<option value="TM">Turkmenistan</option>
-														<option value="TC">Turks and Caicos Islands</option>
-														<option value="TV">Tuvalu</option>
-														<option value="UG">Uganda</option>
-														<option value="UA">Ukraine</option>
-														<option value="AE">United Arab Emirates</option>
-														<option value="GB">United Kingdom (UK)</option>
-														<option value="US" selected="selected">United States (US)</option>
-														<option value="UM">United States (US) Minor Outlying Islands</option>
-														<option value="VI">United States (US) Virgin Islands</option>
-														<option value="UY">Uruguay</option>
-														<option value="UZ">Uzbekistan</option>
-														<option value="VU">Vanuatu</option>
-														<option value="VA">Vatican</option>
-														<option value="VE">Venezuela</option>
-														<option value="VN">Vietnam</option>
-														<option value="WF">Wallis and Futuna</option>
-														<option value="EH">Western Sahara</option>
-														<option value="YE">Yemen</option>
-														<option value="ZM">Zambia</option>
-														<option value="ZW">Zimbabwe</option>
-													</select>
-												</p>
-												<p class="form-row form-row-wide address-field validate-required" id="billing_address_1_field" data-priority="50">
-													<label for="billing_address_1" class="">
-														address <abbr class="required" title="required">*</abbr>
-													</label>
-													<input type="text" class="input-text " name="billing_address_1" id="billing_address_1" placeholder="地址" value="" autocomplete="address-line1">
-												</p>
-												
-											</div>
-
-										</div>
-
-									</div>
-
-									<div class="col-2">
-										<div class="woocommerce-shipping-fields">
-										</div>
-										<div class="woocommerce-additional-fields">
-
-
-											<h3>備註訊息</h3>
-
-
-											<div class="woocommerce-additional-fields__field-wrapper">
-												<p class="form-row notes" id="order_comments_field" data-priority="">
-													<label for="order_comments" class="">Order
-														notes</label>
-													<textarea name="order_comments" class="input-text " id="order_comments" placeholder="Notes about your order, e.g. special notes for delivery." rows="2" cols="5">
-
-                        </textarea>
-												</p>
-											</div>
-
-
-										</div>
-									</div>
-								</div>
-
-
-								<h3 id="order_review_heading">您的訂單</h3>
-
-
-								<div id="order_review" class="woocommerce-checkout-review-order">
-									<table class="shop_table woocommerce-checkout-review-order-table">
-										<thead>
-											<tr>
-												<th class="product-name">商品</th>
-												<th class="product-total">金額</th>
-											</tr>
-										</thead>
-										<tbody>
-											<tr class="cart_item">
-												<td class="product-name">
-													
-屏東小琉球｜自由潛水 體驗潛水（無需證照）&nbsp; <strong class="product-quantity">× 1</strong>
-												</td>
-												<td class="product-total">
-													<span class="woocommerce-Price-amount amount">
-														<span class="woocommerce-Price-currencySymbol">$</span>3000</span>
-												</td>
-											</tr>
-											
-											
-										</tbody>
-										<tfoot>
-
-											<tr class="cart-subtotal">
-												<th style="text-align: left">小計</th>
-												<td>
-													<span class="woocommerce-Price-amount amount">
-														<span class="woocommerce-Price-currencySymbol">$</span>3000</span>
-												</td>
-											</tr>
-
-
-											<tr class="order-total">
-												<th  style="text-align: left">合計</th>
-												<td>
-													<strong>
-                        <span class="woocommerce-Price-amount amount">
-                            <span
-                                    class="woocommerce-Price-currencySymbol">$</span>3000</span>
-                    </strong>
-												</td>
-											</tr>
-
-
-										</tfoot>
-									</table>
-
-									<div id="payment" class="woocommerce-checkout-payment">
-										<ul class="wc_payment_methods payment_methods methods">
-											<li class="wc_payment_method payment_method_cheque">
-												<input id="payment_method_cheque" type="radio" class="input-radio" name="payment_method" value="cheque" checked="checked" data-order_button_text="">
-
-												<label for="payment_method_cheque">
-													刷卡 </label>
-												<div class="payment_box payment_method_cheque" style="display: none;">
-													<p>Please send a check to Store Name, Store Street, Store Town, Store State / County, Store
-														Postcode.</p>
-												</div>
-											</li>
-											<li class="wc_payment_method payment_method_cod">
-												<input id="payment_method_cod" type="radio" class="input-radio" name="payment_method" value="cod" data-order_button_text="">
-
-												<label for="payment_method_cod">
-													貨到付款</label>
-												<!-- <div class="payment_box payment_method_cod" style="display: block;">
-													<p>Pay with cash upon delivery.</p>
-												</div> -->
-											</li>
-										</ul>
-										<div class="form-row place-order">
-											<noscript>
-												Since your browser does not support JavaScript, or it is disabled, please ensure you click the
-												&lt;em&gt;Update Totals&lt;/em&gt; button before placing your order. You may be charged more
-												than the amount stated above if you fail to do so. &lt;br/&gt;&lt;input type="submit"
-												class="button alt" name="woocommerce_checkout_update_totals" value="Update totals" /&gt;
-											</noscript>
-
-											
-											<input type="submit" [routerLink]="['/courseorderreceived']" name="woocommerce_checkout_place_order" id="place_order" value="確認" data-value="Place order">	
-
-										</div>
-									</div>
-
-								</div>
-
-
-							</form>
-
-
-						</main>
-					</div>
-
-				</div>
-			</section>
-
-
-
-		</div><!-- eof #box_wrapper -->
-	</div><!-- eof #canvas -->
-
-
+                    </main>
+                </div>
+            </div>
+        </section>
+
+        <footer class="page_footer ds ms s-py-90 s-py-xl-160 c-gutter-100">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xl-4 col-lg-3 text-center text-lg-left animate" data-animation="fadeInUp">
+                        <div class="widget widget_text">
+                            <img src="images/logo.png" alt="logo">
+                            <p>
+                                The estuary is the well-known kite spot in the lagoon. Two launches are possible.
+                            </p>
+                            <p class="social-icons">
+                                <a href="https://www.facebook.com/" class="fa bg-icon rounded-icon fa-facebook" title="facebook"></a>
+                                <a href="https://twitter.com/" class="fa bg-icon rounded-icon fa-twitter" title="twitter"></a>
+                                <a href="https://www.instagram.com/" class="fa bg-icon rounded-icon fa-instagram" title="instagram"></a>
+                            </p>
+                        </div>
+                        <div class="divider-60 divider-lg-0"></div>
+                    </div>
+
+                    <div class="col-xl-4 col-lg-5 text-center text-lg-left animate" data-animation="fadeInUp">
+                        <div class="widget widget_nav_menu">
+                            <h3>Userful Link</h3>
+                            <ul class="menu">
+                                <li class="menu-item">
+                                    <a href="./index_blocks.html">Homeblocks</a>
+                                </li>
+                                <li class="menu-item">
+                                    <a href="./about.html">About</a>
+                                </li>
+                                <li class="menu-item">
+                                    <a href="./team.html">Team</a>
+                                </li>
+                                <li class="menu-item">
+                                    <a href="./contact.html">Contact Us</a>
+                                </li>
+                                <li class="menu-item">
+                                    <a href="./pricing.html">Pricing</a>
+                                </li>
+                                <li class="menu-item">
+                                    <a href="./shortcodes_typography.html">Typography</a>
+                                </li>
+                                <li class="menu-item">
+                                    <a href="./shop-left.html">Shop</a>
+                                </li>
+                                <li class="menu-item">
+                                    <a href="./services2.html">Services</a>
+                                </li>
+                                <li class="menu-item">
+                                    <a href="./service-single.html">Single Service</a>
+                                </li>
+                                <li class="menu-item">
+                                    <a href="./gallery-tiled.html">Gallery</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="divider-60 divider-lg-0"></div>
+                    </div>
+
+                    <div class="col-xl-4 col-lg-4 text-center text-lg-left animate" data-animation="fadeInUp">
+                        <div class="widget widget_flickr">
+                            <h3 class="widget-title">Flickr</h3>
+                            <ul class="flickr_ul"></ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+
+        <section class="page_copyright ls s-py-25">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-md-12 text-center">
+                        <p>&copy; Copyright <span class="copyright_year">2020</span> All Rights Reserved</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    <!-- eof #box_wrapper -->
+</div>
+<!-- eof #canvas -->
