@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { UserService } from 'src/app/services/user.service';
-import { TsiterentalService } from 'src/app/tsiterental.service';
+import { TsiterentalService } from 'src/app/services/tsiterental.service';
 
 @Component({
   selector: 'app-site-rental',

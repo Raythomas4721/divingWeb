@@ -194,25 +194,27 @@
             <!-- 資料開頭 -->
             <article *ngFor="let siteDetails of siteDetails"
               class="post text-center text-md-left vertical-item content-padding hero-bg">
-
               <article class="post text-center text-md-left vertical-item content-padding hero-bg">
                 <div class="item-media post-thumbnail">
-                  <img src="assets\images\sitePhoto\swim (1).jpeg" alt="img">
+
+                  <!-- <img src="assets\images\sitePhoto\swim (1).jpeg" alt="img"> -->
+
+                  <img src="data:image/png;base64, {{ siteDetails.photo }}" />
+
                   <div class="media-links">
-                    <a class="abs-link" href="event-single-left.html"></a>
+                    <a class="abs-link" [routerLink]="['/site-detail', siteDetails.siteId]"></a>
                   </div>
                 </div>
                 <div class="item-content">
                   <header class="entry-header">
-
-                    <h3>{{siteDetails['venueName']}}</h3>
-
+                    <!-- 使用 routerLink 導航，並傳遞 siteDetails 的 siteId -->
+                    <h3 style="cursor: pointer" [routerLink]="['/site-detail', siteDetails.siteId]">
+                      {{siteDetails['venueName']}}</h3>
                     <!-- 時間 -->
                     <div class="entry-meta d-flex align-items-center">
                       <span class="venueAddress">
-
                         <i class="fa fa-calendar" aria-hidden="true"></i>
-                        <a href="event-single-left.html" rel="bookmark">
+                        <a [routerLink]="['/site-detail', siteDetails.siteId]" rel="bookmark">
                           <time class="entry-date published updated"
                             datetime="2018-03-18T15:15:12+00:00">01.12.2025</time>
                         </a>
@@ -221,14 +223,11 @@
                       <span class="venueAddress">
                         {{ siteDetails['venueAddress'] }}
                       </span>
-                    </div>
-
-
-                    <!-- .entry-meta -->
+                    </div><!-- .entry-meta -->
                   </header>
                   <!-- .entry-header -->
                   <div class="entry-content">
-                    <p routerLink="/site-detail" rel="bookmark">
+                    <p [routerLink]="['/site-detail', siteDetails.siteId]" rel="bookmark">
                       {{siteDetails['venueName']}}
                     </p>
                   </div><!-- .entry-content -->

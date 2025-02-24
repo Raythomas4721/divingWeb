@@ -4,7 +4,7 @@ export interface sitedetail {
   numberOfPeople: number;
   venueAddress: string;
   detail: string;
-  photo: ArrayBuffer;
+  photo: string;
   evaluate: string;
   collect: number;
 }

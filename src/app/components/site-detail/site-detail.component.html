@@ -160,57 +160,74 @@
       </div>
     </section> -->
     <!-- 標題欄位 -->
+    <article class="let siteDetails of siteDetails"
+      class="post text-center text-md-left vertical-item content-padding hero-bg">
 
-    <section class=" ls s-py-90 s-py-xl-160 c-gutter-60">
-      <div class="container">
-        <div class="row">
-          <!-- <main class="col-lg-7 col-xl-8"> -->
-          <div class="vertical-item content-padding hero-bg">
-            <div class="item-media">
-              <img src="assets\images\sitePhoto\swim (2).jpeg" alt="img" width="300" height="200">
-            </div>
-            <div class="item-content">
-              <h5>青山農場游池</h5>
-              <p class="excerpt">
-                2024年11月完成整修的「青山農場游池」，是夏季降溫的絕佳去處！綠地的場地規劃，在室內設置健康輕食區、健身房、多功能教室；而在室外區則有成人25公尺泳池、兒童池、噴泉池、SPA水療池都適合再去滋養心靈！
-              </p>
 
-              <ul class="list-styled">
-                <li>空間大小：300平方公尺</li>
-                <li>可容納人數：80人</li>
-                <li>無線網路</li>
-              </ul>
+      <div class="siteDetails">
+        <img src="data:image/png;base64, {{ siteDetails.photo }}" />
+        <h2>{{siteDetails.venueName}}</h2>
+        <p>{{ siteDetails.venueAddress }}</p>
+        <p>容納人數: {{ siteDetails.numberOfPeople }}</p>
+        <p>場地郵箱: {{ siteDetails.detail }}</p>
+        <p>場地大小: {{ siteDetails.siteSize }}</p>
+        <p>場地價格: {{ siteDetails.sitePrice }}</p>
+        <p>場地電話: {{ siteDetails.sitePhone }}</p>
+        <p>場地郵箱: {{ siteDetails.siteEmail }}</p>
+        <!-- 其他詳細資訊 -->
+      </div>
 
-              <ul class="list-styled">
-                <li class="list-styled">時段分為上午、下午、晚上</li>
-                <li>每個時段$3000</li>
-                <li>​預約場勘或詢價，敬請填寫線上預約表。</li>
+      <section class=" ls s-py-90 s-py-xl-160 c-gutter-60">
+        <div class="container">
+          <div class="row">
+            <!-- <main class="col-lg-7 col-xl-8"> -->
+            <div class="vertical-item content-padding hero-bg">
+              <div class="item-media">
+                <img src="assets\images\sitePhoto\swim (2).jpeg" alt="img" width="300" height="200">
+              </div>
+              <div class="item-content">
+                <h2>{{siteDetails.venueName}}</h2>
+
+                <div class="excerpt">
+                  <h4>{{ siteDetails.detail }}</h4>
+                </div>
+
                 <ul class="list-styled">
-
+                  <li>空間大小：300平方公尺</li>
+                  <li>可容納人數：80人</li>
+                  <li>無線網路</li>
                 </ul>
-              </ul>
-              <div>
-                <h5>聯絡方式</h5>
-                <p style="margin-bottom: 0.5em;">TEL:(02)2562-0008</p>
-                <p style="margin-bottom: 0.5em;">Email：CastlePeakFarmPool@gmail.com</p>
-                <p style="margin-bottom: 0;">FB : Castle Peak Farm Pool 山淨湖泳池</p>
-              </div>
-              <div style="margin-top: 2em;">
-                <h5>交通資訊</h5>
-                <p style="margin-bottom: 0.5em;">地址：台北市南港區忠孝東路六段2000</p>
-                <p style="margin-bottom: 0.5em;">捷運：板南線後山埤站 4號出口</p>
-                <p style="margin-bottom: 0;">停車場：CityParking平面停車場(忠孝東路六段62號)</p>
 
-                <button type="submit" id="contact_form_submit" name="contact_submit"
-                  class="btn btn-outline-darkgrey btn-medium" style="margin-top: 2em; background-color: yellow;"
-                  routerLink="/site-reserve">預約
-                </button>
+                <ul class="list-styled">
+                  <li class="list-styled">時段分為上午、下午、晚上</li>
+                  <li>每個時段$3000</li>
+                  <li>​預約場勘或詢價，敬請填寫線上預約表。</li>
+                  <ul class="list-styled">
 
+                  </ul>
+                </ul>
+                <div>
+                  <h5>聯絡方式</h5>
+                  <p style="margin-bottom: 0.5em;">TEL:(02)2562-0008</p>
+                  <p style="margin-bottom: 0.5em;">Email：CastlePeakFarmPool@gmail.com</p>
+                  <p style="margin-bottom: 0;">FB : Castle Peak Farm Pool 山淨湖泳池</p>
+                </div>
+                <div style="margin-top: 2em;">
+                  <h5>交通資訊</h5>
+                  <p style="margin-bottom: 0.5em;">地址：台北市南港區忠孝東路六段2000</p>
+                  <p style="margin-bottom: 0.5em;">捷運：板南線後山埤站 4號出口</p>
+                  <p style="margin-bottom: 0;">停車場：CityParking平面停車場(忠孝東路六段62號)</p>
+
+                  <button type="submit" id="contact_form_submit" name="contact_submit"
+                    class="btn btn-outline-darkgrey btn-medium" style="margin-top: 2em; background-color: yellow;"
+                    routerLink="/site-reserve">預約
+                  </button>
+
+                </div>
               </div>
             </div>
-          </div>
-          <!-- </main> -->
-          <!-- <aside class="col-lg-5 col-xl-4 affix-aside">
+            <!-- </main> -->
+            <!-- <aside class="col-lg-5 col-xl-4 affix-aside">
             <div class="widget widget_categories">
 
               <h3 class="widget-title">Categories</h3>
@@ -247,11 +264,11 @@
 
 
           </aside> -->
+          </div>
+
         </div>
-
-      </div>
-    </section>
-
+      </section>
+    </article>
     <footer class="page_footer ds s-py-90 s-py-xl-160 c-gutter-60">
       <div class="container">
         <div class="row">

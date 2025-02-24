@@ -25,6 +25,9 @@ const routes: Routes = [
   { path: 'used-products', component: UsedProductsComponent },
   { path: 'courses', component: CoursesComponent },
   { path: 'site-rental', component: SiteRentalComponent },
+  // 定義帶有 id 參數的路由
+  { path: 'site-detail/:id', component: SiteDetailComponent },
+  // 其他路由
   { path: 'shopcart', component: Sideshopcart },
   { path: 'shopproductshow/:id', component: ShopproductshowComponent },
   { path: 'procategories', component: ProcategoriesComponent },
