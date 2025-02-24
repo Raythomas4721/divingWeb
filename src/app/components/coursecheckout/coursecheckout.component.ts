@@ -4,11 +4,13 @@ import { TccoursesService } from 'src/app/services/tccourses.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { UserDTO } from 'src/app/interface/userDTO';
 import { TcordersService } from 'src/app/services/tcorders.service';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-coursecheckout',
   templateUrl: './coursecheckout.component.html',
-  styleUrls: ['./coursecheckout.component.css']
+  styleUrls: ['./coursecheckout.component.css'],
+  
 })
 export class CoursecheckoutComponent {
 courseData: any = {};  // 確保不會 undefined
@@ -16,9 +18,11 @@ courseId:number=-1;
 quantity:number=1;
 courseName:string='';  //
 coursePrice:number=0;  //
-memberId: number | null = null;  // ✅ 存放會員 ID
+// memberId: number | null = null;  // ✅ 存放會員 ID
+memberId:number=22;
 orderStatus: boolean = true; // ✅ 訂單狀態：已確認
 orderDate: string = new Date().toLocaleString(); // ✅ 轉成 `YYYY-MM-DDTHH:mm:ss` 格式
+user?: UserDTO | null;
 
 
 constructor(
@@ -26,148 +30,47 @@ constructor(
   private route:ActivatedRoute,
   private coursesService: TccoursesService,
   private authService: AuthService,  // ✅ 注入 AuthService
-  private ordersService:TcordersService
+  private ordersService:TcordersService,
+  private userService: UserService,
 ){}
 
 
 ngOnInit(): void {
+  this.getCourseId();
 
-  // 1️⃣ 嘗試從 `state` 取得 `courseId`
-  const navigation = this.router.getCurrentNavigation();
-  const state = navigation?.extras.state as { courseId?: number };
-
-  if (state?.courseId) {
-    this.courseId = state.courseId;
-    sessionStorage.setItem('courseId', String(this.courseId)); // ✅ 存入 sessionStorage
-    console.log('從 state 取得 courseId:', this.courseId);
-  } else {
-    // 2️⃣ 若 `state` 無法獲取，嘗試從 `sessionStorage`
-    const storedCourseId = sessionStorage.getItem('courseId');
-    if (storedCourseId) {
-      this.courseId = Number(storedCourseId);
-      console.log('從 sessionStorage 取得 courseId:', this.courseId);
+  this.authService.user$.subscribe(user => {
+    if (user?.user) {
+      this.user = user.user;
+      this.memberId = this.user?.memberId ?? -1;//設定 memberId (即使 this.user 是 undefined，memberId 仍然有預設值，不會影響程式執行。)
+      console.log("🔵 用戶資料已載入:", this.user);
+      console.log("🆔 取得的 memberId:", this.memberId);
     } else {
-      // 3️⃣ 如果 `sessionStorage` 也沒有，最後嘗試從 `queryParams` 取得
-      this.route.queryParams.subscribe((params) => { 
-        if (params['courseId']) {
-          this.courseId = Number(params['courseId']);
-          sessionStorage.setItem('courseId', String(this.courseId)); // ✅ 存入 sessionStorage
-          console.log('從 queryParams 取得 courseId:', this.courseId);
-        }
-      });
+      console.warn("⚠ 等待 API 返回，用戶資料尚未載入");
     }
-  }
+  });
+}
 
-  // 4️⃣ 確保 `courseId` 有效，否則導回 `coursedetails`
-  if (this.courseId > 0) {
-    this.loadCourseDetails(this.courseId);
-  } else {
-    console.warn('無法獲取 courseId，導回課程詳情頁');
-    this.router.navigate(['/coursedetails']);
-  }
-
-  // // ✅ 訂閱 `authService.user$` 來取得會員資訊
-  // this.authService.user$.subscribe((user: UserDTO | null) => {
-  //   if (user && user.memberId) {
-  //     this.memberId = Number(user.memberId); // ✅ 確保轉換為數字
-  //     console.log('獲取會員 ID:', this.memberId);
-  //   } else {
-  //     console.warn('會員未登入，請先登入');
-  //     this.router.navigate(['/login']); // ✅ 若未登入則導向登入頁面
-  //   }
-  // });
-
-  // // ✅ 從 `queryParams` 取得 `courseId`, `coursePrice`, `courseName`
-  // this.route.queryParams.subscribe(params => {
-  //   if (params['courseId']) {
-  //     this.courseId = Number(params['courseId']);
-  //   }
-  //   if (params['coursePrice']) {
-  //     this.coursePrice = Number(params['coursePrice']);
-  //   }
-  //   if (params['courseName']) {
-  //     this.courseName = params['courseName'];
-  //   }
-  // });
-
-  // // // 1️⃣ 嘗試從 `state` 取得 `courseId`
-  // // const navigation = this.router.getCurrentNavigation();
-  // // const state = navigation?.extras.state as { courseId?: number };
-
-  // // if (state?.courseId) {
-  // //   this.courseId = state.courseId;
-  // //   sessionStorage.setItem('courseId', String(this.courseId)); // ✅ 存入 sessionStorage
-  // //   console.log('從 state 取得 courseId:', this.courseId);
-  // // } else {
-  // //   // 2️⃣ 若 `state` 無法獲取，嘗試從 `sessionStorage`
-  // //   const storedCourseId = sessionStorage.getItem('courseId');
-  // //   if (storedCourseId) {
-  // //     this.courseId = Number(storedCourseId);
-  // //     console.log('從 sessionStorage 取得 courseId:', this.courseId);
-  // //   } else {
-  // //     // 3️⃣ 如果 `sessionStorage` 也沒有，最後嘗試從 `queryParams` 取得
-  // //     this.route.queryParams.subscribe((params: { courseId?: string }) => { 
-  // //       if (params.courseId) {
-  // //         this.courseId = Number(params.courseId);
-  // //         sessionStorage.setItem('courseId', String(this.courseId)); // ✅ 存入 sessionStorage
-  // //         console.log('從 queryParams 取得 courseId:', this.courseId);
-  // //       }
-  // //     });
-  // //   }
-  // // }
-
-  // // // 4️⃣ 確保 `courseId` 有效，否則導回 `coursedetails`
-  // // if (this.courseId > 0) {
-  // //   this.loadCourseDetails(this.courseId);
-  // // } else {
-  // //   console.warn('無法獲取 courseId，導回課程詳情頁');
-  // //   this.router.navigate(['/coursedetails']);
-  // // }
-
-
-  // // const navigation = this.router.getCurrentNavigation();
-  // // const state = navigation?.extras.state as { courseId?: number };
-
-  // // if (state?.courseId) {
-  // //   this.courseId = state.courseId;
-  // //   sessionStorage.setItem('courseId', String(this.courseId)); // ✅ 存入 sessionStorage
-  // // } else {
-  // //   // ✅ 如果 state 不存在，嘗試從 sessionStorage 取出
-  // //   const storedCourseId = sessionStorage.getItem('courseId');
-  // //   if (storedCourseId) {
-  // //     this.courseId = Number(storedCourseId);
-  // //     console.log('從 sessionStorage 取得 courseId:', this.courseId);
-  // //   } else {
-  // //     console.warn('無法獲取 courseId，導回課程詳情頁');
-  // //     this.router.navigate(['/coursedetails']);
-  // //     return;
-  // //   }
-  // // }
-
-  // // console.log('成功獲取 courseId:', this.courseId);
-  // // this.loadCourseDetails(this.courseId);
- 
-  // // if (state?.courseId) {
-  // //   this.courseId = state.courseId;
-  // // } else {
-  // //   console.warn('無法獲取 courseId，可能是使用者手動刷新頁面');
-  // // }
-
-  // // // 確保 courseId 有效，否則導回 coursedetails
-  // // if (this.courseId > 0) {
-  // //   this.loadCourseDetails(this.courseId);
-  // // } else {
-  // //   this.router.navigate(['/coursedetails']);
-  // // }
-
-  // // if(navigation?.extras.state){
-  // //   this.courseId =(navigation?.extras.state as{courseId:number}).courseId; 
-  // //   if(this.courseId > 0){
-  // //     this.loadCourseDetails(this.courseId);
-  // //   }
-  // // } 
-  console.log(this.courseData);
-  console.log(this.courseId);
+getCourseId(): void {
+  // 優先從 `queryParams` 獲取最新的 courseId
+  this.route.queryParams.subscribe(params => {
+    if (params['courseId']) {
+      this.courseId = Number(params['courseId']); // ✅ 取得最新的 courseId
+      sessionStorage.setItem('courseId', String(this.courseId)); // ✅ 立即更新 sessionStorage
+      console.log('🟠 直接從 queryParams 取得並更新 courseId:', this.courseId);
+      this.loadCourseDetails(this.courseId);
+    } else {
+      // 如果 `queryParams` 沒有，則嘗試從 `sessionStorage` 獲取
+      const storedCourseId = sessionStorage.getItem('courseId');
+      if (storedCourseId) {
+        this.courseId = Number(storedCourseId);
+        console.log('🟢 從 sessionStorage 取得 courseId:', this.courseId);
+        this.loadCourseDetails(this.courseId);
+      } else {
+        console.warn('❌ 無法獲取 courseId，導回課程詳情頁');
+        this.router.navigate(['/coursedetails']);
+      }
+    }
+  });
 }
 
 
@@ -197,8 +100,14 @@ ngOnInit(): void {
 // }
 
 submitOrder(): void {
+  console.log('📝 訂單提交前數據檢查:');
+  console.log('🆔 memberId:', this.memberId);
+  console.log('📘 courseId:', this.courseId);
+  console.log('💰 coursePrice:', this.coursePrice);
+  console.log('📦 quantity:', this.quantity);
+
   if (!this.memberId || this.courseId < 1) {
-    console.error('無法提交訂單：缺少必要資訊');
+    console.error('❌ 無法提交訂單：缺少必要資訊');
     return;
   }
 
@@ -207,52 +116,41 @@ submitOrder(): void {
     courseId: this.courseId,
     coursePrice: this.coursePrice,
     quantity: this.quantity,
-    orderDate: new Date().toLocaleString(),   //toLocaleString() 轉換為當地時間
+    orderDate: new Date().toISOString(),
     orderStatus: true
   };
 
-  this.ordersService.createOrder(orderData).subscribe(response => {
-    console.log('訂單提交成功:', response);
-    this.router.navigate(['/courseorderreceived']); // ✅ 導向訂單完成頁面
-  }, error => {
-    console.error('提交訂單失敗:', error);
-  });
+  this.ordersService.createOrder(orderData).subscribe(
+    response => {
+      console.log('✅ 訂單提交成功:', response);
+      this.router.navigate(['/courseorderreceived']);
+    },
+    error => {
+      console.error('❌ 提交訂單失敗:', error);
+    }
+  );
 }
-
 loadCourseDetails(id: number): void {
+  if (!id || id < 1) {
+    console.error('❌ 無效的 courseId:', id);
+    return;
+  }
+
   this.coursesService.getCourseById(id).subscribe(
     (data) => {
       if (data) {
         this.courseData = data;  // ✅ 確保 courseData 有數據
         this.courseName = data.courseName || '未知課程';  // ✅ 提供預設值
         this.coursePrice = data.coursePrice || 0;
-        console.log('成功獲取課程數據:', this.courseData);
+        console.log('✅ 成功獲取課程數據:', this.courseData);
       } else {
-        console.warn('獲取的課程數據為空');
+        console.warn('⚠ 獲取的課程數據為空');
       }
     },
     (error) => {
-      console.error('獲取課程數據失敗:', error);
+      console.error('❌ 獲取課程數據失敗:', error);
     }
   );
-
-  // this.coursesService.getCourseById(id).subscribe(
-  //   (data) => {
-  //     if (data) {
-  //       this.courseData=data;
-  //       this.courseName=data.courseName||'未知課程' //|| '未知課程'->提供預設值，null、undefined或者空字串時，用'未知課程'當預設值。
-  //       this.coursePrice=data.coursePrice||0
-        
-  //       // this.courseData = {
-  //       //   courseName: data.courseName || '未知課程', //|| '未知課程'->提供預設值，null、undefined或者空字串時，用'未知課程'當預設值。
-  //       //   coursePrice: data.coursePrice || 0
-  //       // };
-  //     }
-  //   },
-  //   (error) => {
-  //     console.error('獲取商品數據失敗:', error);
-  //   }
-  // );
 }
 
 changeQuantity(q:number){

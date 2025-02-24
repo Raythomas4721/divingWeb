@@ -170,13 +170,8 @@
 						<main class="col-lg-12">
 							<article id="post-1707" class="post-1707 page type-page status-publish hentry">
 								<header class="entry-header">
-									<h1 class="entry-title">已收到您的訂單</h1>
-									<span class="edit-link">
-										<a class="post-edit-link" href="#">Edit
-											<span class="screen-reader-text"> "Checkout"
-											</span>
-										</a>
-									</span>
+									<h1 class="entry-title">您的訂單已付款成功</h1>
+									
 								</header>
 								<!-- .entry-header -->
 								<div class="entry-content">
@@ -189,15 +184,15 @@
 											<ul class="woocommerce-order-overview woocommerce-thankyou-order-details order_details">
 
 												<li class="woocommerce-order-overview__order order">
-													Order number: <strong>1719</strong>
+													訂單編號: <strong>1719</strong>
 												</li>
 
 												<li class="woocommerce-order-overview__date date">
-													Date: <strong>March 6, 2018</strong>
+													訂購日期: <strong>March 6, 2018</strong>
 												</li>
 
 												<li class="woocommerce-order-overview__total total">
-													Total: <strong>
+													總金額: <strong>
                         <span class="woocommerce-Price-amount amount">
                             <span
 	                            class="woocommerce-Price-currencySymbol">$</span>45.00</span>
@@ -206,128 +201,97 @@
 
 
 												<li class="woocommerce-order-overview__payment-method method">
-													Payment method: <strong>Cash on delivery</strong>
+													付款方式: <strong>信用卡結帳</strong>
 												</li>
 
 
 											</ul>
 
-
-											<p>Pay with cash upon delivery.</p>
-
+											<br>	
+											<br>	
+												
 											<section class="woocommerce-order-details">
-
-												<h2 class="woocommerce-order-details__title">訂單明細</h2>
-
-												<table class="woocommerce-table woocommerce-table--order-details shop_table order_details">
-
-													<thead>
-														<tr>
-															<th class="woocommerce-table__product-name product-name">Product</th>
-															<th class="woocommerce-table__product-table product-total">Total</th>
-														</tr>
-													</thead>
-
-													<tbody>
-														<tr class="woocommerce-table__line-item order_item">
-
-															<td class="woocommerce-table__product-name product-name">
-																<a href="shop-product-right.html">Premium Quality</a> <strong
-								class="product-quantity">× 1</strong>
-															</td>
-
-															<td class="woocommerce-table__product-total product-total">
-																<span class="woocommerce-Price-amount amount">
-																	<span class="woocommerce-Price-currencySymbol">$</span>12.00</span>
-															</td>
-
-														</tr>
-
-														<tr class="woocommerce-table__line-item order_item">
-
-															<td class="woocommerce-table__product-name product-name">
-																<a href="shop-product-right.html">Woo Ninja</a> <strong
-								class="product-quantity">× 1</strong>
-															</td>
-
-															<td class="woocommerce-table__product-total product-total">
-																<span class="woocommerce-Price-amount amount">
-																	<span class="woocommerce-Price-currencySymbol">$</span>15.00</span>
-															</td>
-
-														</tr>
-
-														<tr class="woocommerce-table__line-item order_item">
-
-															<td class="woocommerce-table__product-name product-name">
-																<a href="shop-product-right.html">Woo Album #3</a> <strong
-								class="product-quantity">× 2</strong>
-															</td>
-
-															<td class="woocommerce-table__product-total product-total">
-																<span class="woocommerce-Price-amount amount">
-																	<span class="woocommerce-Price-currencySymbol">$</span>18.00</span>
-															</td>
-
-														</tr>
-
-													</tbody>
-
-													<tfoot>
-														<tr>
-															<th scope="row">Subtotal:</th>
-															<td>
-																<span class="woocommerce-Price-amount amount">
-																	<span class="woocommerce-Price-currencySymbol">$</span>45.00</span>
-															</td>
-														</tr>
-														<tr>
-															<th scope="row">Payment method:</th>
-															<td>Cash on delivery</td>
-														</tr>
-														<tr>
-															<th scope="row">Total:</th>
-															<td>
-																<span class="woocommerce-Price-amount amount">
-																	<span class="woocommerce-Price-currencySymbol">$</span>45.00</span>
-															</td>
-														</tr>
-													</tfoot>
-
-												</table>
-
-
-												<section class="woocommerce-customer-details">
-
-													<h2>會員資料</h2>
-
-													<table class="woocommerce-table woocommerce-table--customer-details shop_table customer_details">
-
-
-														<tbody>
-															<tr>
-																<th>Email:</th>
-																<td>admin@test.com</td>
-															</tr>
-
-															<tr>
-																<th>Phone:</th>
-																<td>+1300551555</td>
-															</tr>
-
-
-														</tbody>
-													</table>
-
-
-													<h3 class="woocommerce-column__title">帳單地址</h3>
-
-													<address>
-														John Doe<br>Baker Street, 231<br>London<br>United Kingdom<br>47000
-													</address>
-
-
-												</section>
+												<h1 class="entry-title">您的歷史訂單紀錄</h1>
+												<section class="ls s-py-90 s-py-xl-160">
+													<div class="container" style="padding-top: 25px;">
+													  <div class="row c-gutter-60">
+														<!-- <main class=" col-lg-12"> -->
+														<main>
+														  <div class="container">
+															<!-- 放入一個父容器來控制新增課程按鈕與查詢區塊的排列 -->
+															<div class="top-bar"  >
+															  <!-- 新增課程按鈕 -->
+															  <!-- <button class="add-button" (click)="addCourse()">新增課程</button> -->
+															  <!-- <button  routerLink="/coursecreate"  class="add-button">新增課程</button>  -->
+															  <!-- <button> 本身不是 <a>，需要用 Angular 綁定方式，無法直接支援 routerLink，需要用 [routerLink] -->
+												  
+															  <!-- 查詢區塊 -->
+															  <div class="search-bar">
+																<select [(ngModel)]="selectedCategory" (change)="filterCourses()">
+																  <option value="">全部分類</option>
+																  <option *ngFor="let course of coursesData" [value]="course['courseCategoryId']">
+																	{{ course['categoryName'] }}
+																  </option>
+																</select>
+												  
+																<input type="text" [(ngModel)]="keyword"  (input)="filterCourses()"  placeholder="輸入關鍵字搜尋" class="short-input" />
+															   
+												  
+																<div class="btn-group">
+																  <button  style="background-color: #0d425e"  (click)="filterCourses()">查詢</button>
+																  <button  style="background-color: #0d425e"  (click)="resetFilter()">重設</button>
+																</div>
+															  </div>
+															</div>
+												  
+															<!-- 課程列表 -->
+															<table class="course-table">
+															  <thead>
+																<tr>
+																  <th>課程圖片</th>
+																  <th>課程名稱</th>
+																  <th>課程敘述</th>
+																  <th>分類</th>
+																  <th>等級</th>
+																  <th>教練</th>
+																  <th (click)="sortCourses('startAt')">起始日期 <i class="fa-solid fa-sort" style="color: #0d425e;"></i></th>
+																  <th (click)="sortCourses('createdAt')" >建立時間 <i class="fa-solid fa-sort" style="color: #0d425e;"></i></th>
+																  <th (click)="sortCourses('updatedAt')" >修改時間 <i class="fa-solid fa-sort" style="color: #0d425e;"></i></th>
+																  <th (click)="sortCourses('coursePrice')">價格 <i class="fa-solid fa-sort" style="color: #0d425e;"></i></th>
+																  <th>狀態</th>
+																  <th>操作</th>
+																</tr>
+															  </thead>
+															  <tbody>
+																<tr *ngFor="let course of coursesData">
+																<!-- <tr *ngFor="let course of filteredCourses"> -->
+																  <td><img [src]="course.imageData" alt="Course Image" width="200" height="150" ></td>
+																  <td>{{course['startAt']| date:'MM/dd'}}{{course['categoryName']}}體驗課程｜免費拍照｜免證照</td>
+																  <!-- <td>{{ getCategoryName(course.courseCategoryId) }}</td> -->
+																  <!-- <td>{{ getLevelName(course.levelId) }}</td> -->
+																  <!-- <td>{{ getCoachName(course.coachId) }}</td> -->
+																  <td>{{ course['discription']|slice:0:22 }} ...</td>
+																  <td>{{ course['categoryName'] }}</td>
+																  <td>{{ course['levelName'] }}</td>
+																  <td>{{ course['coachName']}}</td>
+																  
+																  <td>{{ course['startAt']|date:'yyyy/MM/dd'}}</td>
+																  <td>{{ course['createdAt']|date:'yyyy/MM/dd HH:mm:ss'}}</td>
+																  <td>{{ course['updatedAt']|date:'yyyy/MM/dd HH:mm:ss'}}</td>
+																  <td>{{ course.coursePrice | currency:'TWD': 'symbol':'1.0-0' }}</td>
+																  <td>{{ course.courseStatus ? '上架' : '下架' }}</td>
+																  <td>
+																	
+																	<button  class="table-btn mt-1" style="background-color:darksalmon;"  (click)="deleteCourse(course.courseId)">刪除</button>
+																  </td>
+																</tr>
+															  </tbody>
+															</table>
+														  </div>
+														</main>
+													  </div>
+													</div>
+												  </section>
 
 											</section>
 
