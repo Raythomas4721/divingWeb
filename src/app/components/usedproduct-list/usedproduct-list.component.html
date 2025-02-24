@@ -1,0 +1,99 @@
+<div id="canvas">
+  <div id="box_wrapper">
+
+    <!-- template sections -->
+    <section class="page_title ds s-parallax s-overlay s-pt-160 s-pb-80">
+      <div class="container">
+        <div class="row">
+
+          <div class="col-md-12">
+            <h1>二手商品管理</h1>
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item">
+                <a href="./">首頁</a>
+              </li>
+              <li class="breadcrumb-item">
+                <a href="#">會員管理</a>
+              </li>
+              <li class="breadcrumb-item active">
+                二手商品管理
+              </li>
+            </ol>
+          </div>
+
+        </div>
+      </div>
+    </section>
+    <section class="ls s-py-90 s-py-xl-160">
+      <div class="container">
+        <div class="row c-gutter-60">
+          <!-- <main class=" col-lg-12"> -->
+          <main>
+            <div class="container">
+              <!-- 放入一個父容器來控制新增課程按鈕與查詢區塊的排列 -->
+              <div class="top-bar">
+                <!-- 新增課程按鈕 -->
+                <!-- <button class="add-button" (click)="addCourse()">新增課程</button> -->
+                <button routerLink="/usedproductshow" class="add-button">新增商品</button>
+                <!-- 查詢區塊 -->
+                <div class="search-bar">
+                  <select class="form-control" id="productCategory" formControlName="categoryId" required>
+                    <option value="">全部分類</option>
+                    <option *ngFor="let item of usedCategory" [value]="item.categoryId">{{item.categoryName}}
+                    </option>
+                  </select>
+
+                  <input type="text" [(ngModel)]="keyword" (input)="filterProducts()" placeholder="輸入關鍵字搜尋"
+                    class="short-input" />
+
+                  <div class="btn-group">
+                    <button style="background-color: #0d425e">查詢</button>
+                    <button style="background-color: #0d425e">重設</button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 商品列表 -->
+              <table class="course-table">
+                <thead>
+                  <tr>
+                    <th>商品圖片</th>
+                    <th>商品名稱</th>
+                    <th>商品敘述</th>
+                    <!-- <th>分類</th> -->
+                    <th>建立時間 <i class="fa-solid fa-sort" style="color: #0d425e;"></i></th>
+                    <th>修改時間 <i class="fa-solid fa-sort" style="color: #0d425e;"></i></th>
+                    <th>價格 <i class="fa-solid fa-sort" style="color: #0d425e;"></i></th>
+                    <th>狀態</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let product of usedProducts" class="product">
+                    <!-- <tr *ngFor="let course of filteredCourses"> -->
+                    <td><img class="rounded" [src]="'data:image/png;base64,'+product.tUproductImages" width="200"
+                        height="150"></td>
+                    <!-- <td>{{product['startAt']| date:'MM/dd'}}{{product['productName']}}</td> -->
+                    <td>{{ product['productName'] }}</td>
+                    <td>{{ product['productDescription']}}</td>
+                    <!-- <td>{{product['categoryName']}}</td> -->
+                    <td>{{ product['createdAt']|date:'yyyy/MM/dd HH:mm'}}</td>
+                    <td>{{ product['updatedAt']|date:'yyyy/MM/dd HH:mm'}}</td>
+                    <td>{{ product.productPrice | currency:'TWD': 'symbol':'1.0-0' }}</td>
+                    <td>{{ product.courseStatus ? '上架' : '下架' }}</td>
+                    <td>
+                      <button class="table-btn">編輯</button>
+                      <button class="table-btn mt-1" style="background-color:darksalmon;">刪除</button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </main>
+        </div>
+      </div>
+    </section>
+
+
+
+  </div><!-- eof #box_wrapper -->
+</div><!-- eof #canvas -->

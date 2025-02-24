@@ -30,6 +30,7 @@ import { CoursesManagementComponent } from './components/coursesmanagement/cours
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { CoursecreateComponent } from './coursecreate/coursecreate.component';
+import { UsedproductListComponent } from './components/usedproduct-list/usedproduct-list.component';
 
 
 @NgModule({
@@ -57,6 +58,7 @@ import { CoursecreateComponent } from './coursecreate/coursecreate.component';
     AuthSuccessComponent,
     CoursesManagementComponent,
     CoursecreateComponent,
+    UsedproductListComponent,
   ],
   imports: [
     BrowserModule,
