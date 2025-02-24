@@ -69,7 +69,7 @@ export class UsedProductsComponent {
     private router: Router,
     private http: HttpClient,
     private cartItemsService: TNcartItemsService,
-    private sharedcartService: SharedcartService
+    private sharedcartService: SharedcartService,
   ) { }
 
   ngOnInit(): void {
@@ -184,10 +184,13 @@ export class UsedProductsComponent {
   openModalLogin(): void {
     if (this.user) {
       this.router.navigate(['/usedproductshow'])
+      $('#popupLogin').remove();
     }
     else {
       $('#popupLogin').modal('show');
+      $('#popupLogin').modal('hide');
     }
+
   }
 
   /** 最終 => 呼叫後端 addCart API 做庫存檢查+加購物車 */
