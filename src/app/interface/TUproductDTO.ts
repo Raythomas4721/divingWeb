@@ -15,11 +15,12 @@ export interface TUproductDTO {
 
 export interface TUcreateproductDTO {
   // productId: number;
+  sellerId: number;
   categoryId: number;
   productName: string;
   productDescription: string;
   productPrice: number;
-  // productStatus: boolean;
+  productStatus: boolean;
   productConditionId: number;
   tUproductImages: string[];
 }
