@@ -116,7 +116,7 @@ export class UsedproductshowComponent implements OnInit {
       productConditionId: formData.productConditionId!,
       productStatus: true, // 假設狀態為 "available"，可根據需求調整
       // tUproductImages: formData.tUproductImages! // 圖片為 Base64 陣列
-      tUproductImages: this.imagePreviews  // 確保圖片為 Base64 字串陣列
+      tUproductImages: imagesWithoutPrefix   // 確保圖片為 Base64 字串陣列
     };
 
     // 呼叫 service 來儲存商品
