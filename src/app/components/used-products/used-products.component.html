@@ -24,6 +24,10 @@
           </div>
 
         </div>
+        <div class="d-flex justify-content-end">
+          <button class="btn btn-warning sell-button links-maincolor-hover" (click)="openModalLogin()">出售</button>
+        </div>
+
       </div>
     </section>
 
@@ -79,9 +83,8 @@
                             <span>$</span>{{ product.productPrice }}
                           </span>
                         </span>
-                        <a rel="nofollow" href="shop-cart.html"
-                        class="button product_type_simple add_to_cart_button"
-                        (click)="onConfirmAddToCart()">加入購物車</a>
+                        <a rel="nofollow" href="shop-cart.html" class="button product_type_simple add_to_cart_button"
+                          (click)="onConfirmAddToCart()">加入購物車</a>
                       </div>
                     </div>
                   </div>
@@ -103,7 +106,8 @@
                   <a class="next page-numbers" href="shop-left.html">→</a>
                 </li>
               </ul>
-              <button class="btn btn-darkgrey sell-button links-maincolor-hover" [routerLink]="user?'/usedproductshow':'/auth-success'"> 出售
+              <button class="btn btn-darkgrey sell-button links-maincolor-hover"
+                [routerLink]="user?'/usedproductshow':'/auth-success'"> 出售
               </button>
               <!-- <button class="btn btn-darkgrey sell-button links-maincolor-hover" (click)="checkSellAccess()">出售</button> -->
             </nav>
@@ -131,21 +135,12 @@
                   <label class="screen-reader-text" for="searchField">
                     Search for:
                   </label>
-                  <input
-                    type="search"
-                    id="searchField"
-                    class="search-field"
-                    placeholder="搜尋商品"
-                    [(ngModel)]="searchKeyword"
-                    name="searchTerm"
-                  />
+                  <input type="search" id="searchField" class="search-field" placeholder="搜尋商品"
+                    [(ngModel)]="searchKeyword" name="searchTerm" />
                   <input type="submit" value="Search">
                 </form>
               </div>
-
-
             </div>
-
             <div class="widget woocommerce widget_product_categories">
               <h3 class="widget-title">分類</h3>
               <ul class="product-categories" formControlName="categoryId">
@@ -154,7 +149,8 @@
                   <span class="count"></span>
                 </li>
                 <li class="cat-item" *ngFor="let item of usedCategory">
-                  <a class="links-maincolor-hover" (click)="loadUsedProductsTest(item.categoryId)">{{item.categoryName}}</a>
+                  <a class="links-maincolor-hover"
+                    (click)="loadUsedProductsTest(item.categoryId)">{{item.categoryName}}</a>
                   <span class="count">(6)</span>
                 </li>
               </ul>
