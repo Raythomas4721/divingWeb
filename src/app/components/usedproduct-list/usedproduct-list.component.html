@@ -62,7 +62,7 @@
                     <th>商品敘述</th>
                     <!-- <th>分類</th> -->
                     <th>建立時間 <i class="fa-solid fa-sort" style="color: #0d425e;"></i></th>
-                    <th>修改時間 <i class="fa-solid fa-sort" style="color: #0d425e;"></i></th>
+                    <!-- <th>修改時間 <i class="fa-solid fa-sort" style="color: #0d425e;"></i></th> -->
                     <th>價格 <i class="fa-solid fa-sort" style="color: #0d425e;"></i></th>
                     <th>狀態</th>
                     <th></th>
@@ -78,12 +78,12 @@
                     <td>{{ product['productDescription']}}</td>
                     <!-- <td>{{product['categoryName']}}</td> -->
                     <td>{{ product['createdAt']|date:'yyyy/MM/dd HH:mm'}}</td>
-                    <td>{{ product['updatedAt']|date:'yyyy/MM/dd HH:mm'}}</td>
+                    <!-- <td>{{ product['updatedAt']|date:'yyyy/MM/dd HH:mm'}}</td> -->
                     <td>{{ product.productPrice | currency:'TWD': 'symbol':'1.0-0' }}</td>
-                    <td>{{ product.courseStatus ? '上架' : '下架' }}</td>
+                    <td>{{ product.courseStatus ? '下架' : '上架' }}</td>
                     <td>
                       <button class="table-btn" (click)="editProduct(product.productId)">編輯</button>
-                      <button class="table-btn mt-1" style="background-color:darksalmon;">刪除</button>
+                      <button class="table-btn mt-1">刪除</button>
                     </td>
                   </tr>
                 </tbody>

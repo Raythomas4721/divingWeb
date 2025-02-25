@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import { TUcategory, TUcreateproductDTO, TUproductDTO, TUcondition } from 'src/app/interface/TUproductDTO';
 import { FormControl, FormGroup } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-usedproductedit',
@@ -16,6 +17,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 export class UsedproducteditComponent {
   user?: UserDTO | null;
   sellerId?: UserDTO | null;
+
   usedProducts: TUcreateproductDTO[] = [];
   usedCategory: TUcategory[] = [];
   usedCondition: TUcondition[] = [];
@@ -36,7 +38,38 @@ export class UsedproducteditComponent {
   constructor(
     private productsService: ProductsService,
     private authService: AuthService,
+    private route: ActivatedRoute,  // 注入 ActivatedRoute
   ) { }
+  ngOnInit(): void {
+    const productIdStr = this.route.snapshot.paramMap.get('id');
+    if (productIdStr) {
+      const productId = Number(productIdStr); // 或使用 parseInt(productIdStr, 10)
+      this.loadCategory();
+      this.loadCondition();
+      this.productsService.getProductById(productId).subscribe({
+        next: (data) => {
+          // 填入表單資料
+          this.UPForm.patchValue({
+            productName: data.productName,
+            categoryId: data.categoryId,
+            productDescription: data.productDescription,
+            productPrice: data.productPrice,
+            productConditionId: data.productConditionId,
+            // 其他需要顯示的資料
+          });
+          // 如果資料包含圖片，更新圖片預覽
+          if (data.tUproductImages && data.tUproductImages.length > 0) {
+            // 假設圖片是 Base64 字串
+            this.imagePreviews = data.tUproductImages.map(img => 'data:image/png;base64,' + img);
+          }
+        },
+        error: (err) => {
+          console.error("取得資料失敗:", err);
+        }
+      });
+    }
+
+  }
   // 表單送出時的動作
   onSubmit(): void {
     console.log(this.UPForm);
@@ -74,6 +107,22 @@ export class UsedproducteditComponent {
         alert("商品上架失敗，請稍後再試！");
       }
     });
+  }
+  loadCategory() {
+    this.productsService.getUsedCategory().subscribe({
+      next: (data: TUcategory[]) => {
+        this.usedCategory = data;
+        console.log('categories', this.usedCategory);
+      }
+    })
+  }
+  loadCondition() {
+    this.productsService.getUsedCondition().subscribe({
+      next: (data: TUcondition[]) => {
+        this.usedCondition = data;
+        console.log('condition', this.usedCondition);
+      }
+    })
   }
   // 移除圖片
   removeImage(index: number): void {

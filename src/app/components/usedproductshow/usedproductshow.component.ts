@@ -52,7 +52,7 @@ export class UsedproductshowComponent implements OnInit {
   // 必須要有 ngOnInit 方法
   ngOnInit(): void {
     this.authService.user$.subscribe(user => {
-      this.user = user?.user;
+      this.user = user;
       if (user) {
         console.log("用戶資料已載入:", this.user);
         this.loadUsedProducts();
@@ -96,6 +96,11 @@ export class UsedproductshowComponent implements OnInit {
   // 表單送出時的動作
   onSubmit(): void {
     console.log(this.UPForm);
+    if (!this.user || !this.user.memberId) {
+      console.warn("會員資訊未載入，請先登入");
+      alert("請先登入後再進行商品上架！");
+      return;
+    }
     if (this.UPForm.invalid) {
       console.warn("請填寫完整商品資訊");
       return;
@@ -223,26 +228,4 @@ export class UsedproductshowComponent implements OnInit {
     this.draggedIndex = null;
   }
 
-  // private async convertImagesToBase64(): Promise<string[]> {
-  //   if (this.selectedImages.length === 0) {
-  //     console.warn("沒有新圖片可轉換，將使用現有圖片");
-  //     return [];
-  //   }
-  //   return Promise.all(
-  //     this.selectedImages.map(file => {
-  //       return new Promise<string>((resolve, reject) => {
-  //         const reader = new FileReader();
-  //         reader.onload = () => {
-  //           //console.log("圖片讀取成功:", file.name);
-  //           resolve((reader.result as string).split(',')[1]); // 只取 Base64
-  //         };
-  //         reader.onerror = () => {
-  //           console.error("讀取圖片失敗:", file.name);
-  //           reject("讀取失敗");
-  //         };
-  //         reader.readAsDataURL(file);
-  //       });
-  //     })
-  //   );
-  // }
 }
