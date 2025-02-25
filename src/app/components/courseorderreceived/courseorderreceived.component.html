@@ -1,317 +1,137 @@
-<!-- <p>courseorderreceived works!</p> -->
-<!--[if lt IE 9]>
-		<div class="bg-danger text-center">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/" class="color-main">upgrade your browser</a> to improve your experience.</div>
-	<![endif]-->
+<!-- Header、Modal 與其他共用元件略 -->
 
-	<!-- <div class="preloader">
-		<div class="preloader_image pulse"></div>
-	</div> -->
-
-	<!-- search modal -->
-	<div class="modal" tabindex="-1" role="dialog" aria-labelledby="search_modal" id="search_modal">
-		<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-			<span aria-hidden="true">&times;</span>
-		</button>
-		<div class="widget widget_search">
-			<form method="get" class="searchform search-form" action="/">
-				<div class="form-group">
-					<input type="text" value="" name="search" class="form-control" placeholder="Search keyword" id="modal-search-input">
-				</div>
-				<button type="submit" class="btn">Search</button>
-			</form>
-		</div>
-	</div>
-
-	<!-- Unyson messages modal -->
-	<div class="modal fade" tabindex="-1" role="dialog" id="messages_modal">
-		<div class="fw-messages-wrap ls p-normal">
-			<!-- Uncomment this UL with LI to show messages in modal popup to your user: -->
-			<!--
-		<ul class="list-unstyled">
-			<li>Message To User</li>
-		</ul>
-		-->
-
-		</div>
-	</div><!-- eof .modal -->
-
-	<div class="modal fade popupLogin" id="popupLogin" tabindex="-1" role="dialog" aria-hidden="true">
-		<div class="modal-dialog modal-dialog-centered" role="document">
-			<div class="modal-content ds ms overflow-visible s-overlay s-mobile-overlay">
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-					<span aria-hidden="true">&times;</span>
-				</button>
-				<div class="modal-body">
-					<div class="container">
-						<div class="row">
-							<div class="col-12">
-								<h4 class="color-main mb-3">Log in</h4>
-								<form class="form-registration c-mb-20 c-gutter-20" action="/">
-									<div class="row mb-4">
-										<div class="col-sm-12">
-											<div class="form-group">
-												<input type="text" name="name" class="form-control" required placeholder="login" aria-required="true">
-											</div>
-										</div>
-										<div class="col-sm-12">
-											<div class="form-group">
-												<input type="password" name="password" class="form-control" placeholder="password" aria-required="true" required>
-											</div>
-										</div>
-									</div>
-									<a class="registerRedirect " data-dismiss="modal" data-target="#popupRegistr" data-toggle="modal" href="#">Not a member? Register!</a>
-									<button type="submit" class="btn btn-maincolor mt-30 d-block">Sign In</button>
-								</form>
-
-							</div>
-						</div>
-					</div>
-				</div>
+<div id="canvas">
+	<div id="box_wrapper">
+	  <!-- Header 區塊 -->
+	  <div class="header_absolute ds cover-background">
+		<header class="page_header ds ms s-overlay">
+		  <div class="container-fluid"></div>
+		  <span class="toggle_menu"><span></span></span>
+		</header>
+	  </div>
+  
+	  <!-- 頁面標題區塊 -->
+	  <section class="page_title ds s-parallax s-overlay s-pt-160 s-pb-80">
+		<div class="container">
+		  <div class="row">
+			<div class="col-md-12">
+			  <h1>訂單完成</h1>
+			  <ol class="breadcrumb">
+				<li class="breadcrumb-item"><a href="./">Home</a></li>
+				<li class="breadcrumb-item"><a href="#">Shop</a></li>
+				<li class="breadcrumb-item active">Account Details</li>
+			  </ol>
 			</div>
+		  </div>
 		</div>
-	</div>
-
-	<div class="modal fade popupRegistr" id="popupRegistr" tabindex="-1" role="dialog" aria-hidden="true">
-		<div class="modal-dialog modal-dialog-centered" role="document">
-			<div class="modal-content ds ms overflow-visible s-overlay s-mobile-overlay">
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-					<span aria-hidden="true">&times;</span>
-				</button>
-				<div class="modal-body">
-					<div class="container">
-						<div class="row">
-							<div class="col-12">
-								<h4 class="color-main mb-4">Registration</h4>
-								<form class="form-registration c-mb-20 c-gutter-20" method="post" action="/">
-									<div class="row">
-										<div class="col-12">
-											<div class="form-group">
-												<input type="text" name="name" class="form-control" required placeholder="login" aria-required="true">
-											</div>
-										</div>
-										<div class="col-12">
-											<div class="form-group">
-												<input type="password" name="password" class="form-control" placeholder="password" aria-required="true" required>
-											</div>
-										</div>
-										<div class="col-12">
-											<div class="form-group">
-												<input type="email" name="email" class="form-control" placeholder="email" required aria-required="true">
-											</div>
-										</div>
-										<div class="col-12">
-											<div class="form-group">
-												<input type="password" name="confirmPassword" class="form-control" placeholder="password" required aria-required="true">
-											</div>
-										</div>
-										<div class="col-12">
-											<div class="form-group">
-												<input type="checkbox" id="agreed" name="agreed" value="agreed" required aria-required="true"><label for="agreed">I agree to the rules</label>
-											</div>
-										</div>
-									</div>
-									<button type="submit" class="btn btn-maincolor mt-30 d-block">Registration</button>
-								</form>
-
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-
-	<!-- wrappers for visual page editor and boxed version of template -->
-	<div id="canvas">
-		<div id="box_wrapper">
-
-			<!-- template sections -->
-
-			<div class="header_absolute ds cover-background ">
-				<!-- header with three Bootstrap columns - left for logo, center for navigation and right for includes-->
-				<header class="page_header ds ms s-overlay">
-					<div class="container-fluid">
-						
-					</div>
-					<!-- header toggler -->
-					<span class="toggle_menu"><span></span></span>
+	  </section>
+  
+	  <!-- 主要內容區塊 -->
+	  <section class="ls s-py-90 s-py-xl-160">
+		<div class="container">
+		  <div class="row">
+			<main class="col-lg-12">
+			  <article *ngIf="orderData" id="post-1707" class="post-1707 page type-page status-publish hentry">
+				<header class="entry-header">
+				  <h1 class="entry-title">{{ orderData.memberName }}您好，訂單已付款成功</h1>
 				</header>
-
-			</div>
-
-			<section class="page_title ds s-parallax s-overlay s-pt-160 s-pb-80">
-				<div class="container">
-					<div class="row">
-
-						<div class="col-md-12">
-							<h1>訂單完成</h1>
-							<ol class="breadcrumb">
-								<li class="breadcrumb-item">
-									<a href="./">Home</a>
-								</li>
-								<li class="breadcrumb-item">
-									<a href="#">Shop</a>
-								</li>
-								<li class="breadcrumb-item active">
-									Account Details
-								</li>
-							</ol>
-						</div>
-
-					</div>
-				</div>
-			</section>
-
-
-			<section class="ls s-py-90 s-py-xl-160">
-				<div class="container">
-					<div class="row">
-
-						<main class="col-lg-12">
-							<article id="post-1707" class="post-1707 page type-page status-publish hentry">
-								<header class="entry-header">
-									<h1 class="entry-title">您的訂單已付款成功</h1>
-									
-								</header>
-								<!-- .entry-header -->
-								<div class="entry-content">
-									<div class="woocommerce">
-										<div class="woocommerce-order">
-											<p class="woocommerce-notice woocommerce-notice--success woocommerce-thankyou-order-received">
-												<!-- Thank you. Your order has been received. -->
-											</p>
-
-											<ul class="woocommerce-order-overview woocommerce-thankyou-order-details order_details">
-
-												<li class="woocommerce-order-overview__order order">
-													訂單編號: <strong>1719</strong>
-												</li>
-
-												<li class="woocommerce-order-overview__date date">
-													訂購日期: <strong>March 6, 2018</strong>
-												</li>
-
-												<li class="woocommerce-order-overview__total total">
-													總金額: <strong>
-                        <span class="woocommerce-Price-amount amount">
-                            <span
-	                            class="woocommerce-Price-currencySymbol">$</span>45.00</span>
-					</strong>
-												</li>
-
-
-												<li class="woocommerce-order-overview__payment-method method">
-													付款方式: <strong>信用卡結帳</strong>
-												</li>
-
-
-											</ul>
-
-											<br>	
-											<br>	
-												
-											<section class="woocommerce-order-details">
-												<h1 class="entry-title">您的歷史訂單紀錄</h1>
-												<section class="ls s-py-90 s-py-xl-160">
-													<div class="container" style="padding-top: 25px;">
-													  <div class="row c-gutter-60">
-														<!-- <main class=" col-lg-12"> -->
-														<main>
-														  <div class="container">
-															<!-- 放入一個父容器來控制新增課程按鈕與查詢區塊的排列 -->
-															<div class="top-bar"  >
-															  <!-- 新增課程按鈕 -->
-															  <!-- <button class="add-button" (click)="addCourse()">新增課程</button> -->
-															  <!-- <button  routerLink="/coursecreate"  class="add-button">新增課程</button>  -->
-															  <!-- <button> 本身不是 <a>，需要用 Angular 綁定方式，無法直接支援 routerLink，需要用 [routerLink] -->
-												  
-															  <!-- 查詢區塊 -->
-															  <div class="search-bar">
-																<select [(ngModel)]="selectedCategory" (change)="filterCourses()">
-																  <option value="">全部分類</option>
-																  <option *ngFor="let course of coursesData" [value]="course['courseCategoryId']">
-																	{{ course['categoryName'] }}
-																  </option>
-																</select>
-												  
-																<input type="text" [(ngModel)]="keyword"  (input)="filterCourses()"  placeholder="輸入關鍵字搜尋" class="short-input" />
-															   
-												  
-																<div class="btn-group">
-																  <button  style="background-color: #0d425e"  (click)="filterCourses()">查詢</button>
-																  <button  style="background-color: #0d425e"  (click)="resetFilter()">重設</button>
-																</div>
-															  </div>
-															</div>
-												  
-															<!-- 課程列表 -->
-															<table class="course-table">
-															  <thead>
-																<tr>
-																  <th>課程圖片</th>
-																  <th>課程名稱</th>
-																  <th>課程敘述</th>
-																  <th>分類</th>
-																  <th>等級</th>
-																  <th>教練</th>
-																  <th (click)="sortCourses('startAt')">起始日期 <i class="fa-solid fa-sort" style="color: #0d425e;"></i></th>
-																  <th (click)="sortCourses('createdAt')" >建立時間 <i class="fa-solid fa-sort" style="color: #0d425e;"></i></th>
-																  <th (click)="sortCourses('updatedAt')" >修改時間 <i class="fa-solid fa-sort" style="color: #0d425e;"></i></th>
-																  <th (click)="sortCourses('coursePrice')">價格 <i class="fa-solid fa-sort" style="color: #0d425e;"></i></th>
-																  <th>狀態</th>
-																  <th>操作</th>
-																</tr>
-															  </thead>
-															  <tbody>
-																<tr *ngFor="let course of coursesData">
-																<!-- <tr *ngFor="let course of filteredCourses"> -->
-																  <td><img [src]="course.imageData" alt="Course Image" width="200" height="150" ></td>
-																  <td>{{course['startAt']| date:'MM/dd'}}{{course['categoryName']}}體驗課程｜免費拍照｜免證照</td>
-																  <!-- <td>{{ getCategoryName(course.courseCategoryId) }}</td> -->
-																  <!-- <td>{{ getLevelName(course.levelId) }}</td> -->
-																  <!-- <td>{{ getCoachName(course.coachId) }}</td> -->
-																  <td>{{ course['discription']|slice:0:22 }} ...</td>
-																  <td>{{ course['categoryName'] }}</td>
-																  <td>{{ course['levelName'] }}</td>
-																  <td>{{ course['coachName']}}</td>
-																  
-																  <td>{{ course['startAt']|date:'yyyy/MM/dd'}}</td>
-																  <td>{{ course['createdAt']|date:'yyyy/MM/dd HH:mm:ss'}}</td>
-																  <td>{{ course['updatedAt']|date:'yyyy/MM/dd HH:mm:ss'}}</td>
-																  <td>{{ course.coursePrice | currency:'TWD': 'symbol':'1.0-0' }}</td>
-																  <td>{{ course.courseStatus ? '上架' : '下架' }}</td>
-																  <td>
-																	
-																	<button  class="table-btn mt-1" style="background-color:darksalmon;"  (click)="deleteCourse(course.courseId)">刪除</button>
-																  </td>
-																</tr>
-															  </tbody>
-															</table>
-														  </div>
-														</main>
-													  </div>
-													</div>
-												  </section>
-
-											</section>
-
-
-										</div>
+				<div class="entry-content">
+				  <div class="woocommerce">
+					<div class="woocommerce-order">
+					  <p class="woocommerce-notice woocommerce-notice--success woocommerce-thankyou-order-received">
+						<!-- Thank you. Your order has been received. -->
+					  </p>
+					  <ul class="woocommerce-order-overview woocommerce-thankyou-order-details order_details">
+						<li class="woocommerce-order-overview__order order">
+						  訂單編號: <strong>{{ orderData.orderId }}1719</strong>
+						</li>
+						<li class="woocommerce-order-overview__date date">
+						  訂購日期: <strong>{{ orderData.orderDate | date:'yyyy-MM-dd HH:mm:ss' }}</strong>
+						</li>
+						<li class="woocommerce-order-overview__total total">
+						  總金額:
+						  <strong>
+							<span class="woocommerce-Price-amount amount">
+							  <span class="woocommerce-Price-currencySymbol">$</span>
+							  {{ orderData.coursePrice | currency:'TWD' }}
+							</span>
+						  </strong>
+						</li>
+						<li class="woocommerce-order-overview__payment-method method">
+						  付款方式: <strong>信用卡結帳</strong>
+						</li>
+					  </ul>
+					  <br>
+					  <br>
+					  <section class="woocommerce-order-details">
+						<h1 class="entry-title">您的歷史訂單紀錄</h1>
+						<section class="ls s-py-90 s-py-xl-160">
+						  <div class="container" style="padding-top: 25px;">
+							<div class="row c-gutter-60">
+							  <div class="container">
+								<div class="top-bar">
+								  <div class="search-bar">
+									<select [(ngModel)]="selectedCategory" (change)="filterCourses()">
+									  <option value="">全部分類</option>
+									  <option *ngFor="let category of uniqueCategories" [value]="category">
+										{{ category }}
+									  </option>
+									</select>
+									<input type="text" [(ngModel)]="keyword" (input)="filterCourses()" placeholder="輸入關鍵字搜尋" class="short-input" />
+									<div class="btn-group">
+									  <button style="background-color: #0d425e" (click)="filterCourses()">查詢</button>
+									  <button style="background-color: #0d425e" (click)="resetFilter()">重設</button>
 									</div>
+								  </div>
 								</div>
-								<!-- .entry-content -->
-							</article>
-
-						</main>
-
+								<table class="course-table">
+								  <thead>
+									<tr>
+									  <th>訂單編號</th>
+									  <th>課程圖片</th>
+									  <th>課程名稱</th>
+									  <th>分類</th>
+									  <th>等級</th>
+									  <th>教練</th>
+									  <th (click)="sortCourses('startAt')">起始日期 <i class="fa-solid fa-sort" style="color: #0d425e;"></i></th>
+									  <th>單價 <i class="fa-solid fa-sort" style="color: #0d425e;"></i></th>
+									  <th>訂單金額 <i class="fa-solid fa-sort" style="color: #0d425e;"></i></th>
+									  <th>操作</th>
+									</tr>
+								  </thead>
+								  <tbody>
+									<tr *ngFor="let order of orderHistoryData">
+									  <td>{{ order.orderId | date:'MM/dd'}}</td>
+									  <td>
+										<img [src]="order.imageData" alt="Course Image" width="200" height="150">
+									  </td>
+									  <td>{{ order.courseName }}</td>
+									  <td>{{ order.categoryName }}</td>
+									  <td>{{ order.levelName }}</td>
+									  <td>{{ order.coachName }}</td>
+									  <td>{{ order.startAt }}</td>
+									  <td>{{ order.coursePrice }}</td>
+									  <td>{{ order.coursePrice * order.quantity }}</td>
+									  <td>
+										<button class="table-btn mt-1" style="background-color: darksalmon;" (click)="deleteCourse(orderData.courseId)">
+										  刪除
+										</button>
+									  </td>
+									</tr>
+								  </tbody>
+								</table>
+							  </div>
+							</div>
+						  </div>
+						</section>
+					  </section>
 					</div>
-
+				  </div>
 				</div>
-			</section>
-
-			
-
-
-		</div><!-- eof #box_wrapper -->
-	</div><!-- eof #canvas -->
-
+			  </article>
+			</main>
+		  </div>
+		</div>
+	  </section>
+	</div>
+  </div>

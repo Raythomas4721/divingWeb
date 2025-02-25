@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class TcordersService {
+  
   private apiUrl = 'https://localhost:7107/api/TCorders'; // 根據實際設定調整
 
   constructor(private client: HttpClient) { }
@@ -17,5 +18,10 @@ export class TcordersService {
 
   getCourseById(id: number): Observable<any> {
     return this.client.get<any>(`${this.apiUrl}/${id}`);
+  }
+
+  getOrdersByMemberId(memberId: number): Observable<any[]> {
+    const url = `${this.apiUrl}/member/${memberId}`; // 假設 API 路由為 /api/orders/member/{memberId}
+    return this.client.get<any[]>(url);
   }
 }

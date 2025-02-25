@@ -1,8 +1,26 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { UserDTO } from 'src/app/interface/userDTO';
 import { AuthService } from 'src/app/services/auth.service';
 import { TccoursesService } from 'src/app/services/tccourses.service';
+import { TcordersService } from 'src/app/services/tcorders.service';
 import { UserService } from 'src/app/services/user.service';
+
+interface Order {
+memberName: any;
+  orderId: number;
+  courseId: number;
+  memberId: number;
+  courseName: string;
+  categoryName: string;
+  levelName: string;
+  coachName: string;
+  coursePrice: number;
+  quantity: number;
+  orderDate: string;
+  startAt: string;
+  imageData?: string;
+}
 
 interface Course {
   courseId: number;
@@ -20,6 +38,7 @@ interface Category {
 }
 
 
+
 @Component({
   selector: 'app-courseorderreceived',
   templateUrl: './courseorderreceived.component.html',
@@ -27,15 +46,8 @@ interface Category {
 })
 export class CourseorderreceivedComponent implements OnInit{
  
-    // courses: Course[] = [];
-    // filteredCourses: Course[] = [];
-    // courseCategories: Category[] = [
-    //   { id: 1, name: '瑜珈' },
-    //   { id: 2, name: '重訓' },
-    //   { id: 3, name: '有氧' }
-    // ];
     keyword: string = '';
-    coursesData: any[] = [];// 確保型別為陣列
+   
     originalCoursesData: any[] = []; 
     // courseCategories: { [key: string]: string; } | undefined
     courseCategories: Category[] = []; // 存儲課程分類
@@ -46,30 +58,85 @@ export class CourseorderreceivedComponent implements OnInit{
     sortDirection: 'asc' | 'desc' = 'asc'; // 升序或降序
     
     user?: UserDTO | null;
+    // orderData: any = null; // 存放訂單數據
+    orderData: Order | null = null; // 當前訂單資料
+    orderHistoryData: Order[] = []; // 歷史訂單資料
+    uniqueCategories: string[] = []; // 存放唯一的分類名稱
+
   
     constructor(
       private coursesService: TccoursesService,
       private authService: AuthService,
       private userService: UserService,
+      private router: Router,
+      private ordersService:TcordersService
     ) {}
   
     
       ngOnInit(): void {
-        this.loadCourses();
-        this.loadCategories(); // 載入分類
+    //     this.loadCourses();//載入課程資料
+    //     this.loadCategories(); // 載入分類
 
+    //     //取得用戶資訊
+    //     this.authService.user$.subscribe(user => {
+    //       this.user = user?.user;
+    //       if (user) {
+    //         console.log("用戶資料已載入:", this.user);
+    //       } else {
+    //         console.log("等待 API 返回，用戶資料尚未載入");
+    //       }
+    //     });
+    //     // ✅ 4. 透過 `router.getCurrentNavigation()` 取得 `orderData`
+    // const navigation = this.router.getCurrentNavigation();
+    // this.orderData = navigation?.extras.state?.['orderData'] || null;
+
+    // if (!this.orderData) {
+    //   console.warn("⚠ 訂單數據遺失，可能是直接進入該頁面");
+    //   this.router.navigate(['/courses']); // 若無數據，導回首頁或其他適合的頁面
+    // }
+
+    // console.log("📦 訂單數據:", this.orderData);
+        // ✅ 取得當前用戶
         this.authService.user$.subscribe(user => {
-          this.user = user?.user;
-          if (user) {
-            console.log("用戶資料已載入:", this.user);
-          } else {
-            console.log("等待 API 返回，用戶資料尚未載入");
+          if (!user) {
+            console.warn("⚠ 無法取得會員資料，請重新登入");
+            this.router.navigate(['/']);
+            return;
           }
+    
+          // 取得歷史訂單
+          this.loadOrderHistory();
         });
         
       }
-  
-    
+
+
+      loadOrderHistory() {
+        if (!this.user?.memberId) {
+          console.error("會員資料不完整，無法載入訂單");
+          return;
+        }
+      
+        this.ordersService.getOrdersByMemberId(this.user.memberId).subscribe(
+          (data: Order[]) => {
+            // 處理數據
+            this.orderHistoryData = data.map(order => ({
+              ...order,
+              imageData: order.imageData 
+                ? `data:image/jpeg;base64,${order.imageData}` 
+                : 'assets/images/courses/noImage_500x300.png'
+            }));
+            console.log("📜 歷史訂單:", this.orderHistoryData);
+      
+            // 取得所有唯一的課程分類
+            this.uniqueCategories = Array.from(new Set(this.orderHistoryData.map(order => order.categoryName)));
+          },
+          error => {
+            console.error("❌ 獲取歷史訂單失敗:", error);
+          }
+        );
+      }
+      
   
       sortCourses(column: string) {
         if (this.sortBy === column) {
@@ -81,7 +148,7 @@ export class CourseorderreceivedComponent implements OnInit{
           this.sortDirection = 'asc';
         }
       
-        this.coursesData.sort((a: any, b: any) => {
+        this.orderHistoryData.sort((a: any, b: any) => {
           let valueA = a[column];
           let valueB = b[column];
       
@@ -104,7 +171,7 @@ export class CourseorderreceivedComponent implements OnInit{
           // 檢查 `data` 是否為陣列，若不是則初始化為空陣列
           if (!Array.isArray(data)) {
             console.error('API 回傳的資料不是陣列:', data);
-            this.coursesData = [];
+            this.orderHistoryData = [];
             return;
           }
   
@@ -116,16 +183,9 @@ export class CourseorderreceivedComponent implements OnInit{
             : 'assets/images/courses/noImage_500x300.png'
         }));
   
-          // 確保 `data` 是有效陣列後再執行 map()
-          // this.coursesData = data.map(course => ({
-          //   ...course,
-          //   imageData: course.photo 
-          //     ? `data:image/jpeg;base64,${course.photo}` 
-          //     : 'assets/images/courses/noImage_500x300.png' // 預設圖片
-          // }));
-          // 預設 coursesData 也是原始數據
-        this.coursesData = [...this.originalCoursesData];
-          console.log('課程資料:', this.coursesData);
+        
+        this.orderHistoryData = [...this.originalCoursesData];
+          console.log('課程資料:', this.orderHistoryData);
         },
         (error) => {
           console.error('獲取課程數據失敗', error);
@@ -150,30 +210,21 @@ export class CourseorderreceivedComponent implements OnInit{
     }
   
     filterCourses() {
-      // 先回復到完整的課程列表
-    this.coursesData = this.originalCoursesData.filter(course => {
-      // 檢查是否有選擇分類
-      const matchCategory = this.selectedCategory
-        ? course.courseCategoryId == +this.selectedCategory
-        : true;
-  
-      // 關鍵字搜尋（針對課程名稱、描述等）
-      const matchKeyword = this.keyword
-        ? course.discription.toLowerCase().includes(this.keyword.toLowerCase()) || 
-          course.categoryName.toLowerCase().includes(this.keyword.toLowerCase()) ||
-          course.levelName.toLowerCase().includes(this.keyword.toLowerCase()) ||
-          course.coachName.toLowerCase().includes(this.keyword.toLowerCase())
-        : true;
-  
-      // 同時符合分類與關鍵字才會顯示
-      return matchCategory && matchKeyword;
-    });
+      this.orderHistoryData = this.orderHistoryData.filter(order => {
+        const matchCategory = this.selectedCategory ? order.categoryName === this.selectedCategory : true;
+        const matchKeyword = this.keyword
+          ? order.courseName.toLowerCase().includes(this.keyword.toLowerCase()) ||
+            order.categoryName.toLowerCase().includes(this.keyword.toLowerCase()) ||
+            order.levelName.toLowerCase().includes(this.keyword.toLowerCase()) ||
+            order.coachName.toLowerCase().includes(this.keyword.toLowerCase())
+          : true;
+        return matchCategory && matchKeyword;
+      });
     }
-  
     resetFilter() {
       this.keyword = '';
-      this.selectedCategory = '';
-      this.coursesData = [...this.originalCoursesData]; // 回復原始課程數據 
+    this.selectedCategory = '';
+    this.loadOrderHistory(); // 重新載入訂單
     }
   
     addCourse() {

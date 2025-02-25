@@ -1,10 +1,11 @@
 import { ActivatedRoute, Router } from '@angular/router';
-import { Component} from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import { TccoursesService } from 'src/app/services/tccourses.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { UserDTO } from 'src/app/interface/userDTO';
 import { TcordersService } from 'src/app/services/tcorders.service';
 import { UserService } from 'src/app/services/user.service';
+import { TCcourse } from 'src/app/interface/tccourse';
 
 @Component({
   selector: 'app-coursecheckout',
@@ -12,7 +13,7 @@ import { UserService } from 'src/app/services/user.service';
   styleUrls: ['./coursecheckout.component.css'],
   
 })
-export class CoursecheckoutComponent {
+export class CoursecheckoutComponent implements OnInit{
 courseData: any = {};  // 確保不會 undefined
 courseId:number=-1;
 quantity:number=1;
@@ -114,6 +115,7 @@ submitOrder(): void {
   const orderData = {
     memberId: this.memberId,
     courseId: this.courseId,
+    courseName: this.courseName,
     coursePrice: this.coursePrice,
     quantity: this.quantity,
     orderDate: new Date().toISOString(),
@@ -123,7 +125,11 @@ submitOrder(): void {
   this.ordersService.createOrder(orderData).subscribe(
     response => {
       console.log('✅ 訂單提交成功:', response);
-      this.router.navigate(['/courseorderreceived']);
+
+      // ✅ 使用 Router 傳遞 `state` 來帶入訂單數據
+      this.router.navigate(['/courseorderreceived'], {
+        state: { orderData }  // ✅ 把 orderData 帶入導航
+      });
     },
     error => {
       console.error('❌ 提交訂單失敗:', error);
