@@ -4,7 +4,8 @@ import { UserDTO } from 'src/app/interface/userDTO';
 import { ProductsService } from '../../services/products.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { HttpErrorResponse } from '@angular/common/http';
-
+import { Router } from '@angular/router';
+import { error } from 'jquery';
 @Component({
   selector: 'app-usedproduct-list',
   templateUrl: './usedproduct-list.component.html',
@@ -24,6 +25,7 @@ export class UsedproductListComponent {
   constructor(
     private productsService: ProductsService,
     private authService: AuthService,
+    private router: Router,
   ) { }
   // 必須要有 ngOnInit 方法
   ngOnInit(): void {
@@ -62,6 +64,29 @@ export class UsedproductListComponent {
         console.log('categories', this.usedCategory);
       }
     })
+  }
+  // editProduct(productId: number): void {
+  //   this.productsService.getProductWithUserId(productId).subscribe({
+  //     next: (product) => {
+
+  //        console.log("獲取的商品資料:", product);
+  //        console.log(`導航到編輯頁面: /editusedproduct/${productId}`);
+
+  //       this.router.navigate(['/editusedproduct', productId]);
+  //       console.log(productId);
+  //     }, error: (error) => {
+  //       console.error('商品獲取失敗:', error);
+  //     }
+  //   });
+  // }
+  editProduct(productId: number): void {
+    this.router.navigate(['/editusedproduct', productId]).then(success => {
+      if (success) {
+        console.log(productId);
+      } else {
+        console.error('商品獲取失敗:', error);
+      }
+    });
   }
   filterProducts() {
     // 先回復到完整的商品列表

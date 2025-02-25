@@ -190,7 +190,6 @@ export class UsedProductsComponent {
       $('#popupLogin').modal('show');
       $('#popupLogin').modal('hide');
     }
-
   }
 
   /** 最終 => 呼叫後端 addCart API 做庫存檢查+加購物車 */

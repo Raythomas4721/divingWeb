@@ -82,7 +82,7 @@
                     <td>{{ product.productPrice | currency:'TWD': 'symbol':'1.0-0' }}</td>
                     <td>{{ product.courseStatus ? '上架' : '下架' }}</td>
                     <td>
-                      <button class="table-btn">編輯</button>
+                      <button class="table-btn" (click)="editProduct(product.productId)">編輯</button>
                       <button class="table-btn mt-1" style="background-color:darksalmon;">刪除</button>
                     </td>
                   </tr>

@@ -12,7 +12,15 @@ export interface TUproductDTO {
   productStatus: boolean;
   tUproductImages: string;
 }
-
+export interface TUproductDetail {
+  productId: number;
+  productName: string;
+  productDescription: string;
+  productPrice: number;
+  updatedAt: string | null;
+  createdAt: string;
+  productStatus: boolean;
+}
 export interface TUcreateproductDTO {
   // productId: number;
   sellerId: number;
@@ -32,3 +40,4 @@ export interface TUcondition {
   productConditionId: number;
   condition: string;
 }
+

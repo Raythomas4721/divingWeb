@@ -2,7 +2,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { TUproductDTO, TUcreateproductDTO, TUcategory, TUcondition } from '../interface/TUproductDTO';
+import { TUproductDTO, TUcreateproductDTO, TUcategory, TUcondition, TUproductDetail } from '../interface/TUproductDTO';
 
 @Injectable({
   providedIn: 'root'
@@ -31,6 +31,10 @@ export class ProductsService {
 
   createUsedProduct(product: TUcreateproductDTO): Observable<any> {
     return this.http.post<TUproductDTO>(`${this.apiUrl}api/TUproductsAPI`, product);
+  }
+  //抓edit資料
+  getProductWithUserId(productId: number): Observable<TUproductDetail> {
+    return this.http.get<TUproductDetail>(`${this.apiUrl}api/TUproductsAPI/${productId}`)
   }
 
   deleteProduct(productId: number): Observable<any> {

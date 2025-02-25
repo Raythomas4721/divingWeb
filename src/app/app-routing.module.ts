@@ -42,6 +42,7 @@ const routes: Routes = [
   { path: 'coursesmanagement', component: CoursesManagementComponent },
   { path: 'coursecreate', component: CoursecreateComponent },
   { path: 'usedproduct-list', component: UsedproductListComponent },
+  { path: 'editusedproduct/:id', component: UsedproductListComponent },
   //   { path: 'course/create', component: CoursecreateupdateComponent },
   //   { path: 'course/edit/:id', component: CoursecreateupdateComponent }
   { path: '', component: HomeComponent },
