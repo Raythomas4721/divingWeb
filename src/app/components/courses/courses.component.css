@@ -1,66 +1,66 @@
 .item-media {
-    position: relative; /* 設定父元素為相對定位，這樣可以讓愛心圖示基於父元素定位 */
-  }
-  
-  .favorite-icon {
-    position: absolute; /* 讓愛心按鈕絕對定位 */
-    right: 10px; /* 距離右邊 10px，將愛心圖示移至右邊 */
-    color: rgb(89,138,164); /* 愛心顏色 */
-    font-size: 25px;
-    
-  }
-  
-  .favorite-icon:hover {
-    
-    color:rgb(35, 209, 253); /* 滑鼠懸停時，改變愛心顏色 */
-  }
-
-  .price-tag {
-    position: absolute; /* 使價格絕對定位 */
-    padding-top: auto;
-    right: 50px; /* 距離右邊 50px，讓價格不會被愛心圖示遮住 */
-    font-size: 18px; /* 設定價格字型大小 */
-    
-    color:#598aa4; /* 設定價格顏色為橙色 */   
-  }
-  .info-container {
-    display: flex; /* 使用 flexbox 來排列元素 */
-    justify-content: space-between; /* 使元素之間有均勻的間距 */
-    align-items: center; /* 垂直居中對齊元素 */
-    width: 80%; /* 容器寬度 100% */
-    margin-left: 0; /* 確保整個容器靠左 */
-  }
-
-  .info-item {
-    font-size: 18px; /* 設定字體大小 */
-    color: #598aa4; /* 設定文字顏色 */
-  }
-
-  .post-content {
-    position: relative; /* 使內容區域為定位容器 */
-    color: #0d425e;
+  position: relative; /* 設定父元素為相對定位，讓內部絕對定位的元素基於此調整 */
 }
-  
-  
-  .post-price {
-    position: absolute; /* 使價格浮動 */
-    right: 10px; /* 距離右邊 10px */
-    font-size: 50px; /* 設定字體大小 */
-    font-weight: bold;
-    color:#166792; /* 設定字體顏色 */
-    margin-bottom: auto;
-    bottom: -15px;
-  }
-  .cat-item{
-    font-size: 18px; /* 設定字體大小 */
-  }
-  .entry-content{
-    font-size: 18px; /* 設定字體大小 */
-  }
 
-  .entry-meta{
-    font-size: 18px; /* 設定字體大小 */
-  }
+/* 愛心按鈕 */
+.favorite-icon {
+  position: absolute;
+  right: 10px;
+  color: rgb(89, 138, 164);
+  font-size: 25px;
+}
 
+.favorite-icon:hover {
+  color: rgb(35, 209, 253);
+}
 
-  
+/* 價格標籤 */
+.price-tag {
+  position: absolute;
+  right: 50px; /* 讓價格不會與愛心圖示重疊 */
+  font-size: 18px;
+  color: #598aa4;
+}
+
+/* 課程資訊排列 */
+.info-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 80%;
+  margin-left: 0;
+}
+
+/* 課程資訊項目 */
+.info-item {
+  font-size: 18px;
+  color: #598aa4;
+}
+
+/* 文章內容區域 */
+.post-content {
+  position: relative;
+  color: #0d425e;
+}
+
+/* 文章價格 */
+.post-price {
+  position: absolute;
+  right: 10px;
+  font-size: 50px;
+  font-weight: bold;
+  color: #166792;
+  bottom: -15px;
+}
+
+/* 通用字體大小設置 */
+.cat-item,
+.entry-content,
+.entry-meta {
+  font-size: 18px;
+}
+
+/* 設定 entry-meta 與上方內容的間距 */
+.entry-meta {
+  margin-top: 10px;
+}

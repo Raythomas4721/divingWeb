@@ -8,6 +8,8 @@ import { AuthService } from 'src/app/services/auth.service';
 import { UserDTO } from 'src/app/interface/userDTO';
 import { AlertService } from 'src/app/services/alert.service';
 
+//二手
+import { TUproductDTO, TUcategory } from 'src/app/interface/TUproductDTO';
 @Component({
   selector: 'app-side-cart',
   templateUrl: './side-cart.component.html',
@@ -23,6 +25,8 @@ export class Sideshopcart {
   user?: UserDTO | null;
   subTotal: number = 0;
   total: number = 0;
+  //二手
+
 
   constructor(
     private cartItemsService: TNcartItemsService,
@@ -31,7 +35,7 @@ export class Sideshopcart {
     private router: Router,
     private authService: AuthService,
     private alertService: AlertService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.cartItemsService.cartItems$.subscribe((items) => {
@@ -45,8 +49,7 @@ export class Sideshopcart {
     });
     // 監聽使用者資訊
     this.authService.user$.subscribe((u) => {
-      this.user = u?.user; // 假設 u 下還有 user
-      // 或者直接 user = u;
+      this.user = u;
     });
   }
   openCart() {
@@ -99,10 +102,9 @@ export class Sideshopcart {
     }
 
     // 1) 組合 payload
-    const memberId = this.user?.memberId;
     // 如果需要收件地址 / 電話 / 付款方式，可在 side cart 另做輸入
     const payload = {
-      memberId: memberId,
+      memberId: this.user?.memberId,
       paymentMethod: 'CreditCard',
       shipAddress: this.user?.memberAddress,
       shipPhone: this.user?.memberPhone,
@@ -123,7 +125,7 @@ export class Sideshopcart {
           console.log('訂單已建立:', res);
 
           // ====> 3) 只清空前端的購物車，不呼叫後端
-          // this.cartItemsService.clearCart();
+          this.cartItemsService.clearCart();
 
           // 4) 收合 side-cart
           this.isCartVisible = false;

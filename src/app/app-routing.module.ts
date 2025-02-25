@@ -19,7 +19,8 @@ import { AuthSuccessComponent } from './components/auth-success/auth-success.com
 import { CoursesManagementComponent } from './components/coursesmanagement/coursesmanagement.component';
 import { CoursecreateComponent } from './coursecreate/coursecreate.component';
 import { EcpayResultComponent } from './components/ecpay-result/ecpay-result.component';
-
+import { UsedproductListComponent } from './components/usedproduct-list/usedproduct-list.component';
+import { UsedproducteditComponent } from './components/usedproductedit/usedproductedit.component';
 const routes: Routes = [
   { path: 'auth-success', component: AuthSuccessComponent },
   { path: 'profile', component: ProfileComponent },
@@ -27,6 +28,7 @@ const routes: Routes = [
   { path: 'shop/:categoryId', component: ShopComponent },
   { path: 'used-products', component: UsedProductsComponent },
   { path: 'courses', component: CoursesComponent },
+  { path: 'courses/:id', component: CoursedetailsComponent },
   { path: 'site-rental', component: SiteRentalComponent },
   { path: 'shopcart', component: Sideshopcart },
   { path: 'shopproductshow/:id', component: ShopproductshowComponent },
@@ -35,17 +37,22 @@ const routes: Routes = [
   { path: 'procategories', component: ProcategoriesComponent },
   { path: 'coursedetails/:id', component: CoursedetailsComponent },
   { path: 'coursecheckout', component: CoursecheckoutComponent },
+  { path: 'coursecheckout/:id', component: CoursecheckoutComponent },
   { path: 'courseorderreceived', component: CourseorderreceivedComponent },
   { path: 'usedproductshow', component: UsedproductshowComponent },
+  // { path: 'editusedproduct/:id', component: UsedproductshowComponent },
   { path: 'site-detail', component: SiteDetailComponent },
   { path: 'site-reserve', component: SiteReserveComponent },
   { path: 'coursesmanagement', component: CoursesManagementComponent },
   { path: 'coursecreate', component: CoursecreateComponent },
-
+  { path: 'usedproduct-list', component: UsedproductListComponent },
+  { path: 'editusedproduct/:id', component: UsedproductListComponent },
+  { path: 'coursecreate', component: CoursecreateComponent },
+  { path: 'usedproductedit/:id', component: UsedproducteditComponent },
   //   { path: 'course/create', component: CoursecreateupdateComponent },
   //   { path: 'course/edit/:id', component: CoursecreateupdateComponent }
-  { path: '', component: HomeComponent },
   { path: 'ecpayResult', component: EcpayResultComponent },
+  { path: '', component: HomeComponent },
   { path: '**', redirectTo: '', pathMatch: 'full' }, // 404 頁面導回首頁
 ];
 
@@ -61,4 +68,4 @@ const routes: Routes = [
   ],
   exports: [RouterModule],
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }

@@ -1,0 +1,11 @@
+.sell-button {
+  bottom: 10px;
+  /* 與底部的距離 */
+  border-radius: 10px;
+  /* 你可以調整這個值來改變圓弧的程度 */
+}
+
+.woocommerce-loop-product__title span {
+  font-size: 12px;
+  /* 調整為較小字體，可依需求調整 */
+}
