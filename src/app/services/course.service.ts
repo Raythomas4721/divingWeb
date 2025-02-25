@@ -27,5 +27,9 @@ export class CourseService {
     return this.http.put<any>(`${this.apiUrl}/${courseId}`, courseData);
   }
 
+  
+
+  
+
   // 可以添加更多方法來處理課程的刪除或其他功能
 }

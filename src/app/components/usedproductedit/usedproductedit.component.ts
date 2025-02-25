@@ -7,15 +7,17 @@ import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import { TUcategory, TUcreateproductDTO, TUproductDTO, TUcondition } from 'src/app/interface/TUproductDTO';
 import { FormControl, FormGroup } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
-  selector: 'app-usedproductshow',
-  templateUrl: './usedproductshow.component.html',
-  styleUrls: ['./usedproductshow.component.css']
+  selector: 'app-usedproductedit',
+  templateUrl: './usedproductedit.component.html',
+  styleUrls: ['./usedproductedit.component.css']
 })
-export class UsedproductshowComponent implements OnInit {
+export class UsedproducteditComponent {
   user?: UserDTO | null;
   sellerId?: UserDTO | null;
+
   usedProducts: TUcreateproductDTO[] = [];
   usedCategory: TUcategory[] = [];
   usedCondition: TUcondition[] = [];
@@ -24,15 +26,6 @@ export class UsedproductshowComponent implements OnInit {
   draggedIndex: number | null = null;
   selectedImages: File[] = [];
   maxImages: number = 6;
-
-  isLoading = true; // 用來顯示載入狀態
-  // 用來儲存圖片預覽的 Base64 字串
-  // previewUrls: string[] = [];
-  @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
-  // 利用 @ViewChild 觸發選擇檔案
-  triggerFileSelect(): void {
-    this.fileInput.nativeElement.click();
-  }
   UPForm = new FormGroup({
     categoryId: new FormControl(),
     productName: new FormControl(),
@@ -42,65 +35,44 @@ export class UsedproductshowComponent implements OnInit {
     productStatus: new FormControl(true), // 新增此控制項
     tUproductImages: new FormControl(''),
   })
-
-
   constructor(
     private productsService: ProductsService,
     private authService: AuthService,
+    private route: ActivatedRoute,  // 注入 ActivatedRoute
   ) { }
-
-  // 必須要有 ngOnInit 方法
   ngOnInit(): void {
-    this.authService.user$.subscribe(user => {
-      this.user = user;
-      if (user) {
-        console.log("用戶資料已載入:", this.user);
-        this.loadUsedProducts();
-      } else {
-        console.log("等待 API 返回，用戶資料尚未載入");
-      }
-    });
-    this.loadUsedProducts();
-    this.loadCategory();
-    this.loadCondition();
-  }
-  loadUsedProducts(): void {
-    this.productsService.getUsedProducts().subscribe({
-      next: (data: TUcreateproductDTO[]) => {
-        this.usedProducts = data;
-        this.isLoading = false;
-      },
-      error: (error) => {
-        console.error('載入二手商品失敗:', error);
-        this.isLoading = false;
-      }
-    });
-  }
+    const productIdStr = this.route.snapshot.paramMap.get('id');
+    if (productIdStr) {
+      const productId = Number(productIdStr); // 或使用 parseInt(productIdStr, 10)
+      this.loadCategory();
+      this.loadCondition();
+      this.productsService.getProductById(productId).subscribe({
+        next: (data) => {
+          // 填入表單資料
+          this.UPForm.patchValue({
+            productName: data.productName,
+            categoryId: data.categoryId,
+            productDescription: data.productDescription,
+            productPrice: data.productPrice,
+            productConditionId: data.productConditionId,
+            // 其他需要顯示的資料
+          });
+          // 如果資料包含圖片，更新圖片預覽
+          if (data.tUproductImages && data.tUproductImages.length > 0) {
+            // 假設圖片是 Base64 字串
+            this.imagePreviews = data.tUproductImages.map(img => 'data:image/png;base64,' + img);
+          }
+        },
+        error: (err) => {
+          console.error("取得資料失敗:", err);
+        }
+      });
+    }
 
-  loadCategory() {
-    this.productsService.getUsedCategory().subscribe({
-      next: (data: TUcategory[]) => {
-        this.usedCategory = data;
-        console.log('categories', this.usedCategory);
-      }
-    })
-  }
-  loadCondition() {
-    this.productsService.getUsedCondition().subscribe({
-      next: (data: TUcondition[]) => {
-        this.usedCondition = data;
-        console.log('condition', this.usedCondition);
-      }
-    })
   }
   // 表單送出時的動作
   onSubmit(): void {
     console.log(this.UPForm);
-    if (!this.user || !this.user.memberId) {
-      console.warn("會員資訊未載入，請先登入");
-      alert("請先登入後再進行商品上架！");
-      return;
-    }
     if (this.UPForm.invalid) {
       console.warn("請填寫完整商品資訊");
       return;
@@ -136,27 +108,22 @@ export class UsedproductshowComponent implements OnInit {
       }
     });
   }
-  // 當選擇圖片時觸發
-  onFileSelected(event: Event): void {
-    const input = event.target as HTMLInputElement;
-    if (!input.files || input.files.length === 0) {
-      return;
-    }
-
-    // 清空先前的預覽（若需要）
-    this.imagePreviews = [];
-
-    // 遍歷所有選取的檔案
-    Array.from(input.files).forEach(file => {
-      const reader = new FileReader();
-      reader.onload = (e: any) => {
-        // 將讀取結果（Base64 字串）加入 previewUrls 陣列
-        this.imagePreviews.push(e.target.result);
-      };
-      reader.readAsDataURL(file);
-    });
+  loadCategory() {
+    this.productsService.getUsedCategory().subscribe({
+      next: (data: TUcategory[]) => {
+        this.usedCategory = data;
+        console.log('categories', this.usedCategory);
+      }
+    })
   }
-
+  loadCondition() {
+    this.productsService.getUsedCondition().subscribe({
+      next: (data: TUcondition[]) => {
+        this.usedCondition = data;
+        console.log('condition', this.usedCondition);
+      }
+    })
+  }
   // 移除圖片
   removeImage(index: number): void {
     this.selectedImages.splice(index, 1);
@@ -227,5 +194,4 @@ export class UsedproductshowComponent implements OnInit {
 
     this.draggedIndex = null;
   }
-
 }

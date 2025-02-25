@@ -32,6 +32,9 @@ import { RouterModule } from '@angular/router';
 import { CoursecreateComponent } from './coursecreate/coursecreate.component';
 import { EcpayResultComponent } from './components/ecpay-result/ecpay-result.component';
 import { ProfileOrdersComponent } from './components/profile-orders/profile-orders.component';
+import { UsedproductListComponent } from './components/usedproduct-list/usedproduct-list.component';
+import { UsedproducteditComponent } from './components/usedproductedit/usedproductedit.component';
+
 
 @NgModule({
   declarations: [
@@ -60,6 +63,8 @@ import { ProfileOrdersComponent } from './components/profile-orders/profile-orde
     CoursecreateComponent,
     EcpayResultComponent,
     ProfileOrdersComponent,
+    UsedproductListComponent,
+    UsedproducteditComponent,
   ],
   imports: [
     BrowserModule,
@@ -74,4 +79,4 @@ import { ProfileOrdersComponent } from './components/profile-orders/profile-orde
   providers: [ProductsService],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule { }

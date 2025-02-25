@@ -42,8 +42,6 @@ export class CoursesManagementComponent implements OnInit {
   constructor(private coursesService: TccoursesService) {}
 
   
-   
-  
     ngOnInit(): void {
       this.loadCourses();
       this.loadCategories(); // 載入分類

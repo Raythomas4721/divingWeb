@@ -24,12 +24,12 @@
   z-index: 99;
 
   /* 改成白色半透明 (你想要多白自己調) */
-  background-color: rgba(255, 255, 255, 0.5);
+  background-color: rgba(222, 222, 219, 0.465);
 
   /* 文字用深色，以便在白色底上清晰 */
-  color: #000;
+  color: #070707;
 
-  border-radius: 4px;
+  border-radius: 5px;
   text-align: center;
   padding: 10px; /* 讓文字有一些留白 */
 }
@@ -38,7 +38,7 @@
 .product-overlay h2,
 .product-overlay .star-rating,
 .product-overlay .price-wrap {
-  margin: 8px 0;
+  margin: px 0;
 }
 .thumbnails-container {
   /* 如果想固定寬度，可以寫死或用百分比 */
@@ -146,4 +146,10 @@
 }
 .image-swap-container.single-img:hover .hover-img {
   opacity: 0 !important; /* 就算有 hover-img, 也不顯示 */
+}
+.widget.woocommerce.widget_product_categories {
+  margin-top: 22px;
+}
+.widget.woocommerce.widget_top_rated_products {
+  margin-top: 22px; /* 負值 => 往上移; 可依需求調整數值 */
 }

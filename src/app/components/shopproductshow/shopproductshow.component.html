@@ -3,13 +3,13 @@
   <div class="container">
     <div class="row">
       <div class="col-md-12">
-        <h1>Shop Product with Right Sidebar</h1>
+        <h1>全館商品 原廠認證</h1>
         <ol class="breadcrumb">
           <li class="breadcrumb-item">
-            <a href="./">Home</a>
+            <a href="./home">首頁</a>
           </li>
           <li class="breadcrumb-item">
-            <a href="#">Shop</a>
+            <a routerLink="/shop">商品首頁</a>
           </li>
           <li class="breadcrumb-item active">
             Shop Product with Right Sidebar
@@ -22,7 +22,7 @@
 
 <!-- ...原本 header/nav/breadcrumbs 略... -->
 
-<section class="ls s-py-90 s-py-xl-160 c-gutter-60">
+<section class="ls s-py-90 s-py-xl-50 c-gutter-60">
   <div class="container">
     <div class="row">
       <!-- 左邊：商品圖片區 -->
@@ -86,9 +86,13 @@
               <span class="rating">{{ reviewCount }}</span> customer ratings
             </span>
           </div>
-          <a href="#reviews" class="woocommerce-review-link" rel="nofollow"
-            >(<span class="count">{{ reviews.length }}</span> customer
-            reviews)</a
+          <a
+            [routerLink]="[]"
+            fragment="tab-reviews"
+            class="woocommerce-review-link"
+            rel="nofollow"
+            >(<span class="count">{{ reviews.length }}</span
+            >則顧客評論)</a
           >
 
           <p style="font-size: larger">
@@ -200,7 +204,7 @@
               class="button product_type_simple add_to_cart_button"
               (click)="onConfirmAddToCart()"
             >
-              Add to cart
+              加入購物車
             </button>
           </form>
         </div>
@@ -300,7 +304,8 @@
         <div class="single-review" *ngFor="let r of reviews">
           <p class="review-header">
             <span style="font-size: larger">
-              <strong>會員:{{ r.memberName }}</strong>
+              <strong>會員名稱:</strong>
+              <strong>{{ r.memberName }}</strong>
             </span>
             <!-- 只有是同一個使用者，才顯示「編輯/刪除」按鈕 -->
             <span class="review-actions" *ngIf="r.memberId === user?.memberId">
@@ -329,27 +334,17 @@
               評論日期: {{ r.createdDate | date : "yyyy/MM/dd" }}
             </p>
           </div>
+          <hr />
         </div>
         <div id="review_form_wrapper">
           <div id="review_form">
             <div id="respond" class="comment-respond">
-              <span id="reply-title" class="comment-reply-title">
-                填寫評論
-                <!-- <small>
-                  <a
-                    rel="nofollow"
-                    id="cancel-comment-reply-link"
-                    href="#respond"
-                    style="display: none"
-                    >Cancel reply</a
-                  >
-                </small> -->
-              </span>
-
+              <h2 id="reply-title" class="comment-reply-title">填寫評論</h2>
+              <p>歡迎告訴我們您對此商品的想法。</p>
               <!-- Reactive Form -->
               <form [formGroup]="reviewForm" class="comment-form">
                 <!-- <p class="comment-notes">
-                  <span>您的評論可幫助其他人</span>
+                  <span>歡迎告訴我們您對此商品的想法。</span>
                   <span class="required">*</span>
                 </p> -->
                 <div class="comment-form-rating">

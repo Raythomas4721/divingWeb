@@ -147,8 +147,11 @@
 					<div class="row c-gutter-60">
 						<main class="col-lg-7 col-xl-8 order-lg-2">
 
-							<article *ngFor="let course of coursesData"  class="post text-center text-md-left vertical-item content-padding hero-bg">
-								<div class="item-media post-thumbnail" routerLink="/coursedetails/1">
+							<!-- <article *ngFor="let course of coursesData"  class="post text-center text-md-left vertical-item content-padding hero-bg"> -->
+							<article *ngFor="let course of filteredCourses" class="post"  class="post text-center text-md-left vertical-item content-padding hero-bg">
+							
+								<!-- <div class="item-media post-thumbnail" routerLink="/coursedetails/1"> -->
+								<div class="item-media post-thumbnail" [routerLink]="['/courses', course.courseId]">
 									<!-- 圖片 -->
 									<!-- <img src="assets/images/courses/snorkeling_1.jpg" alt="img">
 									<div class="media-links">
@@ -158,7 +161,9 @@
 									<!-- 顯示 Base64 圖片或預設圖片 -->
         							<img [src]="course.imageData" alt="Course Image">
 								</div><!-- .post-thumbnail -->
-								
+
+								<!-- 此處有機會再做評分 -->
+
 								<div>
 									<!-- 收藏愛心按鈕 -->
     								<a href="#" class="favorite-icon">     
@@ -180,7 +185,8 @@
 											<!-- </a> -->
 										<!-- </span> -->
 										<h3 class="entry-title mb-3">
-											<a  routerLink="/coursedetails/1"  rel="bookmark">
+											<!-- <a  routerLink="/coursedetails/1"  rel="bookmark"> -->
+											<a  [routerLink]="['/courses', course.courseId]"  rel="bookmark">
 												{{course['startAt']| date:'MM/dd'}}{{course['categoryName']}}體驗課程｜免費拍照｜免證照
 											</a>
 										</h3>
@@ -227,7 +233,7 @@
 										</p>
 										<hr>
 										<p>																	
-											{{course['discription']| slice:0:30 }} ...<br>
+											{{course['discription']| slice:0:25 }} ...<br>
 											<!-- ‧親子同樂、全家共遊行程 -->
 											<!-- ‧教練專業指導、全程跟隨  -->
 										</p>
@@ -241,233 +247,7 @@
 																																			
 								</div><!-- .item-content -->
 							</article>
-							<!-- //////////  -->
-
-							<article class="post text-center text-md-left vertical-item content-padding hero-bg">
-								<div class="item-media post-thumbnail" routerLink="/coursedetails/1">
-									<!-- 圖片 -->
-									<img src="assets/images/courses/snorkeling_1.jpg" alt="img">
-									<div class="media-links">
-										<a class="abs-link" ></a>
-									</div>
-								</div><!-- .post-thumbnail -->
-								<!-- 此處有機會再做評分 -->
-								<div>
-									<!-- 收藏愛心按鈕 -->
-    								<a href="#" class="favorite-icon">     
-										<i class="fa-regular fa-heart"></i>
-    								</a>
-								
-								</div>
-								<div class="item-content">
-								
-									<header class="entry-header">
-										<!-- <span class="cat-links"> -->
-
-											<!-- <span class="screen-reader-text">Categories</span> -->
-											<!-- <a   href="blog-left.html" rel="category tag"> -->
-												<!-- Template -->
-											<!-- </a>, -->
-											<!-- <a  href="blog-left.html" rel="category tag"> -->
-												<!-- Uncategorized -->
-											<!-- </a> -->
-										<!-- </span> -->
-										<h3 class="entry-title mb-3">
-											<a  routerLink="/coursedetails/1"  rel="bookmark">
-												2/28屏東小琉球浮潛體驗課程｜浮潛找海龜｜免費拍照｜空拍
-											</a>
-										</h3>
-										<!-- <div class="entry-meta">
-											<div class="info-container">
-												<div class="info-item">
-													<i class="fa fa-calendar" aria-hidden="true" style="color: #598aa4"></i>
-													03.12.2019
-												</div> 
-												<div class="info-item">
-													<i class="fa fa-map-marker" style="color: #598aa4"></i>
-													Molestiae numquam officia
-												</div>
-												<div class="info-item">
-													<i class="fa-solid fa-sack-dollar" style="color: #598aa4; font-size: 17px;"></i>
-													45.00
-												</div> 
-											</div>
-										</div> -->
-										<div class="entry-meta">
-											<span >
-												<i class="fa fa-calendar" aria-hidden="true"></i>
-												<a  href="event-single-left.html" rel="bookmark">
-													<time class="entry-date published updated" datetime="2018-03-18T15:15:12+00:00">2025.02.28</time>
-												</a>
-											</span>
-											<span >
-												<i class="fa-solid fa-turn-up" style="color: #598aa4;"></i>
-												<span>無分級ungraded</span>
-												<!-- <i class="fa fa-map-marker"></i> <span>Molestiae numquam officia</span> -->
-											</span>	
-											<span >
-												<i class="fa-solid fa-user" style="color: #598aa4;"></i>								
-												<span>李福禧</span>
-												<!-- <i class="fa fa-map-marker"></i> <span>Molestiae numquam officia</span> -->
-											</span>										
-										</div>
-										<!-- .entry-meta -->
-									</header>
-									<!-- .entry-header -->
-									<div class="entry-content">
-										<p>
-											小琉球是台灣著名的離島旅遊勝地，更是愛好浮潛等海上活動者的最佳玩樂天堂，這個夏天，就出發來去小琉球浮潛吧！<br>
-											‧親子同樂、全家共遊行程<br>
-											‧教練專業指導、全程跟隨 ...
-										</p>
-										<div class="post-content">
-											<!-- 價格 -->					
-											<div class="post-price">$1500</div> 									
-										</div>
-									</div><!-- .entry-content -->
-																																			
-								</div><!-- .item-content -->
-							</article>
-
-							<article class="post text-center text-md-left vertical-item content-padding hero-bg">
-								<div class="item-media post-thumbnail">
-									<img src="/assets/images/courses/scuba_1.jpg" alt="img">
-									<div class="media-links">
-										<a class="abs-link" href="event-single-left.html"></a>
-									</div>
-								</div><!-- .post-thumbnail -->
-								<div class="item-content">
-									<header class="entry-header">
-										<span class="cat-links">
-
-											<span class="screen-reader-text">Categories</span>
-											<a href="blog-left.html" rel="category tag">
-												Template
-											</a>,
-											<a href="blog-left.html" rel="category tag">
-												Uncategorized
-											</a>
-										</span>
-										<h3 class="entry-title mb-3">
-											<a href="event-single-left.html" rel="bookmark">
-												Aliquam amet atque deleniti dignissimos dolor
-											</a>
-										</h3>
-										<div class="entry-meta">
-											<span>
-												<i class="fa fa-calendar" aria-hidden="true"></i>
-												<a href="event-single-left.html" rel="bookmark">
-													<time class="entry-date published updated" datetime="2018-03-18T15:15:12+00:00">03.12.2019</time>
-												</a>
-											</span>
-											<span>
-												<i class="fa fa-map-marker"></i> <span>Molestiae numquam officia</span>
-											</span>
-										</div>
-										<!-- .entry-meta -->
-									</header>
-									<!-- .entry-header -->
-									<div class="entry-content">
-										<p>
-											Aliquam amet, atque deleniti dignissimos dolor ducimus eaque eos error et facere ipsam iste laboriosam molestias optio quam quod saepe tempore voluptates.
-										</p>
-									</div><!-- .entry-content -->
-								</div><!-- .item-content -->
-							</article>
-
-							<article class="post text-center text-md-left vertical-item content-padding hero-bg">
-								<div class="item-media post-thumbnail">
-									<img src="images/gallery/02.jpg" alt="img">
-									<div class="media-links">
-										<a class="abs-link" href="event-single-left.html"></a>
-									</div>
-								</div><!-- .post-thumbnail -->
-								<div class="item-content">
-									<header class="entry-header">
-										<span class="cat-links">
-
-											<span class="screen-reader-text">Categories</span>
-											<a href="blog-left.html" rel="category tag">
-												Template
-											</a>,
-											<a href="blog-left.html" rel="category tag">
-												Uncategorized
-											</a>
-										</span>
-										<h3 class="entry-title mb-3">
-											<a href="event-single-left.html" rel="bookmark">
-												Ad ipsam itaque molestias quasi ratione
-											</a>
-										</h3>
-										<div class="entry-meta">
-											<span>
-												<i class="fa fa-calendar" aria-hidden="true"></i>
-												<a href="event-single-left.html" rel="bookmark">
-													<time class="entry-date published updated" datetime="2018-03-18T15:15:12+00:00">03.12.2019</time>
-												</a>
-											</span>
-											<span>
-												<i class="fa fa-map-marker"></i> <span>Molestiae numquam officia</span>
-											</span>
-										</div>
-										<!-- .entry-meta -->
-									</header>
-									<!-- .entry-header -->
-									<div class="entry-content">
-										<p>
-											Accusantium, asperiores culpa iusto molestias reiciendis repellat voluptatum? Ad ipsam itaque molestias quasi ratione. Amet dolor laborum libero, quasi ratione saepe sequi.
-										</p>
-									</div><!-- .entry-content -->
-								</div><!-- .item-content -->
-							</article>
-
-							<article class="post text-center text-md-left vertical-item content-padding hero-bg">
-								<div class="item-media post-thumbnail">
-									<img src="images/gallery/02.jpg" alt="img">
-									<div class="media-links">
-										<a class="abs-link" href="event-single-left.html"></a>
-									</div>
-								</div><!-- .post-thumbnail -->
-								<div class="item-content">
-									<header class="entry-header">
-										<span class="cat-links">
-
-											<span class="screen-reader-text">CCCCategories</span>
-											<a href="blog-left.html" rel="category tag">
-												Template
-											</a>,
-											<a href="blog-left.html" rel="category tag">
-												Uncategorized
-											</a>
-										</span>
-										<h3 class="entry-title mb-3">
-											<a href="event-single-left.html" rel="bookmark">
-												Magna aliquyam erased voluptua
-											</a>
-										</h3>
-										<div class="entry-meta">
-											<span>
-												<i class="fa fa-calendar" aria-hidden="true"></i>
-												<a href="event-single-left.html" rel="bookmark">
-													<time class="entry-date published updated" datetime="2018-03-18T15:15:12+00:00">03.12.2019</time>
-												</a>
-											</span>
-											<span>
-												<i class="fa fa-map-marker"></i> <span>Molestiae numquam officia</span>
-											</span>
-										</div>
-										<!-- .entry-meta -->
-									</header>
-									<!-- .entry-header -->
-									<div class="entry-content">
-										<p>
-											Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam et dolore magna aliquyam erat.
-										</p>
-									</div><!-- .entry-content -->
-								</div><!-- .item-content -->
-							</article>
-
-
+							<!-- //////////  -->														
 							<nav class="navigation pagination" role="navigation">
 								<h2 class="screen-reader-text">Posts navigation</h2>
 								<div class="nav-links">
@@ -498,86 +278,35 @@
 							<div class="ls ms">
 								<div class="widget widget_search">
 									<h3 class="widget-title">搜尋</h3>
-									<form role="search" method="get" class="search-form" action="/">
+									<form (submit)="searchCourses($event)">
 										<label for="search-form-widget">
 											<span class="screen-reader-text">Search for:</span>
 										</label>
-										<input type="search" id="search-form-widget" class="search-field" placeholder="請輸入" value="" name="search">
+										<input type="search" id="search-form-widget" class="search-field" placeholder="請輸入關鍵字" [(ngModel)]="searchTerm" name="search">
 										<button type="submit" class="search-submit">
 											<span class="screen-reader-text">Search</span>
 										</button>
 									</form>
 								</div>
 
-							</div>
-
+							</div>						
 							<div class="widget widget_categories">
-
 								<h3 class="widget-title">課程種類</h3>
-
 								<ul>
 									<li class="cat-item">
-										<a href="blog-right.html">浮潛</a>
-										<!-- <ul class="children">
-											<li class="cat-item">
-												<a href="blog-right.html">Kite Surfing</a>
-											</li>
-											<li class="cat-item">
-												<a href="blog-right.html">Surfing</a>
-											</li>
-										</ul> -->
+										<a href="javascript:void(0)" (click)="filterByCategory('浮潛')" style="cursor: pointer;">浮潛</a>
 									</li>
 									<li class="cat-item">
-										<a href="blog-right.html">自由潛水</a>
+										<a href="javascript:void(0)" (click)="filterByCategory('自由潛水')" style="cursor: pointer;">自由潛水</a>
 									</li>
 									<li class="cat-item">
-										<a href="blog-right.html">水肺潛水</a>
+										<a href="javascript:void(0)" (click)="filterByCategory('水肺潛水')" style="cursor: pointer;">水肺潛水</a>
 									</li>
-
+									<li class="cat-item">
+										<a href="javascript:void(0)" (click)="resetFilter()" style="cursor: pointer;">顯示全部</a>
+									</li>
 								</ul>
 							</div>
-
-
-							<!-- <div class="widget widget_apsc_widget">
-								<div class="apsc-icons-wrapper clearfix apsc-theme-3">
-									<div class="apsc-each-profile">
-										<a class="apsc-facebook-icon clearfix" href="#">
-											<div class="apsc-inner-block">
-												<span class="social-icon">
-													<i class="fa fa-facebook apsc-facebook"></i>
-												</span>
-												<span class="apsc-count">9.8K</span>
-											</div>
-										</a>
-									</div>
-									<div class="apsc-each-profile">
-										<a class="apsc-twitter-icon clearfix" href="#">
-											<div class="apsc-inner-block">
-												<span class="social-icon">
-													<i class="fa fa-twitter apsc-twitter"></i>
-												</span>
-												<span class="apsc-count">4.9K</span>
-											</div>
-										</a>
-									</div>
-									<div class="apsc-each-profile">
-										<a class="apsc-google-plus-icon clearfix" href="#">
-											<div class="apsc-inner-block">
-												<span class="social-icon">
-													<i class="apsc-google fa fa-google"></i>
-												</span>
-												<span class="apsc-count">10.1M</span>
-											</div>
-										</a>
-									</div>
-								</div>
-							</div> -->
-
-							<!-- <div class="widget widget_instagram">
-								<h3 class="widget-title">Instagram</h3>
-								<div class="instafeed"></div>
-							</div> -->
-
 							<div class="widget widget_recent_posts">
 
 								<h3 class="widget-title">熱門課程</h3>
@@ -637,15 +366,3 @@
 
 		</div><!-- eof #box_wrapper -->
 	</div><!-- eof #canvas -->
-
-
-
-
-
-
-
-
-
-
-
-
