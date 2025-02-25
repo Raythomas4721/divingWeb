@@ -34,6 +34,7 @@ import { ProductsService } from '../../services/products.service';
 import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import { TUproductDTO } from 'src/app/interface/TUproductDTO';
+import { ModalService } from 'src/app/services/modal.service';
 
 
 @Component({
@@ -58,7 +59,8 @@ export class UsedProductsComponent {
     private authService: AuthService,
     private userService: UserService,
     private productsService: ProductsService,
-    private router: Router
+    private router: Router,
+    private modalService: ModalService
   ) { }
 
   ngOnInit(): void {
@@ -66,13 +68,11 @@ export class UsedProductsComponent {
       this.user = user?.user;
       if (user) {
         console.log("用戶資料已載入:", this.user);
-        this.loadUsedProducts();
       } else {
         console.log("等待 API 返回，用戶資料尚未載入");
       }
     });
     this.loadUsedProducts();
-
   }
 
   loadUsedProducts(): void {
@@ -132,6 +132,10 @@ export class UsedProductsComponent {
 
   logSelectedProducts(): void {
     console.log(this.getSelectedProductIds());
+  }
+
+  openModalLogin(): void {
+    this.modalService.showLoginModal();
   }
 }
 
