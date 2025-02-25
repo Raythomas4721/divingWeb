@@ -40,4 +40,15 @@ export interface TUcondition {
   productConditionId: number;
   condition: string;
 }
+export interface TUproductDetail {
+  productId: number;
+  sellerId: number;
+  categoryId: number;
+  productName: string;
+  productDescription: string;
+  productPrice: number;
+  productStatus: boolean;
+  productConditionId: number;
+  tUproductImages: string[];
+}
 

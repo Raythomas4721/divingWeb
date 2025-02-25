@@ -1,3 +1,4 @@
+import { ModalService } from 'src/app/services/modal.service';
 import { OnInit } from '@angular/core';
 import { Component } from '@angular/core';
 import { UserDTO } from 'src/app/interface/userDTO';
@@ -69,7 +70,8 @@ export class UsedProductsComponent {
     private router: Router,
     private http: HttpClient,
     private cartItemsService: TNcartItemsService,
-    private sharedcartService: SharedcartService
+    private sharedcartService: SharedcartService,
+    private modalService: ModalService
   ) { }
 
   ngOnInit(): void {
@@ -80,7 +82,7 @@ export class UsedProductsComponent {
 
   private getUser() {
     this.authService.user$.subscribe(user => {
-      this.user = user?.user;
+      this.user = user;
       if (user) {
         console.log("用戶資料已載入:", this.user);
       } else {
@@ -181,17 +183,26 @@ export class UsedProductsComponent {
       // this.router.navigate(['/login']);
     }
   }
+  // openModalLogin(): void {
+  //   if (this.user) {
+  //     this.router.navigate(['/usedproductshow'])
+  //     $('#popupLogin').remove();
+  //   }
+  //   else {
+  //     $('#popupLogin').modal('show');
+  //     $('#popupLogin').modal('hide');
+  //   }
+  // }
+
   openModalLogin(): void {
+    // this.modalService.showLoginModal();
     if (this.user) {
       this.router.navigate(['/usedproductshow'])
-      $('#popupLogin').remove();
     }
     else {
-      $('#popupLogin').modal('show');
-      $('#popupLogin').modal('hide');
+      this.modalService.showLoginModal();
     }
   }
-
   /** 最終 => 呼叫後端 addCart API 做庫存檢查+加購物車 */
   onConfirmAddToCart() {
     // 1) 若 productDetail 還沒載入

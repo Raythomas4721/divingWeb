@@ -16,6 +16,7 @@
   gap: 10px;
 }
 
+.table-btn,
 .add-button,
 .query-btn,
 .reset-btn {
@@ -27,6 +28,7 @@
   border-radius: 5px;
 }
 
+.table-btn:hover,
 .query-btn:hover,
 .reset-btn:hover {
   background-color: #083349;
@@ -53,4 +55,18 @@
 #productCategory option {
   direction: ltr;
   text-align: left;
+}
+
+.table-btn {
+
+  border: none;
+  /* 移除邊框 */
+  padding: 8px 16px;
+  /* 內距 */
+  border-radius: 12px;
+  /* 圓角 */
+  cursor: pointer;
+  /* 滑鼠懸停變手指 */
+  transition: background-color 0.3s ease-in-out;
+  /* 添加過渡效果 */
 }
