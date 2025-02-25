@@ -9,3 +9,19 @@
   font-size: 12px;
   /* 調整為較小字體，可依需求調整 */
 }
+
+.add_to_cart_button {
+  width: 80%;
+  /* 讓按鈕隨著 .price-wrap 變大變小 */
+  /* padding: 1vw 2vw; */
+  /* 內距根據視窗大小縮放 */
+  font-size: 16px;
+  /* 按鈕字體大小隨視窗變化 */
+  max-width: 100px;
+  /* 限制按鈕最大寬度 */
+
+  text-align: center;
+  border-radius: 12px;
+  text-decoration: none;
+  transition: all 0.3s ease-in-out;
+}

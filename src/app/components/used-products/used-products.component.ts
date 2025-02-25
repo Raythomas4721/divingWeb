@@ -48,12 +48,13 @@ export class UsedProductsComponent {
   })
 
   //購物車
-  productDetail: TNproductDTO | null = null;
+  // productDetail: TNproductDTO | null = null;
+  productDetail: TUproductDTO | null = null;
   // 從後端各 API 撈到的顏色/尺寸/厚度/款式
-  colors: ColorDTO[] = [];
-  sizes: SizeDTO[] = [];
-  thicknesses: Array<{ id: number; name: string }> = [];
-  genders: Array<{ id: number; name: string }> = [];
+  // colors: ColorDTO[] = [];
+  // sizes: SizeDTO[] = [];
+  // thicknesses: Array<{ id: number; name: string }> = [];
+  // genders: Array<{ id: number; name: string }> = [];
 
   // 使用者選擇的變體
   selectedColor: number | null = null;
@@ -203,6 +204,7 @@ export class UsedProductsComponent {
       this.modalService.showLoginModal();
     }
   }
+
   /** 最終 => 呼叫後端 addCart API 做庫存檢查+加購物車 */
   onConfirmAddToCart() {
     // 1) 若 productDetail 還沒載入
@@ -214,28 +216,28 @@ export class UsedProductsComponent {
     // ============ 動態檢查四個變體 =============
 
     // (A) 若前端顯示 color (this.colors.length > 0)，就要檢查是否 user 已選 color
-    if (this.colors.length > 0 && !this.selectedColor) {
-      alert('請先選擇顏色');
-      return;
-    }
+    // if (this.colors.length > 0 && !this.selectedColor) {
+    //   alert('請先選擇顏色');
+    //   return;
+    // }
 
     // (B) 若前端顯示 size (this.sizes.length > 0)，就要檢查是否 user 已選 size
-    if (this.sizes.length > 0 && !this.selectedSize) {
-      alert('請先選擇尺寸');
-      return;
-    }
+    // if (this.sizes.length > 0 && !this.selectedSize) {
+    //   alert('請先選擇尺寸');
+    //   return;
+    // }
 
     // (C) 若前端顯示 thickness (this.thicknesses.length > 0)，就要檢查是否 user 已選 thickness
-    if (this.thicknesses.length > 0 && !this.selectedThickness) {
-      alert('請先選擇厚度');
-      return;
-    }
+    // if (this.thicknesses.length > 0 && !this.selectedThickness) {
+    //   alert('請先選擇厚度');
+    //   return;
+    // }
 
     // (D) 若前端顯示 gender (this.genders.length > 0)，就要檢查是否 user 已選 gender
-    if (this.genders.length > 0 && !this.selectedGender) {
-      alert('請先選擇款式');
-      return;
-    }
+    // if (this.genders.length > 0 && !this.selectedGender) {
+    //   alert('請先選擇款式');
+    //   return;
+    // }
     //確認抓到正確的memberId
     const realMemberId = this.user?.memberId;
 
@@ -249,10 +251,11 @@ export class UsedProductsComponent {
     // 2) 組合要傳給後端的 payload
     const payload = {
       productId: this.productId,
-      colorId: this.selectedColor ?? 0, // 若沒顯示 color，就帶0
-      sizeId: this.selectedSize ?? 0,
-      thicknessId: this.selectedThickness ?? 0,
-      genderId: this.selectedGender ?? 0,
+      //colorId: this.selectedColor ?? 0, // 若沒顯示 color，就帶0
+      // sizeId: this.selectedSize ?? 0,
+      // thicknessId: this.selectedThickness ?? 0,
+      // genderId: this.selectedGender ?? 0,
+
       quantity: this.quantity,
       memberId: realMemberId,
     };
@@ -277,11 +280,10 @@ export class UsedProductsComponent {
               condition: 'new',
               creationDate: new Date().toISOString(),
               updatedDate: new Date().toISOString(),
-
-              color: res.colorName,
-              size: res.sizeName,
-              thickness: res.thicknessName,
-              gender: res.genderName,
+              // color: res.colorName,
+              // size: res.sizeName,
+              // thickness: res.thicknessName,
+              // gender: res.genderName,
               stock: 0,
             };
             console.log('後端回傳:', res);
