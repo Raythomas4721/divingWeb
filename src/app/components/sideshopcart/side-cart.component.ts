@@ -98,10 +98,9 @@ export class Sideshopcart {
     }
 
     // 1) 組合 payload
-    const memberId = this.user?.memberId;
     // 如果需要收件地址 / 電話 / 付款方式，可在 side cart 另做輸入
     const payload = {
-      memberId: memberId,
+      memberId: this.user?.memberId,
       paymentMethod: 'CreditCard',
       shipAddress: this.user?.memberAddress,
       shipPhone: this.user?.memberPhone,

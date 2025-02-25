@@ -90,7 +90,6 @@ export class ShopComponent implements OnInit {
     //   }
     // });
     // 載入 topProducts
-    this.loadTopProducts();
   }
 
   onOrderChange(event: any): void {

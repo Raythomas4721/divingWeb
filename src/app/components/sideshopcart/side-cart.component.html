@@ -28,28 +28,28 @@
               class="color-field"
               *ngIf="item.color && item.color !== '無選擇'"
             >
-              Color:
+              顏色:
               <span
                 class="color-swatch"
                 [style.backgroundColor]="item.color"
               ></span>
             </div>
             <div *ngIf="item.size && item.size !== '無選擇'">
-              Size: {{ item.size }}
+              尺寸: {{ item.size }}
             </div>
             <!-- Thickness -->
             <div *ngIf="item.thickness !== '無選擇'">
-              Thickness: {{ item.thickness }}
+              厚度: {{ item.thickness }}
             </div>
 
             <!-- Gender -->
             <div *ngIf="item.gender !== '無選擇'">
-              Gender: {{ item.gender }}
+              性別款式: {{ item.gender }}
             </div>
           </div>
 
           <!-- 若有缺貨狀態，可顯示提示 -->
-          <div class="out-of-stock" *ngIf="item.stock <= 0">Out of stock</div>
+          <div class="out-of-stock" *ngIf="item.stock <= 0">缺貨中</div>
 
           <!-- 金額 & 數量 -->
           <div class="product-row">
