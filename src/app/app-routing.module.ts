@@ -26,8 +26,11 @@ const routes: Routes = [
   { path: 'courses', component: CoursesComponent },
   { path: 'site-rental', component: SiteRentalComponent },
   // 定義帶有 id 參數的路由
+  { path: 'site-detail', component: SiteDetailComponent },
   { path: 'site-detail/:id', component: SiteDetailComponent },
   // 其他路由
+  { path: 'site-reserve', component: SiteReserveComponent },
+  { path: 'site-reserve/:id', component: SiteReserveComponent },
   { path: 'shopcart', component: Sideshopcart },
   { path: 'shopproductshow/:id', component: ShopproductshowComponent },
   { path: 'procategories', component: ProcategoriesComponent },
@@ -36,9 +39,8 @@ const routes: Routes = [
   { path: 'coursecheckout', component: CoursecheckoutComponent },
   { path: 'courseorderreceived', component: CourseorderreceivedComponent },
   { path: 'usedproductshow/:id', component: UsedproductshowComponent },
-  { path: 'site-detail', component: SiteDetailComponent },
-  { path: 'site-reserve', component: SiteReserveComponent },
   { path: 'site-order', component: SiteOrderComponent },
+  { path: 'site-order/:id', component: SiteOrderComponent },
 
 ];
 

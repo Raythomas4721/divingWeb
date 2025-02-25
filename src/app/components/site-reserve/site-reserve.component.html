@@ -495,9 +495,8 @@
                             <select name="shipping_country" id="shipping_country"
                               class="country_to_state country_select  select2-hidden-accessible" autocomplete="country"
                               tabindex="-1" aria-hidden="true">
-                              <option value="">請選擇場地</option>
-                              <option value="AAA">山淨湖泳池</option>
-                              <option value="BBB">青山農場游池</option>
+                              <option value="">{{siteDetails.venueName}}</option>
+
                             </select>
                           </p>
 
@@ -553,7 +552,8 @@
 
 
                         <a routerLink="/site-order" rel="bookmark">
-                          <input type="submit" class="button" name="save_address" value="送出">
+                          <input type="submit" class="button" name="save_address" value="送出"
+                            [routerLink]="['/site-order', siteDetails.siteId]">
                         </a>
                       </div>
 

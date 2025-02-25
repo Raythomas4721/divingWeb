@@ -7,4 +7,9 @@ export interface sitedetail {
   photo: string;
   evaluate: string;
   collect: number;
+  sitePrice: string;
+  siteSize: string;
+  sitePhone: string;
+  siteEmail: string;
+
 }

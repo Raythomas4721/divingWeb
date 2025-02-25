@@ -164,7 +164,7 @@
       class="post text-center text-md-left vertical-item content-padding hero-bg">
 
 
-      <div class="siteDetails">
+      <!-- <div class="siteDetails">
         <img src="data:image/png;base64, {{ siteDetails.photo }}" />
         <h2>{{siteDetails.venueName}}</h2>
         <p>{{ siteDetails.venueAddress }}</p>
@@ -174,8 +174,8 @@
         <p>場地價格: {{ siteDetails.sitePrice }}</p>
         <p>場地電話: {{ siteDetails.sitePhone }}</p>
         <p>場地郵箱: {{ siteDetails.siteEmail }}</p>
-        <!-- 其他詳細資訊 -->
-      </div>
+
+      </div> -->
 
       <section class=" ls s-py-90 s-py-xl-160 c-gutter-60">
         <div class="container">
@@ -183,44 +183,68 @@
             <!-- <main class="col-lg-7 col-xl-8"> -->
             <div class="vertical-item content-padding hero-bg">
               <div class="item-media">
-                <img src="assets\images\sitePhoto\swim (2).jpeg" alt="img" width="300" height="200">
+                <img src="data:image/png;base64, {{ siteDetails.photo }}" />
               </div>
               <div class="item-content">
                 <h2>{{siteDetails.venueName}}</h2>
 
-                <div class="excerpt">
-                  <h4>{{ siteDetails.detail }}</h4>
+                <div>
+                  <!-- <div class="excerpt"></div> -->
+                  <div class="detaill">{{ siteDetails.detail }}</div>
                 </div>
 
-                <ul class="list-styled">
-                  <li>空間大小：300平方公尺</li>
-                  <li>可容納人數：80人</li>
-                  <li>無線網路</li>
+                <ul>
+                  <li style="margin-top: 80px;">
+                    <div class="detaill">場地大小: {{ siteDetails.siteSize }}</div>
+                  </li>
+                  <li>
+                    <div class="detaill">容納人數: {{ siteDetails.numberOfPeople }}</div>
+                  </li>
+                  <li>
+                    <div class="detaill">無線網路</div>
+                  </li>
                 </ul>
 
-                <ul class="list-styled">
-                  <li class="list-styled">時段分為上午、下午、晚上</li>
-                  <li>每個時段$3000</li>
-                  <li>​預約場勘或詢價，敬請填寫線上預約表。</li>
+                <ul>
+                  <li>
+                    <div class="detaill">時段分為上午、下午、晚上</div>
+                  </li>
+                  <li>
+                    <div style="font-size: 30px; color: red;">每個時段: {{ siteDetails.sitePrice }}</div>
+                  </li>
+                  <li>
+                    <div class="detaill">​預約場勘或詢價，敬請填寫線上預約表。</div>
+                  </li>
                   <ul class="list-styled">
 
                   </ul>
                 </ul>
                 <div>
-                  <h5>聯絡方式</h5>
-                  <p style="margin-bottom: 0.5em;">TEL:(02)2562-0008</p>
-                  <p style="margin-bottom: 0.5em;">Email：CastlePeakFarmPool@gmail.com</p>
-                  <p style="margin-bottom: 0;">FB : Castle Peak Farm Pool 山淨湖泳池</p>
+                  <ul>
+                    <li>
+                      <div class="detaill">聯絡方式：</div>
+                    </li>
+                    <li>
+                      <div class="detaill">TEL：{{ siteDetails.sitePhone }}</div>
+                    </li>
+                    <li>
+                      <div class="detaill">Email：{{ siteDetails.siteEmail }}</div>
+                    </li>
+                  </ul>
                 </div>
-                <div style="margin-top: 2em;">
-                  <h5>交通資訊</h5>
-                  <p style="margin-bottom: 0.5em;">地址：台北市南港區忠孝東路六段2000</p>
-                  <p style="margin-bottom: 0.5em;">捷運：板南線後山埤站 4號出口</p>
-                  <p style="margin-bottom: 0;">停車場：CityParking平面停車場(忠孝東路六段62號)</p>
 
+                <div style="margin-top: 2em;">
+                  <ul>
+                    <li>
+                      <div class="detaill">交通資訊：</div>
+                    </li>
+                    <li>
+                      <div class="detaill">{{ siteDetails.venueAddress }}</div>.
+                    </li>
+                  </ul>
                   <button type="submit" id="contact_form_submit" name="contact_submit"
                     class="btn btn-outline-darkgrey btn-medium" style="margin-top: 2em; background-color: yellow;"
-                    routerLink="/site-reserve">預約
+                    [routerLink]="['/site-reserve', siteDetails.siteId]">預約
                   </button>
 
                 </div>
@@ -337,7 +361,7 @@
       </div>
     </footer>
 
-    <div id="copyright"></div>
+    <!-- <div id="copyright"></div> -->
 
     <section class="page_copyright ls s-py-30">
       <div class="container">

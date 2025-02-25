@@ -208,13 +208,14 @@
                           <tr class="woocommerce-table__line-item order_item">
 
                             <td class="woocommerce-table__product-name product-name">
-                              <strong class="wc-item-download-label" style="font-size: 1.2em;">青山農場游池</strong>
+                              <strong class="wc-item-download-label"
+                                style="font-size: 1.2em;">{{siteDetails.venueName}}</strong>
                               <!-- <strong class="product-quantity">*1</strong> -->
                               <ul class="wc-item-downloads">
-                                <li style="font-size: 1.2em;">
+                                <!-- <li style="font-size: 1.2em;">
                                   <strong class="wc-item-download-label">山淨湖泳池</strong>
-                                  <!-- <a href="#">File</a> -->
-                                </li>
+                                   <a href="#">File</a>
+                                </li> -->
                                 <!-- <li>
                                   <strong class="wc-item-download-label">Download:</strong>
                                   <a href="#">File</a>
@@ -224,7 +225,7 @@
 
                             <td class="woocommerce-table__product-total product-total">
                               <span class="woocommerce-Price-amount amount">
-                                <span class="woocommerce-Price-currencySymbol">$</span>6000.00
+                                <span class="woocommerce-Price-currencySymbol">$</span>{{siteDetails.sitePrice}}
                               </span>
                             </td>
 
@@ -237,7 +238,7 @@
                             <th scope="row" style="font-size: 1.2em;">小計:</th>
                             <td>
                               <span class="woocommerce-Price-amount amount">
-                                <span class="woocommerce-Price-currencySymbol">$</span>12.00</span>
+                                <span class="woocommerce-Price-currencySymbol">$</span>{{siteDetails.sitePrice}}</span>
                             </td>
                           </tr>
                           <tr>
@@ -258,7 +259,7 @@
                             <th scope="row" style="font-size: 1.2em;">總金額:</th>
                             <td>
                               <span class="woocommerce-Price-amount amount">
-                                <span class="woocommerce-Price-currencySymbol">$</span>12.00</span>
+                                <span class="woocommerce-Price-currencySymbol">$</span>{{siteDetails.sitePrice}}</span>
                             </td>
                           </tr>
                         </tfoot>
@@ -266,10 +267,10 @@
                       </table>
 
 
-                      <p class="order-again">
+                      <!-- <p class="order-again">
                         <a href="/my-account/view-order/1722/?order_again=1722&amp;_wpnonce=8edf688805" class="button"
                           style="font-size: 1.2em;">再次購買</a>
-                      </p>
+                      </p> -->
 
 
                       <section class="woocommerce-customer-details">
@@ -283,12 +284,12 @@
                           <tbody>
                             <tr>
                               <th style="font-size: 1.2em;">電子郵件</th>
-                              <td style="font-size: 1.2em;">admin@test.com</td>
+                              <td style="font-size: 1.2em;">{{siteDetails.siteEmail}}</td>
                             </tr>
 
                             <tr>
                               <th style="font-size: 1.2em;">手機號碼:</th>
-                              <td style="font-size: 1.2em;">0988563215</td>
+                              <td style="font-size: 1.2em;">{{siteDetails.sitePhone}}</td>
                             </tr>
 
 
@@ -296,11 +297,11 @@
                         </table>
 
 
-                        <h3 class="woocommerce-column__title">帳單地址</h3>
+                        <!-- <h3 class="woocommerce-column__title">帳單地址</h3> -->
 
-                        <address>
+                        <!-- <address>
                           John Doe<br>Baker Street, 231<br>London<br>Great Britain<br>12000
-                        </address>
+                        </address> -->
 
 
                       </section>
@@ -314,7 +315,7 @@
 
           </main>
 
-          <div class="d-none d-lg-block divider-70"></div>
+          <!-- <div class="d-none d-lg-block divider-70"></div> -->
         </div>
 
       </div>
