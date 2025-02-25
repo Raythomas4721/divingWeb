@@ -31,6 +31,8 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { CoursecreateComponent } from './coursecreate/coursecreate.component';
 import { EcpayResultComponent } from './components/ecpay-result/ecpay-result.component';
+import { UsedproductListComponent } from './components/usedproduct-list/usedproduct-list.component';
+
 
 @NgModule({
   declarations: [
@@ -58,6 +60,7 @@ import { EcpayResultComponent } from './components/ecpay-result/ecpay-result.com
     CoursesManagementComponent,
     CoursecreateComponent,
     EcpayResultComponent,
+    UsedproductListComponent,
   ],
   imports: [
     BrowserModule,
@@ -72,4 +75,4 @@ import { EcpayResultComponent } from './components/ecpay-result/ecpay-result.com
   providers: [ProductsService],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule { }

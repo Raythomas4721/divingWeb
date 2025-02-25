@@ -8,6 +8,8 @@ import { AuthService } from 'src/app/services/auth.service';
 import { UserDTO } from 'src/app/interface/userDTO';
 import { AlertService } from 'src/app/services/alert.service';
 
+//二手
+import { TUproductDTO, TUcategory } from 'src/app/interface/TUproductDTO';
 @Component({
   selector: 'app-side-cart',
   templateUrl: './side-cart.component.html',
@@ -23,6 +25,8 @@ export class Sideshopcart {
   user?: UserDTO | null;
   subTotal: number = 0;
   total: number = 0;
+  //二手
+
 
   constructor(
     private cartItemsService: TNcartItemsService,
@@ -31,7 +35,7 @@ export class Sideshopcart {
     private router: Router,
     private authService: AuthService,
     private alertService: AlertService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.cartItemsService.cartItems$.subscribe((items) => {

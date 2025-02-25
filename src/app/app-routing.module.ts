@@ -19,6 +19,7 @@ import { AuthSuccessComponent } from './components/auth-success/auth-success.com
 import { CoursesManagementComponent } from './components/coursesmanagement/coursesmanagement.component';
 import { CoursecreateComponent } from './coursecreate/coursecreate.component';
 import { EcpayResultComponent } from './components/ecpay-result/ecpay-result.component';
+import { UsedproductListComponent } from './components/usedproduct-list/usedproduct-list.component';
 
 const routes: Routes = [
   { path: 'auth-success', component: AuthSuccessComponent },
@@ -41,12 +42,18 @@ const routes: Routes = [
   { path: 'site-reserve', component: SiteReserveComponent },
   { path: 'coursesmanagement', component: CoursesManagementComponent },
   { path: 'coursecreate', component: CoursecreateComponent },
-
+  { path: 'usedproduct-list', component: UsedproductListComponent },
+  { path: 'editusedproduct/:id', component: UsedproductListComponent },
   //   { path: 'course/create', component: CoursecreateupdateComponent },
   //   { path: 'course/edit/:id', component: CoursecreateupdateComponent }
   { path: '', component: HomeComponent },
   { path: 'ecpayResult', component: EcpayResultComponent },
   { path: '**', redirectTo: '', pathMatch: 'full' }, // 404 頁面導回首頁
+  // { path: 'coursecreate', component: CoursecreateComponent },
+
+
+
+
 ];
 
 @NgModule({
@@ -61,4 +68,4 @@ const routes: Routes = [
   ],
   exports: [RouterModule],
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }

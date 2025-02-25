@@ -1,0 +1,6 @@
+.sell-button {
+  bottom: 10px;
+  /* 與底部的距離 */
+  border-radius: 10px;
+  /* 你可以調整這個值來改變圓弧的程度 */
+}
