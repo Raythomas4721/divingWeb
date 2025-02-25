@@ -4,6 +4,8 @@ import { Observable, tap } from 'rxjs';
 import { UserDTO } from '../interface/userDTO';
 import { UserBehaviorService } from './user-behavior.service';
 import { TNcartItemsService } from './tncart-items.service';
+import { jwtDecode } from 'jwt-decode';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root',
@@ -13,7 +15,7 @@ export class UserService {
     private client: HttpClient,
     private userBehaviorService: UserBehaviorService,
     private cartItemsService: TNcartItemsService
-  ) {}
+  ) { }
   private apiUrl = 'https://localhost:7107/api/TMmemberListsAPI';
 
   register(name: string, email: string, password: string) {
@@ -93,10 +95,5 @@ export class UserService {
       changePasswordData,
       { headers }
     );
-    // 清除 memberId
-    this.userBehaviorService.setMemberId(null);
-
-    // **清空前端購物車資料**
-    this.cartItemsService.clearCart();
   }
 }

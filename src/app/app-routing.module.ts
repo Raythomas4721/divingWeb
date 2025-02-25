@@ -18,6 +18,7 @@ import { SiteReserveComponent } from './components/site-reserve/site-reserve.com
 import { AuthSuccessComponent } from './components/auth-success/auth-success.component';
 import { CoursesManagementComponent } from './components/coursesmanagement/coursesmanagement.component';
 import { CoursecreateComponent } from './coursecreate/coursecreate.component';
+import { EcpayResultComponent } from './components/ecpay-result/ecpay-result.component';
 import { UsedproductListComponent } from './components/usedproduct-list/usedproduct-list.component';
 import { UsedproducteditComponent } from './components/usedproductedit/usedproductedit.component';
 const routes: Routes = [
@@ -46,10 +47,9 @@ const routes: Routes = [
   { path: 'usedproductedit/:id', component: UsedproducteditComponent },
   //   { path: 'course/create', component: CoursecreateupdateComponent },
   //   { path: 'course/edit/:id', component: CoursecreateupdateComponent }
+  { path: 'ecpayResult', component: EcpayResultComponent },
   { path: '', component: HomeComponent },
   { path: '**', redirectTo: '', pathMatch: 'full' }, // 404 頁面導回首頁
-  { path: 'coursecreate', component: CoursecreateComponent },
-
 
 
 
@@ -58,11 +58,12 @@ const routes: Routes = [
 @NgModule({
   imports: [
     RouterModule.forRoot(routes, {
+      anchorScrolling: 'enabled', // 啟用錨點自動滾動
+      // scrollPositionRestoration: 'enabled',
       useHash: true,
       onSameUrlNavigation: 'reload',
-      scrollPositionRestoration: 'top'
+      scrollPositionRestoration: 'top',
     }),
-
   ],
   exports: [RouterModule],
 })

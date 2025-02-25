@@ -30,6 +30,7 @@ import { CoursesManagementComponent } from './components/coursesmanagement/cours
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { CoursecreateComponent } from './coursecreate/coursecreate.component';
+import { EcpayResultComponent } from './components/ecpay-result/ecpay-result.component';
 import { UsedproductListComponent } from './components/usedproduct-list/usedproduct-list.component';
 import { UsedproducteditComponent } from './components/usedproductedit/usedproductedit.component';
 
@@ -59,6 +60,7 @@ import { UsedproducteditComponent } from './components/usedproductedit/usedprodu
     AuthSuccessComponent,
     CoursesManagementComponent,
     CoursecreateComponent,
+    EcpayResultComponent,
     UsedproductListComponent,
     UsedproducteditComponent,
   ],

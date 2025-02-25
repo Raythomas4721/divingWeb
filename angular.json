@@ -36,7 +36,8 @@
               "node_modules/@fortawesome/fontawesome-free/js/all.js",
               "src/assets/js/vendor/modernizr-2.6.2.min.js",
               "src/assets/js/compressed.js",
-              "src/assets/js/main.js"
+              "src/assets/js/main.js",
+              "src/assets/js/vendor/jquery.chatbot.js"
             ]
           },
           "configurations": {

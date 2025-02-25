@@ -40,10 +40,10 @@ export class ProfileComponent implements OnInit {
 
   ngOnInit(): void {
     this.authService.user$.subscribe(user => {
-      this.user = user?.user;
+      this.user = user;
       if (user) {
-        if (user.user.memberPhoto) {
-          this.convertToBase64(user.user.memberPhoto);
+        if (user.memberPhoto) {
+          this.convertToBase64(user.memberPhoto);
         }
       } else {
         console.log("等待 API 返回，用戶資料尚未載入");

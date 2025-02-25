@@ -5,7 +5,7 @@
       <main class="col-lg-7 col-xl-8">
         <!-- 排序區 (可加可不加) -->
         <div class="products-selection">
-          <p class="woocommerce-result-count">Showing all 23 results</p>
+          <p class="woocommerce-result-count">每頁顯示20個商品</p>
           <form class="woocommerce-ordering" method="get">
             <select
               name="orderby"
@@ -45,8 +45,8 @@
                   [class.single-img]="!hasSecondVersion(item.imageUrl)"
                 >
                   <a
+                    [routerLink]="['/shopproductshow', item.productId]"
                     (click)="onClickProduct(item.productId)"
-                    href="javascript:void(0)"
                   >
                     <img
                       class="primary-img"
@@ -72,9 +72,15 @@
                       {{ item.productName }}
                     </a>
                   </h2>
+                  <!-- 星等顯示 (與單品頁相同結構) -->
                   <div class="star-rating">
-                    <span style="width: 80%">
-                      Rated <strong class="rating">4.00</strong> out of 5
+                    <!-- 這裡的 width 依據 item.avgRating 來動態算 -->
+                    <span [style.width]="(item.avgRating / 5) * 100 + '%'">
+                      Rated
+                      <strong class="rating">{{
+                        item.avgRating | number : "1.2-2"
+                      }}</strong>
+                      out of 5
                     </span>
                   </div>
                   <div class="price-wrap">
@@ -89,7 +95,7 @@
                       class="button product_type_simple add_to_cart_button"
                       [routerLink]="['/shopproductshow', item.productId]"
                     >
-                      Add to cart
+                      加入購物車
                     </a>
                   </div>
                 </div>
@@ -117,7 +123,7 @@
                   </a>
                   <div class="product-overlay">
                     <h2 class="woocommerce-loop-product__title">
-                      {{ cat.categoryName }}
+                      {{ cat.categoryName | literalToBreak }}
                     </h2>
                   </div>
                 </div>
@@ -131,10 +137,10 @@
       <aside class="col-lg-5 col-xl-4">
         <div class="ls ms">
           <div class="widget widget_product_search">
-            <h3 class="widget-title">Search</h3>
+            <h3 class="widget-title">關鍵字搜尋</h3>
             <form class="woocommerce-product-search" (ngSubmit)="onSearch()">
               <label class="screen-reader-text" for="searchField">
-                Search for:
+                搜尋:
               </label>
               <input
                 type="search"
@@ -150,7 +156,7 @@
         </div>
 
         <div class="widget woocommerce widget_product_categories">
-          <h3 class="widget-title">Categories</h3>
+          <h3 class="widget-title">商品分類</h3>
           <ul class="product-categories">
             <li
               class="cat-item"
@@ -163,7 +169,7 @@
         </div>
 
         <div class="widget woocommerce widget_top_rated_products">
-          <h3 class="widget-title">Top Products</h3>
+          <h3 class="widget-title">熱門商品</h3>
           <ul class="product_list_widget">
             <li *ngFor="let product of topProducts">
               <a [routerLink]="['/shopproductshow', product.productId]">
@@ -178,8 +184,8 @@
                     {{ product.productName }}
                   </a>
                 </span>
-                <p>Price: {{ product.unitPrice | number : "1.0-0" }}</p>
-                <p>Views: {{ product.viewCount }}</p>
+                <p>價格: ${{ product.unitPrice | number : "1.0-0" }}</p>
+                <p>瀏覽次數: {{ product.viewCount }}</p>
               </div>
             </li>
           </ul>

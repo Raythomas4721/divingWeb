@@ -1,6 +1,6 @@
 import { AuthService } from './../../services/auth.service';
 import { Router } from '@angular/router';
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { AlertService } from 'src/app/services/alert.service';
 import { UserService } from 'src/app/services/user.service';
@@ -10,6 +10,9 @@ import { UserDTO } from 'src/app/interface/userDTO';
 import { take } from 'rxjs';
 import { SharedcartService } from './../../services/sharedcart.service';
 import { TNcartItemsService } from '../../services/tncart-items.service';
+import { UserBehaviorService } from '../../services/user-behavior.service';
+import { ModalService } from 'src/app/services/modal.service';
+import { jwtDecode } from 'jwt-decode';
 
 // 強制讓 Bootstrap 綁定 jQuery
 declare var bootstrap: any;
@@ -26,8 +29,11 @@ export class HeaderComponent implements OnInit {
     private userService: UserService,
     private alertService: AlertService,
     private authService: AuthService,
-    private cartItemsService: TNcartItemsService
-  ) {}
+    private cartItemsService: TNcartItemsService,
+    private userBehaviorService: UserBehaviorService,
+    private modalService: ModalService,
+    private cdr: ChangeDetectorRef
+  ) { }
   cartItemCount = 0;
   userForm = new FormGroup({
     username: new FormControl('', [
@@ -69,12 +75,22 @@ export class HeaderComponent implements OnInit {
       this.isLoggedIn = status;
     });
 
-    this.authService.user$.subscribe((user) => {
-      if (user) {
-        this.user = user?.user;
-        this.userName = user.user.memberName;
-        this.isLoggedIn = true;
+    this.modalService.loginModalVisible$.subscribe((visible) => {
+      if (visible) {
+        $('#popupLogin').modal('show');
+      } else {
+        $('#popupLogin').modal('hide');
+        $('.modal-backdrop').remove();
+        $('body').css('padding-right', 0);
       }
+    });
+
+    this.authService.user$.subscribe((user) => {
+      console.log('收到 user$', user);
+      this.user = user || null;
+      this.userName = user?.memberName || '';
+      this.isLoggedIn = !!user;
+      this.cdr.detectChanges();
     });
     this.cartItemsService.cartItems$.subscribe((items) => {
       // 這裡 items 就是購物車陣列
@@ -129,22 +145,32 @@ export class HeaderComponent implements OnInit {
     this.userService.login(username, password).subscribe({
       next: (res) => {
         this.isLoggedIn = true;
-        // localStorage.setItem('token', res.token);
-
-        $('#popupLogin').modal('hide');
-        $('.modal-backdrop').remove();
-        $('body').css('padding-right', 0);
+        // $('#popupLogin').modal('hide');
+        // $('.modal-backdrop').remove();
+        // $('body').css('padding-right', 0);
+        this.modalService.hideLoginModal();
         this.errorMessage = '';
         this.userForm.reset();
-        this.alertService.success(`登入成功，歡迎!`);
+        this.alertService.success(`歡迎! 登入成功`);
 
-        // 更新使用者資料
-        this.authService.updateUserProfile();
+        const token = res.token || localStorage.getItem('token');
+        if (token) {
+          const decodedToken: any = jwtDecode(token);
+          const userId = decodedToken.sub || decodedToken.userId || res.memberId || '';
+          this.authService.setUserId(userId);
+        }
 
-        // 訂閱 user$
-        this.authService.user$.pipe(take(1)).subscribe((user) => {
-          this.user = user;
-          this.userName = user?.memberName || '';
+        // 等待 updateUserProfile 完成
+        this.authService.updateUserProfile().subscribe({
+          next: (user) => {
+            this.user = user;
+            this.userName = user?.memberName || '';
+            console.log('登入後立即設置 userName:', this.userName);
+            this.cdr.detectChanges();
+          },
+          error: (err) => {
+            console.error('更新用戶資訊失敗', err);
+          },
         });
       },
       error: (err) => {
@@ -153,21 +179,12 @@ export class HeaderComponent implements OnInit {
       },
     });
   }
-
+  openModalLogin(): void {
+    this.modalService.showLoginModal();
+  }
   loginWithGoogle(): void {
     window.location.href = 'https://localhost:7107/api/account/google-login';
   }
-
-  // handleGoogleCallback(): void {
-  //   const urlParams = new URLSearchParams(window.location.search);
-  //   const token = urlParams.get('token');
-  //   if (token) {
-  //     localStorage.setItem('token', token);
-  //     this.authService.updateUserProfile();
-  //     this.alertService.success("Google 登入成功！");
-  //     $('#popupLogin').modal('hide');
-  //   }
-  // }
 
   logout(): void {
     localStorage.removeItem('token');
@@ -178,6 +195,11 @@ export class HeaderComponent implements OnInit {
     this.authService.user$.subscribe(() => {
       this.user = null;
     });
+    // 清除 memberId
+    this.userBehaviorService.setMemberId(null);
+
+    // **清空前端購物車資料**
+    this.cartItemsService.clearCart();
   }
 
   openCartPanel() {
