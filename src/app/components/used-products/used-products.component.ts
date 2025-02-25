@@ -69,7 +69,7 @@ export class UsedProductsComponent {
     private router: Router,
     private http: HttpClient,
     private cartItemsService: TNcartItemsService,
-    private sharedcartService: SharedcartService,
+    private sharedcartService: SharedcartService
   ) { }
 
   ngOnInit(): void {

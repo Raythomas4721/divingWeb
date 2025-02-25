@@ -46,11 +46,9 @@ const routes: Routes = [
   { path: 'editusedproduct/:id', component: UsedproductListComponent },
   //   { path: 'course/create', component: CoursecreateupdateComponent },
   //   { path: 'course/edit/:id', component: CoursecreateupdateComponent }
-  { path: '', component: HomeComponent },
   { path: 'ecpayResult', component: EcpayResultComponent },
+  { path: '', component: HomeComponent },
   { path: '**', redirectTo: '', pathMatch: 'full' }, // 404 頁面導回首頁
-  // { path: 'coursecreate', component: CoursecreateComponent },
-
 
 
 
