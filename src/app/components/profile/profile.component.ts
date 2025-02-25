@@ -5,6 +5,7 @@ import { Component, OnInit } from '@angular/core';
 import { UserDTO } from 'src/app/interface/userDTO';
 import { filter } from 'rxjs/operators';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-profile',
@@ -12,7 +13,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
   styleUrls: ['./profile.component.css']
 })
 export class ProfileComponent implements OnInit {
-  constructor(private authService: AuthService, private userService: UserService, private alertService: AlertService) { }
+  constructor(private authService: AuthService, private userService: UserService, private alertService: AlertService, private router: Router) { }
 
   editProfileForm: FormGroup = new FormGroup({
     memberName: new FormControl('', [Validators.required, Validators.minLength(2)]),
@@ -175,5 +176,8 @@ export class ProfileComponent implements OnInit {
         this.alertService.error(`密碼變更失敗: ${err.error.message || '請稍後再試'}`);
       }
     });
+  }
+  goToOrders() {
+    this.router.navigate(['/profile-orders']);
   }
 }

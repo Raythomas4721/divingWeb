@@ -19,6 +19,7 @@ import { AuthSuccessComponent } from './components/auth-success/auth-success.com
 import { CoursesManagementComponent } from './components/coursesmanagement/coursesmanagement.component';
 import { CoursecreateComponent } from './coursecreate/coursecreate.component';
 import { EcpayResultComponent } from './components/ecpay-result/ecpay-result.component';
+import { ProfileOrdersComponent } from './components/profile-orders/profile-orders.component';
 
 const routes: Routes = [
   { path: 'auth-success', component: AuthSuccessComponent },
@@ -41,6 +42,7 @@ const routes: Routes = [
   { path: 'site-reserve', component: SiteReserveComponent },
   { path: 'coursesmanagement', component: CoursesManagementComponent },
   { path: 'coursecreate', component: CoursecreateComponent },
+  { path: 'profile-orders', component: ProfileOrdersComponent },
   //   { path: 'course/create', component: CoursecreateupdateComponent },
   //   { path: 'course/edit/:id', component: CoursecreateupdateComponent }
   { path: '', component: HomeComponent },

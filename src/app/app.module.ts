@@ -31,6 +31,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { CoursecreateComponent } from './coursecreate/coursecreate.component';
 import { EcpayResultComponent } from './components/ecpay-result/ecpay-result.component';
+import { ProfileOrdersComponent } from './components/profile-orders/profile-orders.component';
 
 @NgModule({
   declarations: [
@@ -58,6 +59,7 @@ import { EcpayResultComponent } from './components/ecpay-result/ecpay-result.com
     CoursesManagementComponent,
     CoursecreateComponent,
     EcpayResultComponent,
+    ProfileOrdersComponent,
   ],
   imports: [
     BrowserModule,

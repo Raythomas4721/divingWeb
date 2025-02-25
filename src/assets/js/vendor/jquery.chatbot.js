@@ -19,7 +19,7 @@
               <span id="${settings.containerHoverID}"></span>
               <a href="#" class="chat-btn">${settings.text}</a>
               <div class="chat-window" style="display: none;">
-                  <div class="chat-header">Chatbot <span class="close-btn">✖</span></div>
+                  <div class="chat-header">線上助手 <span class="close-btn">✖</span></div>
                   <div class="chat-messages"></div>
                   <div class="chat-input">
                       <input type="text" placeholder="輸入您的問題...">
@@ -34,7 +34,7 @@
               position: fixed;
               bottom: 10px;
               right: 70px;
-              z-index: 9999;
+              z-index: 500;
           }
           .chat-btn {
               display: block;
@@ -53,7 +53,7 @@
               position: absolute;
               bottom: 60px;
               right: 0;
-              width: 400px;
+              width: 420px;
               height: 400px;
               background: white;
               border-radius: 10px;
@@ -91,11 +91,11 @@
               border: 1px solid #ddd;
           }
           .user-message {
-              background: #007bff;
+              background: #06293C;
               color: white;
               text-align: left;
               margin-left: auto;
-              border-color: #0056b3;
+              border-color: #094058;
           }
           .bot-message {
               background: #f1f1f1;
@@ -105,12 +105,20 @@
               border-color: #ccc;
           }
           .bot-message a {
-              color: #06293C; /* 連結顏色與主色一致 */
+              color: #06293C;
               text-decoration: underline;
-              cursor: pointer; /* 確保可點擊 */
+              cursor: pointer;
           }
           .bot-message a:hover {
-              color: #094058; /* hover 效果 */
+              color: #094058;
+          }
+          .bot-message ol {
+            padding-left: 20px;
+            margin: 5px 0;
+          }
+          .bot-message ol li {
+              margin-bottom: 5px;
+              line-height: 1.5;
           }
           .chat-input {
               padding: 10px;
@@ -146,7 +154,7 @@
         if ($chatWindow.is(':visible')) {
           const $messages = $chatWindow.find('.chat-messages');
           if ($messages.is(':empty')) {
-            $messages.append('<div class="chat-message bot-message">您好！請問有什麼我可以幫您的？您可以問問最新的課程或潛水裝備推薦！</div>');
+            $messages.append('<div class="chat-message bot-message">您好！請問有什麼我可以幫您的？<br>您可以問問最新的課程或潛水裝備推薦！</div>');
           }
         }
       });
@@ -169,20 +177,38 @@
           contentType: 'application/json',
           data: JSON.stringify({ message: message }),
           success: function (response) {
-            // 使用 jQuery 確保 HTML 正確渲染
             const $messageDiv = $('<div class="chat-message bot-message"></div>');
-            const replyHtml = response.reply.replace(
+            let replyHtml = response.reply;
+
+            // 檢查是否為條列式回應（支援 1. 或 - 或 *）
+            if (replyHtml.match(/(\d+\.\s|-|\*)\s/)) {
+              const items = replyHtml.split(/\n|\s*(?=(\d+\.\s|-|\*)\s)/).filter(item => item.trim());
+              let listHtml = '<ol>'; // 使用有序列表
+              items.forEach(item => {
+                if (item.match(/^(\d+\.\s|-|\*)\s/)) {
+                  const text = item.replace(/^(\d+\.\s|-|\*)\s/, ''); // 移除前綴
+                  listHtml += `<li>${text}</li>`;
+                }
+              });
+              listHtml += '</ol>';
+              replyHtml = listHtml;
+            }
+
+            // 處理連結
+            replyHtml = replyHtml.replace(
               /(https:\/\/[^\s]+)/g,
               '<a href="$1" target="_blank" style="color: #06293C; text-decoration: underline;">$1</a>'
             );
+
             $messageDiv.html(`Chatbot: ${replyHtml}`);
             $messages.append($messageDiv);
-            $messages.scrollTop($messages[0].scrollHeight);
+            $messages.animate({ scrollTop: $messages[0].scrollHeight }, 500);
           },
           error: function (xhr, status, error) {
             console.error('Error:', error);
-            $messages.append('<div class="chat-message bot-message" style="color: red;">Chatbot: 抱歉，出了點問題！</div>');
+            $messages.append('<div class="chat-message bot-message">Chatbot: 抱歉，連線有點問題，請稍後再試！</div>');
             $messages.scrollTop($messages[0].scrollHeight);
+
           }
         });
       }
@@ -198,6 +224,6 @@
 
 $(document).ready(function () {
   $().UIchatBot({
-    text: '找我聊聊'
+    text: '線上助手'
   });
 });
