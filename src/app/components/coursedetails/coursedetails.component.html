@@ -167,20 +167,20 @@
 				<div class="container">
 					<div class="row c-gutter-60">
 						<main class="offset-lg-1 col-lg-10">
-							<article class="vertical-item content-padding hero-bg post type-event status-publish format-standard has-post-thumbnail">
-								<div class="item-media post-thumbnail">
-									<img src="assets/images/courses/snorkeling_1.jpg" alt="img">
-								</div>
+							<article  *ngIf="courseData" class="vertical-item content-padding hero-bg post type-event status-publish format-standard has-post-thumbnail">
+								<div class="item-media post-thumbnail" [routerLink]="['/courses', courseData.courseId]"  >								
+									<img *ngIf="imageData" [src]="imageData" alt="Course Image">
+								</div> 
+							 
 								<div>
 									<!-- 收藏愛心按鈕 -->
-    							<a href="#" class="favorite-icon">
-        
+    							<a href="#" class="favorite-icon">       
 									<i class="fa-regular fa-heart"></i>
     							</a>
 								
 								</div>
 
-								<div class="item-content">
+								<div class="item-content" >
 									<!-- .post-thumbnail -->
 									<header class="entry-header">
 
@@ -188,17 +188,17 @@
 											<span >
 												<i class="fa fa-calendar" aria-hidden="true"></i>
 												<a  href="event-single-left.html" rel="bookmark">
-													<time class="entry-date published updated" datetime="2018-03-18T15:15:12+00:00" style="font-size: 18px;">2025.02.28</time>
+													<time class="entry-date published updated" datetime="2018-03-18T15:15:12+00:00" style="font-size: 18px;">{{courseData['startAt']| date:'yyyy-MM-dd'}}</time>
 												</a>
 											</span>
 											<span >
 												<i class="fa-solid fa-turn-up" style="color: #598aa4;"></i>
-												<span  style="font-size: 18px;">無分級ungraded</span>
+												<span  style="font-size: 18px;">{{courseData['levelName']}}</span>
 												<!-- <i class="fa fa-map-marker"></i> <span>Molestiae numquam officia</span> -->
 											</span>	
 											<span >
 												<i class="fa-solid fa-user" style="color: #598aa4;"></i>								
-												<span  style="font-size: 18px;">李福禧</span>
+												<span  style="font-size: 18px;">{{courseData['coachName']}}</span>
 												<!-- <i class="fa fa-map-marker"></i> <span>Molestiae numquam officia</span> -->
 											</span>				
 
@@ -210,23 +210,34 @@
 
 									<div class="entry-content">
 										<p class="excerpt">
-											2/29屏東小琉球浮潛｜推薦蟹老闆｜浮潛找海龜｜免費拍照｜空拍
+											<!-- 2/29屏東小琉球浮潛｜推薦蟹老闆｜浮潛找海龜｜免費拍照｜空拍 -->
+											{{courseData['startAt']| date:'MM/dd'}}{{courseData['categoryName']}}體驗課程｜免費拍照｜免證照
 										</p>
 
 										<p style="font-size: 18px;">
-											小琉球是台灣著名的離島旅遊勝地，更是愛好浮潛等海上活動者的最佳玩樂天堂，這個夏天，就出發來去小琉球浮潛吧！
-											小琉球位於屏東縣東港鎮西南方，為一座美麗的珊瑚礁島嶼，小琉球海水溫度終年都在攝氏25度以上，擁有全台灣境內最高的年平均海溫，溫暖的海水更孕育了美麗的珊瑚礁群，非常適合進行浮潛等海上活動!<br>
+											{{courseData['description']}}
+											<!-- 小琉球是台灣著名的離島旅遊勝地，更是愛好浮潛等海上活動者的最佳玩樂天堂，這個夏天，就出發來去小琉球浮潛吧！
+											小琉球位於屏東縣東港鎮西南方，為一座美麗的珊瑚礁島嶼，小琉球海水溫度終年都在攝氏25度以上，擁有全台灣境內最高的年平均海溫，溫暖的海水更孕育了美麗的珊瑚礁群，非常適合進行浮潛等海上活動!<br> -->
 											<br>
-											‧親子同樂、全家共遊行程<br>
-											‧教練專業指導、全程跟隨<br>
+											<br>
+											{{courseData['discription']}}
+											<br>
+											<br>
+											<div class="benefits-container">
+												<div class="benefit-box">教練專業指導、全程跟隨</div>
+												<div class="benefit-box">免費拍照</div>
+												<div class="benefit-box">完成課程贈精美小禮品</div>
+											</div>
+											
+											<!-- ‧教練專業指導、全程跟隨<br>
 											‧免費拍照<br>
-											‧海龜共遊<br>
+											‧完成課程贈精美小禮品<br> -->
 			
-										</p>
+										
 										<hr>
 
-										<ul class="list-styled" style="font-size: 18px;">
-											<h6>費用包含/不包含</h6>
+										<!-- <ul class="list-styled" style="font-size: 18px;">
+											<h6>費用包含</h6>
 											<li>冬天 防寒衣</li>
 											<li>防滑礁鞋</li>
 											<li>救生衣</li>
@@ -236,13 +247,50 @@
 											<li>水域活動責任險</li>
 											<li>意外保險</li>
 											<li>體驗費用</li>
-										</ul>									
+										</ul>	 -->
+																		
+										<ul class="list-styled-container">
+											<h6>費用包含</h6>
+											<div class="cost-container">
+												<div class="cost-box">
+													<ul class="list-styled">
+														<li>冬天 防寒衣</li>
+														<li>防滑礁鞋</li>
+														<li>救生衣</li>
+													</ul>
+												</div>
+												<div class="cost-box">
+													<ul class="list-styled">
+														<li>面鏡 呼吸管</li>
+														<li>置物櫃</li>
+														<li>活動拍照</li>
+													</ul>
+												</div>
+												<div class="cost-box">
+													<ul class="list-styled">
+														<li>水域活動責任險</li>
+														<li>意外保險</li>
+														<li>體驗費用</li>
+													</ul>
+												</div>
+											</div>
+										</ul>
 									</div>
 									<!-- 價格區域 -->	
 									<div class="post-content">
-										<!-- 價格 -->					
-										<div class="post-price">$1500</div> 									
+										<div class="post-content">
+											<div class="price-buy-container">
+												<!-- 顯示價格 -->
+												<div class="post-price">${{courseData['coursePrice']}}</div>  
+												
+												<!-- 直接購買按鈕 -->
+												<button  (click)="navToCoursecheckout()"  class="btn btn-maincolor btn-medium buy-button">
+													直接購買
+												</button>
+											</div>
+										</div>
 									</div>
+									
 									
 									
 									<!-- .entry-content -->
@@ -257,41 +305,36 @@
 								<ol class="comment-list">
 									<li class="comment">
 										<article class="comment-body">
-											<footer class="comment-meta">
-												<div class="comment-author vcard">
-													<img alt="img" src="/assets/images/courses/coachF_1.jpg">
-													<!-- <h6 class="mt-0">李福禧</h6><p>女</p> -->
-													<h6 class="mt-0">李福禧</h6><p class="gender">女</p>
+											<div class="comment-container">
+												<!-- 左側：教練圖片與資訊 -->
+												<div class="comment-meta comment-left">
+													<div class="comment-author vcard">
+														<img *ngIf="coachImageData" [src]="coachImageData" alt="Coach Image" class="coach-image">
+													</div>
+													<div class="coach-info">
+														<h6 class="mt-0">{{ courseData['coachName'] }} &nbsp;&nbsp;&nbsp; {{ courseData['gender'] }}</h6>
+														<p>{{ courseData['experience'] }}</p>
+													</div>
 												</div>
-												<!-- .comment-author -->
-											</footer>
-											<!-- .comment-meta -->
-
-											<div class="comment-content mt-15">
-												常在海邊走有你有我<br>
-												常在海邊走有我有他<br>
-												常在海邊走有他有你
-											</div>
-											<!-- .comment-content -->
-											<p class="item-meta">
-												<span class="edit-link">
-													<!-- <i class="fa fa-edit"></i> -->
-													<i class="fa-brands fa-instagram" style="color: #598aa4;"></i>
-													<a class="comment-edit-link" href="#">Instagram</a>
-												</span>
-												<span class="comment-reply-link">
-													<!-- <i class="fa fa-share-square-o "></i> -->
-													<i class="fa-brands fa-threads" style="color: #598aa4;"></i>
-													<a rel="nofollow" class="comment-reply-link" href="#" aria-label="Reply to John Doe">Threads</a>
-												</span>
-												<span>
-													<!-- <i class="fa fa-calendar" aria-hidden="true"></i> -->
-													<i class="fa-brands fa-square-facebook" style="color: #598aa4;"></i>
-													<a href="#">
-														<time datetime="2019-05-20T13:05:42+00:00">Facebook</time>
-													</a>
-												</span>
-											</p>											
+											
+												<!-- 右側：社群媒體連結 -->
+												<div class="comment-content comment-right">
+													<p class="item-meta">
+														<span class="edit-link">
+															<i class="fa-brands fa-instagram" style="color: #598aa4;"></i>
+															<a class="comment-edit-link" href="#">Instagram</a>
+														</span>
+														<span class="comment-reply-link">
+															<i class="fa-brands fa-threads" style="color: #598aa4;"></i>
+															<a rel="nofollow" class="comment-reply-link" href="#">Threads</a>
+														</span>
+														<span>
+															<i class="fa-brands fa-square-facebook" style="color: #598aa4;"></i>
+															<a href="#">Facebook</a>
+														</span>
+													</p>
+												</div>
+											</div>											
 										</article>
 										<!-- .comment-body -->
 									</li>
@@ -321,7 +364,7 @@
 								<!-- .comment-list -->
 
 
-								<div id="respond" class="comment-respond ls ls">
+								<!-- <div id="respond" class="comment-respond ls ls">
 									
 									<form action="/" method="post" id="commentform" class="comment-form" novalidate="">
 										
@@ -331,7 +374,7 @@
 											<input type="hidden" name="comment_parent" id="comment_parent" value="0">
 										</p>
 									</form>
-								</div>
+								</div> -->
 								<!-- #respond -->
 							</div>
 						</main>
