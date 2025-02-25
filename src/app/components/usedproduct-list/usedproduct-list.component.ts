@@ -80,8 +80,10 @@ export class UsedproductListComponent {
   //   });
   // }
   editProduct(productId: number): void {
-    this.router.navigate(['/editusedproduct', productId]).then(success => {
+    this.router.navigate(['/usedproductedit', productId]).then(success => {
+      console.log(`導航到編輯頁面: /usedproductedit/${productId}`);
       if (success) {
+        // console.log(`導航到編輯頁面: /editusedproduct/${productId}`);
         console.log(productId);
       } else {
         console.error('商品獲取失敗:', error);
