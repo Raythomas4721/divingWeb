@@ -16,12 +16,15 @@ export class ProfileComponent implements OnInit {
   constructor(private authService: AuthService, private userService: UserService, private alertService: AlertService, private router: Router) { }
 
   editProfileForm: FormGroup = new FormGroup({
-    memberName: new FormControl('', [Validators.required, Validators.minLength(2)]),
+    memberName: new FormControl('', [Validators.required, Validators.minLength(2), Validators.maxLength(40)]),
     memberEmail: new FormControl('', [Validators.required, Validators.email]),
-    memberPhone: new FormControl(''),
-    memberAddress: new FormControl(''),
-    urgentContact: new FormControl(''),
-    urgentPhone: new FormControl('')
+    memberPhone: new FormControl('', [
+      Validators.pattern(/^[0-9]{10}$/)]),
+    memberAddress: new FormControl('', Validators.maxLength(80)),
+    urgentContact: new FormControl('', Validators.maxLength(40)),
+    urgentPhone: new FormControl('', [
+      Validators.pattern(/^[0-9]{10}$/)
+    ])
   });
   changePasswordForm: FormGroup = new FormGroup({
     currentPassword: new FormControl('', [Validators.required]),
@@ -150,7 +153,9 @@ export class ProfileComponent implements OnInit {
       next: (res) => {
         this.alertService.success('個人資料更新成功');
         $('#editProfileModal').modal('hide');
-        this.authService.updateUserProfile();
+        this.authService.updateUserProfile().subscribe(updatedUser => {
+          this.user = updatedUser;
+        });
       },
       error: (err) => {
         this.alertService.error(`更新失敗: ${err.error.message || '請稍後再試'}`);
