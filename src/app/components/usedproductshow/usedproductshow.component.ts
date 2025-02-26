@@ -6,7 +6,7 @@ import { ProductsService } from '../../services/products.service';
 import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import { TUcategory, TUcreateproductDTO, TUproductDTO, TUcondition } from 'src/app/interface/TUproductDTO';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormBuilder,Validators,FormControl, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-usedproductshow',
@@ -45,9 +45,20 @@ export class UsedproductshowComponent implements OnInit {
 
 
   constructor(
+    private fb: FormBuilder,
     private productsService: ProductsService,
     private authService: AuthService,
-  ) { }
+  ) {this.UPForm = this.fb.group({
+    categoryId: ['', Validators.required],
+    productName: ['', Validators.required], // 商品名稱必填
+    productDescription: ['', Validators.required], // 商品描述必填
+    productPrice: ['', [Validators.required, Validators.pattern('^[0-9]*$'), Validators.min(1)]], // 價格必填且需為數字
+    productConditionId: ['', Validators.required],
+    productStatus: [true],
+    tUproductImages: [''],
+  });
+
+    }
 
   // 必須要有 ngOnInit 方法
   ngOnInit(): void {
@@ -95,16 +106,28 @@ export class UsedproductshowComponent implements OnInit {
   }
   // 表單送出時的動作
   onSubmit(): void {
-    console.log(this.UPForm);
+    // console.log(this.UPForm);
+    // if (!this.user || !this.user.memberId) {
+    //   console.warn("會員資訊未載入，請先登入");
+    //   alert("請先登入後再進行商品上架！");
+    //   return;
+    // }
     if (!this.user || !this.user.memberId) {
-      console.warn("會員資訊未載入，請先登入");
       alert("請先登入後再進行商品上架！");
       return;
     }
     if (this.UPForm.invalid) {
-      console.warn("請填寫完整商品資訊");
+      // console.warn("請填寫完整商品資訊");
+      this.UPForm.markAllAsTouched(); // 這行確保所有未填的欄位會觸發錯誤訊息
+    // alert("請填寫完整商品資訊！");
       return;
     }
+
+  // 確保至少上傳一張圖片
+  if (this.imagePreviews.length === 0) {
+    alert("請至少新增一張圖片！");
+    return;
+  }
 
     // 移除圖片 Base64 的前綴
     const imagesWithoutPrefix = this.imagePreviews.map(url =>
@@ -127,11 +150,11 @@ export class UsedproductshowComponent implements OnInit {
     // 呼叫 service 來儲存商品
     this.productsService.createUsedProduct(newProduct).subscribe({
       next: (response) => {
-        console.log("商品上架成功:", response);
+        // console.log("商品上架成功:", response);
         alert("商品已成功上架！");
       },
       error: (error) => {
-        console.error("商品上架失敗:", error);
+        // console.error("商品上架失敗:", error);
         alert("商品上架失敗，請稍後再試！");
       }
     });

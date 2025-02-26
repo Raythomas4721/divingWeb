@@ -59,9 +59,13 @@
             <div class="col-md-6 d-flex flex-column align-items-center bg-light shadow p-3">
               <div class="upload-area mb-2 p-2 w-100 h-200 text-center" (dragover)="onDragOver($event)"
                 (drop)="onDrop($event)">
-                <i class="fa-regular fa-image fa-2xl mt-5"></i>
-                <p class="text-muted mt-2">拖曳圖片到這裡或點擊選擇圖片</p>
+                <i class="fa-regular fa-image fa-2xl mt-5 picture"></i>
+                <p class="text-muted mt-2">點擊選擇圖片</p>
                 <!-- 顯示錯誤訊息 -->
+                <div>
+                  <small *ngIf="imagePreviews.length === 0 && UPForm.touched" class="text-danger">
+                    請至少上傳一張圖片
+                  </small></div>
                 <button type="button" class="btn btn-success" (click)="fileInput.click()"
                   [disabled]="imagePreviews.length >= 6"><i class="fa-regular fa-circle-check"></i>&nbsp;選擇圖片</button>
                 <p class="text-info mt-2"><i class="fa-regular fa-lightbulb"></i>&nbsp;提示：重新排列照片以更改封面</p>
@@ -99,10 +103,9 @@
               <div class=" form-group">
                 <label for="productName"><i class="fa-solid fa-seedling"></i>&nbsp;&nbsp;商品名稱</label>
                 <input type="text" id="productName" class="form-control" formControlName="productName" required />
-                <!-- <small *ngIf="productForm.get('fProductName')?.invalid && productForm.get('fProductName')?.touched"
-                            class="text-danger">
-                            商品名稱至少需要 3 個字元
-                          </small> -->
+                <small *ngIf="UPForm.get('productName')?.invalid && UPForm.get('productName')?.touched" class="text-danger">
+                  商品名稱為必填
+                </small>
               </div>
               <!-- 商品類別 -->
               <div class="form-group">
@@ -116,9 +119,9 @@
               <div class="form-group">
                 <label for="productPrice"><i class="fa-solid fa-seedling"></i>&nbsp;&nbsp;價格</label>
                 <input type="text" id="productPrice" class="form-control" formControlName="productPrice" required />
-                <!-- <small class="text-danger">
+                <small *ngIf="UPForm.get('productPrice')?.invalid && UPForm.get('productPrice')?.touched" class="text-danger">
                   請填寫正確價格
-                </small> -->
+                </small>
               </div>
 
               <!-- 商品描述 -->
@@ -126,7 +129,10 @@
                 <label for="productDescription"><i class="fa-solid fa-seedling"></i>&nbsp;&nbsp;商品描述</label>
                 <textarea id="productDescription" class="form-control" rows="3" formControlName="productDescription"
                   placeholder="請描述產品狀況並包含買家可能感興趣的任何細節。"></textarea>
-              </div>
+                  <small *ngIf="UPForm.get('productDescription')?.invalid && UPForm.get('productDescription')?.touched" class="text-danger">
+                    商品描述為必填
+                  </small>
+                </div>
               <!-- 商品狀況 -->
               <div class="form-group">
                 <label><i class="fa-solid fa-seedling"></i>&nbsp;&nbsp;商品狀況</label>
@@ -138,11 +144,11 @@
                 </select>
               </div>
               <!-- 商品庫存 -->
-              <div class="form-group">
+              <!-- <div class="form-group">
                 <label for="productStock"><i class="fa-solid fa-seedling"></i>&nbsp;&nbsp;庫存數量</label>
                 <input type="text" id="productStock" class="form-control" formControlName="fStock" required />
 
-              </div>
+              </div> -->
               <!-- 送出按鈕 -->
               <!-- <button type="submit" class="btn btn-darkgrey m-3"><i
                   class="fa-solid fa-arrow-up"></i>&nbsp;&nbsp;更新</button> -->
