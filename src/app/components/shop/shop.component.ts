@@ -12,6 +12,10 @@ import { TnproductService } from './../../services/tnproduct.service';
 import { HttpClient } from '@angular/common/http';
 import { TncategoriesService } from 'src/app/services/tncategories.service';
 import { UserBehaviorService } from 'src/app/services/user-behavior.service';
+import {
+  TndiscountService,
+  TNdiscount,
+} from 'src/app/services/tndiscount.service';
 
 @Component({
   selector: 'app-shop',
@@ -19,6 +23,7 @@ import { UserBehaviorService } from 'src/app/services/user-behavior.service';
   styleUrls: ['./shop.component.css'],
 })
 export class ShopComponent implements OnInit {
+  currentDiscount: TNdiscount | null = null;
   album: Array<any> = [];
   // 分類相關
   products: any[] = []; // 分類商品
@@ -43,6 +48,7 @@ export class ShopComponent implements OnInit {
 
   constructor(
     private cartItemsService: TNcartItemsService,
+    private discountService: TndiscountService,
     private productService: TnproductService,
     private http: HttpClient,
     private router: Router,
@@ -127,38 +133,27 @@ export class ShopComponent implements OnInit {
   }
   onSearch(): void {
     const keyword = this.searchTerm.trim().toLowerCase();
+
+    // 若關鍵字為空，直接回到主分類狀態
     if (!keyword) {
-      // 如果沒輸入關鍵字，就回到「主分類」狀態
       this.searchResults = [];
       this.products = [];
       this.selectedCategoryId = null;
       return;
     }
 
-    // 2) 紀錄 SEARCH 行為
+    // 紀錄 SEARCH 行為
     this.userBehavior.logSearchKeyword(keyword).subscribe();
 
-    // 3) 呼叫後端搜尋
+    // 呼叫後端搜尋
     this.productService.getAllProducts(keyword).subscribe({
       next: (res) => {
+        console.log('搜尋結果 =>', res);
         this.searchResults = res;
-        // 同時清空 this.products & categoryId，確保只顯示搜尋結果
+
+        // 清空 products 與 selectedCategoryId，確保只顯示搜尋結果
         this.products = [];
         this.selectedCategoryId = null;
-      },
-      error: (err) => console.error(err),
-    });
-
-    // // 在呼叫後端搜尋 API 前，也可記錄一次 SEARCH 行為
-    // this.userBehavior.logSearchKeyword(keyword).subscribe({
-    //   next: (res) => console.log('紀錄SEARCH成功', res),
-    //   error: (err) => console.error('紀錄SEARCH失敗', err),
-    // });
-
-    this.productService.getAllProducts(keyword).subscribe({
-      next: (data) => {
-        this.products = data;
-        console.log('搜尋結果 =>', data);
       },
       error: (err) => console.error('搜尋失敗', err),
     });
@@ -192,11 +187,46 @@ export class ShopComponent implements OnInit {
    * 從後端撈取指定分類的商品
    */
   private loadProductsByCategory(categoryId: number) {
+    // (A) 先撈該分類的商品
     this.categoryService.getProductsByCategory(categoryId).subscribe({
       next: (data) => {
         // 先把商品放到 this.products
         this.products = data;
-        // 額外呼叫每個商品的平均評分
+
+        // 先暫存 originalPrice = unitPrice
+        this.products.forEach((p) => {
+          p['originalPrice'] = p.unitPrice;
+          p['discountedPrice'] = p.unitPrice; // 預設沒折扣
+        });
+
+        // (B) 收集所有 productId
+        const productIds = this.products.map((p) => p.productId);
+
+        // (C) 透過批量 API 一次查詢這些商品的折扣
+        this.discountService.getDiscountsByProducts(productIds).subscribe({
+          next: (discountResults) => {
+            // discountResults: { productId, discountValue }[]
+            discountResults.forEach((dr) => {
+              // 找到對應商品
+              const found = this.products.find(
+                (p) => p.productId === dr.productId
+              );
+              if (found) {
+                if (dr.discountValue != null) {
+                  // 例如 80 => 8折 => 80 / 100 = 0.8
+                  const rate = dr.discountValue / 100;
+                  found['discountedPrice'] = Math.round(found.unitPrice * rate);
+                } else {
+                  // 無折扣 => discountedPrice = unitPrice
+                  found['discountedPrice'] = found.unitPrice;
+                }
+              }
+            });
+          },
+          error: (err) => console.error('取得批量折扣失敗:', err),
+        });
+
+        // (D) 額外撈每個商品的平均評分
         this.products.forEach((p) => {
           this.reviewService.getReviewStatsByProduct(p.productId).subscribe({
             next: (stats) => {
@@ -207,6 +237,7 @@ export class ShopComponent implements OnInit {
             error: (err) => console.error('取得評分失敗', err),
           });
         });
+
         // demo: 也可以隨機 sort
         this.products.sort(() => Math.random() - 0.5);
 

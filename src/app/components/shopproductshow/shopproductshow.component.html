@@ -11,9 +11,9 @@
           <li class="breadcrumb-item">
             <a routerLink="/shop">商品首頁</a>
           </li>
-          <li class="breadcrumb-item active">
+          <!-- <li class="breadcrumb-item active">
             Shop Product with Right Sidebar
-          </li>
+          </li> -->
         </ol>
       </div>
     </div>
@@ -96,12 +96,47 @@
           >
 
           <p style="font-size: larger">
+            <ng-container
+              *ngIf="
+                discountedPrice !== null &&
+                  discountedPrice < productDetail.unitPrice;
+                else noDiscount
+              "
+            >
+              <!-- 有折扣時 -->
+              <span style="text-decoration: line-through; color: #888">
+                原價:
+                {{
+                  productDetail.unitPrice
+                    | currency : "TWD" : "symbol-narrow" : "1.0-0"
+                }}
+              </span>
+              <br />
+              <span style="color: #f51a13">
+                優惠價:
+                {{
+                  discountedPrice | currency : "TWD" : "symbol-narrow" : "1.0-0"
+                }}
+              </span>
+            </ng-container>
+
+            <!-- 無折扣(或折扣後價=原價) -->
+            <ng-template #noDiscount>
+              價格:
+              {{
+                productDetail.unitPrice
+                  | currency : "TWD" : "symbol-narrow" : "1.0-0"
+              }}
+            </ng-template>
+          </p>
+
+          <!-- <p style="font-size: larger">
             價格:
             {{
               productDetail.unitPrice
                 | currency : "TWD" : "symbol-narrow" : "1.0-0"
             }}
-          </p>
+          </p> -->
 
           <div>
             <p style="white-space: pre-line">
