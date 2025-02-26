@@ -98,7 +98,7 @@ export class ShopproductshowComponent implements OnInit, OnDestroy {
     private reviewService: TnreviewService,
     private alertService: AlertService,
     private discountService: TndiscountService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     // 1) 取得 route 參數
@@ -113,7 +113,7 @@ export class ShopproductshowComponent implements OnInit, OnDestroy {
 
     // 3) 監聽使用者資訊
     this.authService.user$.subscribe((u) => {
-      this.user = u?.user;
+      this.user = u;
       if (this.user?.memberId) {
         this.reviewForm.patchValue({ memberId: this.user.memberId });
       }

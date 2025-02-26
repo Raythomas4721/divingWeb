@@ -56,7 +56,7 @@ export class ShopComponent implements OnInit {
     private categoryService: TncategoriesService,
     private route: ActivatedRoute,
     private reviewService: TnreviewService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.loadTopProducts();
