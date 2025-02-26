@@ -83,7 +83,7 @@
                     <td>{{ product.courseStatus ? '下架' : '上架' }}</td>
                     <td>
                       <button class="table-btn" (click)="editProduct(product.productId)">編輯</button>
-                      <button class="table-btn mt-1">刪除</button>
+                      <button class="table-btn mt-1" (click)="deleteProduct(product.productId)">刪除</button>
                     </td>
                   </tr>
                 </tbody>

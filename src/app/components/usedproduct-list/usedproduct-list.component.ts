@@ -65,20 +65,6 @@ export class UsedproductListComponent {
       }
     })
   }
-  // editProduct(productId: number): void {
-  //   this.productsService.getProductWithUserId(productId).subscribe({
-  //     next: (product) => {
-
-  //        console.log("獲取的商品資料:", product);
-  //        console.log(`導航到編輯頁面: /editusedproduct/${productId}`);
-
-  //       this.router.navigate(['/editusedproduct', productId]);
-  //       console.log(productId);
-  //     }, error: (error) => {
-  //       console.error('商品獲取失敗:', error);
-  //     }
-  //   });
-  // }
   editProduct(productId: number): void {
     this.router.navigate(['/usedproductedit', productId]).then(success => {
       console.log(`導航到編輯頁面: /usedproductedit/${productId}`);
@@ -90,6 +76,25 @@ export class UsedproductListComponent {
       }
     });
   }
+  deleteProduct(productId: number): void {
+    if (!confirm('確定要刪除此商品嗎？')) {
+      return; // 如果使用者取消刪除，就不執行後續動作
+    }
+
+    this.productsService.deleteProduct(productId).subscribe({
+      next: (response) => {
+        console.log('刪除成功:', response);
+        // 更新畫面，移除已刪除的商品
+        this.usedProducts = this.usedProducts.filter(p => p.productId !== productId);
+        this.filteredProducts = this.filteredProducts.filter(p => p.productId !== productId);
+      },
+      error: (error: HttpErrorResponse) => {
+        console.error('刪除商品失敗:', error);
+        alert('刪除商品失敗，請稍後再試！');
+      }
+    });
+  }
+
   filterProducts() {
     // 先回復到完整的商品列表
     this.productsData = this.originalProductsData.filter(product => {
