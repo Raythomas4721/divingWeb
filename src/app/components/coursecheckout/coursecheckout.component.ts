@@ -19,8 +19,8 @@ courseId:number=-1;
 quantity:number=1;
 courseName:string='';  //
 coursePrice:number=0;  //
-// memberId: number | null = null;  // ✅ 存放會員 ID
-memberId:number=22;
+memberId: number | null = null;  // ✅ 存放會員 ID
+// memberId:number=22;
 orderStatus: boolean = true; // ✅ 訂單狀態：已確認
 orderDate: string = new Date().toLocaleString(); // ✅ 轉成 `YYYY-MM-DDTHH:mm:ss` 格式
 user?: UserDTO | null;
