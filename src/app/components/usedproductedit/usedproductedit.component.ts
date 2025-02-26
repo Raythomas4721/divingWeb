@@ -17,10 +17,13 @@ import { ActivatedRoute } from '@angular/router';
 export class UsedproducteditComponent {
   user?: UserDTO | null;
   sellerId?: UserDTO | null;
-
+  productForm!: FormGroup;
   usedProducts: TUcreateproductDTO[] = [];
   usedCategory: TUcategory[] = [];
   usedCondition: TUcondition[] = [];
+  //
+  isEditMode = false;
+  isLoading = false; // 用於控制按鈕 Loading 狀態
   //
   imagePreviews: string[] = [];
   draggedIndex: number | null = null;
@@ -44,10 +47,14 @@ export class UsedproducteditComponent {
     const productIdStr = this.route.snapshot.paramMap.get('id');
     if (productIdStr) {
       const productId = Number(productIdStr); // 或使用 parseInt(productIdStr, 10)
+
+      this.isEditMode = true;
       this.loadCategory();
       this.loadCondition();
+      this.getUser();
       this.productsService.getProductById(productId).subscribe({
         next: (data) => {
+          console.log("取得商品資料:", data);
           // 填入表單資料
           this.UPForm.patchValue({
             productName: data.productName,
@@ -55,6 +62,7 @@ export class UsedproducteditComponent {
             productDescription: data.productDescription,
             productPrice: data.productPrice,
             productConditionId: data.productConditionId,
+            productStatus: data.productStatus
             // 其他需要顯示的資料
           });
           // 如果資料包含圖片，更新圖片預覽
@@ -68,23 +76,38 @@ export class UsedproducteditComponent {
         }
       });
     }
-
   }
+
+  private getUser() {
+    this.authService.user$.subscribe(user => {
+      this.user = user;
+      if (user) {
+        console.log("用戶資料已載入:", this.user);
+      } else {
+        console.log("等待 API 返回，用戶資料尚未載入");
+      }
+    });
+  }
+
   // 表單送出時的動作
   onSubmit(): void {
     console.log(this.UPForm);
     if (this.UPForm.invalid) {
       console.warn("請填寫完整商品資訊");
+      alert("請填寫完整商品資訊");
       return;
     }
+    console.log('user', this.user);
 
     // 移除圖片 Base64 的前綴
     const imagesWithoutPrefix = this.imagePreviews.map(url =>
       url.includes('base64,') ? url.split('base64,')[1] : url
     );
     const formData = this.UPForm.value;
+    const productId = this.isEditMode ? Number(this.route.snapshot.paramMap.get('id')) : undefined;
     // 準備符合 DTO 格式的商品資料
     const newProduct: TUcreateproductDTO = {
+      productId: productId, // 更新模式需要 productId
       sellerId: this.user!.memberId, // 這裡需要確保 user 資料存在
       categoryId: formData.categoryId!,
       productName: formData.productName!,
@@ -97,16 +120,43 @@ export class UsedproducteditComponent {
     };
 
     // 呼叫 service 來儲存商品
-    this.productsService.createUsedProduct(newProduct).subscribe({
-      next: (response) => {
-        console.log("商品上架成功:", response);
-        alert("商品已成功上架！");
-      },
-      error: (error) => {
-        console.error("商品上架失敗:", error);
-        alert("商品上架失敗，請稍後再試！");
-      }
-    });
+    // this.productsService.createUsedProduct(newProduct).subscribe({
+    //   next: (response) => {
+    //     console.log("商品上架成功:", response);
+    //     alert("商品已成功上架！");
+    //   },
+    //   error: (error) => {
+    //     console.error("商品上架失敗:", error);
+    //     alert("商品上架失敗，請稍後再試！");
+    //   }
+    // });
+    if (this.isEditMode) {
+      // **更新商品**
+      this.productsService.updateProduct(newProduct).subscribe({
+        next: (response) => {
+          console.log("商品更新成功:", response);
+          alert("商品已成功更新！");
+        },
+        error: (error) => {
+          console.error("商品更新失敗:", error);
+          alert("商品更新失敗，請稍後再試！");
+        },
+        complete: () => this.isLoading = false // 關閉 loading
+      });
+    } else {
+      // **新增商品**
+      this.productsService.createUsedProduct(newProduct).subscribe({
+        next: (response) => {
+          console.log("商品上架成功:", response);
+          alert("商品已成功上架！");
+        },
+        error: (error) => {
+          console.error("商品上架失敗:", error);
+          alert("商品上架失敗，請稍後再試！");
+        },
+        complete: () => this.isLoading = false // 關閉 loading
+      });
+    }
   }
   loadCategory() {
     this.productsService.getUsedCategory().subscribe({
@@ -194,4 +244,6 @@ export class UsedproducteditComponent {
 
     this.draggedIndex = null;
   }
+
+
 }

@@ -23,6 +23,7 @@ export interface TUproductDetail {
 }
 export interface TUcreateproductDTO {
   // productId: number;
+  productId?: number;
   sellerId: number;
   categoryId: number;
   productName: string;

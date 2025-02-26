@@ -33,16 +33,17 @@ export class ProductsService {
     return this.http.post<TUproductDTO>(`${this.apiUrl}api/TUproductsAPI`, product);
   }
   //抓edit資料
-  // getProductWithUserId(productId: number): Observable<TUproductDetail> {
-  //   return this.http.get<TUproductDetail>(`${this.apiUrl}api/TUproductsAPI/${productId}`)
-  // }
   getProductById(productId: number): Observable<TUproductDetail> {
     return this.http.get<TUproductDetail>(`${this.apiUrl}api/TUproductsAPI/${productId}`)
   }
-
-  // getProductById(){
-  //   return this.http.get<>()
+  //更新商品
+  // updateProduct(product: TUcreateproductDTO): Observable<any> {
+  //   return this.http.put<TUproductDTO>(`${this.apiUrl}api/TUproductsAPI`, product);
   // }
+  updateProduct(product: TUcreateproductDTO): Observable<any> {
+    return this.http.put<any>(`${this.apiUrl}api/TUproductsAPI/${product.productId}`, product);
+  }
+
 
   deleteProduct(productId: number): Observable<any> {
     return this.http.delete<TUproductDTO[]>(`${this.apiUrl}api/TUproductsAPI/${productId}`);
