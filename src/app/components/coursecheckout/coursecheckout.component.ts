@@ -40,8 +40,8 @@ ngOnInit(): void {
   this.getCourseId();
 
   this.authService.user$.subscribe(user => {
-    if (user?.user) {
-      this.user = user.user;
+    if (user) {
+      this.user = user;
       this.memberId = this.user?.memberId ?? -1;//設定 memberId (即使 this.user 是 undefined，memberId 仍然有預設值，不會影響程式執行。)
       console.log("🔵 用戶資料已載入:", this.user);
       console.log("🆔 取得的 memberId:", this.memberId);

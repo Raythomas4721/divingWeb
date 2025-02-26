@@ -34,7 +34,7 @@ export class CoursedetailsComponent implements OnInit {
     }
 
     this.authService.user$.subscribe(user => {
-      this.user = user?.user;
+      this.user = user;
       if (user) {
         console.log("用戶資料已載入:", this.user);
       } else {
