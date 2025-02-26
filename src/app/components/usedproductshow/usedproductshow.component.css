@@ -1,0 +1,10 @@
+.btn-transparent {
+  background-color: transparent;
+  border: none;
+  outline: none;
+  box-shadow: none;
+  cursor: pointer;
+}
+.delete-btn{
+  min-width: 50px;
+}
