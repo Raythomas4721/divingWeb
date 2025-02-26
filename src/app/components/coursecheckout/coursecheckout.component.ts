@@ -19,8 +19,8 @@ courseId:number=-1;
 quantity:number=1;
 courseName:string='';  //
 coursePrice:number=0;  //
-// memberId: number | null = null;  // ✅ 存放會員 ID
-memberId:number=22;
+memberId: number | null = null;  // ✅ 存放會員 ID
+// memberId:number=22;
 orderStatus: boolean = true; // ✅ 訂單狀態：已確認
 orderDate: string = new Date().toLocaleString(); // ✅ 轉成 `YYYY-MM-DDTHH:mm:ss` 格式
 user?: UserDTO | null;
@@ -101,38 +101,43 @@ getCourseId(): void {
 // }
 
 submitOrder(): void {
-  console.log('📝 訂單提交前數據檢查:');
+  console.log('📝 準備提交訂單...');
   console.log('🆔 memberId:', this.memberId);
   console.log('📘 courseId:', this.courseId);
   console.log('💰 coursePrice:', this.coursePrice);
   console.log('📦 quantity:', this.quantity);
 
-  if (!this.memberId || this.courseId < 1) {
+  if (!this.memberId || this.memberId < 1 || this.courseId < 1) {
     console.error('❌ 無法提交訂單：缺少必要資訊');
+    alert("會員 ID 或 課程 ID 無效，請重新登入後再試。");
     return;
   }
 
   const orderData = {
     memberId: this.memberId,
     courseId: this.courseId,
-    courseName: this.courseName,
     coursePrice: this.coursePrice,
     quantity: this.quantity,
     orderDate: new Date().toISOString(),
     orderStatus: true
   };
 
-  this.ordersService.createOrder(orderData).subscribe(
-    response => {
-      console.log('✅ 訂單提交成功:', response);
+  console.log("🔍 傳送訂單資料:", orderData);
 
-      // ✅ 使用 Router 傳遞 `state` 來帶入訂單數據
-      this.router.navigate(['/courseorderreceived'], {
-        state: { orderData }  // ✅ 把 orderData 帶入導航
-      });
+  this.ordersService.createOrder(orderData).subscribe(
+    (response: any) => {
+      console.log('✅ 訂單提交成功:', response);
+      if (response.orderId) {
+        this.router.navigate(['/courseorderreceived'], {
+          state: { orderData: { ...orderData, orderId: response.orderId } }
+        });
+      } else {
+        console.warn('⚠ 訂單建立成功，但未收到 orderId');
+      }
     },
-    error => {
+    (error) => {
       console.error('❌ 提交訂單失敗:', error);
+      alert(`訂單提交失敗，錯誤訊息: ${error.error?.message || '未知錯誤'}`);
     }
   );
 }

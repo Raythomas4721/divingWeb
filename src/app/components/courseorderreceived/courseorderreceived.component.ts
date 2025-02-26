@@ -7,7 +7,7 @@ import { TcordersService } from 'src/app/services/tcorders.service';
 import { UserService } from 'src/app/services/user.service';
 
 interface Order {
-memberName: any;
+  memberName: any;
   orderId: number;
   courseId: number;
   memberId: number;
@@ -96,17 +96,31 @@ export class CourseorderreceivedComponent implements OnInit{
     // }
 
     // console.log("📦 訂單數據:", this.orderData);
-        // ✅ 取得當前用戶
-        this.authService.user$.subscribe(user => {
-          if (!user) {
-            console.warn("⚠ 無法取得會員資料，請重新登入");
-            this.router.navigate(['/']);
-            return;
-          }
+    const navigation = this.router.getCurrentNavigation();
+  this.orderData = navigation?.extras.state?.['orderData'] || null;
+
+  if (!this.orderData) {
+    console.warn("⚠ 訂單數據遺失，將重新獲取歷史訂單");
+  } else {
+    console.log("✅ 訂單數據:", this.orderData);
+  }
+
+  // 訂閱用戶數據
+  this.authService.user$.subscribe(user => {
+    this.user = user?.user;
     
-          // 取得歷史訂單
-          this.loadOrderHistory();
-        });
+    if (!this.user) {
+      console.warn("⚠ 未登入，將導回首頁");
+      this.router.navigate(['/']);
+      return;
+    }
+
+    console.log("👤 目前登入的用戶:", this.user);
+
+    // 確保取得 `memberId` 後再載入訂單
+    this.loadOrderHistory();
+  });
+
         
       }
 
