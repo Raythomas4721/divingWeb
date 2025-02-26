@@ -128,9 +128,11 @@ submitOrder(): void {
     (response: any) => {
       console.log('✅ 訂單提交成功:', response);
       if (response.orderId) {
-        this.router.navigate(['/courseorderreceived'], {
-          state: { orderData: { ...orderData, orderId: response.orderId } }
-        });
+        const finalOrderData = { ...orderData, orderId: response.orderId };
+  
+        this.ordersService.setOrderData(finalOrderData); // 🚀 存入 TcordersService & sessionStorage
+  
+        this.router.navigate(['/courseorderreceived']);
       } else {
         console.warn('⚠ 訂單建立成功，但未收到 orderId');
       }

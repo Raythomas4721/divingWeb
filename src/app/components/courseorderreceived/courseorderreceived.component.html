@@ -165,7 +165,9 @@
 						  </p>
 						  <ul class="woocommerce-order-overview woocommerce-thankyou-order-details order_details">
 							<li class="woocommerce-order-overview__order order">
-							  訂單編號: <strong>{{ orderData.orderId }}1719</strong>
+							  <!-- 訂單編號: <strong>{{ orderData.orderId }}1719</strong> -->
+							  訂單編號: <strong *ngIf="orderData?.orderId">{{ orderData.orderId }}</strong>
+
 							</li>
 							<li class="woocommerce-order-overview__date date">
 							  訂購日期: <strong>{{ orderData.orderDate | date:'yyyy-MM-dd HH:mm:ss' }}</strong>
@@ -215,17 +217,21 @@
 										  <th>分類</th>
 										  <th>等級</th>
 										  <th>教練</th>
-										  <th (click)="sortCourses('startAt')">起始日期 <i class="fa-solid fa-sort" style="color: #0d425e;"></i></th>
-										  <th>單價 <i class="fa-solid fa-sort" style="color: #0d425e;"></i></th>
-										  <th>訂單金額 <i class="fa-solid fa-sort" style="color: #0d425e;"></i></th>
+										  <th (click)="sortOrders('startAt')">起始日期 <i class="fa-solid fa-sort" style="color: #0d425e;"></i></th>
+										  <th (click)="sortOrders('coursePrice')">單價 <i class="fa-solid fa-sort" style="color: #0d425e;"></i></th>
+										  <th (click)="sortOrders('totalPrice')">訂單金額 <i class="fa-solid fa-sort" style="color: #0d425e;"></i></th>
+										  <th (click)="sortOrders('orderDate')">訂購日期<i class="fa-solid fa-sort" style="color: #0d425e;"></i></th>
 										  <th>操作</th>
 										</tr>
 									  </thead>
 									  <tbody>
 										<tr *ngFor="let order of orderHistoryData">
-										  <td>{{ order.orderId | date:'MM/dd'}}</td>
+										  <td>{{ order.orderId}}</td>
 										  <td>
+											<!-- <img [src]="order.imageData" alt="Course Image" width="200" height="150"> -->
+											<!-- <img [src]="getImage(order.photo)" alt="Course Image"> -->
 											<img [src]="order.imageData" alt="Course Image" width="200" height="150">
+											
 										  </td>
 										  <td>{{ order.courseName }}</td>
 										  <td>{{ order.categoryName }}</td>
@@ -234,6 +240,7 @@
 										  <td>{{ order.startAt }}</td>
 										  <td>{{ order.coursePrice }}</td>
 										  <td>{{ order.coursePrice * order.quantity }}</td>
+										  <td>{{ order.orderDate}}</td>
 										  <td>
 											<button class="table-btn mt-1" style="background-color: darksalmon;" (click)="deleteCourse(orderData.courseId)">
 											  刪除

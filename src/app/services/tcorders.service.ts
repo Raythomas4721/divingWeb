@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { catchError, Observable, throwError } from 'rxjs';
+import { BehaviorSubject, Observable, catchError, map, throwError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -9,29 +9,66 @@ export class TcordersService {
   
   private apiUrl = 'https://localhost:7107/api/TCorders'; // 根據實際設定調整
 
-  constructor(private client: HttpClient) { }
+  // 使用 BehaviorSubject 來儲存訂單數據
+  private orderSubject = new BehaviorSubject<any>(null);
+  orderData$ = this.orderSubject.asObservable();
 
-  // 傳入訂單資料並發出 POST 請求，回傳訂單編號或訊息
-  // createOrder(orderData: any): Observable<string> {
-  //   return this.client.post<string>(this.apiUrl, orderData);
-  // }
-
-  createOrder(orderData: any): Observable<any> {
-    return this.client.post(`${this.apiUrl}`, orderData)
-      .pipe(
-        catchError(error => {
-          console.error('❌ 訂單 API 錯誤:', error);
-          return throwError(() => new Error(error));
-        })
-      );
+  constructor(private client: HttpClient) {
+    this.loadOrderDataFromSession(); // 🚀 初始化時嘗試從 sessionStorage 還原
   }
 
+  // 🚀 設定訂單數據並存入 sessionStorage
+  setOrderData(data: any) {
+    this.orderSubject.next(data);
+    sessionStorage.setItem('orderData', JSON.stringify(data));
+  }
+
+  // 🚀 嘗試從 sessionStorage 加載數據
+  loadOrderDataFromSession() {
+    const storedData = sessionStorage.getItem('orderData');
+    if (storedData) {
+      this.orderSubject.next(JSON.parse(storedData));
+    }
+  }
+
+  // 🚀 取得當前的 orderData
+  getOrderData() {
+    return this.orderSubject.value;
+  }
+
+  // 發送訂單請求
+  createOrder(orderData: any): Observable<any> {
+    return this.client.post(`${this.apiUrl}`, orderData).pipe(
+      catchError(error => {
+        console.error('❌ 訂單 API 錯誤:', error);
+        return throwError(() => new Error(error));
+      })
+    );
+  }
+
+  // 根據課程 ID 獲取課程資訊
   getCourseById(id: number): Observable<any> {
     return this.client.get<any>(`${this.apiUrl}/${id}`);
   }
 
+  // 根據會員 ID 獲取訂單
   getOrdersByMemberId(memberId: number): Observable<any[]> {
     const url = `${this.apiUrl}/member/${memberId}`; // 假設 API 路由為 /api/orders/member/{memberId}
     return this.client.get<any[]>(url);
   }
+  // getOrdersByMemberId(memberId: number): Observable<any[]> {
+  //   const url = `${this.apiUrl}/member/${memberId}`; 
+  //   return this.client.get<any[]>(url).pipe(
+  //     map(orders => orders.map(order => ({
+  //       ...order,
+  //       imageData: order.imageData 
+  //         ? `data:image/jpeg;base64,${order.imageData}` 
+  //         : 'assets/images/courses/noImage_500x300.png' // 預設圖片
+  //     }))),
+  //     catchError(error => {
+  //       console.error("❌ 獲取歷史訂單失敗:", error);
+  //       return throwError(() => new Error(error));
+  //     })
+  //   );
+  // }
 }
