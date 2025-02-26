@@ -101,6 +101,18 @@
   max-width: 280px;
   margin: 0 auto; /* 置中 */
 }
+.product-inner .onsale {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  /* 設定背景色、padding、字體大小 */
+  background-color: rgba(235, 189, 2, 0.622);
+  color: #fff;
+  padding: 5px 10px;
+  /* font-weight: bold;
+  border-radius: 3px; */
+}
+
 .product-wrap {
   /* 移除任何背景設定，不要半透明也不要白色 */
   background-color: transparent;
@@ -152,4 +164,16 @@
 }
 .widget.woocommerce.widget_top_rated_products {
   margin-top: 22px; /* 負值 => 往上移; 可依需求調整數值 */
+}
+
+.original-price {
+  color: #888; /* 淺灰字體 */
+  display: block; /* 讓它獨佔一行 (或用 margin 來分行也行) */
+  /* margin-bottom: 1px; 與折扣價之間留點間距 */
+  text-decoration: line-through;
+}
+
+.discount-price {
+  color: #f51a13; /* 顯眼的紅色 (Bootstrap danger色) */
+  display: block; /* 獨佔一行 */
 }

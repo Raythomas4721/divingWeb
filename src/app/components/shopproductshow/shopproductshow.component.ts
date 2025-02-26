@@ -29,6 +29,10 @@ import {
 } from '@angular/forms';
 import { TnreviewService } from 'src/app/services/tnreview.service';
 import { TNreviewDTO } from 'src/app/interface/TNreviewDTO';
+import {
+  TNdiscount,
+  TndiscountService,
+} from 'src/app/services/tndiscount.service';
 
 @Component({
   selector: 'app-shopproductshow',
@@ -76,6 +80,11 @@ export class ShopproductshowComponent implements OnInit, OnDestroy {
   get ratingWidth(): number {
     return (this.avgRating / 5) * 100;
   }
+
+  // 折扣相關
+  currentDiscount: TNdiscount | null = null;
+  discountedPrice: number | null = null; // 最終計算後的折扣價
+
   constructor(
     private route: ActivatedRoute,
     private http: HttpClient,
@@ -87,28 +96,45 @@ export class ShopproductshowComponent implements OnInit, OnDestroy {
     private lightbox: Lightbox,
     private fb: FormBuilder,
     private reviewService: TnreviewService,
-    private alertService: AlertService
+    private alertService: AlertService,
+    private discountService: TndiscountService
   ) {}
 
   ngOnInit(): void {
-    // 監聽使用者資訊 (若需要帶 memberId 給後端)
-    this.authService.user$.subscribe((u) => {
-      this.user = u?.user;
-      if (this.user?.memberId) {
-        this.reviewForm.patchValue({ memberId: this.user.memberId });
-      }
-    });
-    this.cartItemsService.cartItems$.subscribe((items) => {
-      this.cartItems = items;
-    });
-    // (A) 先讀取路由參數
+    // 1) 取得 route 參數
     this.productId = Number(this.route.snapshot.paramMap.get('id'));
     if (!this.productId) {
       console.error('無法取得商品ID');
       return;
     }
 
-    // (B) 建立 Reactive Form
+    // 2) 紀錄進入頁面的時間
+    this.enterTime = Date.now();
+
+    // 3) 監聽使用者資訊
+    this.authService.user$.subscribe((u) => {
+      this.user = u?.user;
+      if (this.user?.memberId) {
+        this.reviewForm.patchValue({ memberId: this.user.memberId });
+      }
+    });
+
+    // 4) 監聽購物車
+    this.cartItemsService.cartItems$.subscribe((items) => {
+      this.cartItems = items;
+    });
+
+    // 5) 建立 Reactive Form for 評論
+    this.initReviewForm();
+
+    // ★ 6) 先撈商品詳細 => 再撈折扣 => 再載入顏色、尺寸、variants ...
+    this.loadProductDetailAndDiscount();
+
+    // 7) 撈取評論(非同步)
+    this.loadReviewsAndStats();
+  }
+
+  initReviewForm() {
     this.reviewForm = this.fb.group({
       productId: [this.productId],
       memberId: [this.user?.memberId],
@@ -118,18 +144,21 @@ export class ShopproductshowComponent implements OnInit, OnDestroy {
       ],
       reviewContent: ['', Validators.required],
     });
+  }
 
-    // (C) 將 productId 帶入表單
+  loadReviewsAndStats() {
+    if (!this.productId) return;
+
+    // A) 撈取全部評論
     this.reviewService.getAllReviewsByProduct(this.productId).subscribe({
       next: (reviews) => {
         this.reviews = reviews;
-        // 檢查是否已經評論過 => 如果有就帶入表單
+        // 如果使用者已經評論過，預填表單
         const existingReview = this.reviews.find(
           (r) => r.memberId === this.user?.memberId
         );
         if (existingReview) {
           this.editingReview = existingReview;
-          // 預填表單
           this.reviewForm.setValue({
             productId: existingReview.productId,
             memberId: existingReview.memberId,
@@ -141,97 +170,144 @@ export class ShopproductshowComponent implements OnInit, OnDestroy {
       error: (err) => console.error('撈取評論失敗', err),
     });
 
-    // 4) 撈取「平均評分、評論數」
+    // B) 撈取「平均評分、評論數量」
     this.reviewService.getReviewStatsByProduct(this.productId).subscribe({
       next: (stats) => {
-        this.avgRating = stats.avgRating; // 例如 4.3
-        this.reviewCount = stats.reviewCount; // 例如 12
+        this.avgRating = stats.avgRating;
+        this.reviewCount = stats.reviewCount;
       },
       error: (err) => console.error('撈取評分/評論數失敗', err),
     });
+  }
 
-    this.enterTime = Date.now();
+  // ★ 重點：先撈商品 => 再查折扣 => 再撈顏色/尺寸/variants
+  loadProductDetailAndDiscount() {
+    if (!this.productId) return;
 
-    // 1) 取得路由參數
-    this.productId = Number(this.route.snapshot.paramMap.get('id'));
-    if (!this.productId) {
-      console.error('無法取得商品ID');
-      return;
-    }
-
-    // 2) 紀錄 VIEW_PRODUCT 行為 (可帶 productId)
+    // (A) 紀錄行為
     this.userBehaviorService.logViewProduct(this.productId).subscribe();
 
-    // 3) 撈取商品詳細 (不含庫存檢查)
+    // (B) 先撈商品詳細
     this.productService.getSingleProduct(this.productId).subscribe({
-      next: (res: TNproductDTO | null) => {
+      next: (res) => {
         this.productDetail = res;
-        // 做圖片 album (主圖 + 檢查 -1.jpg, -2.jpg)
-        if (this.productDetail?.imageUrl) {
-          // 若後端只存一張
-          if (!this.productDetail.images) {
-            this.productDetail.images = [];
-          }
-          const mainImg = this.productDetail.imageUrl;
-          this.productDetail.images.push(mainImg);
+        if (!this.productDetail) {
+          console.error('找不到商品資料');
+          return;
+        }
 
-          const mainFullPath = 'assets/images/shop/' + mainImg;
-          this.album.push({
-            src: mainFullPath,
-            thumb: mainFullPath,
-            caption: mainImg,
+        // 建立相簿
+        this.setupImages();
+
+        // (C) 撈折扣( by productId )
+        this.discountService
+          .getDiscountsByProducts([this.productId!])
+          .subscribe({
+            next: (results) => {
+              if (results.length > 0) {
+                // 假設只查一個 productId => results[0]
+                const dr = results[0];
+                // dr.discountValue => 80 => 8折 => 80/100=0.8
+                const rate = (dr.discountValue || 100) / 100;
+                this.discountedPrice = Math.round(
+                  this.productDetail!.unitPrice * rate
+                );
+                this.currentDiscount = {
+                  discountId: 0, // 可能無法取得, 先給0
+                  discountName: '', // 可能無法取得
+                  productCategoryId: null,
+                  discountValue: dr.discountValue,
+                  startDate: null,
+                  endDate: null,
+                };
+              } else {
+                // 無折扣
+                this.discountedPrice = this.productDetail?.unitPrice ?? null;
+                this.currentDiscount = null;
+              }
+            },
+            error: (err) => console.error('取得批量折扣失敗:', err),
           });
 
-          // 檢查 -1.jpg, -2.jpg ...
-          const baseName = mainImg.replace('.jpg', '');
-          for (let i = 1; i <= 2; i++) {
-            const guessName = `${baseName}-${i}.jpg`;
-            const guessPath = `assets/images/shop/${guessName}`;
-            this.http.head(guessPath, { observe: 'response' }).subscribe({
-              next: (resp) => {
-                if (resp.status === 200) {
-                  this.productDetail?.images?.push(guessName);
-                  this.album.push({
-                    src: guessPath,
-                    thumb: guessPath,
-                    caption: guessName,
-                  });
-                }
-              },
-              error: (err) => {
-                if (err.status !== 404) {
-                  console.error('檔案檢查發生錯誤:', err);
-                }
-              },
-            });
-          }
-        }
+        // (D) 再撈顏色 / 尺寸 / variants
+        this.loadColors();
+        this.loadSizes();
+        this.loadVariants();
       },
-      error: (err: any) => console.error('取得商品詳細失敗:', err),
+      error: (err) => {
+        console.error('取得商品詳細失敗:', err);
+      },
+    });
+  }
+
+  setupImages() {
+    if (!this.productDetail?.imageUrl) return;
+
+    if (!this.productDetail.images) {
+      this.productDetail.images = [];
+    }
+    const mainImg = this.productDetail.imageUrl;
+    this.productDetail.images.push(mainImg);
+
+    const mainFullPath = 'assets/images/shop/' + mainImg;
+    this.album.push({
+      src: mainFullPath,
+      thumb: mainFullPath,
+      caption: mainImg,
     });
 
-    // 4) 撈取顏色/尺寸 (若需要使用者先選擇)
+    // 檢查 -1.jpg, -2.jpg ...
+    const baseName = mainImg.replace('.jpg', '');
+    for (let i = 1; i <= 2; i++) {
+      const guessName = `${baseName}-${i}.jpg`;
+      const guessPath = `assets/images/shop/${guessName}`;
+      this.http.head(guessPath, { observe: 'response' }).subscribe({
+        next: (resp) => {
+          if (resp.status === 200) {
+            this.productDetail?.images?.push(guessName);
+            this.album.push({
+              src: guessPath,
+              thumb: guessPath,
+              caption: guessName,
+            });
+          }
+        },
+        error: (err) => {
+          if (err.status !== 404) {
+            console.error('檔案檢查發生錯誤:', err);
+          }
+        },
+      });
+    }
+  }
+
+  loadColors() {
+    if (!this.productId) return;
     this.productService.getColorsForProduct(this.productId).subscribe({
       next: (colorList: any[]) => {
         this.colors = colorList.filter((c) => c.colorId !== 0);
-        this.buildAttributes(); // 更新
+        this.buildAttributes();
       },
-      error: (err: any) => console.error('取得 color 失敗', err),
+      error: (err) => console.error('取得 color 失敗', err),
     });
+  }
 
+  loadSizes() {
+    if (!this.productId) return;
     this.productService.getSizesForProduct(this.productId).subscribe({
       next: (sizeList: any[]) => {
         this.sizes = sizeList.filter((s) => s.sizeId !== 0);
-        this.buildAttributes(); // 更新
+        this.buildAttributes();
       },
-      error: (err: any) => console.error('取得 size 失敗', err),
+      error: (err) => console.error('取得 size 失敗', err),
     });
+  }
 
-    // 5) 撈取 variants (若你想前端顯示更多資訊)
+  loadVariants() {
+    if (!this.productId) return;
     this.productService.getProductVariants(this.productId).subscribe({
       next: (vars: any[]) => {
         this.productVariants = vars;
-        // 可能從 variants 提取 thickness/gender
         this.thicknesses = this.extractDistinctOptions(
           vars.map((v) => v.thicknessId).filter((id) => id !== 0),
           (id) => this.getThicknessName(id)
@@ -240,9 +316,9 @@ export class ShopproductshowComponent implements OnInit, OnDestroy {
           vars.map((v) => v.genderId).filter((id) => id !== 0),
           (id) => this.getGenderName(id)
         );
-        this.buildAttributes(); // 更新
+        this.buildAttributes();
       },
-      error: (err: any) => console.error('取得 variants 失敗', err),
+      error: (err) => console.error('取得 variants 失敗', err),
     });
   }
 
@@ -603,7 +679,7 @@ export class ShopproductshowComponent implements OnInit, OnDestroy {
               productName: this.productDetail?.productName ?? '', // or fallback to this.productDetail?.productName
               uproductId: res.uproductId ?? null,
               quantity: payload.quantity,
-              unitpriceatCart: res.price,
+              unitpriceatCart: this.discountedPrice!,
               imageUrl: res.imageUrl,
               isLocked: false,
               condition: 'new',

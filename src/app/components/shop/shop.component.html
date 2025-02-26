@@ -1,5 +1,6 @@
 <div>
   <div class="container">
+    <br />
     <div class="row">
       <!-- 主內容 -->
       <main class="col-lg-7 col-xl-8">
@@ -38,7 +39,11 @@
             >
               <div class="product-inner">
                 <!-- 你若想保留 SALE! 就寫在這 -->
-                <span class="onsale">Sale!</span>
+                <span
+                  class="onsale"
+                  *ngIf="item.discountedPrice < item.originalPrice"
+                  >特賣!</span
+                >
 
                 <div
                   class="image-swap-container"
@@ -85,10 +90,22 @@
                   </div>
                   <div class="price-wrap">
                     <span class="price">
-                      <span
-                        ><span>$</span
-                        >{{ item.unitPrice | number : "1.0-0" }}</span
+                      <ng-container
+                        *ngIf="
+                          item.discountedPrice < item.originalPrice;
+                          else normalPrice
+                        "
                       >
+                        <span class="original-price"
+                          >$ {{ item.originalPrice | number : "1.0-0" }}</span
+                        >
+                        <span class="discount-price"
+                          >$ {{ item.discountedPrice | number : "1.0-0" }}</span
+                        >
+                      </ng-container>
+                      <ng-template #normalPrice>
+                        <span>$ {{ item.unitPrice | number : "1.0-0" }}</span>
+                      </ng-template>
                     </span>
                     <!-- Add to cart -->
                     <a
