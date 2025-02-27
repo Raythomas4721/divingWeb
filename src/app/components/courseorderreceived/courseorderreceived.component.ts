@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { map } from 'rxjs';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { UserDTO } from 'src/app/interface/userDTO';
 import { AuthService } from 'src/app/services/auth.service';
@@ -7,6 +8,7 @@ import { TcordersService } from 'src/app/services/tcorders.service';
 import { UserService } from 'src/app/services/user.service';
 
 interface Order {
+orderStatus: any;
   memberName: any;
   orderId: number;
   courseId: number;
@@ -21,6 +23,7 @@ interface Order {
   startAt: string;
   photo?: string; 
   imageData?: string;//用來顯示圖片的轉換後屬性
+  isButtonDisabled :boolean;
 }
 
 interface Course {
@@ -63,7 +66,7 @@ export class CourseorderreceivedComponent implements OnInit{
     orderData: Order | null = null; // 當前訂單資料
     orderHistoryData: Order[] = []; // 歷史訂單資料
     uniqueCategories: string[] = []; // 存放唯一的分類名稱
-
+ 
   
     constructor(
       private coursesService: TccoursesService,
@@ -77,6 +80,7 @@ export class CourseorderreceivedComponent implements OnInit{
     ngOnInit(): void {
       this.ordersService.orderData$.subscribe(data => {
         if (data) {
+                   
           this.orderData = data;
           console.log("✅ 訂單數據更新:", this.orderData);
           
@@ -113,30 +117,34 @@ export class CourseorderreceivedComponent implements OnInit{
           if (!data || data.length === 0) {
             console.warn("⚠ 沒有歷史訂單");
             return;
-          }
+          }    
     
           console.log("📜 API 回傳的歷史訂單:", data);
     
           // **🚀 確保圖片格式轉換**
           this.orderHistoryData = data.map(order => ({
             ...order,
+            isButtonDisabled:this.checkCancelable(order.startAt),
+          
+            //isButtonDisabled=this.checkCancelable(order.startAt);
             imageData: this.getImage(order.photo)
           }));
+          console.log("object",this.orderHistoryData);
     
-          // **🚀 確保最新訂單在最前面**
-          this.orderHistoryData.sort((a, b) => new Date(b.orderDate).getTime() - new Date(a.orderDate).getTime());
+        //   // **🚀 確保最新訂單在最前面**
+        //   this.orderHistoryData.sort((a, b) => new Date(b.orderDate).getTime() - new Date(a.orderDate).getTime());
     
-          // **🚀 若 `orderData` 為空，或是強制刷新，則更新最新訂單**
-          if (!this.orderData || forceRefresh) {
-            this.orderData = this.orderHistoryData[0];
-          }
+        //   // **🚀 若 `orderData` 為空，或是強制刷新，則更新最新訂單**
+        //   if (!this.orderData || forceRefresh) {
+        //     this.orderData = this.orderHistoryData[0];
+        //   }
     
-          console.log("✅ 最新訂單:", this.orderData);
-        },
-        error => {
-          console.error("❌ 獲取歷史訂單失敗:", error);
-        }
-      );
+        //   console.log("✅ 最新訂單:", this.orderData);
+        // },
+        // error => {
+        //   console.error("❌ 獲取歷史訂單失敗:", error);
+        // }
+    });
     }
     
 
@@ -211,21 +219,7 @@ export class CourseorderreceivedComponent implements OnInit{
       );
     }
   
-    loadCategories() {
-      this.coursesService.getCategories().subscribe(
-        (data: Category[]) => {
-          if (!Array.isArray(data)) {
-            console.error('API 回傳的分類資料不是陣列:', data);
-            this.courseCategories = [];
-            return;
-          }
-          this.courseCategories = data;
-        },
-        (error) => {
-          console.error('獲取分類數據失敗', error);
-        }
-      );
-    }
+   
   
     filterCourses() {
       this.orderHistoryData = this.orderHistoryData.filter(order => {
@@ -246,27 +240,29 @@ export class CourseorderreceivedComponent implements OnInit{
     }
   
      // 判斷是否在 7 天內
-     isButtonDisabled(order: Order): boolean {
-      if (!order.startAt) return false; // 如果沒有 startAt，則不凍結
-    
-      const now = new Date(); // 當前時間
-      const sevenDaysAgo = new Date(now);
-      sevenDaysAgo.setDate(now.getDate() - 7); // 取得 7 天前的日期
-    
-      // 轉換 order.startAt 成 Date 物件，確保格式正確
-      const orderStartDate = new Date(order.startAt);
-    
-      if (isNaN(orderStartDate.getTime())) {
-        console.error(`⚠ 無效的 startAt 日期: ${order.startAt}`);
-        return false;
+     checkCancelable(startAt :string):boolean {
+      if (!startAt) {
+        return true;
+       
+         // 若沒有 startAt，則禁用按鈕
       }
-    
-      console.log(`📅 檢查 startAt: ${order.startAt}，轉換後: ${orderStartDate}`);
-      console.log(`❌ 按鈕是否凍結: ${orderStartDate >= sevenDaysAgo && orderStartDate <= now}`);
-    
-      return orderStartDate >= sevenDaysAgo && orderStartDate <= now;
+      let orderStartAt = new Date(startAt);
+      const today = new Date();
+      const cancelDeadline = new Date(orderStartAt);
+      cancelDeadline.setDate(orderStartAt.getDate()-7)
+      return today >= cancelDeadline;
+    // const endDate= new Date(this.orderData.startAt)
+    //   const today = new Date(); // 獲取當前日期 2/27
+      
+    //   const sevenDaysBeforeStart = new Date(endDate); //2/28
+    //   sevenDaysBeforeStart.setDate(endDate.getDate() - 7); // 計算開始前 7 天的日期  2/21
+    //  console.log('time',sevenDaysBeforeStart);
+    //  if( today >= sevenDaysBeforeStart){
+    //    this.isButtonDisabled =false;
+    //    console.log('isButtonDisabled',this.isButtonDisabled);
+    //  }
+      //return today <= sevenDaysBeforeStart; // 若今天日期 >= 課程開始前 7 天，則按鈕禁用
     }
-  
   
     deleteCourse(courseId: number) {
       
@@ -280,6 +276,8 @@ export class CourseorderreceivedComponent implements OnInit{
       return category ? category.name : '未知分類';
     }
   
-    
+    getdisbled(){
+      alert("test")
+    }
 
 }

@@ -222,6 +222,7 @@
 										  <th (click)="sortOrders('coursePrice')">單價 <i class="fa-solid fa-sort" style="color: #0d425e;"></i></th>
 										  <th (click)="sortOrders('totalPrice')">訂單金額 <i class="fa-solid fa-sort" style="color: #0d425e;"></i></th>
 										  <th (click)="sortOrders('orderDate')">訂購時間<i class="fa-solid fa-sort" style="color: #0d425e;"></i></th>
+										  <th>狀態</th>
 										  <th>操作</th>
 										</tr>
 									  </thead>
@@ -242,17 +243,14 @@
 										  <td>{{ order.coursePrice| currency:'TWD': 'symbol':'1.0-0' }}</td>
 										  <td>{{ order.coursePrice * order.quantity| currency:'TWD': 'symbol':'1.0-0' }}</td>
 										  <td>{{ order.orderDate|date:'yyyy/MM/dd HH:mm:ss'}}</td>
+										  <td>{{order.orderStatus}}</td>
 										  <td>
 											<button 
-											  class="table-btn mt-1"   
-											  [disabled]="isButtonDisabled(order)" 
-											  style="background-color: darksalmon;" 
-											  (click)="deleteCourse(order.courseId)">
-											  <p *ngIf="isButtonDisabled(order)">
-												課程起始日前七日不得取消訂單 (startAt: {{ order.startAt }})
-											  </p>
-											  <!-- <p *ngIf="isButtonDisabled(order)">課程起始日前七日不得取消訂單 (startAt: {{ order.startAt }})</p>  -->
-											  <!-- <p *ngIf="isButtonDisabled(order)">課程起始日前七日不得取消訂單</p> -->
+											  [hidden]="order.isButtonDisabled"
+											  class="table-btn mt-1"    											  
+											  style="background-color: darksalmon;"
+											  (click)="getdisbled()" 
+											  >
 											  取消
 											</button>
 											
