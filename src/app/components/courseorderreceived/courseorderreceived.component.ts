@@ -75,55 +75,36 @@ export class CourseorderreceivedComponent implements OnInit{
   
     
     ngOnInit(): void {
-      // 🚀 優先從 TcordersService 讀取訂單數據
       this.ordersService.orderData$.subscribe(data => {
         if (data) {
           this.orderData = data;
-          console.log("✅ 從 TcordersService 取得訂單數據:", this.orderData);
-        } else {
-          // 🚀 若 TcordersService 無數據，則檢查 `router.navigate({ state })`
-          const navigation = this.router.getCurrentNavigation();
-          this.orderData = navigation?.extras.state?.['orderData'] || null;
-    
-          if (!this.orderData) {
-            // 🚀 若 `state` 也沒有，則嘗試從 `sessionStorage` 補充
-            console.warn("⚠ 訂單數據遺失，嘗試從 sessionStorage 還原...");
-            this.ordersService.loadOrderDataFromSession();
-            this.orderData = this.ordersService.getOrderData();
-          }
-    
-          if (!this.orderData) {
-            console.error("❌ 仍無法獲取訂單數據，將重新獲取歷史訂單");
-            this.loadOrderHistory();
-          } else {
-            console.log("🟢 從 sessionStorage 還原訂單數據:", this.orderData);
-          }
+          console.log("✅ 訂單數據更新:", this.orderData);
+          
+          // **🚀 立即刷新歷史訂單**
+          this.loadOrderHistory(true);
         }
       });
     
-      // 🚀 訂閱用戶數據
+      // **確保已登入會員**
       this.authService.user$.subscribe(user => {
         this.user = user;
-        
         if (!this.user) {
           console.warn("⚠ 未登入，將導回首頁");
           this.router.navigate(['/']);
           return;
         }
-    
         console.log("👤 目前登入的用戶:", this.user);
     
-        // 確保取得 `memberId` 後再載入訂單
-        this.loadOrderHistory();
+        // **確保登入後載入歷史訂單**
+        this.loadOrderHistory(false);
       });
-    
-      console.log("📦 訂單數據:", this.orderData);
-      console.log("📜 歷史訂單:", this.orderHistoryData);
+
+      console.log("🕒 訂單時間 startAt：", this.orderHistoryData.map(o => o.startAt));
     }
     
-    loadOrderHistory() {
+    loadOrderHistory(forceRefresh: boolean = false) {
       if (!this.user?.memberId) {
-        console.error("會員資料不完整，無法載入訂單");
+        console.error("❌ 會員資料不完整，無法載入訂單");
         return;
       }
     
@@ -136,16 +117,19 @@ export class CourseorderreceivedComponent implements OnInit{
     
           console.log("📜 API 回傳的歷史訂單:", data);
     
-          // ✅ 確保前端排序（如果 API 沒有排序）
-          this.orderHistoryData = data
-            .map(order => ({
-              ...order,
-              imageData: this.getImage(order.photo) // ✅ 確保 photo 轉換為 imageData
-            }))
-            .sort((a, b) => new Date(b.orderDate).getTime() - new Date(a.orderDate).getTime()); // ✅ 確保最新訂單在最前
+          // **🚀 確保圖片格式轉換**
+          this.orderHistoryData = data.map(order => ({
+            ...order,
+            imageData: this.getImage(order.photo)
+          }));
     
-          // ✅ 取得最新的一筆訂單
-          this.orderData = this.orderHistoryData[0];
+          // **🚀 確保最新訂單在最前面**
+          this.orderHistoryData.sort((a, b) => new Date(b.orderDate).getTime() - new Date(a.orderDate).getTime());
+    
+          // **🚀 若 `orderData` 為空，或是強制刷新，則更新最新訂單**
+          if (!this.orderData || forceRefresh) {
+            this.orderData = this.orderHistoryData[0];
+          }
     
           console.log("✅ 最新訂單:", this.orderData);
         },
@@ -154,41 +138,7 @@ export class CourseorderreceivedComponent implements OnInit{
         }
       );
     }
-    // loadOrderHistory() {
-    //   if (!this.user?.memberId) {
-    //     console.error("會員資料不完整，無法載入訂單");
-    //     return;
-    //   }
     
-    //   this.ordersService.getOrdersByMemberId(this.user.memberId).subscribe(
-    //     (data: Order[]) => {
-    //       this.orderHistoryData = data.map(order => ({
-    //         ...order,
-    //         imageData: this.getImage(order.imageData) // 使用 getImage 轉換圖片
-    //       }));
-    //       console.log("📜 歷史訂單:", this.orderHistoryData);
-    
-    //       // 取得所有唯一的課程分類
-    //       this.uniqueCategories = Array.from(new Set(this.orderHistoryData.map(order => order.categoryName)));
-    //     },
-    //     error => {
-    //       console.error("❌ 獲取歷史訂單失敗:", error);
-    //     }
-    //   );
-    //   console.log("!!!!!"+ImageData)
-    // }
-
-      // 轉換 Uint8Array 圖片為 Base64
-      // getImage(photo: string | Uint8Array | null | undefined): string {
-      //   if (!photo) return 'assets/images/courses/noImage_500x300.png'; // 預設圖片
-      
-      //   if (typeof photo === 'string') {
-      //     return `data:image/jpeg;base64,${photo}`; // 已經是 Base64 字串，直接返回
-      //   }
-      
-      //   const binary = new Uint8Array(photo).reduce((acc, byte) => acc + String.fromCharCode(byte), '');
-      //   return `data:image/jpeg;base64,${btoa(binary)}`;
-      // }
 
       getImage(photo: string | null | undefined): string {
         if (!photo) return 'assets/images/courses/noImage_500x300.png'; // 預設圖片
@@ -295,16 +245,32 @@ export class CourseorderreceivedComponent implements OnInit{
     this.loadOrderHistory(); // 重新載入訂單
     }
   
-    addCourse() {
-      alert('新增課程功能 (待實作)');
+     // 判斷是否在 7 天內
+     isButtonDisabled(order: Order): boolean {
+      if (!order.startAt) return false; // 如果沒有 startAt，則不凍結
+    
+      const now = new Date(); // 當前時間
+      const sevenDaysAgo = new Date(now);
+      sevenDaysAgo.setDate(now.getDate() - 7); // 取得 7 天前的日期
+    
+      // 轉換 order.startAt 成 Date 物件，確保格式正確
+      const orderStartDate = new Date(order.startAt);
+    
+      if (isNaN(orderStartDate.getTime())) {
+        console.error(`⚠ 無效的 startAt 日期: ${order.startAt}`);
+        return false;
+      }
+    
+      console.log(`📅 檢查 startAt: ${order.startAt}，轉換後: ${orderStartDate}`);
+      console.log(`❌ 按鈕是否凍結: ${orderStartDate >= sevenDaysAgo && orderStartDate <= now}`);
+    
+      return orderStartDate >= sevenDaysAgo && orderStartDate <= now;
     }
   
-    editCourse(course: Course) {
-      alert(`編輯課程：${course.discription} (待實作)`);
-    }
   
     deleteCourse(courseId: number) {
-      if (confirm('確定刪除此課程？')) {
+      
+      if (confirm('確定取消此訂單？')) {
         // this.courses = this.courses.filter(course => course.courseId !== courseId);
         this.filterCourses();
       }

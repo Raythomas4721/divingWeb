@@ -170,14 +170,14 @@
 
 							</li>
 							<li class="woocommerce-order-overview__date date">
-							  訂購日期: <strong>{{ orderData.orderDate | date:'yyyy-MM-dd HH:mm:ss' }}</strong>
+							  訂購時間: <strong>{{ orderData.orderDate | date:'yyyy-MM-dd HH:mm:ss' }}</strong>
 							</li>
 							<li class="woocommerce-order-overview__total total">
 							  總金額:
 							  <strong>
 								<span class="woocommerce-Price-amount amount">
 								  <span class="woocommerce-Price-currencySymbol">$</span>
-								  {{ orderData.coursePrice | currency:'TWD' }}
+								  {{ orderData.coursePrice | currency:'TWD': 'symbol':'1.0-0' }}
 								</span>
 							  </strong>
 							</li>
@@ -185,6 +185,7 @@
 							  付款方式: <strong>信用卡結帳</strong>
 							</li>
 						  </ul>
+						  <p style="color: darksalmon;font-weight: 400;">欲取消購買， 請於課程起始日七日前取消訂單</p>
 						  <br>
 						  <br>
 						  <section class="woocommerce-order-details">
@@ -220,7 +221,7 @@
 										  <th (click)="sortOrders('startAt')">起始日期 <i class="fa-solid fa-sort" style="color: #0d425e;"></i></th>
 										  <th (click)="sortOrders('coursePrice')">單價 <i class="fa-solid fa-sort" style="color: #0d425e;"></i></th>
 										  <th (click)="sortOrders('totalPrice')">訂單金額 <i class="fa-solid fa-sort" style="color: #0d425e;"></i></th>
-										  <th (click)="sortOrders('orderDate')">訂購日期<i class="fa-solid fa-sort" style="color: #0d425e;"></i></th>
+										  <th (click)="sortOrders('orderDate')">訂購時間<i class="fa-solid fa-sort" style="color: #0d425e;"></i></th>
 										  <th>操作</th>
 										</tr>
 									  </thead>
@@ -237,14 +238,24 @@
 										  <td>{{ order.categoryName }}</td>
 										  <td>{{ order.levelName }}</td>
 										  <td>{{ order.coachName }}</td>
-										  <td>{{ order.startAt }}</td>
-										  <td>{{ order.coursePrice }}</td>
-										  <td>{{ order.coursePrice * order.quantity }}</td>
-										  <td>{{ order.orderDate}}</td>
+										  <td>{{ order.startAt|date:'yyyy/MM/dd' }}</td>
+										  <td>{{ order.coursePrice| currency:'TWD': 'symbol':'1.0-0' }}</td>
+										  <td>{{ order.coursePrice * order.quantity| currency:'TWD': 'symbol':'1.0-0' }}</td>
+										  <td>{{ order.orderDate|date:'yyyy/MM/dd HH:mm:ss'}}</td>
 										  <td>
-											<button class="table-btn mt-1" style="background-color: darksalmon;" (click)="deleteCourse(orderData.courseId)">
-											  刪除
+											<button 
+											  class="table-btn mt-1"   
+											  [disabled]="isButtonDisabled(order)" 
+											  style="background-color: darksalmon;" 
+											  (click)="deleteCourse(order.courseId)">
+											  <p *ngIf="isButtonDisabled(order)">
+												課程起始日前七日不得取消訂單 (startAt: {{ order.startAt }})
+											  </p>
+											  <!-- <p *ngIf="isButtonDisabled(order)">課程起始日前七日不得取消訂單 (startAt: {{ order.startAt }})</p>  -->
+											  <!-- <p *ngIf="isButtonDisabled(order)">課程起始日前七日不得取消訂單</p> -->
+											  取消
 											</button>
+											
 										  </td>
 										</tr>
 									  </tbody>
