@@ -12,13 +12,17 @@ export class ProductsService {
 
   constructor(private http: HttpClient) { }
 
-  getUsedProducts(page: number = 1, pageSize: number = 8, categoryId: number | null = null): Observable<any> {
+  getUsedProducts(page: number = 1, pageSize: number = 8, categoryId: number | null = null, keyword: string = ''): Observable<any> {
     var queryString = `?page=${page}&pageSize=${pageSize}`;
-    console.log(categoryId);
+
     if (categoryId) {
       queryString += `&categoryId=${categoryId}`
     }
-    console.log('url:', queryString);
+
+    if (keyword.trim() !== '') {
+      queryString += `&keyword=${encodeURIComponent(keyword)}`;
+    }
+    console.log('test', queryString);
     return this.http.get<TUproductDTO[]>(`${this.apiUrl}api/TUproductsAPI${queryString}`);
 
   }
@@ -37,13 +41,9 @@ export class ProductsService {
     return this.http.get<TUproductDetail>(`${this.apiUrl}api/TUproductsAPI/${productId}`)
   }
   //更新商品
-  // updateProduct(product: TUcreateproductDTO): Observable<any> {
-  //   return this.http.put<TUproductDTO>(`${this.apiUrl}api/TUproductsAPI`, product);
-  // }
   updateProduct(product: TUcreateproductDTO): Observable<any> {
     return this.http.put<any>(`${this.apiUrl}api/TUproductsAPI/${product.productId}`, product);
   }
-
 
   deleteProduct(productId: number): Observable<any> {
     return this.http.delete<TUproductDTO[]>(`${this.apiUrl}api/TUproductsAPI/${productId}`);

@@ -82,8 +82,8 @@
                             <span>$</span>{{ product.productPrice }}
                           </span>
                         </span>
-                        <a rel="nofollow" href="shop-cart.html" class="button product_type_simple add_to_cart_button "
-                          (click)="onConfirmAddToCart()">加入購物車</a>
+                        <a rel="nofollow" class="button product_type_simple add_to_cart_button "
+                          (click)="onConfirmAddToCart(product.productId)">加入購物車</a>
                       </div>
                     </div>
                   </div>
@@ -99,10 +99,10 @@
                   <span class="page-numbers current">1</span>
                 </li>
                 <li>
-                  <a class="page-numbers" href="shop-left.html">2</a>
+                  <a class="page-numbers">2</a>
                 </li>
                 <li>
-                  <a class="next page-numbers" href="shop-left.html">→</a>
+                  <a class="next page-numbers">→</a>
                 </li>
               </ul>
             </nav>
@@ -112,10 +112,22 @@
 
               <div class="widget widget_product_search">
                 <h3 class="widget-title">搜尋</h3>
-                <form role="search" class="woocommerce-product-search" (ngSubmit)="searchProducts()">
+                <!-- <form role="search" class="woocommerce-product-search">
                   <label class="screen-reader-text" for="searchField">
                     Search for:
                   </label>
+                  <input type="search" id="searchField" class="search-field" placeholder="搜尋商品"
+                    [(ngModel)]="searchKeyword" name="searchTerm" />
+                  <input type="submit" value="Search">
+                </form> -->
+                <!-- <form role="search" class="woocommerce-product-search" (ngSubmit)="searchProducts(searchKeyword)">
+                  <label class="screen-reader-text" for="searchField">Search for:</label>
+                  <input type="search" id="searchField" class="search-field" placeholder="搜尋商品"
+                    [formControl]="searchKeyword" name="searchTerm" />
+                  <input type="submit" value="Search">
+                </form> -->
+                <form role="search" class="woocommerce-product-search" (ngSubmit)="searchProducts()">
+                  <label class="screen-reader-text" for="searchField">Search for:</label>
                   <input type="search" id="searchField" class="search-field" placeholder="搜尋商品"
                     [(ngModel)]="searchKeyword" name="searchTerm" />
                   <input type="submit" value="Search">
