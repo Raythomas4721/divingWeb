@@ -208,7 +208,7 @@ export class UsedProductsComponent {
   }
 
   /** 最終 => 呼叫後端 addCart API 做庫存檢查+加購物車 */
-  onConfirmAddToCart(productIdSelected: number) {
+  onConfirmAddToCart(productSelected: TUproductDTO) {
     // 1) 若 productDetail 還沒載入
     // if (!this.productDetail) {
     //   alert('商品資料尚未載入');
@@ -216,7 +216,7 @@ export class UsedProductsComponent {
     // }
 
     //把按的ID塞到變數內
-    this.productId = productIdSelected;
+    this.productId = productSelected.productId;
     //確認抓到正確的memberId
     const realMemberId = this.user?.memberId;
     console.log('realMemberId:', realMemberId);
@@ -244,20 +244,22 @@ export class UsedProductsComponent {
             // 前端更新暫存購物車 + 開panel
             const newItem: TNcartItemDTO = {
               memberId: payload.memberId,
-              productName: this.productDetail?.productName ?? '', // or fallback to this.productDetail?.productName
+              productName: productSelected.productName, // or fallback to this.productDetail?.productName
               uproductId: res.uproductId ?? null,
               quantity: payload.quantity,
               unitpriceatCart: res.price,
-              imageUrl: res.imageUrl,
+              imageUrl: 'Mask_worn.jpg',
               isLocked: false,
               condition: 'used',
               creationDate: new Date().toISOString(),
               updatedDate: new Date().toISOString(),
-
-              stock: 0,
+              thickness: '無選擇',
+              gender: '無選擇',
+              stock: 1,
             };
             console.log('後端回傳:', res);
             //this.cartItemsService.addToCart(newItem);
+            this.addToCart(newItem);
             this.sharedcartService.openCartPanel();
 
             // alert('加入購物車成功(後端已檢查庫存)!');
@@ -270,6 +272,12 @@ export class UsedProductsComponent {
           alert('系統異常，無法加入購物車');
         },
       });
+  }
+
+  addToCart(newItem: TNcartItemDTO) {
+    var items = this.cartItemsService.cartItemsSubject.value;
+    items.push(newItem);
+    this.cartItemsService.cartItemsSubject.next(items);
   }
 }
 

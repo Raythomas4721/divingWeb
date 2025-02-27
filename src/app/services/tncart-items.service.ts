@@ -8,7 +8,7 @@ import { TNcartItemDTO } from '../interface/TNcartItemDTO';
 })
 export class TNcartItemsService {
   private baseUrl = 'https://localhost:7107/api/TNcartItems';
-  private cartItemsSubject = new BehaviorSubject<TNcartItemDTO[]>([]);
+  public cartItemsSubject = new BehaviorSubject<TNcartItemDTO[]>([]);
   cartItems$ = this.cartItemsSubject.asObservable();
 
   constructor(private client: HttpClient) {
