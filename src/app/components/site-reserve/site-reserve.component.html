@@ -170,6 +170,11 @@
             <article>
               <header class="entry-header">
                 <h1 class="entry-title">填寫預約資料</h1>
+                <label class="">場地名稱</label>
+                <input type="text" class="input-text" disabled [value]="siteDetails.venueName" />
+
+                <input type="date" class="input-text " placeholder="請輸入預約日期" [(ngModel)]="siteDay">{{siteDay}}
+
                 <span class="edit-link">
                   <!-- <a class="post-edit-link" href="#">
                     Edit
@@ -488,17 +493,20 @@
                               <option value="ZW">Zimbabwe</option>
                             </select>
                           </p> -->
-                          <p class="form-row form-row-wide address-field update_totals_on_change validate-required"
+                          <!-- <p class="form-row form-row-wide address-field update_totals_on_change validate-required"
                             id="shipping_country_field" data-priority="40">
                             <label for="shipping_country" class="">Country<abbr class="required"
-                                title="required">*</abbr></label>
-                            <select name="shipping_country" id="shipping_country"
+                                title="required">*</abbr></label> -->
+                          <!-- <select name="shipping_country" id="shipping_country"
                               class="country_to_state country_select  select2-hidden-accessible" autocomplete="country"
                               tabindex="-1" aria-hidden="true">
                               <option value="">{{siteDetails.venueName}}</option>
 
-                            </select>
-                          </p>
+                            </select> -->
+                          <!-- <p>
+                            <input type="text" class="input-text " [(ngModel)]="venueName"
+                              [value]="siteDetails.venueName" />
+                          </p> -->
 
                           <!-- <p class="form-row form-row-wide address-field validate-required"
                             id="shipping_address_1_field" data-priority="50">
@@ -526,16 +534,15 @@
                           </p> -->
                           <!-- 選日期 -->
 
-                          <p class="form-row form-row-wide address-field validate-required"
-                            id="shipping_address_1_field" data-priority="50">
-                            <label for="shipping_address_1" class="">Street address<abbr class="required"
-                                title="required">*</abbr></label>
-                            <input type="text" class="input-text " name="shipping_address_1" id="shipping_address_1"
-                              placeholder="House number and street name" value="" autocomplete="address-line1"
-                              placeholder="請輸入預約日期">
-                          </p>
+                          <!-- <p class="form-row form-row-wide address-field validate-required"
+                            id="shipping_address_1_field" data-priority="50"> -->
 
-                          <p class="form-row form-row-wide address-field update_totals_on_change validate-required"
+                          <!-- <label for="shipping_address_1" class="">zzzzStreet address<abbr class="required"
+                              title="required">*</abbr></label>
+                          <input type="text" class="input-text " placeholder="請輸入預約日期" [(ngModel)]="siteDay">{{siteDay}}-->
+                          <!-- </p> -->
+
+                          <!-- <p class="form-row form-row-wide address-field update_totals_on_change validate-required"
                             id="shipping_country_field" data-priority="40" style="margin-bottom: 1em;">
                             <label for="shipping_country" class="">Country<abbr class="required"
                                 title="required">*</abbr></label>
@@ -547,14 +554,30 @@
                               <option value="BBBB">下午</option>
                               <option value="CCCC">晚上</option>
                             </select>
+                          </p> -->
+                          <p class="form-row form-row-wide address-field update_totals_on_change validate-required"
+                            id="shipping_country_field" data-priority="40" style="margin-bottom: 1em;">
+                            <label for="time_period" class="">請選擇時段<abbr class="required"
+                                title="required">*</abbr></label>
+                            <select name="time_period" id="time_period"
+                              class="country_to_state country_select  select2-hidden-accessible" autocomplete="country"
+                              tabindex="-1" aria-hidden="true" [(ngModel)]="selectedTimePeriod">
+                              <option value="">請選擇時段</option>
+                              <option value="上午">上午</option>
+                              <option value="下午">下午</option>
+                              <option value="晚上">晚上</option>
+                            </select>
                           </p>
                         </div>
 
 
-                        <a routerLink="/site-order" rel="bookmark">
+                        <!-- <a routerLink="/site-order" rel="bookmark">
                           <input type="submit" class="button" name="save_address" value="送出"
                             [routerLink]="['/site-order', siteDetails.siteId]">
-                        </a>
+                        </a> -->
+
+                        <button type="button" class="button" name="save_address"
+                          (click)="onSubmit(siteDetails.siteId)">送出</button>
                       </div>
 
                     </form>

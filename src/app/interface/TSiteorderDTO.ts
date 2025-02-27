@@ -12,5 +12,6 @@ export interface siteorder {
   SiteTime: string;
 
   SitePay: number
+  http: string;
 
 }

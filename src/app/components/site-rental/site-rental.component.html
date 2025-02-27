@@ -310,22 +310,23 @@
             <div class="ls ms">
               <div class="widget widget_search">
                 <h3 class="widget-title">搜尋</h3>
-                <!--搜尋在這裡-->
-                <form role="search" method="get" class="search-form" action="/">
-                  <label for="search-form-widget">
-                    <span class="screen-reader-text">Search for:</span>
-                  </label>
-                  <input type="search" id="search-form-widget" class="search-field" placeholder="搜尋場地" value=""
-                    name="search">
-                  <button type="submit" class="search-submit">
-                    <span class="screen-reader-text">Search</span>
-                  </button>
-                </form>
+
+
+                <label for="search-form-widget">
+                  <span class="screen-reader-text">Search for:</span>
+                </label>
+                <input type="search" [(ngModel)]="keyword" (ngModelChange)="onKeywordChange(keyword)"
+                  id="search-form-widget" class="search-field" placeholder="搜尋場地" value="" name="search">
+                <!-- <button type="submit" (click)="searchSites(keyword)" class="search-submit"> -->
+                <span class="screen-reader-text">Search</span>
+                <!-- </button> -->
+
               </div>
+
 
             </div>
 
-            <div class="widget widget_categories">
+            <!-- <div class="widget widget_categories">
 
               <h3 class="widget-title">分類</h3>
 
@@ -347,11 +348,31 @@
                 </li>
 
               </ul>
-            </div>
+            </div> -->
+
+
+            <h3 class="widget-title">場地分類</h3>
+            <ul class="list-unstyledgreylinks">
+              <!-- 區域選擇器 -->
+              <li>
+                <button><a (click)="onRegionChange('')">全部</a></button>
+              </li>
+              <li>
+                <button><a (click)="onRegionChange('1')">北部</a></button>
+              </li>
+              <li>
+                <button><a (click)="onRegionChange('2')">中部</a></button>
+              </li>
+              <li>
+                <button><a (click)="onRegionChange('3')">南部</a></button>
+              </li>
+              <li>
+                <button> <a (click)="onRegionChange('4')">東部</a></button>
+              </li>
+            </ul>
 
 
 
-            <!-- CSS 可能需要調整以美化下拉菜單 -->
 
 
             <div class="widget widget_apsc_widget">
@@ -366,26 +387,7 @@
                     </div>
                   </a>
                 </div>
-                <!-- <div class="apsc-each-profile">
-                  <a class="apsc-twitter-icon clearfix" href="#">
-                    <div class="apsc-inner-block">
-                      <span class="social-icon">
-                        <i class="fa fa-twitter apsc-twitter"></i>
-                      </span>
-                      <span class="apsc-count">4.9K</span>
-                    </div>
-                  </a> -->
-                <!-- </div> -->
-                <!-- <div class="apsc-each-profile">
-                  <a class="apsc-google-plus-icon clearfix" href="#">
-                    <div class="apsc-inner-block">
-                      <span class="social-icon">
-                        <i class="apsc-google fa fa-google"></i>
-                      </span>
-                      <span class="apsc-count">10.1M</span>
-                    </div>
-                  </a>
-                </div> -->
+
               </div>
             </div>
 
