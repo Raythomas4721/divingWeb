@@ -146,4 +146,15 @@ export class Sideshopcart {
   checkForErrors() {
     this.hasError = this.cartItems.some((item) => item.stock <= 0);
   }
+  removeFromCart(cartItem: TNcartItemDTO) {
+    if (!cartItem || !cartItem.uproductId) {
+      console.error('無法刪除，商品資訊不存在');
+      return;
+    }
+
+    // 呼叫購物車服務，依據 uproductId（productId）移除商品
+    this.cartItemsService.removeItemByProductId(cartItem.uproductId);
+  }
+
+
 }
