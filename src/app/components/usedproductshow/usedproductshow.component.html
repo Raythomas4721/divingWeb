@@ -116,9 +116,11 @@
                 </select>
               </div>
               <!-- 送出按鈕 -->
-              <button type="submit" class="btn btn-darkgrey m-3" (click)="onSubmit()"><i
+              <button type="submit" class="btn btn-darkgrey m-3" [disabled]="UPForm.invalid || isSubmitting"><i
                   class="fa-solid fa-arrow-up"></i>&nbsp;&nbsp;上架</button>
-              <button class="btn btn-darkgrey m-3" routerLink="/used-products"><i
+                  <!-- <button type="submit" class="fa-solid fa-arrow-up btn btn-darkgrey m-3" [disabled]="UPForm.invalid || isSubmitting">上架商品</button> -->
+
+                  <button class="btn btn-darkgrey m-3" routerLink="/used-products"><i
                   class="fa-solid fa-xmark"></i>&nbsp;取消</button>
             </div>
 

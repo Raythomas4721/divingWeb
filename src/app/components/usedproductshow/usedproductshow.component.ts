@@ -24,7 +24,7 @@ export class UsedproductshowComponent implements OnInit {
   draggedIndex: number | null = null;
   selectedImages: File[] = [];
   maxImages: number = 6;
-
+  isSubmitting = false;
   isLoading = true; // 用來顯示載入狀態
   // 用來儲存圖片預覽的 Base64 字串
   // previewUrls: string[] = [];
@@ -48,6 +48,7 @@ export class UsedproductshowComponent implements OnInit {
     private fb: FormBuilder,
     private productsService: ProductsService,
     private authService: AuthService,
+    private router: Router // 加入 Router 來做導向
   ) {this.UPForm = this.fb.group({
     categoryId: ['', Validators.required],
     productName: ['', Validators.required], // 商品名稱必填
@@ -71,7 +72,7 @@ export class UsedproductshowComponent implements OnInit {
         console.log("等待 API 返回，用戶資料尚未載入");
       }
     });
-    this.loadUsedProducts();
+    // this.loadUsedProducts();
     this.loadCategory();
     this.loadCondition();
   }
@@ -128,6 +129,8 @@ export class UsedproductshowComponent implements OnInit {
     alert("請至少新增一張圖片！");
     return;
   }
+  if (this.isSubmitting) return; // 防止多次提交
+  this.isSubmitting = true;
 
     // 移除圖片 Base64 的前綴
     const imagesWithoutPrefix = this.imagePreviews.map(url =>
@@ -152,6 +155,8 @@ export class UsedproductshowComponent implements OnInit {
       next: (response) => {
         // console.log("商品上架成功:", response);
         alert("商品已成功上架！");
+        this.isSubmitting = false; // 重置狀態
+      this.router.navigate(['/used-products']); // 上架成功後導向商品列表頁
       },
       error: (error) => {
         // console.error("商品上架失敗:", error);
