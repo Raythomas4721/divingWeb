@@ -14,7 +14,7 @@ export class SiteRentalComponent implements OnInit {
 
   siteDetails: any;
   keyword: string = ''; // 用於儲存搜尋關鍵字
-  selectedRegion: string = ''; // 用於儲存所選區域
+  selectedRegion: any = ''; // 用於儲存所選區域
   private searchKeyword$ = new Subject<string>();
   private regionMap: { [key: string]: string } = {
     "1": "北部",
@@ -76,7 +76,7 @@ export class SiteRentalComponent implements OnInit {
   }
 
   // 當區域選擇改變時，觸發此方法
-  onRegionChange(region: string): void {
+  onRegionChange(region: number): void {
     this.selectedRegion = region;
     this.loadSiteDetails();
     console.log("搜尋結果:", this.selectedRegion);

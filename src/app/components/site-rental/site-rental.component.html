@@ -233,44 +233,6 @@
                   </div><!-- .entry-content -->
                 </div><!-- .item-content -->
 
-
-
-                <!-- 圖2 -->
-                <!-- <article class="post text-center text-md-left vertical-item content-padding hero-bg">
-                  <div class="item-media post-thumbnail">
-                    <img src="assets\images\sitePhoto\swim (2).jpeg" alt="img">
-                    <div class="media-links">
-                      <a class="abs-link" href="event-single-left.html"></a>
-                    </div>
-                  </div>
-                  <div class="item-content">
-                    <header class="entry-header">
-
-                      <div>
-                        <h3>{{course['venueName']}}</h3>
-                      </div>
-
-                      <span>
-                        <i class="fa fa-calendar" aria-hidden="true"></i>
-                        <a href="event-single-left.html" rel="bookmark">
-                          <time class="entry-date published updated"
-                            datetime="2018-03-18T15:15:12+00:00">02.01.2025</time>
-                        </a>
-                      </span>
-                      <span>
-                        <h5>{{course['venueAddress']}}</h5>
-                      </span>
-
-
-                    </header>
-
-                    <div class="entry-content">
-                      <p>
-                        2024年11月完成整修的「青山農場游池」，是夏季降溫的絕佳去處！綠地的場地規劃，在室內設置健康輕食區、健身房、多功能教室；而在室外區則有成人25公尺泳池、兒童池、噴泉池、SPA水療池都適合再去滋養心靈！
-                      </p>
-                    </div>
-                  </div>
-                </article> -->
               </article>
             </article>
 
@@ -351,25 +313,28 @@
             </div> -->
 
 
-            <h3 class="widget-title">場地分類</h3>
-            <ul class="list-unstyledgreylinks">
-              <!-- 區域選擇器 -->
-              <li>
-                <button><a (click)="onRegionChange('')">全部</a></button>
-              </li>
-              <li>
-                <button><a (click)="onRegionChange('1')">北部</a></button>
-              </li>
-              <li>
-                <button><a (click)="onRegionChange('2')">中部</a></button>
-              </li>
-              <li>
-                <button><a (click)="onRegionChange('3')">南部</a></button>
-              </li>
-              <li>
-                <button> <a (click)="onRegionChange('4')">東部</a></button>
-              </li>
-            </ul>
+
+            <div class="widget widget_categories">
+              <h3 class="widget-title">場地分類</h3>
+              <ul>
+                <li class="cat-item">
+                  <a href="javascript:void(0)" (click)="onRegionChange(0)" style="cursor: pointer;">全部</a>
+                </li>
+                <li class="cat-item">
+                  <a href="javascript:void(0)" (click)="onRegionChange(1)" style="cursor: pointer;">北部</a>
+                </li>
+                <li class="cat-item">
+                  <a href="javascript:void(0)" (click)="onRegionChange(2)" style="cursor: pointer;">中部</a>
+                </li>
+                <li class="cat-item">
+                  <a href="javascript:void(0)" (click)="onRegionChange(3)" style="cursor: pointer;">南部</a>
+                </li>
+                <li class="cat-item">
+                  <a href="javascript:void(0)" (click)="onRegionChange(4)" style="cursor: pointer;">東部</a>
+                </li>
+
+              </ul>
+            </div>
 
 
 
