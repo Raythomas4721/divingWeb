@@ -12,7 +12,13 @@ export class ProductsService {
 
   constructor(private http: HttpClient) { }
 
-  getUsedProducts(page: number = 1, pageSize: number = 8, categoryId: number | null = null, keyword: string = ''): Observable<any> {
+  getUsedProducts(
+    page: number = 1,
+    pageSize: number = 8,
+    categoryId: number | null = null,
+    keyword: string = '',
+    sortOption: string = ''
+  ): Observable<any> {
     var queryString = `?page=${page}&pageSize=${pageSize}`;
 
     if (categoryId) {
@@ -21,6 +27,9 @@ export class ProductsService {
 
     if (keyword.trim() !== '') {
       queryString += `&keyword=${encodeURIComponent(keyword)}`;
+    }
+    if (sortOption.trim() !== '') {
+      queryString += `&sort=${sortOption}`;
     }
     console.log('test', queryString);
     return this.http.get<TUproductDTO[]>(`${this.apiUrl}api/TUproductsAPI${queryString}`);

@@ -33,8 +33,8 @@ export class UsedProductsComponent {
   productId: number | null = null;
   searchKeyword: string = '';
   isAllSelected: boolean = false;
-  pageSize: number = 8;
-  page: number[] = [];
+
+
   categoryId: number | null = null;
   UPForm = new FormGroup({
     categoryId: new FormControl(),
@@ -44,7 +44,14 @@ export class UsedProductsComponent {
     productConditionId: new FormControl(),
     ductConditionId: new FormControl()
   })
-
+  //換頁
+  page: number[] = [];
+  // currentPage: number = 1;  // 目前頁碼
+// totalPages: number = 1;   // 總頁數
+pageSize: number = 8;     // 每頁顯示商品數量
+// totalPagesArray: number[] = []; // 存放所有頁碼的陣列
+  //排序
+  sortOption: string = ''; // 預設不排序
   //購物車
   // productDetail: TNproductDTO | null = null;
   productDetail: TUproductDTO | null = null;
@@ -84,16 +91,23 @@ export class UsedProductsComponent {
       }
     });
   }
-
+  sortProducts(event: any) {
+    this.sortOption = event.target.value;
+    this.loadUsedProducts();
+  }
   loadUsedProducts(): void {
-    this.productsService.getUsedProducts(1, 8, this.categoryId).subscribe({
+    this.productsService.getUsedProducts(
+      1, // 讓 API 接收目前頁碼
+      this.pageSize,
+      this.categoryId,
+      this.searchKeyword,
+      this.sortOption
+    ).subscribe({
       next: (data: any[]) => {
         console.log('test', data);
         this.usedProducts = data;
-
-        //console.log('usedProducts:', data);
         this.filteredProducts = [...this.usedProducts];
-        //console.log(this.filteredProducts);
+
       },
       error: (error: HttpErrorResponse) => {
         console.error('載入二手商品失敗:', error);
@@ -106,7 +120,11 @@ export class UsedProductsComponent {
 
   loadUsedProductsTest(categoryId: number | null): void {
     console.log('click!', categoryId);
-    this.productsService.getUsedProducts(1, 8, categoryId).subscribe({
+    this.productsService.getUsedProducts(
+      1,
+      8,
+      categoryId
+    ).subscribe({
       next: (data: any[]) => {
         console.log('test', data);
         this.usedProducts = data;
@@ -125,30 +143,6 @@ export class UsedProductsComponent {
       }
     })
   }
-  //1
-  // searchProducts(): void {
-  //   this.isAllSelected = false;
-  //   if (this.searchKeyword.trim() !== '') {
-  //     this.filteredProducts = this.usedProducts.filter(p =>
-  //       p.productName.toLowerCase().includes(this.searchKeyword.toLowerCase())
-  //     );
-  //   } else {
-  //     this.filteredProducts = [...this.usedProducts];
-  //   }
-  // }
-  //2
-  // searchProducts(keyword: string): void {
-  //   const lowerKeyword = keyword.toLowerCase().trim();
-
-  //   if (lowerKeyword === '') {
-  //     this.filteredProducts = [...this.usedProducts]; // 恢復所有商品
-  //   } else {
-  //     this.filteredProducts = this.usedProducts.filter(product =>
-  //       product.productName.toLowerCase().includes(lowerKeyword) ||
-  //       product.categoryName?.toLowerCase().includes(lowerKeyword) // 搜尋類別
-  //     );
-  //   }
-  // }
   searchProducts(): void {
     const lowerKeyword = this.searchKeyword.toLowerCase().trim();
     this.isAllSelected = false;
@@ -163,8 +157,6 @@ export class UsedProductsComponent {
       }
     });
   }
-
-
   toggleSelectAll(event: Event): void {
     this.isAllSelected = (event.target as HTMLInputElement).checked;
     this.filteredProducts.forEach(product => product.selected = this.isAllSelected);
@@ -209,12 +201,6 @@ export class UsedProductsComponent {
 
   /** 最終 => 呼叫後端 addCart API 做庫存檢查+加購物車 */
   onConfirmAddToCart(productSelected: TUproductDTO) {
-    // 1) 若 productDetail 還沒載入
-    // if (!this.productDetail) {
-    //   alert('商品資料尚未載入');
-    //   return;
-    // }
-
     //把按的ID塞到變數內
     this.productId = productSelected.productId;
     //確認抓到正確的memberId

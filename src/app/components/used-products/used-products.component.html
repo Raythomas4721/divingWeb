@@ -39,10 +39,13 @@
                 <p class="woocommerce-result-count">
                   顯示所有商品</p>
                 <form class="woocommerce-ordering" method="get">
-                  <select name="orderby" class="orderby">
+                  <!-- <select name="orderby" class="orderby"> -->
+                    <select name="orderby" class="orderby" (change)="sortProducts($event)">
                     <option value="menu_order" selected="selected">排序</option>
-                    <option value="price">按價格：由低到高排序</option>
-                    <option value="price-desc">按價格：由高到低排序</option>
+                    <option value="price-asc">價格：由低到高排序</option>
+                    <option value="price-desc">價格：由高到低排序</option>
+                    <option value="date-desc">時間：由新到舊排序</option>
+                    <option value="date-asc">時間：由舊到新排序</option>
                   </select>
                 </form>
               </div>
@@ -106,26 +109,14 @@
                 </li>
               </ul>
             </nav>
+
+
           </main>
           <aside class="col-lg-3 col-xl-2 order-lg-1">
             <div class="ls ms">
 
               <div class="widget widget_product_search">
                 <h3 class="widget-title">搜尋</h3>
-                <!-- <form role="search" class="woocommerce-product-search">
-                  <label class="screen-reader-text" for="searchField">
-                    Search for:
-                  </label>
-                  <input type="search" id="searchField" class="search-field" placeholder="搜尋商品"
-                    [(ngModel)]="searchKeyword" name="searchTerm" />
-                  <input type="submit" value="Search">
-                </form> -->
-                <!-- <form role="search" class="woocommerce-product-search" (ngSubmit)="searchProducts(searchKeyword)">
-                  <label class="screen-reader-text" for="searchField">Search for:</label>
-                  <input type="search" id="searchField" class="search-field" placeholder="搜尋商品"
-                    [formControl]="searchKeyword" name="searchTerm" />
-                  <input type="submit" value="Search">
-                </form> -->
                 <form role="search" class="woocommerce-product-search" (ngSubmit)="searchProducts()">
                   <label class="screen-reader-text" for="searchField">Search for:</label>
                   <input type="search" id="searchField" class="search-field" placeholder="搜尋商品"
