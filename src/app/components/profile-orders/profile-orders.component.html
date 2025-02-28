@@ -1,8 +1,6 @@
 <div class="order-container">
-  <!-- 標題 -->
   <h2>我的訂單</h2>
 
-  <!-- 過濾區 -->
   <div class="filter-section">
     <div class="filter-group">
       <label for="orderTypeFilter">訂單類型：</label>
@@ -14,20 +12,20 @@
         <option value="場地租借">場地租借</option>
       </select>
     </div>
-    <!-- <button class="refresh-btn" (click)="loadOrders()">刷新</button> -->
+    <button class="refresh-btn" (click)="loadOrders()">刷新</button>
   </div>
 
-  <!-- 載入中提示 -->
   <div class="loading" *ngIf="isLoading">載入中...</div>
 
-  <!-- 訂單表格 -->
   <table class="order-table" *ngIf="!isLoading && filteredOrders.length > 0">
     <thead>
       <tr>
         <th>訂單類型</th>
         <th>訂單編號</th>
         <th>狀態</th>
-        <th>詳細資訊</th>
+        <th>付款方式</th>
+        <th>訂單日期</th>
+        <th>訂單細節</th>
       </tr>
     </thead>
     <tbody>
@@ -36,34 +34,26 @@
         <td>{{ order.orderId }}</td>
         <td>
           <span [ngClass]="getStatusClass(order)">
-            {{ order.orderStatus || order.orderStatusId || '未定義' }}
+            {{ order.orderStatus || '未知' }}
           </span>
         </td>
+        <td>{{ order.paymentMethod || '未選擇' }}</td>
+        <td>{{ order.orderDate | date:'yyyy-MM-dd' }}</td>
         <td class="details">
-          <ng-container [ngSwitch]="order.orderType">
-            <div *ngSwitchCase="'全新商品'">
-              <p><strong>地址：</strong>{{ order.shipAddress || '無' }}</p>
-              <p><strong>電話：</strong>{{ order.shipPhone || '無' }}</p>
-              <p><strong>付款方式：</strong>{{ order.paymentMethod || '未選擇' }}</p>
+          <div *ngIf="order.details.length > 0">
+            <div *ngFor="let detail of order.details">
+              <p><strong>{{ order.orderType === '潛水課程' ? '課程名稱' : order.orderType === '場地租借' ? '場地名稱' : '商品名稱'
+                  }}：</strong>{{ detail.itemName }}</p>
+              <p><strong>數量：</strong>{{ detail.quantity }}</p>
+              <p><strong>總價格：</strong>{{ detail.totalPrice | currency:'TWD' }}</p>
             </div>
-            <div *ngSwitchCase="'二手商品'">
-              <p><strong>狀態ID：</strong>{{ order.orderStatusId }}</p>
-              <p><strong>記錄ID：</strong>{{ order.orderLogId }}</p>
-            </div>
-            <div *ngSwitchCase="'潛水課程'">
-              <p><strong>訂單日期：</strong>{{ order.orderDate | date:'yyyy-MM-dd' }}</p>
-            </div>
-            <div *ngSwitchCase="'場地租借'">
-              <p><strong>場地ID：</strong>{{ order.siteId }}</p>
-            </div>
-            <div *ngSwitchDefault>無詳細資訊</div>
-          </ng-container>
+          </div>
+          <div *ngIf="order.details.length === 0">無細節資訊</div>
         </td>
       </tr>
     </tbody>
   </table>
 
-  <!-- 無訂單時的提示 -->
   <div class="no-orders" *ngIf="!isLoading && filteredOrders.length === 0">
     目前沒有符合條件的訂單
   </div>
