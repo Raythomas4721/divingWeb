@@ -22,9 +22,9 @@ import { EcpayResultComponent } from './components/ecpay-result/ecpay-result.com
 import { ProfileOrdersComponent } from './components/profile-orders/profile-orders.component';
 import { UsedproductListComponent } from './components/usedproduct-list/usedproduct-list.component';
 import { UsedproducteditComponent } from './components/usedproductedit/usedproductedit.component';
+import { AuthGuard } from './auth.guard';
 const routes: Routes = [
   { path: 'auth-success', component: AuthSuccessComponent },
-  { path: 'profile', component: ProfileComponent },
   { path: 'shop', component: ShopComponent },
   { path: 'shop/:categoryId', component: ShopComponent },
   { path: 'used-products', component: UsedProductsComponent },
@@ -34,7 +34,16 @@ const routes: Routes = [
   { path: 'shopcart', component: Sideshopcart },
   { path: 'shopproductshow/:id', component: ShopproductshowComponent },
   // { path: 'procategories', component: ProcategoriesComponent },
-  { path: 'profile', component: ProfileComponent },
+  {
+    path: 'profile',
+    component: ProfileComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'profile-orders',
+    component: ProfileOrdersComponent,
+    canActivate: [AuthGuard]
+  },
   { path: 'procategories', component: ProcategoriesComponent },
   { path: 'coursedetails/:id', component: CoursedetailsComponent },
   { path: 'coursecheckout', component: CoursecheckoutComponent },
@@ -46,7 +55,6 @@ const routes: Routes = [
   { path: 'site-reserve', component: SiteReserveComponent },
   { path: 'coursesmanagement', component: CoursesManagementComponent },
   { path: 'coursecreate', component: CoursecreateComponent },
-  { path: 'profile-orders', component: ProfileOrdersComponent },
   { path: 'usedproduct-list', component: UsedproductListComponent },
   { path: 'editusedproduct/:id', component: UsedproductListComponent },
   { path: 'coursecreate', component: CoursecreateComponent },
@@ -61,7 +69,7 @@ const routes: Routes = [
 @NgModule({
   imports: [
     RouterModule.forRoot(routes, {
-      anchorScrolling: 'enabled', // 啟用錨點自動滾動
+      anchorScrolling: 'enabled',
       // scrollPositionRestoration: 'enabled',
       useHash: true,
       onSameUrlNavigation: 'reload',

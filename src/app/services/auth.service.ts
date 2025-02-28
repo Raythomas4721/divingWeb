@@ -24,6 +24,9 @@ export class AuthService {
   setUserId(userId: string) {
     this.userId = userId;
   }
+  isLoggedIn(): boolean {
+    return this.isLoggedInSubject.value;
+  }
 
   private async loadUserToken() {
     const token = localStorage.getItem('token');
