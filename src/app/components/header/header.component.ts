@@ -86,7 +86,7 @@ export class HeaderComponent implements OnInit {
     });
 
     this.authService.user$.subscribe((user) => {
-      console.log('收到 user$', user);
+      // console.log('收到 user$', user);
       this.user = user || null;
       this.userName = user?.memberName || '';
       this.isLoggedIn = !!user;
@@ -165,7 +165,7 @@ export class HeaderComponent implements OnInit {
           next: (user) => {
             this.user = user;
             this.userName = user?.memberName || '';
-            console.log('登入後立即設置 userName:', this.userName);
+            // console.log('登入後立即設置 userName:', this.userName);
             this.cdr.detectChanges();
           },
           error: (err) => {
