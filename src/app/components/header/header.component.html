@@ -156,6 +156,19 @@
                       </div>
                     </div>
                   </div>
+                  <!-- 新增驗證碼輸入欄位，只有在 showVerification 為 true 時顯示 -->
+                  <div class="col-12" *ngIf="showVerification">
+                    <div class="form-group">
+                      <label class="form-label" for="verificationCode">驗證碼</label>
+                      <input type="text" id="verificationCode" name="verificationCode"
+                        formControlName="verificationCode" class="form-control" placeholder="輸入收到的驗證碼" required />
+                    </div>
+                    <div
+                      *ngIf="registrForm.get('verificationCode')?.invalid && registrForm.get('verificationCode')?.touched"
+                      class="text-danger">
+                      請輸入有效的驗證碼
+                    </div>
+                  </div>
                   <!-- <div class="col-12">
                     <div class="form-group">
                       <input type="checkbox" id="agreed" name="agreed" value="agreed" required
@@ -164,7 +177,7 @@
                   </div> -->
                 </div>
                 <button type="submit" class="btn btn-maincolor mt-30 d-block" style="justify-self: center">
-                  快速註冊
+                  {{ showVerification ? '確認驗證碼' : '快速註冊' }}
                 </button>
               </form>
             </div>
