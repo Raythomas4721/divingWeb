@@ -374,7 +374,13 @@
         <div id="review_form_wrapper">
           <div id="review_form">
             <div id="respond" class="comment-respond">
-              <h2 id="reply-title" class="comment-reply-title">填寫評論</h2>
+              <h2
+                id="reply-title"
+                class="comment-reply-title"
+                (click)="fillReviewTemplate()"
+              >
+                填寫評論
+              </h2>
               <p>歡迎告訴我們您對此商品的想法。</p>
               <!-- Reactive Form -->
               <form [formGroup]="reviewForm" class="comment-form">
