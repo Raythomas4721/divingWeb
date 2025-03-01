@@ -85,8 +85,8 @@
                             <span>$</span>{{ product.productPrice }}
                           </span>
                         </span>
-                        <a rel="nofollow" class="button product_type_simple add_to_cart_button "
-                          (click)="onConfirmAddToCart(product)">加入購物車</a>
+                        <button rel="nofollow" class="button product_type_simple add_to_cart_button "
+                          (click)="onConfirmAddToCart(product)">加入購物車</button>
                       </div>
                     </div>
                   </div>
@@ -113,7 +113,7 @@
 
           </main>
           <aside class="col-lg-3 col-xl-2 order-lg-1">
-            <div class="ls ms">
+            <!-- <div class="ls ms"> -->
 
               <div class="widget widget_product_search">
                 <h3 class="widget-title">搜尋</h3>
@@ -124,7 +124,7 @@
                   <input type="submit" value="Search">
                 </form>
               </div>
-            </div>
+            <!-- </div> -->
             <div class="widget woocommerce widget_product_categories">
               <h3 class="widget-title">分類</h3>
               <ul class="product-categories" formControlName="categoryId">

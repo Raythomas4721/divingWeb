@@ -19,6 +19,7 @@ export class UsedproductshowComponent implements OnInit {
   usedProducts: TUcreateproductDTO[] = [];
   usedCategory: TUcategory[] = [];
   usedCondition: TUcondition[] = [];
+  showImageError = false; // 控制圖片錯誤訊息顯示
   //
   imagePreviews: string[] = [];
   draggedIndex: number | null = null;
@@ -107,12 +108,7 @@ export class UsedproductshowComponent implements OnInit {
   }
   // 表單送出時的動作
   onSubmit(): void {
-    // console.log(this.UPForm);
-    // if (!this.user || !this.user.memberId) {
-    //   console.warn("會員資訊未載入，請先登入");
-    //   alert("請先登入後再進行商品上架！");
-    //   return;
-    // }
+
     if (!this.user || !this.user.memberId) {
       alert("請先登入後再進行商品上架！");
       return;
@@ -120,7 +116,7 @@ export class UsedproductshowComponent implements OnInit {
     if (this.UPForm.invalid) {
       // console.warn("請填寫完整商品資訊");
       this.UPForm.markAllAsTouched(); // 這行確保所有未填的欄位會觸發錯誤訊息
-    // alert("請填寫完整商品資訊！");
+    //alert("請填寫完整商品資訊！");
       return;
     }
 
@@ -210,7 +206,6 @@ export class UsedproductshowComponent implements OnInit {
       return;
     }
     this.handleImageUpload(files);
-    //把上傳圖片傳到方法
   }
   handleImageUpload(files: FileList): void {
     Array.from(files).forEach(file => {
@@ -255,5 +250,24 @@ export class UsedproductshowComponent implements OnInit {
 
     this.draggedIndex = null;
   }
+  autoFillForm(): void {
+    this.UPForm.patchValue({
+      productName: '全罩式浮潛面罩',
+      productDescription: '高品質全罩式浮潛面罩，適合各種水域活動，防霧防漏設計。',
+      productPrice: '1499',
+      categoryId: this.usedCategory.length > 0 ? this.usedCategory[0].categoryId : '', // 選擇第一個分類
+      productConditionId: this.usedCondition.length > 0 ? this.usedCondition[0].productConditionId : '' // 選擇第一個商品狀況
+    });
+
+    // 預設圖片 (Base64 或 URL)
+    const defaultBase64Images = [
+      'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAA...', // 這裡填入完整的 Base64 字串
+      'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAA...'
+    ];
+
+    this.imagePreviews = defaultBase64Images;
+    this.showImageError = false; // 隱藏錯誤提示
+  }
+
 
 }
