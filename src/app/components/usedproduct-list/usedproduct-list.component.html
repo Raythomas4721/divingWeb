@@ -42,7 +42,7 @@
                     <option *ngFor="let item of usedCategory" [value]="item.categoryId">{{ item.categoryName }}</option>
                   </select>
 
-                  <input type="text" [(ngModel)]="keyword" (input)="filterProducts()" placeholder="輸入關鍵字搜尋"
+                  <input type="text" [(ngModel)]="keyword" placeholder="輸入關鍵字搜尋"
                     class="short-input" />
 
                   <div class="btn-group">

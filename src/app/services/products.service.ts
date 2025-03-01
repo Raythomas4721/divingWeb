@@ -3,6 +3,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { TUproductDTO, TUcreateproductDTO, TUcategory, TUcondition, TUproductDetail } from '../interface/TUproductDTO';
+import { HttpHeaders } from '@angular/common/http';
+import { throwError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -40,6 +42,34 @@ export class ProductsService {
   }
   getUsedCondition() {
     return this.http.get<TUcondition[]>(`${this.apiUrl}api/TUproductCondition`)
+  }
+  //顯示當前會員的商品
+  // getMyUsedProducts(): Observable<TUproductDTO[]> {
+  //   return this.http.get<TUproductDTO[]>(`${this.apiUrl}api/TUproductsAPI/myProducts`);
+  // }
+  //2
+  // getMyUsedProducts(): Observable<TUproductDTO[]> {
+  //   const headers = new HttpHeaders({
+  //     'Authorization': `Bearer ${localStorage.getItem('token')}`
+  //   });
+
+  //   return this.http.get<TUproductDTO[]>(`${this.apiUrl}api/TUproductsAPI/myProducts`, { headers });
+  // }
+  getMyUsedProducts(): Observable<TUproductDTO[]> {
+    const token = localStorage.getItem('token');
+
+    if (!token) {
+      console.warn("⚠️ 沒有 Token，請確認用戶是否登入");
+      return throwError(() => new Error("未登入，請先登入"));
+    }
+
+    console.log("✅ 發送請求時的 Token:", token); // 確保 Token 不為空
+
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+
+    return this.http.get<TUproductDTO[]>(`${this.apiUrl}api/TUproductsAPI/myProducts`, { headers });
   }
 
   createUsedProduct(product: TUcreateproductDTO): Observable<any> {

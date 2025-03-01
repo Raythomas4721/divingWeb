@@ -43,7 +43,11 @@
                  <div>
                 <small *ngIf="imagePreviews.length === 0 && UPForm.touched" class="text-danger">
                   請至少上傳一張圖片
-                </small></div>
+                </small>
+                <!-- <small *ngIf="showImageError" class="text-danger">
+                  請至少上傳一張圖片
+                </small> -->
+              </div>
                 <button type="button" class="btn btn-success" (click)="fileInput.click()"
                   [disabled]="imagePreviews.length >= 6"><i class="fa-regular fa-circle-check"></i>&nbsp;選擇圖片</button>
                 <!-- <p class="text-info mt-2"><i class="fa-regular fa-lightbulb"></i>&nbsp;提示：重新排列照片以更改封面</p> -->
@@ -116,7 +120,7 @@
                 </select>
               </div>
               <!-- 送出按鈕 -->
-              <button type="submit" class="btn btn-darkgrey m-3" [disabled]="UPForm.invalid || isSubmitting"><i
+              <button type="submit" class="btn btn-darkgrey m-3" ><i
                   class="fa-solid fa-arrow-up"></i>&nbsp;&nbsp;上架</button>
                   <!-- <button type="submit" class="fa-solid fa-arrow-up btn btn-darkgrey m-3" [disabled]="UPForm.invalid || isSubmitting">上架商品</button> -->
 
@@ -126,7 +130,10 @@
 <button type="button" class="btn btn-primary m-3" (click)="autoFillForm()">
   <i class="fa-solid fa-magic"></i>&nbsp;&nbsp;一鍵輸入
 </button>
-
+<!-- 新的一鍵輸入按鈕 (不填圖片、名稱、描述、價格) -->
+<button type="button" class="btn btn-warning m-3" (click)="autoFillFormWithoutImage()">
+  <i class="fa-solid fa-magic"></i>&nbsp;&nbsp;一鍵輸入 (不含圖片)
+</button>
             </div>
 
           </div>

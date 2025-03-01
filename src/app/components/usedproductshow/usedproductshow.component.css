@@ -11,3 +11,12 @@
 .picture {
   color: black;
 }
+.test {
+  width: 40px;
+  height: 40px;
+  font-size: 18px; /* 圖示大小 */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}

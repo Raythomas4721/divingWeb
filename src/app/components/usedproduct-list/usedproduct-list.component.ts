@@ -30,25 +30,30 @@ export class UsedproductListComponent {
   // 必須要有 ngOnInit 方法
   ngOnInit(): void {
     this.authService.user$.subscribe(user => {
-      this.user = user?.user;
+      this.user = user;
       if (user) {
         console.log("用戶資料已載入:", this.user);
-        //this.loadUsedProducts();
+        this.loadUsedProducts();
       } else {
         console.log("等待 API 返回，用戶資料尚未載入");
       }
     });
-    this.loadUsedProducts();
+    // this.loadUsedProducts();
     this.loadCategory();
 
   }
   loadUsedProducts(): void {
-    this.productsService.getUsedProducts(1, 8, this.categoryId).subscribe({
+    if (!this.user) {
+      console.warn("未登入，無法獲取會員商品");
+      return;
+    }
+    this.productsService.getMyUsedProducts().subscribe({
       next: (data: any[]) => {
         this.usedProducts = data;
         //console.log(data);
         this.filteredProducts = [...this.usedProducts];
         //console.log(this.filteredProducts);
+        console.log("會員商品載入成功:", this.usedProducts);
       },
       error: (error: HttpErrorResponse) => {
         console.error('載入二手商品失敗:', error);
@@ -95,23 +100,23 @@ export class UsedproductListComponent {
     });
   }
 
-  filterProducts() {
-    // 先回復到完整的商品列表
-    this.productsData = this.originalProductsData.filter(product => {
-      // 檢查是否有選擇分類
-      const matchCategory = this.selectedCategory
-        ? product.categoryId == +this.selectedCategory
-        : true;
+  // filterProducts() {
+  //   // 先回復到完整的商品列表
+  //   this.productsData = this.originalProductsData.filter(product => {
+  //     // 檢查是否有選擇分類
+  //     const matchCategory = this.selectedCategory
+  //       ? product.categoryId == +this.selectedCategory
+  //       : true;
 
-      // 關鍵字搜尋（針對商品名稱與描述）
-      const matchKeyword = this.keyword
-        ? product.productName.toLowerCase().includes(this.keyword.toLowerCase()) ||
-        product.productDescription.toLowerCase().includes(this.keyword.toLowerCase())
-        : true;
+  //     // 關鍵字搜尋（針對商品名稱與描述）
+  //     const matchKeyword = this.keyword
+  //       ? product.productName.toLowerCase().includes(this.keyword.toLowerCase()) ||
+  //       product.productDescription.toLowerCase().includes(this.keyword.toLowerCase())
+  //       : true;
 
-      // 同時符合分類與關鍵字才會顯示
-      return matchCategory && matchKeyword;
-    });
-  }
+  //     // 同時符合分類與關鍵字才會顯示
+  //     return matchCategory && matchKeyword;
+  //   });
+  // }
 
 }
