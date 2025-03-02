@@ -58,6 +58,30 @@ export class CoursesComponent implements OnInit {
     );
   }
 
+  //倒序版loadCourses
+  // loadCourses(): void {
+  //   this.coursesService.getCourses().subscribe(
+  //     (data) => {
+  //       if (!Array.isArray(data)) {
+  //         console.error('API 回傳的資料不是陣列:', data);
+  //         this.coursesData = [];
+  //         return;
+  //       }
+  //       this.coursesData = data.map(course => ({
+  //         ...course,
+  //         imageData: course.photo 
+  //           ? `data:image/jpeg;base64,${course.photo}` 
+  //           : 'assets/images/courses/noImage_500x300.png'
+  //       })).reverse(); // 直接反轉陣列順序
+  
+  //       this.filteredCourses = this.coursesData; // 初始顯示所有課程
+  //     },
+  //     (error) => {
+  //       console.error('獲取課程數據失敗', error);
+  //     }
+  //   );
+  // }
+
   // 關鍵字搜尋
   searchCourses(event: Event): void {
     event.preventDefault(); // 阻止表單刷新頁面

@@ -48,7 +48,7 @@ const routes: Routes = [
   { path: 'reset-password', component: ResetPasswordComponent },
   { path: 'procategories', component: ProcategoriesComponent },
   { path: 'coursedetails/:id', component: CoursedetailsComponent },
-  { path: 'coursecheckout', component: CoursecheckoutComponent },
+  // { path: 'coursecheckout', component: CoursecheckoutComponent },
   { path: 'coursecheckout/:id', component: CoursecheckoutComponent },
   { path: 'courseorderreceived', component: CourseorderreceivedComponent },
   { path: 'usedproductshow', component: UsedproductshowComponent },
