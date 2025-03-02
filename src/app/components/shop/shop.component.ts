@@ -215,6 +215,7 @@ export class ShopComponent implements OnInit {
       // 並清空 categories 狀態
       this.products = [];
       this.selectedCategoryId = null;
+      this.searchTerm = '';
     } catch (err) {
       console.error('搜尋過程中出錯:', err);
     }
