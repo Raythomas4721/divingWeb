@@ -216,14 +216,16 @@
                         <i class="fa fa-calendar" aria-hidden="true"></i>
                         <a [routerLink]="['/site-detail', siteDetails.siteId]" rel="bookmark">
                           <time class="entry-date published updated"
-                            datetime="2018-03-18T15:15:12+00:00">01.12.2025</time>
+                            datetime="2018-03-18T15:15:12+00:00"></time>
                         </a>
                       </span>
                       <!-- 地點 -->
                       <span class="venueAddress">
                         {{ siteDetails['venueAddress'] }}
                       </span>
+
                     </div><!-- .entry-meta -->
+                    <div>{{ siteDetails['detail'] }}</div>
                   </header>
                   <!-- .entry-header -->
                   <div class="entry-content">
@@ -238,7 +240,7 @@
 
 
             <!-- 分頁 -->
-            <nav class="navigation pagination" role="navigation">
+            <!-- <nav class="navigation pagination" role="navigation">
               <h2 class="screen-reader-text">Posts navigation</h2>
               <div class="nav-links">
                 <a class="prev page-numbers" href="events-right.html">
@@ -259,14 +261,14 @@
                 <a class="page-numbers" href="events-right.html">
                   <span class="meta-nav screen-reader-text">Page </span>
                   3
-                </a>
+                </a> -->
 
                 <!-- <a class="next page-numbers" href="events-right.html">
                   <span class="screen-reader-text">Next page</span>
                   <i class="fa fa-chevron-right"></i>
                 </a> -->
-              </div>
-            </nav>
+              <!-- </div>
+            </nav> -->
           </main>
           <aside class="col-lg-5 col-xl-4 order-lg-1">
             <div class="ls ms">
@@ -337,10 +339,93 @@
             </div>
 
 
+            <!-- <div class="site-list">
+            </div>
+
+            <div class="weather">
+              <h3>{{ city }} 天氣</h3>
+              <p>溫度: {{ temperature }}</p>
+              <p>狀況: {{ condition }}</p>
+            </div> -->
+
+
+            <!-- <ul>
+              <li *ngFor="let weather of temperature">
+                時間: {{ weather.StartTime | date: 'yyyy-MM-dd HH:mm:ss' }}<br>
+                天氣: {{ weather.WeatherDescription }}
+              </li>
+            </ul>
+
+
+            <div>
+              <label for="location">選擇地區：</label>
+              <select id="location" [(ngModel)]="selectedLocation" (change)="filterWeather()">
+                <option value="">全部</option>
+                <option value="連江縣">連江縣</option>
+                <option value="金門縣">金門縣</option>
+              </select>
+            </div>
+
+            <div>
+              <label for="keyword">關鍵字搜尋：</label>
+              <input type="text" id="keyword" [(ngModel)]="keyword" (keyup)="searchWeather(keyword)">
+            </div> -->
+<!--
+            <ul>
+              <li *ngFor="let weather of temperature">
+                <p>地區: {{ weather.LocationName }}</p>
+                <p>時間: {{ weather.StartTime | date: 'yyyy-MM-dd HH:mm:ss' }}</p>
+                <p>天氣: {{ weather.WeatherDescription }}</p>
+              </li>
+            </ul> -->
 
 
 
-            <div class="widget widget_apsc_widget">
+            <!-- <div>
+              <label for="location">選擇地區：</label>
+              <select id="location" [(ngModel)]="selectedLocation" (change)="filterWeather()">
+                  <option value="">全部</option>
+                  <option value="連江縣">連江縣</option>
+                  <option value="金門">金門</option>
+                  <option value="宜蘭">宜蘭</option>
+                  <option value="新竹縣">新竹縣</option>
+                  <option value="苗栗">苗栗</option>
+                  <option value="彰化">彰化</option>
+                  <option value="南投">南投</option>
+                  <option value="雲林">雲林</option>
+                  <option value="嘉義">嘉義</option>
+                  <option value="屏東">屏東</option>
+                  <option value="台東">台東</option>
+                  <option value="花蓮">花蓮</option>
+                  <option value="澎湖">澎湖</option>
+                  <option value="基隆">基隆</option>
+                  <option value="新竹市">新竹市</option>
+                  <option value="嘉義市">嘉義市</option>
+                  <option value="台北">台北</option>
+                  <option value="新北">新北</option>
+                  <option value="台中">台中</option>
+                  <option value="台南">台南</option>
+                  <option value="桃園">桃園</option>
+                  <option value="高雄">高雄</option>
+              </select>
+          </div> -->
+
+        <div>
+          <label for="keyword">查詢未來台灣一周天氣：</label>
+          <input type="text" id="weatherKeyword" [(ngModel)]="weatherKeyword" (keyup)="searchWeather(weatherKeyword)" placeholder="請輸入行政區">
+        </div>
+
+        <ul>
+          <li *ngFor="let weather of temperature">
+            <p>地區: {{ weather.LocationName }}</p>
+            <p>時間: {{ weather.StartTime | date: 'yyyy-MM-dd HH:mm:ss' }}</p>
+            <p>天氣: {{ weather.WeatherDescription }}</p>
+          </li>
+        </ul>
+
+
+
+            <!-- <div class="widget widget_apsc_widget">
               <div class="apsc-icons-wrapper clearfix apsc-theme-3">
                 <div class="apsc-each-profile">
                   <a class="apsc-facebook-icon clearfix" href="#">
@@ -354,7 +439,7 @@
                 </div>
 
               </div>
-            </div>
+            </div> -->
 
 
 

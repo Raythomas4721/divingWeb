@@ -1,7 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { UserService } from 'src/app/services/user.service';
 import { TsiterentalService } from 'src/app/services/tsiterental.service';
+import { HttpClient } from '@angular/common/http';
+
+
 
 @Component({
   selector: 'app-site-detail',
@@ -10,11 +13,16 @@ import { TsiterentalService } from 'src/app/services/tsiterental.service';
 })
 export class SiteDetailComponent {
   siteDetails: any;
-
+  sitedetailarea:any='';
+  selectedRegion: any = '';
+  temperature: string = '';
+  condition: string = '';
+  @Input() city: string = '';
 
   constructor(
     private route: ActivatedRoute,
-    private tsiterentalService: TsiterentalService
+    private tsiterentalService: TsiterentalService,
+    private http: HttpClient
   ) { }
 
   ngOnInit(): void {
@@ -31,8 +39,31 @@ export class SiteDetailComponent {
         error: (err) => {
           console.log(err);
         }
-      });
-    }
-  }
-}
+      });}}
+
+      loadSiteDetails(): void {
+        this.tsiterentalService.getsiterental(this.selectedRegion).subscribe({
+          next: (res) => {
+            this.siteDetails = res;
+            console.log(this.siteDetails);
+          },
+          error: (err) => {
+            console.log(err);
+          }
+        });
+      }
+
+      onAreaChange(area: number): void {
+        this.sitedetailarea = area;
+        this.loadSiteDetails();
+
+      }
+
+
+      }
+
+
+
+
+
 

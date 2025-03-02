@@ -186,7 +186,7 @@
                 <img src="data:image/png;base64, {{ siteDetails.photo }}" />
               </div>
               <div class="item-content">
-                <h2>{{siteDetails.venueName}}</h2>
+                <h3>{{siteDetails.venueName}}</h3>
 
                 <div>
                   <!-- <div class="excerpt"></div> -->
@@ -200,18 +200,14 @@
                   <li>
                     <div class="detaill">容納人數: {{ siteDetails.numberOfPeople }}</div>
                   </li>
-                  <li>
-                    <div class="detaill">無線網路</div>
-                  </li>
+
                 </ul>
 
                 <ul>
                   <li>
-                    <div class="detaill">時段分為上午、下午、晚上</div>
+                    <div class="detaill">時段分為上午(8-12)、下午(13-16)、晚上(18-22)</div>
                   </li>
-                  <li>
-                    <div style="font-size: 30px; color: red;">每個時段: {{ siteDetails.sitePrice }}</div>
-                  </li>
+
                   <li>
                     <div class="detaill">​預約場勘或詢價，敬請填寫線上預約表。</div>
                   </li>
@@ -233,6 +229,13 @@
                   </ul>
                 </div>
 
+
+
+
+
+
+
+
                 <div style="margin-top: 2em;">
                   <ul>
                     <li>
@@ -247,9 +250,14 @@
                     [routerLink]="['/site-reserve', siteDetails.siteId]">預約
                   </button>
 
+                    <span style="font-size: 30px; color: red; margin-left: 750px">
+                      $: {{ siteDetails.sitePrice }}/時段
+                    </span>
+
                 </div>
               </div>
             </div>
+
             <!-- </main> -->
             <!-- <aside class="col-lg-5 col-xl-4 affix-aside">
             <div class="widget widget_categories">
