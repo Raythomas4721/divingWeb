@@ -23,6 +23,7 @@ import { ProfileOrdersComponent } from './components/profile-orders/profile-orde
 import { UsedproductListComponent } from './components/usedproduct-list/usedproduct-list.component';
 import { UsedproducteditComponent } from './components/usedproductedit/usedproductedit.component';
 import { AuthGuard } from './auth.guard';
+import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
 const routes: Routes = [
   { path: 'auth-success', component: AuthSuccessComponent },
   { path: 'shop', component: ShopComponent },
@@ -44,6 +45,7 @@ const routes: Routes = [
     component: ProfileOrdersComponent,
     canActivate: [AuthGuard]
   },
+  { path: 'reset-password', component: ResetPasswordComponent },
   { path: 'procategories', component: ProcategoriesComponent },
   { path: 'coursedetails/:id', component: CoursedetailsComponent },
   { path: 'coursecheckout', component: CoursecheckoutComponent },

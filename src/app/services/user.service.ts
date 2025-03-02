@@ -111,4 +111,18 @@ export class UserService {
       { headers }
     );
   }
+  resetPassword(token: string, newPassword: string): Observable<any> {
+    const body = { token, newPassword };
+    const httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+    };
+
+    return this.client.post(`${this.apiUrl}/TMmemberListsAPI/reset-password`, body, httpOptions).pipe(
+      tap((response: any) => {
+        if (response.status) {
+          console.log('密碼重置成功:', response.message);
+        }
+      })
+    );
+  }
 }
