@@ -1,4 +1,4 @@
-import { map } from 'rxjs';
+import { map, NotFoundError } from 'rxjs';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { UserDTO } from 'src/app/interface/userDTO';
@@ -8,7 +8,7 @@ import { TcordersService } from 'src/app/services/tcorders.service';
 import { UserService } from 'src/app/services/user.service';
 
 interface Order {
-orderStatus: any;
+  orderStatus: boolean;
   memberName: any;
   orderId: number;
   courseId: number;
@@ -22,7 +22,7 @@ orderStatus: any;
   orderDate: string;
   startAt: string;
   photo?: string; 
-  imageData?: string;//用來顯示圖片的轉換後屬性
+  imageData?: string; //用來顯示圖片的轉換後屬性
   isButtonDisabled :boolean;
 }
 
@@ -76,20 +76,12 @@ export class CourseorderreceivedComponent implements OnInit{
       private ordersService:TcordersService
     ) {}
   
-    
+   
     ngOnInit(): void {
-      this.ordersService.orderData$.subscribe(data => {
-        if (data) {
-                   
-          this.orderData = data;
-          console.log("✅ 訂單數據更新:", this.orderData);
-          
-          // **🚀 立即刷新歷史訂單**
-          this.loadOrderHistory(true);
-        }
-      });
-    
-      // **確保已登入會員**
+
+      
+     
+      // 確保已登入會員
       this.authService.user$.subscribe(user => {
         this.user = user;
         if (!this.user) {
@@ -99,29 +91,42 @@ export class CourseorderreceivedComponent implements OnInit{
         }
         console.log("👤 目前登入的用戶:", this.user);
     
-        // **確保登入後載入歷史訂單**
+        // 確保登入後載入歷史訂單
         this.loadOrderHistory(false);
       });
 
-      console.log("🕒 訂單時間 startAt：", this.orderHistoryData.map(o => o.startAt));
+      // 抓memberId最新一筆訂單存orderData
+      if(this.user?.memberId == null){
+        alert("請登入會員")
+        return;
+      }
+      this.ordersService.getLatestOrderById(this.user.memberId).subscribe(latestorder=>{
+        this.orderData= latestorder;
+        console.log(latestorder)
+        console.log(this.orderData)
+      })
+
+      //凍結按鈕的時間測試
+      console.log("訂單時間 startAt：", this.orderHistoryData.map(o => o.startAt));
     }
     
+   
     loadOrderHistory(forceRefresh: boolean = false) {
       if (!this.user?.memberId) {
-        console.error("❌ 會員資料不完整，無法載入訂單");
+        console.error("會員資料不完整，無法載入訂單");
         return;
       }
     
       this.ordersService.getOrdersByMemberId(this.user.memberId).subscribe(
         (data: Order[]) => {
           if (!data || data.length === 0) {
-            console.warn("⚠ 沒有歷史訂單");
+            console.warn("沒有歷史訂單");
             return;
           }    
     
-          console.log("📜 API 回傳的歷史訂單:", data);
+          console.log("API 回傳的歷史訂單:", data);
     
-          // **🚀 確保圖片格式轉換**
+          // 確保圖片格式轉換**
           this.orderHistoryData = data.map(order => ({
             ...order,
             isButtonDisabled:this.checkCancelable(order.startAt),
@@ -130,32 +135,16 @@ export class CourseorderreceivedComponent implements OnInit{
             imageData: this.getImage(order.photo)
           }));
           console.log("object",this.orderHistoryData);
-    
-        //   // **🚀 確保最新訂單在最前面**
-        //   this.orderHistoryData.sort((a, b) => new Date(b.orderDate).getTime() - new Date(a.orderDate).getTime());
-    
-        //   // **🚀 若 `orderData` 為空，或是強制刷新，則更新最新訂單**
-        //   if (!this.orderData || forceRefresh) {
-        //     this.orderData = this.orderHistoryData[0];
-        //   }
-    
-        //   console.log("✅ 最新訂單:", this.orderData);
-        // },
-        // error => {
-        //   console.error("❌ 獲取歷史訂單失敗:", error);
-        // }
+
     });
     }
-    
 
-      getImage(photo: string | null | undefined): string {
+
+  getImage(photo: string | null | undefined): string {
         if (!photo) return 'assets/images/courses/noImage_500x300.png'; // 預設圖片
         return `data:image/jpeg;base64,${photo}`;
       }
 
-     
-      
-  // /////////
   sortOrders(column: string) {
     if (this.sortBy === column) {
       // 如果點擊相同欄位，就切換排序方向
@@ -189,36 +178,8 @@ export class CourseorderreceivedComponent implements OnInit{
       }
     });
   
-    console.log(`🔄 訂單已依據 ${column} 進行 ${this.sortDirection} 排序`, this.orderHistoryData);
+    console.log(`訂單已依據 ${column} 進行 ${this.sortDirection} 排序`, this.orderHistoryData);
   }
-    loadCourses() {
-      this.coursesService.getCourses().subscribe(
-        (data) => {
-          // 檢查 `data` 是否為陣列，若不是則初始化為空陣列
-          if (!Array.isArray(data)) {
-            console.error('API 回傳的資料不是陣列:', data);
-            this.orderHistoryData = [];
-            return;
-          }
-  
-          // 儲存原始課程數據
-        this.originalCoursesData = data.map(course => ({
-          ...course,
-          imageData: course.photo 
-            ? `data:image/jpeg;base64,${course.photo}` 
-            : 'assets/images/courses/noImage_500x300.png'
-        }));
-  
-        
-        this.orderHistoryData = [...this.originalCoursesData];
-          console.log('課程資料:', this.orderHistoryData);
-        },
-        (error) => {
-          console.error('獲取課程數據失敗', error);
-        }
-      );
-    }
-  
    
   
     filterCourses() {
@@ -233,12 +194,15 @@ export class CourseorderreceivedComponent implements OnInit{
         return matchCategory && matchKeyword;
       });
     }
+
+
     resetFilter() {
       this.keyword = '';
     this.selectedCategory = '';
     this.loadOrderHistory(); // 重新載入訂單
     }
   
+
      // 判斷是否在 7 天內
      checkCancelable(startAt :string):boolean {
       if (!startAt) {
@@ -251,33 +215,69 @@ export class CourseorderreceivedComponent implements OnInit{
       const cancelDeadline = new Date(orderStartAt);
       cancelDeadline.setDate(orderStartAt.getDate()-7)
       return today >= cancelDeadline;
-    // const endDate= new Date(this.orderData.startAt)
-    //   const today = new Date(); // 獲取當前日期 2/27
-      
-    //   const sevenDaysBeforeStart = new Date(endDate); //2/28
-    //   sevenDaysBeforeStart.setDate(endDate.getDate() - 7); // 計算開始前 7 天的日期  2/21
-    //  console.log('time',sevenDaysBeforeStart);
-    //  if( today >= sevenDaysBeforeStart){
-    //    this.isButtonDisabled =false;
-    //    console.log('isButtonDisabled',this.isButtonDisabled);
-    //  }
-      //return today <= sevenDaysBeforeStart; // 若今天日期 >= 課程開始前 7 天，則按鈕禁用
+  
     }
   
-    deleteCourse(courseId: number) {
-      
-      if (confirm('確定取消此訂單？')) {
-        // this.courses = this.courses.filter(course => course.courseId !== courseId);
-        this.filterCourses();
-      }
-    }
+   
     getCategoryName(categoryId: number): string {
       const category = this.courseCategories.find(cat => cat.id === categoryId);
       return category ? category.name : '未知分類';
     }
   
-    getdisbled(){
-      alert("test")
+
+    editOrderStatus(order: Order, newStatus: boolean) {
+      if (order.orderId == null) {
+        console.error("訂單ID不存在");
+        return;
+      }
+    
+      const updatedOrder: Order = {
+        ...order,
+        orderStatus: newStatus // 設定新的訂單狀態
+      };
+
+      console.log("即將發送的訂單更新請求:", updatedOrder);
+      
+    
+      this.ordersService.editOrderStatus(order.orderId, updatedOrder).subscribe(
+        response => {
+          console.log("訂單狀態更新成功:", response);
+          this.loadOrderHistory(true); 
+        },
+        error => {
+          console.error("訂單狀態更新失敗:", error);
+        }
+      );
     }
+
+    // editOrderStatus(order: Order, newStatus: boolean) {
+    //   if (!order?.orderId) {
+    //     console.error("訂單 ID 不存在");
+    //     return;
+    //   }
+    
+     
+    //   const updatedOrder: Order = {
+    //     ...order,
+    //     orderStatus: newStatus
+    //   };
+      
+    
+    //   console.log("即將發送的訂單更新請求:", updatedOrder); //確認請求內容
+    
+    //   this.ordersService.editOrderStatus(order.orderId, updatedOrder).subscribe({
+    //     next: (response) => {
+    //       console.log("訂單狀態更新成功:", response);
+    //       this.loadOrderHistory(true);
+    //     },
+    //     error: (error) => {
+    //       console.error("訂單狀態更新失敗:", error);
+    //       if (error.error) {
+    //         console.error("API 回傳錯誤內容:", error.error);
+    //       }
+    //     }
+    //   });
+    // }
+
 
 }
