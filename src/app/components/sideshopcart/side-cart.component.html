@@ -63,7 +63,7 @@
         </div>
         <!-- 移除商品 -->
         <button
-          class="remove-item"
+          class="remove-item" (click)="removeFromCart(item)"
           (click)="removeItem(item.productvariantsId!, item.memberId!)"
           aria-label="Remove item"
         >
