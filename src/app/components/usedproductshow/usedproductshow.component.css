@@ -20,3 +20,13 @@
   justify-content: center;
   padding: 0;
 }
+button.btn-link {
+  display: flex;
+  align-items: center;
+  gap: 0; /* 確保 icon 沒有間距 */
+}
+button.btn-link:focus,
+button.btn-link:active {
+  outline: none !important;
+  box-shadow: none !important;
+}

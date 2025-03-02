@@ -127,13 +127,17 @@
                   <button class="btn btn-darkgrey m-3" routerLink="/used-products"><i
                   class="fa-solid fa-xmark"></i>&nbsp;取消</button>
                   <!-- 一鍵輸入按鈕 -->
-<button type="button" class="btn btn-primary m-3" (click)="autoFillForm()">
-  <i class="fa-solid fa-magic"></i>&nbsp;&nbsp;一鍵輸入
+<!-- 透明按鈕 (只有 Icon) -->
+<button type="button" class="btn btn-link p-0 border-0 text-dark" (click)="autoFillForm()">
+  <i class="fa-solid fa-web-awesome"></i>
 </button>
 <!-- 新的一鍵輸入按鈕 (不填圖片、名稱、描述、價格) -->
-<button type="button" class="btn btn-warning m-3" (click)="autoFillFormWithoutImage()">
-  <i class="fa-solid fa-magic"></i>&nbsp;&nbsp;一鍵輸入 (不含圖片)
+<button type="button" class="btn btn-link p-0 border-0 text-dark" (click)="autoFillFormWithoutImage()">
+  <i class="fa-solid fa-magic"></i>
 </button>
+
+
+
             </div>
 
           </div>
