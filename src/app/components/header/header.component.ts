@@ -33,7 +33,7 @@ export class HeaderComponent implements OnInit {
     private userBehaviorService: UserBehaviorService,
     private modalService: ModalService,
     private cdr: ChangeDetectorRef
-  ) { }
+  ) {}
   cartItemCount = 0;
   userForm = new FormGroup({
     username: new FormControl('', [
@@ -156,7 +156,8 @@ export class HeaderComponent implements OnInit {
         const token = res.token || localStorage.getItem('token');
         if (token) {
           const decodedToken: any = jwtDecode(token);
-          const userId = decodedToken.sub || decodedToken.userId || res.memberId || '';
+          const userId =
+            decodedToken.sub || decodedToken.userId || res.memberId || '';
           this.authService.setUserId(userId);
         }
 
@@ -209,5 +210,10 @@ export class HeaderComponent implements OnInit {
     this.router.navigateByUrl('/').then(() => {
       this.router.navigateByUrl('/shop');
     });
+  }
+  autoFillPassword(): void {
+    const defaultPassword = '123ddA';
+
+    this.userForm.patchValue({ password: defaultPassword });
   }
 }
