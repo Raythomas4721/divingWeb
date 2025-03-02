@@ -1,43 +1,112 @@
+/* 圖片放大效果 */
 .zoom-img {
-  width: 300px; /* 你想要的圖片寬度 */
-  transition: transform 0.3s; /* 漸變速度 */
-}
-
-.zoom-img:hover {
-  transform: scale(1.1); /* 放大 1.1 倍 */
-  cursor: pointer; /* 顯示可點擊手勢(可依需求移除) */
-}
-
-.products.columns-2 {
-  padding: 0 10px; /* 左右留白 */
-}
-
-.product-inner img {
+  width: 100%;
+  height: auto;
   display: block;
-  max-width: 280px;
-  margin: 0 auto; /* 置中 */
-}
-
-/* top顯示的照片大小 */
-.widget_top_rated_products .product_list_widget li img {
-  width: 100px;
-  height: auto; /* 等比例縮放 */
-  margin-right: 10px; /* 若想圖片跟文字之間留點間距可加 */
-}
-
-.widget_product_search {
-  background-color: #ffffff; /* 你想要的背景色 */
-
-  padding: 20px; /* 讓內容與邊緣留點距離 */
-  margin-bottom: 20px; /* 與下方區塊的間距 */
+  transition: transform 0.3s;
 }
 
 .image-swap-container {
-  position: relative;
+  position: relative; /* 使 .product-overlay 能絕對定位在此父容器 */
   display: flex;
   width: 280px;
   height: 280px;
   margin: 0 auto;
   justify-content: center;
   align-items: center;
+}
+
+/* 滑鼠進入容器，就放大圖片 */
+.image-swap-container:hover .zoom-img {
+  transform: scale(1.1);
+}
+
+/* 疊加文字區 */
+.product-overlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 99;
+
+  /* 改成白色半透明 (你想要多白自己調) */
+  background-color: rgba(255, 255, 255, 0.5);
+
+  /* 文字用深色，以便在白色底上清晰 */
+  color: #000;
+
+  border-radius: 4px;
+  text-align: center;
+  padding: 10px; /* 讓文字有一些留白 */
+}
+
+/* 一些排版與預設樣式 */
+.product-overlay h2,
+.product-overlay .star-rating,
+.product-overlay .price-wrap {
+  margin: 8px 0;
+}
+
+.product-inner img {
+  display: block;
+  max-width: 280px;
+  margin: 0 auto;
+}
+/* 圖片放大效果 */
+.zoom-img {
+  width: 100%;
+  height: auto;
+  display: block;
+  transition: transform 0.3s;
+}
+
+.image-swap-container {
+  position: relative; /* 使 .product-overlay 能絕對定位在此父容器 */
+  display: flex;
+  width: 280px;
+  height: 280px;
+  margin: 0 auto;
+  justify-content: center;
+  align-items: center;
+}
+
+/* 滑鼠進入容器，就放大圖片 */
+.image-swap-container:hover .zoom-img {
+  transform: scale(1.1);
+}
+
+/* 疊加文字區 */
+.product-overlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 99;
+
+  /* 改成白色半透明 (你想要多白自己調) */
+  background-color: rgba(11, 45, 64, 0.277);
+
+  /* 文字用深色，以便在白色底上清晰 */
+  color: #fff;
+
+  border-radius: 2px;
+  text-align: center;
+}
+/* 一些排版與預設樣式 */
+.product-overlay h2,
+.product-overlay .star-rating,
+.product-overlay .price-wrap {
+  margin: 8px 0;
+}
+
+.product-inner img {
+  display: block;
+  max-width: 280px;
+  margin: 0 auto;
+}
+
+.product-wrap {
+  /* 移除任何背景設定，不要半透明也不要白色 */
+  background-color: transparent;
+  color: #fff; /* 文字不透明 */
 }

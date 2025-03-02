@@ -1,0 +1,72 @@
+.top-bar {
+  display: flex;
+  justify-content: center;
+  /* 置中 */
+  align-items: center;
+  flex-wrap: wrap;
+  /* 當空間不足時換行 */
+  gap: 10px;
+  /* 控制間距 */
+  padding: 20px 0;
+}
+
+.search-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.table-btn,
+.add-button,
+.query-btn,
+.reset-btn {
+  background-color: #0d425e;
+  color: white;
+  padding: 8px 15px;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.table-btn:hover,
+.query-btn:hover,
+.reset-btn:hover {
+  background-color: #083349;
+}
+
+.short-input {
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 200px;
+}
+
+/* 設定 select 的寬度 */
+#productCategory {
+  width: 250px;
+  /* 可根據需求自行調整 */
+  padding: 5px;
+  text-align: left;
+  text-align-last: left;
+  /* 讓選擇的項目也靠左 */
+}
+
+/* 讓 option 內的字靠左 */
+#productCategory option {
+  direction: ltr;
+  text-align: left;
+}
+
+.table-btn {
+
+  border: none;
+  /* 移除邊框 */
+  padding: 8px 16px;
+  /* 內距 */
+  border-radius: 12px;
+  /* 圓角 */
+  cursor: pointer;
+  /* 滑鼠懸停變手指 */
+  transition: background-color 0.3s ease-in-out;
+  /* 添加過渡效果 */
+}

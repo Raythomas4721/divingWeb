@@ -1,3 +1,97 @@
+/* 圖片放大效果 */
+.zoom-img {
+  width: 100%;
+  height: auto;
+  display: block;
+  transition: transform 0.3s;
+}
+.images-wrapper {
+  display: flex; /* 讓縮圖和主圖並排 */
+  gap: 1rem; /* 左右之間留一點間距 */
+  align-items: flex-start; /* 如果想對齊頂部，可以用 flex-start */
+}
+/* 滑鼠進入容器，就放大圖片 */
+.image-swap-container:hover .zoom-img {
+  transform: scale(1.1);
+}
+
+/* 疊加文字區 */
+.product-overlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 99;
+
+  /* 改成白色半透明 (你想要多白自己調) */
+  background-color: rgba(222, 222, 219, 0.465);
+
+  /* 文字用深色，以便在白色底上清晰 */
+  color: #070707;
+
+  border-radius: 5px;
+  text-align: center;
+  padding: 10px; /* 讓文字有一些留白 */
+}
+
+/* 一些排版與預設樣式 */
+.product-overlay h2,
+.product-overlay .star-rating,
+.product-overlay .price-wrap {
+  margin: px 0;
+}
+.thumbnails-container {
+  /* 如果想固定寬度，可以寫死或用百分比 */
+  width: 100px;
+  /* 或者直接讓它隨內容高度自動擴展也可 */
+}
+
+.thumbnails-list {
+  list-style-type: none; /* 去掉 li 的預設圓點 */
+  margin: 0;
+  padding: 0;
+}
+
+.thumbnails-list li {
+  margin-bottom: 10px; /* 每個縮圖之間留距 */
+}
+
+.thumbnails-list img {
+  width: 100%; /* 根據需求縮放 */
+  cursor: pointer;
+  border: 1px solid #ddd;
+  transition: box-shadow 0.3s ease;
+}
+
+.thumbnails-list img:hover {
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+}
+
+.main-image-container {
+  /* 右側主圖可以佔剩下空間 */
+  flex: 1;
+  max-width: 600px; /* 或者設定一個較固定的最大寬度 */
+  position: relative; /* 如果有 hover-img 切換時可用 */
+}
+
+.product-main-img {
+  width: 100%;
+  display: block;
+  cursor: pointer;
+}
+
+.hover-img {
+  /* 例如做 hover 時才顯示，可用其它方式切換 */
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  display: none;
+}
+.main-image-container:hover .hover-img {
+  display: block;
+}
+
 .products.columns-2 {
   padding: 0 40px; /* 左右留白 */
 }
@@ -6,6 +100,23 @@
   display: block;
   max-width: 280px;
   margin: 0 auto; /* 置中 */
+}
+.product-inner .onsale {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  /* 設定背景色、padding、字體大小 */
+  background-color: rgba(235, 189, 2, 0.622);
+  color: #fff;
+  padding: 5px 10px;
+  /* font-weight: bold;
+  border-radius: 3px; */
+}
+
+.product-wrap {
+  /* 移除任何背景設定，不要半透明也不要白色 */
+  background-color: transparent;
+  color: #fff; /* 文字不透明 */
 }
 
 .widget_product_search {
@@ -41,4 +152,28 @@
 }
 .image-swap-container:hover .primary-img {
   opacity: 0;
+}
+.image-swap-container.single-img:hover .primary-img {
+  opacity: 1 !important; /* 保持可見 */
+}
+.image-swap-container.single-img:hover .hover-img {
+  opacity: 0 !important; /* 就算有 hover-img, 也不顯示 */
+}
+.widget.woocommerce.widget_product_categories {
+  margin-top: 22px;
+}
+.widget.woocommerce.widget_top_rated_products {
+  margin-top: 22px; /* 負值 => 往上移; 可依需求調整數值 */
+}
+
+.original-price {
+  color: #888; /* 淺灰字體 */
+  display: block; /* 讓它獨佔一行 (或用 margin 來分行也行) */
+  /* margin-bottom: 1px; 與折扣價之間留點間距 */
+  text-decoration: line-through;
+}
+
+.discount-price {
+  color: #f51a13; /* 顯眼的紅色 (Bootstrap danger色) */
+  display: block; /* 獨佔一行 */
 }

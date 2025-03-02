@@ -1,12 +1,12 @@
 <div>
   <div class="container">
-    <!-- 一行(row)，左邊 main，右邊 aside -->
+    <br />
     <div class="row">
-      <!-- 左邊 主內容：col-lg-7 col-xl-8 -->
+      <!-- 主內容 -->
       <main class="col-lg-7 col-xl-8">
-        <!-- 價格排序區塊 -->
+        <!-- 排序區 (可加可不加) -->
         <div class="products-selection">
-          <p class="woocommerce-result-count">Showing all 23 results</p>
+          <p class="woocommerce-result-count">可用價格進行排序</p>
           <form class="woocommerce-ordering" method="get">
             <select
               name="orderby"
@@ -14,93 +14,151 @@
               [(ngModel)]="selectedOrder"
               (change)="onOrderChange($event)"
             >
-              <!-- 預設排序 -->
-              <option value="menu_order" selected="selected">預設排序</option>
-              <!-- 依價格由低到高 -->
+              <option value="menu_order" selected>預設排序</option>
               <option value="price">價格：由低到高</option>
-              <!-- 依價格由高到低 -->
               <option value="price-desc">價格：由高到低</option>
             </select>
           </form>
         </div>
 
-        <!-- 商品列表 -->
-        <ul class="products columns-2">
-          <li class="product" *ngFor="let product of products">
-            <div class="product-inner">
-              <div
-                class="image-swap-container"
-                *ngIf="hasSecondVersion(product.imageUrl); else singleImg"
-              >
-                <a
-                  (click)="onClickProduct(product.productId)"
-                  href="javascript:void(0)"
+        <!-- (A) 如果有搜尋結果 or 分類商品，就顯示「雙圖 + Add to cart」列表 -->
+        <ng-container
+          *ngIf="
+            (searchResults && searchResults.length > 0) ||
+              (products && products.length > 0);
+            else showMainCats
+          "
+        >
+          <ul class="products columns-2">
+            <!-- 用三元判斷：若 searchResults 有資料，就用 searchResults，否則用 products -->
+            <li
+              class="product"
+              *ngFor="
+                let item of searchResults.length > 0 ? searchResults : products
+              "
+            >
+              <div class="product-inner">
+                <!-- 你若想保留 SALE! 就寫在這 -->
+                <span
+                  class="onsale"
+                  *ngIf="item.discountedPrice < item.originalPrice"
+                  >特賣!</span
                 >
-                  <img
-                    class="primary-img"
-                    [src]="'assets/images/shop/' + product.imageUrl"
-                    alt="{{ product.imageUrl }}"
-                  />
-                  <img
-                    class="hover-img"
-                    [src]="
-                      'assets/images/shop/' +
-                      product.imageUrl.replace('.jpg', '-1.jpg')
-                    "
-                    alt="第二張圖片"
-                  />
-                </a>
+
+                <div
+                  class="image-swap-container"
+                  [class.single-img]="!hasSecondVersion(item.imageUrl)"
+                >
+                  <a
+                    [routerLink]="['/shopproductshow', item.productId]"
+                    (click)="onClickProduct(item.productId)"
+                  >
+                    <img
+                      class="primary-img"
+                      [src]="'assets/images/shop/' + item.imageUrl"
+                      alt="{{ item.imageUrl }}"
+                    />
+                    <!-- 如果有第二張圖(判斷式) -->
+                    <img
+                      *ngIf="hasSecondVersion(item.imageUrl)"
+                      class="hover-img"
+                      [src]="
+                        'assets/images/shop/' +
+                        item.imageUrl.replace('.jpg', '-1.jpg')
+                      "
+                      alt="第二張圖"
+                    />
+                  </a>
+                </div>
+
+                <div class="product-wrap">
+                  <h2 class="woocommerce-loop-product__title">
+                    <a [routerLink]="['/shopproductshow', item.productId]">
+                      {{ item.productName }}
+                    </a>
+                  </h2>
+                  <!-- 星等顯示 (與單品頁相同結構) -->
+                  <div class="star-rating">
+                    <!-- 這裡的 width 依據 item.avgRating 來動態算 -->
+                    <span [style.width]="(item.avgRating / 5) * 100 + '%'">
+                      Rated
+                      <strong class="rating">{{
+                        item.avgRating | number : "1.2-2"
+                      }}</strong>
+                      out of 5
+                    </span>
+                  </div>
+                  <div class="price-wrap">
+                    <span class="price">
+                      <ng-container
+                        *ngIf="
+                          item.discountedPrice < item.originalPrice;
+                          else normalPrice
+                        "
+                      >
+                        <span class="original-price"
+                          >$ {{ item.originalPrice | number : "1.0-0" }}</span
+                        >
+                        <span class="discount-price"
+                          >$ {{ item.discountedPrice | number : "1.0-0" }}</span
+                        >
+                      </ng-container>
+                      <ng-template #normalPrice>
+                        <span>$ {{ item.unitPrice | number : "1.0-0" }}</span>
+                      </ng-template>
+                    </span>
+                    <!-- Add to cart -->
+                    <a
+                      class="button product_type_simple add_to_cart_button"
+                      [routerLink]="['/shopproductshow', item.productId]"
+                    >
+                      查看商品詳情
+                    </a>
+                  </div>
+                </div>
               </div>
-              <ng-template #singleImg>
+            </li>
+          </ul>
+        </ng-container>
+
+        <!-- (B) 若上面都沒商品 => 顯示主分類 (一開始畫面) -->
+        <ng-template #showMainCats>
+          <ul class="products columns-2">
+            <li
+              class="product"
+              *ngFor="let cat of mainCats"
+              (click)="goToShop(cat.productCategoryId)"
+            >
+              <div class="product-inner">
                 <div class="image-swap-container">
-                  <a
-                    (click)="onClickProduct(product.productId)"
-                    href="javascript:void(0)"
-                  >
-                    <img [src]="'assets/images/shop/' + product.imageUrl" />
+                  <a href="javascript:void(0)">
+                    <img
+                      [src]="'assets/images/shop/' + cat.imageFileName"
+                      alt="商品圖片"
+                      class="zoom-img"
+                    />
                   </a>
-                </div>
-              </ng-template>
-              <div class="product-wrap">
-                <h2 class="woocommerce-loop-product__title">
-                  <a [routerLink]="['/shopproductshow', product.productId]">
-                    {{ product.productName }}
-                  </a>
-                </h2>
-                <div class="star-rating">
-                  <span style="width: 80%"
-                    >Rated <strong class="rating">4.00</strong> out of 5
-                  </span>
-                </div>
-                <div class="price-wrap">
-                  <span class="price">
-                    <span><span>$</span>{{ product.unitPrice }}</span>
-                  </span>
-                  <!-- 當按下按鈕時呼叫 onAddToCart(product) -->
-                  <a
-                    class="button product_type_simple add_to_cart_button"
-                    [routerLink]="['/shopproductshow', product.productId]"
-                  >
-                    Add to cart
-                  </a>
+                  <div class="product-overlay">
+                    <h2 class="woocommerce-loop-product__title">
+                      {{ cat.categoryName | literalToBreak }}
+                    </h2>
+                  </div>
                 </div>
               </div>
-            </div>
-          </li>
-        </ul>
+            </li>
+          </ul>
+        </ng-template>
       </main>
 
-      <!-- 右邊 側邊欄：col-lg-5 col-xl-4 -->
+      <!-- 右側側邊欄 (搜尋 + 分類 + Top products) -->
       <aside class="col-lg-5 col-xl-4">
         <div class="ls ms">
           <div class="widget widget_product_search">
-            <h3 class="widget-title">Search</h3>
-            <!-- 使用 Angular 的表單 (ngSubmit) 送出後呼叫 onSearch() -->
+            <h3 class="widget-title">關鍵字搜尋</h3>
             <form class="woocommerce-product-search" (ngSubmit)="onSearch()">
               <label class="screen-reader-text" for="searchField">
-                Search for:
+                搜尋:
               </label>
-              <!-- [(ngModel)] 綁定 searchTerm -->
               <input
                 type="search"
                 id="searchField"
@@ -115,7 +173,7 @@
         </div>
 
         <div class="widget woocommerce widget_product_categories">
-          <h3 class="widget-title">Categories</h3>
+          <h3 class="widget-title">商品分類</h3>
           <ul class="product-categories">
             <li
               class="cat-item"
@@ -127,9 +185,8 @@
           </ul>
         </div>
 
-        <!-- top商品列 -->
         <div class="widget woocommerce widget_top_rated_products">
-          <h3 class="widget-title">Top Products</h3>
+          <h3 class="widget-title">熱門商品</h3>
           <ul class="product_list_widget">
             <li *ngFor="let product of topProducts">
               <a [routerLink]="['/shopproductshow', product.productId]">
@@ -144,53 +201,13 @@
                     {{ product.productName }}
                   </a>
                 </span>
-                <p>Price: {{ product.unitPrice }}</p>
-                <p>Views: {{ product.viewCount }}</p>
+                <p>價格: ${{ product.unitPrice | number : "1.0-0" }}</p>
+                <p>瀏覽次數: {{ product.viewCount }}</p>
               </div>
             </li>
           </ul>
         </div>
       </aside>
     </div>
-    <!-- .row 結束 -->
-
-    <!-- 變體選擇彈窗 (Modal) -->
-    <!-- <div
-      *ngIf="selectedProduct && productVariants.length > 0"
-      class="variant-modal"
-    >
-      <div class="modal-content">
-        <h2>Select options for {{ selectedProduct.productName }}</h2>
-        <div class="variant-option">
-          <label for="sizeSelect">Size:</label>
-          <select
-            id="sizeSelect"
-            [(ngModel)]="selectedSize"
-            (change)="onVariantChange()"
-          >
-            <option *ngFor="let size of sizes" [value]="size.id">
-              {{ size.name }}
-            </option>
-          </select>
-
-          <div class="variant-option">
-            <label for="colorSelect">Color:</label>
-            <select
-              id="colorSelect"
-              [(ngModel)]="selectedColor"
-              (change)="onVariantChange()"
-            >
-              <option *ngFor="let color of colors" [value]="color.id">
-                {{ color.name }}
-              </option>
-            </select>
-          </div>
-          <button (click)="onConfirmAddToCart()">Confirm Add to Cart</button>
-          <button (click)="cancelVariantSelection()">Cancel</button>
-        </div>
-      </div>
-    </div>
-  </div> -->
-    <!-- .container 結束 -->
   </div>
 </div>

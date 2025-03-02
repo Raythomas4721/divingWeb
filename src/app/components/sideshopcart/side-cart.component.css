@@ -173,7 +173,7 @@ h5 {
     }
 
     .checkout-btn {
-      width: 100%;
+      width: 250px;
       margin-top: 1rem;
       padding: 0.75rem;
       background: #000;
@@ -187,5 +187,19 @@ h5 {
         cursor: not-allowed;
       }
     }
+  }
+
+  .color-field {
+    display: inline-flex; /* 或 block, 視需求 */
+    align-items: center; /* 垂直置中 */
+  }
+
+  .color-swatch {
+    display: inline-block;
+    width: 16px; /* 視需求調整大小 */
+    height: 16px;
+    margin-left: 4px; /* 與 "Color:" 文字留點距離 */
+    border: 1px solid #ccc;
+    border-radius: 50%; /* 如果你想做圓圈 */
   }
 }

@@ -38,8 +38,8 @@
           <div class="row">
             <div class="col-12">
               <h4 class="color-main mb-3">登入</h4>
-              <div *ngIf="errorMessage" class="text-center text-danger" style="font-size: larger;">
-                {{errorMessage}}
+              <div *ngIf="errorMessage" class="text-center text-danger" style="font-size: larger">
+                {{ errorMessage }}
               </div>
               <form [formGroup]="userForm" (ngSubmit)="onLogin()" class="form-registration c-mb-20 c-gutter-20"
                 action="/">
@@ -73,7 +73,11 @@
                 </div>
                 <a class="registerRedirect" data-dismiss="modal" data-target="#popupRegistr" data-toggle="modal"
                   href="#">還不是會員嗎? 立即註冊!</a>
-                <button type="submit" class="btn btn-maincolor mt-30 d-block" style="justify-self: center;">
+                <button type="button" class="btn btn-outline-primary w-100 mt-2 p-2" (click)="loginWithGoogle()">
+                  <img src="assets/images/google-logo.webp" alt="Google Logo" width="32" class="mr-2" />
+                  使用 Google 登入
+                </button>
+                <button type="submit" class="btn btn-maincolor mt-30 d-block" style="justify-self: center">
                   登入
                 </button>
               </form>
@@ -96,8 +100,8 @@
           <div class="row">
             <div class="col-12">
               <h4 class="color-main mb-4">註冊會員</h4>
-              <div *ngIf="errorMessage" class="text-center text-danger" style="font-size: larger;">
-                {{errorMessage}}
+              <div *ngIf="errorMessage" class="text-center text-danger" style="font-size: larger">
+                {{ errorMessage }}
               </div>
               <form [formGroup]="registrForm" (ngSubmit)="onRegister()" class="form-registration c-mb-20 c-gutter-20"
                 method="post" action="/">
@@ -109,9 +113,9 @@
                         required placeholder="Guest Name" aria-required="true" />
                     </div>
                     <div *ngIf="
-                          registrForm.get('name')?.invalid &&
-                          registrForm.get('name')?.touched
-                        " class="text-danger">
+                        registrForm.get('name')?.invalid &&
+                        registrForm.get('name')?.touched
+                      " class="text-danger">
                       使用者名稱長度需在2~20字元之內
                     </div>
                   </div>
@@ -122,9 +126,9 @@
                         placeholder="example@gmail.com" required aria-required="true" />
                     </div>
                     <div *ngIf="
-                          registrForm.get('email')?.invalid &&
-                          registrForm.get('email')?.touched
-                        " class="text-danger">
+                        registrForm.get('email')?.invalid &&
+                        registrForm.get('email')?.touched
+                      " class="text-danger">
                       電子郵件格式不正確
                     </div>
                   </div>
@@ -135,9 +139,9 @@
                         class="form-control" placeholder="Password" aria-required="true" required />
                     </div>
                     <div *ngIf="
-                          registrForm.get('password')?.invalid &&
-                          registrForm.get('password')?.touched
-                        " class="text-danger">
+                        registrForm.get('password')?.invalid &&
+                        registrForm.get('password')?.touched
+                      " class="text-danger">
                       密碼長度需在6~12字元之內，包含英文大小寫及數字，不可有符號
                     </div>
                   </div>
@@ -152,6 +156,19 @@
                       </div>
                     </div>
                   </div>
+                  <!-- 新增驗證碼輸入欄位，只有在 showVerification 為 true 時顯示 -->
+                  <div class="col-12" *ngIf="showVerification">
+                    <div class="form-group">
+                      <label class="form-label" for="verificationCode">驗證碼</label>
+                      <input type="text" id="verificationCode" name="verificationCode"
+                        formControlName="verificationCode" class="form-control" placeholder="輸入收到的驗證碼" required />
+                    </div>
+                    <div
+                      *ngIf="registrForm.get('verificationCode')?.invalid && registrForm.get('verificationCode')?.touched"
+                      class="text-danger">
+                      請輸入有效的驗證碼
+                    </div>
+                  </div>
                   <!-- <div class="col-12">
                     <div class="form-group">
                       <input type="checkbox" id="agreed" name="agreed" value="agreed" required
@@ -159,8 +176,8 @@
                     </div>
                   </div> -->
                 </div>
-                <button type="submit" class="btn btn-maincolor mt-30 d-block" style="justify-self: center;">
-                  快速註冊
+                <button type="submit" class="btn btn-maincolor mt-30 d-block" style="justify-self: center">
+                  {{ showVerification ? '確認驗證碼' : '快速註冊' }}
                 </button>
               </form>
             </div>
@@ -178,7 +195,7 @@
       <div class="row align-items-center">
         <div class="col-xl-2 col-lg-3 col-11">
           <a href="./" class="logo">
-            <img src="assets/images/logo.png" alt="img" />
+            <img src="assets/images/logo_h.png" alt="img" />
           </a>
         </div>
         <div class="col-xl-8 col-lg-5 col-1">
@@ -206,7 +223,7 @@
 
               <!-- shop -->
               <li routerLinkActive="active">
-                <a routerLink="/procategories">商品列表</a>
+                <a (click)="goToShop()">商品列表</a>
                 <!-- <ul>
                   <li>
                     <a href="blog-right.html">基本浮潛裝備</a>
@@ -262,12 +279,13 @@
 
               <li routerLinkActive="active">
                 <a routerLink="/courses">潛水課程</a>
+
                 <ul>
                   <li>
-                    <a href="about.html">About</a>
+                    <a routerLink="/courses" href="">關於課程</a>
                   </li>
 
-                  <li>
+                  <!-- <li>
                     <a href="services.html">Our Services</a>
                     <ul>
                       <li>
@@ -283,183 +301,10 @@
                         <a href="service-single.html">Single Service</a>
                       </li>
                     </ul>
-                  </li>
+                  </li> -->
 
                   <li>
-                    <a href="pricing.html">Pricing</a>
-                  </li>
-
-                  <!-- shop -->
-                  <li>
-                    <a href="shop-right.html">Shop</a>
-                    <ul>
-                      <li>
-                        <a href="shop-account-dashboard.html">Account</a>
-                        <ul>
-                          <li>
-                            <a href="shop-account-details.html">Account details</a>
-                          </li>
-                          <li>
-                            <a href="shop-account-addresses.html">Addresses</a>
-                          </li>
-                          <li>
-                            <a href="shop-account-address-edit.html">Edit Address</a>
-                          </li>
-                          <li>
-                            <a href="shop-account-orders.html">Orders</a>
-                          </li>
-                          <li>
-                            <a href="shop-account-order-single.html">Single Order</a>
-                          </li>
-                          <li>
-                            <a href="shop-account-downloads.html">Downloads</a>
-                          </li>
-                          <li>
-                            <a href="shop-account-password-reset.html">Password Reset</a>
-                          </li>
-                          <li>
-                            <a href="shop-account-login.html">Login/Logout</a>
-                          </li>
-                        </ul>
-                      </li>
-                      <li>
-                        <a href="shop-right.html">Right Sidebar</a>
-                      </li>
-                      <li>
-                        <a href="shop-left.html">Left Sidebar</a>
-                      </li>
-                      <li>
-                        <a href="shop-product-right.html">Product Right Sidebar</a>
-                      </li>
-                      <li>
-                        <a href="shop-product-left.html">Product Left Sidebar</a>
-                      </li>
-                      <li>
-                        <a href="shop-cart.html">Cart</a>
-                      </li>
-                      <li>
-                        <a href="shop-checkout.html">Checkout</a>
-                      </li>
-                      <li>
-                        <a href="shop-order-received.html">Order Received</a>
-                      </li>
-                    </ul>
-                  </li>
-                  <!-- eof shop -->
-
-                  <!-- features -->
-                  <li>
-                    <a href="shortcodes_iconbox.html">Shortcodes</a>
-                    <ul>
-                      <li>
-                        <a href="shortcodes_typography.html">Typography</a>
-                      </li>
-                      <li>
-                        <a href="shortcodes_buttons.html">Buttons</a>
-                      </li>
-                      <li>
-                        <a href="shortcodes_pricing.html">Pricing</a>
-                      </li>
-                      <li>
-                        <a href="shortcodes_iconbox.html">Icon Boxes</a>
-                      </li>
-                      <li>
-                        <a href="shortcodes_progress.html">Progress</a>
-                      </li>
-                      <li>
-                        <a href="shortcodes_tabs.html">Tabs &amp; Collapse</a>
-                      </li>
-                      <li>
-                        <a href="shortcodes_bootstrap.html">Bootstrap Elements</a>
-                      </li>
-                      <li>
-                        <a href="shortcodes_animation.html">Animation</a>
-                      </li>
-                      <li>
-                        <a href="shortcodes_icons.html">Template Icons</a>
-                      </li>
-                      <li>
-                        <a href="shortcodes_socialicons.html">Social Icons</a>
-                      </li>
-                    </ul>
-                  </li>
-                  <!-- eof shortcodes -->
-
-                  <li>
-                    <a href="shortcodes_widgets_default.html">Widgets</a>
-                    <ul>
-                      <li>
-                        <a href="shortcodes_widgets_default.html">Default Widgets</a>
-                      </li>
-                      <li>
-                        <a href="shortcodes_widgets_shop.html">Shop Widgets</a>
-                      </li>
-                      <li>
-                        <a href="shortcodes_widgets_custom.html">Custom Widgets</a>
-                      </li>
-                    </ul>
-                  </li>
-
-                  <!-- events -->
-                  <li>
-                    <a href="events-left.html">Events</a>
-                    <ul>
-                      <li>
-                        <a href="events-left.html">Left Sidebar</a>
-                      </li>
-                      <li>
-                        <a href="events-right.html">Right Sidebar</a>
-                      </li>
-                      <li>
-                        <a href="events-full.html">Full Width</a>
-                      </li>
-                      <li>
-                        <a href="event-single-left.html">Single Event</a>
-                        <ul>
-                          <li>
-                            <a href="event-single-left.html">Left Sidebar</a>
-                          </li>
-                          <li>
-                            <a href="event-single-right.html">Right Sidebar</a>
-                          </li>
-                          <li>
-                            <a href="event-single-full.html">Full Width</a>
-                          </li>
-                        </ul>
-                      </li>
-                    </ul>
-                  </li>
-                  <!-- eof events -->
-
-                  <li>
-                    <a href="team.html">Team</a>
-                    <ul>
-                      <li>
-                        <a href="team.html">Team List</a>
-                      </li>
-                      <li>
-                        <a href="team-single.html">Team Member</a>
-                      </li>
-                    </ul>
-                  </li>
-
-                  <li>
-                    <a href="comingsoon.html">Comingsoon</a>
-                  </li>
-
-                  <li>
-                    <a href="faq.html">FAQ</a>
-                    <ul>
-                      <li>
-                        <a href="faq.html">FAQ</a>
-                      </li>
-                      <li>
-                        <a href="faq2.html">FAQ 2</a>
-                      </li>
-                    </ul>
-                  </li>
-                  <li>
-                    <a href="404.html">404</a>
+                    <a routerLink="/coursesmanagement" href="">課程管理系統</a>
                   </li>
                 </ul>
               </li>
@@ -468,96 +313,10 @@
               <!-- gallery -->
               <li routerLinkActive="active">
                 <a routerLink="/site-rental">場地租借</a>
-                <ul>
-                  <!-- Gallery image only -->
-                  <li>
-                    <a href="gallery-image.html">Image Only</a>
-                    <ul>
-                      <li>
-                        <a href="gallery-image-2-cols.html">2 columns</a>
-                      </li>
-                      <li>
-                        <a href="gallery-image.html">3 columns</a>
-                      </li>
-                      <li>
-                        <a href="gallery-image-4-cols-fullwidth.html">4 columns fullwidth</a>
-                      </li>
-                    </ul>
-                  </li>
-                  <!-- eof Gallery image only -->
-
-                  <!-- Gallery with title -->
-                  <li>
-                    <a href="gallery-title.html">Image With Title</a>
-                    <ul>
-                      <li>
-                        <a href="gallery-title-2-cols.html">2 columns</a>
-                      </li>
-                      <li>
-                        <a href="gallery-title.html">3 column</a>
-                      </li>
-                      <li>
-                        <a href="gallery-title-4-cols-fullwidth.html">4 columns fullwidth</a>
-                      </li>
-                    </ul>
-                  </li>
-                  <!-- eof Gallery with title -->
-
-                  <!-- Gallery with excerpt -->
-                  <li>
-                    <a href="gallery-excerpt.html">Image with Excerpt</a>
-                    <ul>
-                      <li>
-                        <a href="gallery-excerpt-2-cols.html">2 columns</a>
-                      </li>
-                      <li>
-                        <a href="gallery-excerpt.html">3 column</a>
-                      </li>
-                      <li>
-                        <a href="gallery-excerpt-4-cols-fullwidth.html">4 columns fullwdith</a>
-                      </li>
-                    </ul>
-                  </li>
-                  <!-- eof Gallery with excerpt -->
-
-                  <li>
-                    <a href="gallery-tiled.html">Tiled Gallery</a>
-                  </li>
-
-                  <!-- Gallery item -->
-                  <li>
-                    <a href="gallery-single.html">Gallery Item</a>
-                    <ul>
-                      <li>
-                        <a href="gallery-single.html">Style 1</a>
-                      </li>
-                      <li>
-                        <a href="gallery-single2.html">Style 2</a>
-                      </li>
-                    </ul>
-                  </li>
-                  <!-- eof Gallery item -->
-                </ul>
               </li>
-              <!-- eof Gallery -->
-
               <!-- contacts -->
               <li>
                 <a href="contact.html">聯絡我們</a>
-                <ul>
-                  <li>
-                    <a href="contact.html">Contact 1</a>
-                  </li>
-                  <li>
-                    <a href="contact2.html">Contact 2</a>
-                  </li>
-                  <li>
-                    <a href="contact3.html">Contact 3</a>
-                  </li>
-                  <li>
-                    <a href="contact4.html">Contact 4</a>
-                  </li>
-                </ul>
               </li>
               <!-- eof contacts -->
             </ul>
@@ -577,13 +336,23 @@
                 <ul class="user-menu">
                   <li>
                     <p class="text-center font-weight-bold text-primary">
-                      歡迎{{ userName || '您' }}！
+                      歡迎{{ user?.memberName || "您" }}！
                     </p>
                   </li>
                   <div class="dropdown-divider"></div>
                   <li>
                     <a routerLink="/profile">
+                      <p>會員專區</p>
+                    </a>
+                  </li>
+                  <li>
+                    <a routerLink="/profile-orders">
                       <p>我的訂單</p>
+                    </a>
+                  </li>
+                  <li>
+                    <a routerLink="/usedproduct-list">
+                      <p>二手商品管理</p>
                     </a>
                   </li>
                   <li>
@@ -599,7 +368,9 @@
                 </ul>
               </li>
               <li>
-                <a routerLink="/shopcart"><i class="fa-solid fa-cart-shopping" style="font-size: 24px"></i></a>
+                <a (click)="this.openCartPanel()"><i class="fa-solid fa-cart-arrow-down"
+                    style="font-size: 24px"></i><span class="Cart-count" style="display: inline"
+                    *ngIf="cartItemCount > 0">{{ cartItemCount }}</span></a>
               </li>
             </ul>
           </nav>

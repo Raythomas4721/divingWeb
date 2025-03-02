@@ -5,6 +5,12 @@ export interface TNproductDTO {
   description: string;
   imageUrl: string;
   images: string[]; // 縮圖或其他額外圖片（可 0 張、多張）
+
+  // 直接加上可選屬性
+  avgRating?: number;
+  reviewCount?: number;
+  discountedPrice?: number;
+  originalPrice?: number;
 }
 export interface TNprovariantDTO {
   productvariantsId: number;
@@ -53,4 +59,10 @@ export interface GenderDTO {
   genderId: number;
   gender: string;
   hasStock: boolean;
+}
+
+export interface IAlbum {
+  src: string; // 大圖路徑
+  caption?: string; // 顯示的標題(可選)
+  thumb?: string; // 縮圖(可選)
 }

@@ -1,0 +1,133 @@
+.order-container {
+  max-width: 1200px;
+  margin: auto;
+  margin-top: 40px;
+  padding: 20px;
+  padding-bottom: 100px;
+  font-family: Arial, sans-serif;
+}
+
+h2 {
+  color: #333;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.filter-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.filter-section .filter-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.filter-section .filter-group label {
+  font-weight: bold;
+  color: #555;
+}
+
+.filter-section .filter-group select {
+  width: 100px;
+  padding: 12px;
+  border: 2px solid #ddd;
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+.filter-section .refresh-btn {
+  padding: 8px 16px;
+  background-color: #1972d0;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.filter-section .refresh-btn:hover {
+  background-color: #0056b3;
+}
+
+.loading {
+  text-align: center;
+  color: #666;
+  font-size: 16px;
+  padding: 20px;
+}
+
+.order-table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: white;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.order-table th,
+.order-table td {
+  padding: 12px 15px;
+  text-align: left;
+  border-bottom: 1px solid #eee;
+}
+
+.order-table th {
+  background-color: #f8f9fa;
+  font-weight: bold;
+  color: #333;
+}
+
+.order-table tr.odd {
+  background-color: #f9f9f9;
+}
+
+.order-table tr:hover {
+  background-color: #f1f1f1;
+  transition: background-color 0.2s;
+}
+
+.order-table .details p {
+  margin: 5px 0;
+  line-height: 1.4;
+}
+
+.order-table .details p strong {
+  color: #666;
+}
+
+.status-pending {
+  color: #e67e22;
+}
+
+.status-shipped {
+  color: #27ae60;
+}
+
+.status-completed {
+  color: #2ecc71;
+}
+
+.no-orders {
+  text-align: center;
+  color: #888;
+  padding: 20px;
+  font-size: 16px;
+}
+
+@media (max-width: 768px) {
+  .order-table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+
+  .filter-section {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

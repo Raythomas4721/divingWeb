@@ -1,8 +1,7 @@
-<!-- 修改個人資料 Modal -->
 <!-- <div class="modal fade" id="editProfileModal" tabindex="-1" role="dialog" aria-labelledby="editProfileModalLabel"
   aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content p-3">
+  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-content p-2 ">
       <button type="button" class="close" data-dismiss="modal" aria-label="Close">
         <span style="font-size: 32px">&times;</span>
       </button>
@@ -23,12 +22,7 @@
 
           <div class="form-group">
             <label for="editEmail">電子郵件</label>
-            <input type="email" id="editEmail" formControlName="memberEmail" class="form-control"
-              placeholder="example@gmail.com" />
-            <div *ngIf="editProfileForm.get('memberEmail')?.invalid && editProfileForm.get('memberEmail')?.touched"
-              class="text-danger">
-              電子郵件格式不正確
-            </div>
+            <input type="email" id="editEmail" formControlName="memberEmail" class="form-control" readonly />
           </div>
 
           <div class="form-group">
@@ -62,6 +56,140 @@
     </div>
   </div>
 </div> -->
+<div class="modal fade" id="editProfileModal" tabindex="-1" role="dialog" aria-labelledby="editProfileModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-content p-2">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span class="close-icon">×</span>
+      </button>
+      <div class="modal-body">
+        <h4 class="text-center text-dark mb-4">修改個人資料</h4>
+        <form [formGroup]="editProfileForm" (ngSubmit)="onSubmitEditProfile()">
+          <!-- 會員名稱 -->
+          <div class="form-group">
+            <label for="editName">會員名稱</label>
+            <input type="text" id="editName" formControlName="memberName" class="form-control" placeholder="輸入會員名稱" />
+            <div *ngIf="editProfileForm.get('memberName')?.invalid && editProfileForm.get('memberName')?.touched"
+              class="text-danger">
+              會員名稱需至少2個字元
+            </div>
+            <div *ngIf="editProfileForm.get('memberName')?.errors?.['maxlength']">會員名稱不得超過40個字元</div>
+          </div>
+
+          <!-- 電子郵件 -->
+          <div class="form-group">
+            <label for="editEmail">電子郵件</label>
+            <input type="email" id="editEmail" formControlName="memberEmail" class="form-control" readonly />
+          </div>
+
+          <!-- 聯絡電話 -->
+          <div class="form-group">
+            <label for="editPhone">聯絡電話</label>
+            <input type="text" id="editPhone" formControlName="memberPhone" class="form-control" placeholder="輸入聯絡電話" />
+            <div *ngIf="editProfileForm.get('memberPhone')?.invalid && editProfileForm.get('memberPhone')?.touched"
+              class="text-danger">
+              <div *ngIf="editProfileForm.get('memberPhone')?.errors?.['pattern']">請輸入有效的電話號碼</div>
+            </div>
+          </div>
+
+          <!-- 居住地址 -->
+          <div class="form-group">
+            <label for="editAddress">居住地址</label>
+            <input type="text" id="editAddress" formControlName="memberAddress" class="form-control"
+              placeholder="輸入居住地址" />
+            <div *ngIf="editProfileForm.get('memberAddress')?.invalid && editProfileForm.get('memberAddress')?.touched"
+              class="text-danger">
+              <div *ngIf="editProfileForm.get('memberAddress')?.errors?.['maxlength']">地址不得超過80個字元</div>
+            </div>
+          </div>
+
+          <!-- 緊急聯絡人 -->
+          <div class="form-group">
+            <label for="editUrgentContact">緊急聯絡人</label>
+            <input type="text" id="editUrgentContact" formControlName="urgentContact" class="form-control"
+              placeholder="輸入緊急聯絡人" />
+            <div *ngIf="editProfileForm.get('urgentContact')?.invalid && editProfileForm.get('urgentContact')?.touched"
+              class="text-danger">
+              <div *ngIf="editProfileForm.get('urgentContact')?.errors?.['maxlength']">緊急聯絡人姓名不得超過40個字元</div>
+            </div>
+          </div>
+
+          <!-- 緊急聯絡電話 -->
+          <div class="form-group">
+            <label for="editUrgentPhone">緊急聯絡電話</label>
+            <input type="text" id="editUrgentPhone" formControlName="urgentPhone" class="form-control"
+              placeholder="輸入緊急聯絡電話" />
+            <div *ngIf="editProfileForm.get('urgentPhone')?.invalid && editProfileForm.get('urgentPhone')?.touched"
+              class="text-danger">
+              <div *ngIf="editProfileForm.get('urgentPhone')?.errors?.['pattern']">請輸入有效的電話號碼</div>
+            </div>
+          </div>
+
+          <!-- 操作按鈕 -->
+          <div class="d-flex gap-2 mt-3">
+            <button type="submit" class="btn btn-dark w-50" [disabled]="editProfileForm.invalid">儲存變更</button>
+            <button type="button" class="btn btn-outline-secondary w-50" data-dismiss="modal">取消</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="changePasswordModal" tabindex="-1" role="dialog" aria-labelledby="changePasswordModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content p-2">
+
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span style="font-size: 32px">&times;</span>
+      </button>
+
+      <div class="modal-body">
+        <h4 class="text-center text-dark mb-4">更改密碼</h4>
+
+        <form [formGroup]="changePasswordForm" (ngSubmit)="onSubmitChangePassword()">
+
+          <div class="form-group">
+            <label for="currentPassword">舊密碼</label>
+            <input type="password" id="currentPassword" formControlName="currentPassword" class="form-control"
+              placeholder="輸入舊密碼" />
+            <div
+              *ngIf="changePasswordForm.get('currentPassword')?.invalid && changePasswordForm.get('currentPassword')?.touched"
+              class="text-danger">
+              請輸入舊密碼
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="newPassword">新密碼</label>
+            <input type="password" id="newPassword" formControlName="newPassword" class="form-control"
+              placeholder="輸入新密碼" />
+            <div
+              *ngIf="changePasswordForm.get('newPassword')?.invalid && changePasswordForm.get('newPassword')?.touched"
+              class="text-danger">
+              密碼需6~12字元，包含大小寫與數字
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="confirmNewPassword">確認新密碼</label>
+            <input type="password" id="confirmNewPassword" formControlName="confirmNewPassword" class="form-control"
+              placeholder="再次輸入新密碼" />
+            <div *ngIf="changePasswordForm.get('confirmNewPassword')?.errors?.['notMatching']" class="text-danger">
+              新密碼與確認密碼不一致
+            </div>
+          </div>
+
+          <div class="d-flex gap-2 mt-3">
+            <button type="submit" class="btn btn-dark w-50" [disabled]="changePasswordForm.invalid">變更密碼</button>
+            <button type="button" class="btn btn-outline-secondary w-50" data-dismiss="modal">取消</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
 
 <div class="container mt-5 pb-5">
   <div class="row justify-content-center gap-3 d-flex align-items-stretch">
@@ -89,8 +217,8 @@
           </div>
         </div>
         <div class="card-body">
-          <a href="/change-password" class="btn btn-dark w-100 mb-2">更改密碼</a>
-          <a href="/order-history" class="btn btn-outline-dark border w-100">查看訂單紀錄</a>
+          <button class="btn btn-dark w-100 mb-2" (click)="openChangePasswordModal()">更改密碼</button>
+          <button class="btn btn-outline-dark border w-100" (click)="goToOrders()">查看訂單紀錄</button>
         </div>
       </div>
     </div>
@@ -106,7 +234,7 @@
           <p><strong>居住地址：</strong> {{ user?.memberAddress || '未提供' }}</p>
           <p><strong>緊急聯絡人：</strong> {{ user?.urgentContact || '未提供' }}</p>
           <p><strong>緊急聯絡電話：</strong> {{ user?.urgentPhone || '未提供' }}</p>
-          <a href="/edit-profile" class="btn btn-outline-dark border w-100 mt-3">編輯個人資料</a>
+          <button (click)="openEditProfileModal()" class="btn btn-outline-dark border w-100 mt-3">編輯個人資料</button>
         </div>
       </div>
     </div>

@@ -24,17 +24,38 @@
           </div>
           <!-- 商品細項 (如顏色、尺寸等) -->
           <div class="product-detail">
-            Color: {{ item || "N/A" }}
-            <br />
-            Size: {{ item || "One Size" }}
+            <div
+              class="color-field"
+              *ngIf="item.color && item.color !== '無選擇'"
+            >
+              顏色:
+              <span
+                class="color-swatch"
+                [style.backgroundColor]="item.color"
+              ></span>
+            </div>
+            <div *ngIf="item.size && item.size !== '無選擇'">
+              尺寸: {{ item.size }}
+            </div>
+            <!-- Thickness -->
+            <div *ngIf="item.thickness !== '無選擇'">
+              厚度: {{ item.thickness }}
+            </div>
+
+            <!-- Gender -->
+            <div *ngIf="item.gender !== '無選擇'">
+              性別款式: {{ item.gender }}
+            </div>
           </div>
 
           <!-- 若有缺貨狀態，可顯示提示 -->
-          <div class="out-of-stock" *ngIf="item">Out of stock</div>
+          <div class="out-of-stock" *ngIf="item.stock <= 0">缺貨中</div>
 
           <!-- 金額 & 數量 -->
           <div class="product-row">
-            <div class="product-price">\${{ item.unitpriceatCart }}</div>
+            <div class="product-price">
+              ${{ item.unitpriceatCart | number : "1.0-0" }}
+            </div>
             <div class="product-quantity">
               <span>{{ item.quantity }}</span>
             </div>
@@ -42,8 +63,8 @@
         </div>
         <!-- 移除商品 -->
         <button
-          class="remove-item"
-          (click)="removeItem(i)"
+          class="remove-item" (click)="removeFromCart(item)"
+          (click)="removeItem(item.productvariantsId!, item.memberId!)"
           aria-label="Remove item"
         >
           <i class="fa fa-trash" aria-hidden="true"></i>
@@ -62,19 +83,19 @@
     <!-- 金額資訊 -->
     <div class="cart-totals">
       <div class="totals-row">
-        <span>Subtotal:</span>
+        <span>商品小計:</span>
         <span>${{ subTotal }}</span>
       </div>
-      <div class="totals-row">
+      <!-- <div class="totals-row">
         <span>Import Duties:</span>
         <span>Paid</span>
-      </div>
+      </div> -->
       <div class="totals-row">
-        <span>Shipping:</span>
-        <span>FREE</span>
+        <span>運費:</span>
+        <span>免運</span>
       </div>
       <div class="totals-row total-amount">
-        <span>Total:</span>
+        <span>訂購總額:</span>
         <strong>${{ total }}</strong>
       </div>
     </div>
@@ -96,6 +117,9 @@
       [disabled]="hasError"
       (click)="proceedToCheckout()"
     > -->
-    <button>CHECKOUT SECURELY</button>
+    <button (click)="proceedToCheckout()">
+      前往結帳
+      <i class="fa-regular fa-credit-card" style="font-size: 24px"></i>
+    </button>
   </div>
 </div>

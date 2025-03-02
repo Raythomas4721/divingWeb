@@ -1,0 +1,60 @@
+<div class="order-container">
+  <h2>我的訂單</h2>
+
+  <div class="filter-section">
+    <div class="filter-group">
+      <label for="orderTypeFilter">訂單類型：</label>
+      <select id="orderTypeFilter" [(ngModel)]="selectedOrderType" (change)="filterOrders()">
+        <option value="">全部</option>
+        <option value="全新商品">全新商品</option>
+        <option value="二手商品">二手商品</option>
+        <option value="潛水課程">潛水課程</option>
+        <option value="場地租借">場地租借</option>
+      </select>
+    </div>
+    <button class="refresh-btn" (click)="loadOrders()">刷新</button>
+  </div>
+
+  <div class="loading" *ngIf="isLoading">載入中...</div>
+
+  <table class="order-table" *ngIf="!isLoading && filteredOrders.length > 0">
+    <thead>
+      <tr>
+        <th>訂單類型</th>
+        <th>訂單編號</th>
+        <th>狀態</th>
+        <th>付款方式</th>
+        <th>訂單日期</th>
+        <th>訂單細節</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let order of filteredOrders; let i = index" [class.odd]="i % 2 === 1">
+        <td>{{ order.orderType }}</td>
+        <td>{{ order.orderId }}</td>
+        <td>
+          <span [ngClass]="getStatusClass(order)">
+            {{ order.orderStatus || '未知' }}
+          </span>
+        </td>
+        <td>{{ order.paymentMethod || '未選擇' }}</td>
+        <td>{{ order.orderDate | date:'yyyy-MM-dd' }}</td>
+        <td class="details">
+          <div *ngIf="order.details.length > 0">
+            <div *ngFor="let detail of order.details">
+              <p><strong>{{ order.orderType === '潛水課程' ? '課程名稱' : order.orderType === '場地租借' ? '場地名稱' : '商品名稱'
+                  }}：</strong>{{ detail.itemName }}</p>
+              <p><strong>數量：</strong>{{ detail.quantity }}</p>
+              <p><strong>總價格：</strong>{{ detail.totalPrice | currency:'TWD' }}</p>
+            </div>
+          </div>
+          <div *ngIf="order.details.length === 0">無細節資訊</div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="no-orders" *ngIf="!isLoading && filteredOrders.length === 0">
+    目前沒有符合條件的訂單
+  </div>
+</div>

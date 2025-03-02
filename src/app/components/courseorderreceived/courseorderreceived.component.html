@@ -124,306 +124,154 @@
 	<!-- wrappers for visual page editor and boxed version of template -->
 	<div id="canvas">
 		<div id="box_wrapper">
-
-			<!-- template sections -->
-
-			<div class="header_absolute ds cover-background ">
-				<!-- header with three Bootstrap columns - left for logo, center for navigation and right for includes-->
-				<header class="page_header ds ms s-overlay">
-					<div class="container-fluid">
-						
-					</div>
-					<!-- header toggler -->
-					<span class="toggle_menu"><span></span></span>
-				</header>
-
+		  <!-- Header 區塊 -->
+		  <div class="header_absolute ds cover-background">
+			<header class="page_header ds ms s-overlay">
+			  <div class="container-fluid"></div>
+			  <span class="toggle_menu"><span></span></span>
+			</header>
+		  </div>
+	  
+		  <!-- 頁面標題區塊 -->
+		  <section class="page_title ds s-parallax s-overlay s-pt-160 s-pb-80">
+			<div class="container">
+			  <div class="row">
+				<div class="col-md-12">
+				  <h1>訂單完成</h1>
+				  <ol class="breadcrumb">
+					<li class="breadcrumb-item"><a href="./">Home</a></li>
+					<li class="breadcrumb-item"><a href="#">Shop</a></li>
+					<li class="breadcrumb-item active">Account Details</li>
+				  </ol>
+				</div>
+			  </div>
 			</div>
+	</section>
+	  
+		  <!-- 主要內容區塊 -->
+		  <section class="ls s-py-90 s-py-xl-160">
+			<div class="container">
+			  <div class="row">
+				<main class="col-lg-12">
+				  <article *ngIf="orderData" id="post-1707" class="post-1707 page type-page status-publish hentry">
+					<header class="entry-header">
+					  <!-- <h1 class="entry-title">{{orderData.memberName}}您好，訂單已付款成功</h1> -->
+					  <h1 class="entry-title">{{ orderData.memberName }}您好，訂單已付款成功</h1>
+					</header>
+					<div class="entry-content">
+					  <div class="woocommerce">
+						<div class="woocommerce-order">
+						  <p class="woocommerce-notice woocommerce-notice--success woocommerce-thankyou-order-received">
+							<!-- Thank you. Your order has been received. -->
+						  </p>
+						  <ul class="woocommerce-order-overview woocommerce-thankyou-order-details order_details">
+							<li class="woocommerce-order-overview__order order">
+							  <!-- 訂單編號: <strong>{{ orderData.orderId }}1719</strong> -->
+							  訂單編號: <strong *ngIf="orderData?.orderId">{{ orderData.orderId }}</strong>
 
-			<section class="page_title ds s-parallax s-overlay s-pt-160 s-pb-80">
-				<div class="container">
-					<div class="row">
-
-						<div class="col-md-12">
-							<h1>Account Details</h1>
-							<ol class="breadcrumb">
-								<li class="breadcrumb-item">
-									<a href="./">Home</a>
-								</li>
-								<li class="breadcrumb-item">
-									<a href="#">Shop</a>
-								</li>
-								<li class="breadcrumb-item active">
-									Account Details
-								</li>
-							</ol>
-						</div>
-
-					</div>
-				</div>
-			</section>
-
-
-			<section class="ls s-py-90 s-py-xl-160">
-				<div class="container">
-					<div class="row">
-
-						<main class="col-lg-12">
-							<article id="post-1707" class="post-1707 page type-page status-publish hentry">
-								<header class="entry-header">
-									<h1 class="entry-title">Order received</h1>
-									<span class="edit-link">
-										<a class="post-edit-link" href="#">Edit
-											<span class="screen-reader-text"> "Checkout"
-											</span>
-										</a>
-									</span>
-								</header>
-								<!-- .entry-header -->
-								<div class="entry-content">
-									<div class="woocommerce">
-										<div class="woocommerce-order">
-											<p class="woocommerce-notice woocommerce-notice--success woocommerce-thankyou-order-received">
-												Thank you. Your order has been received.
-											</p>
-
-											<ul class="woocommerce-order-overview woocommerce-thankyou-order-details order_details">
-
-												<li class="woocommerce-order-overview__order order">
-													Order number: <strong>1719</strong>
-												</li>
-
-												<li class="woocommerce-order-overview__date date">
-													Date: <strong>March 6, 2018</strong>
-												</li>
-
-												<li class="woocommerce-order-overview__total total">
-													Total: <strong>
-                        <span class="woocommerce-Price-amount amount">
-                            <span
-	                            class="woocommerce-Price-currencySymbol">$</span>45.00</span>
-					</strong>
-												</li>
-
-
-												<li class="woocommerce-order-overview__payment-method method">
-													Payment method: <strong>Cash on delivery</strong>
-												</li>
-
-
-											</ul>
-
-
-											<p>Pay with cash upon delivery.</p>
-
-											<section class="woocommerce-order-details">
-
-												<h2 class="woocommerce-order-details__title">Order details</h2>
-
-												<table class="woocommerce-table woocommerce-table--order-details shop_table order_details">
-
-													<thead>
-														<tr>
-															<th class="woocommerce-table__product-name product-name">Product</th>
-															<th class="woocommerce-table__product-table product-total">Total</th>
-														</tr>
-													</thead>
-
-													<tbody>
-														<tr class="woocommerce-table__line-item order_item">
-
-															<td class="woocommerce-table__product-name product-name">
-																<a href="shop-product-right.html">Premium Quality</a> <strong
-								class="product-quantity">× 1</strong>
-															</td>
-
-															<td class="woocommerce-table__product-total product-total">
-																<span class="woocommerce-Price-amount amount">
-																	<span class="woocommerce-Price-currencySymbol">$</span>12.00</span>
-															</td>
-
-														</tr>
-
-														<tr class="woocommerce-table__line-item order_item">
-
-															<td class="woocommerce-table__product-name product-name">
-																<a href="shop-product-right.html">Woo Ninja</a> <strong
-								class="product-quantity">× 1</strong>
-															</td>
-
-															<td class="woocommerce-table__product-total product-total">
-																<span class="woocommerce-Price-amount amount">
-																	<span class="woocommerce-Price-currencySymbol">$</span>15.00</span>
-															</td>
-
-														</tr>
-
-														<tr class="woocommerce-table__line-item order_item">
-
-															<td class="woocommerce-table__product-name product-name">
-																<a href="shop-product-right.html">Woo Album #3</a> <strong
-								class="product-quantity">× 2</strong>
-															</td>
-
-															<td class="woocommerce-table__product-total product-total">
-																<span class="woocommerce-Price-amount amount">
-																	<span class="woocommerce-Price-currencySymbol">$</span>18.00</span>
-															</td>
-
-														</tr>
-
-													</tbody>
-
-													<tfoot>
-														<tr>
-															<th scope="row">Subtotal:</th>
-															<td>
-																<span class="woocommerce-Price-amount amount">
-																	<span class="woocommerce-Price-currencySymbol">$</span>45.00</span>
-															</td>
-														</tr>
-														<tr>
-															<th scope="row">Payment method:</th>
-															<td>Cash on delivery</td>
-														</tr>
-														<tr>
-															<th scope="row">Total:</th>
-															<td>
-																<span class="woocommerce-Price-amount amount">
-																	<span class="woocommerce-Price-currencySymbol">$</span>45.00</span>
-															</td>
-														</tr>
-													</tfoot>
-
-												</table>
-
-
-												<section class="woocommerce-customer-details">
-
-													<h2>Customer details</h2>
-
-													<table class="woocommerce-table woocommerce-table--customer-details shop_table customer_details">
-
-
-														<tbody>
-															<tr>
-																<th>Email:</th>
-																<td>admin@test.com</td>
-															</tr>
-
-															<tr>
-																<th>Phone:</th>
-																<td>+1300551555</td>
-															</tr>
-
-
-														</tbody>
-													</table>
-
-
-													<h3 class="woocommerce-column__title">Billing address</h3>
-
-													<address>
-														John Doe<br>Baker Street, 231<br>London<br>United Kingdom<br>47000
-													</address>
-
-
-												</section>
-
-											</section>
-
-
+							</li>
+							<li class="woocommerce-order-overview__date date">
+							  訂購時間: <strong>{{ orderData.orderDate | date:'yyyy-MM-dd HH:mm:ss' }}</strong>
+							</li>
+							<li class="woocommerce-order-overview__total total">
+							  總金額:
+							  <strong>
+								<span class="woocommerce-Price-amount amount">
+								  <span class="woocommerce-Price-currencySymbol"></span>
+								  {{ orderData.coursePrice*orderData.quantity| currency:'TWD': 'symbol':'1.0-0' }}
+								</span>
+							  </strong>
+							</li>
+							<li class="woocommerce-order-overview__payment-method method">
+							  付款方式: <strong>信用卡結帳</strong>
+							</li>
+						  </ul>
+						  <p style="color: darksalmon;font-weight: 400;">欲取消購買， 請於課程起始日七日前取消訂單</p>
+						  <br>
+						  <br>
+						  <section class="woocommerce-order-details">
+							<h1 class="entry-title">您的歷史訂單紀錄</h1>
+							<section class="ls s-py-90 s-py-xl-160">
+							  <div class="container" style="padding-top: 25px;">
+								<div class="row c-gutter-60">
+								  <div class="container">
+									<div class="top-bar">
+									  <div class="search-bar">
+										<select [(ngModel)]="selectedCategory" (change)="filterCourses()">
+										  <option value="">全部分類</option>
+										  <option *ngFor="let category of uniqueCategories" [value]="category">
+											{{ category }}
+										  </option>
+										</select>
+										<input type="text" [(ngModel)]="keyword" (input)="filterCourses()" placeholder="輸入關鍵字搜尋" class="short-input" />
+										<div class="btn-group">
+										  <button style="background-color: #0d425e" (click)="filterCourses()">查詢</button>
+										  <button style="background-color: #0d425e" (click)="resetFilter()">重設</button>
 										</div>
+	</div>
 									</div>
+									<table class="course-table">
+									  <thead>
+										<tr>
+										  <th>訂單編號</th>
+										  <th>課程圖片</th>
+										  <th>課程名稱</th>
+										  <th>分類</th>
+										  <th>等級</th>
+										  <th>教練</th>
+										  <th (click)="sortOrders('startAt')">起始日期 <i class="fa-solid fa-sort" style="color: #0d425e;"></i></th>
+										  <th (click)="sortOrders('coursePrice')">單價 <i class="fa-solid fa-sort" style="color: #0d425e;"></i></th>
+										  <th (click)="sortOrders('totalPrice')">訂單金額 <i class="fa-solid fa-sort" style="color: #0d425e;"></i></th>
+										  <th (click)="sortOrders('orderDate')">訂購時間<i class="fa-solid fa-sort" style="color: #0d425e;"></i></th>
+										  <th>狀態</th>
+										  <th>操作</th>
+										</tr>
+									  </thead>
+									  <tbody>
+										<tr *ngFor="let order of orderHistoryData">
+										  <td>{{ order.orderId}}</td>
+										  <td>
+											<!-- <img [src]="order.imageData" alt="Course Image" width="200" height="150"> -->
+											<!-- <img [src]="getImage(order.photo)" alt="Course Image"> -->
+											<img [src]="order.imageData" alt="Course Image" width="200" height="150">
+											
+										  </td>
+										  <td>{{ order.courseName }}</td>
+										  <td>{{ order.categoryName }}</td>
+										  <td>{{ order.levelName }}</td>
+										  <td>{{ order.coachName }}</td>
+										  <td>{{ order.startAt|date:'yyyy/MM/dd' }}</td>
+										  <td>{{ order.coursePrice| currency:'TWD': 'symbol':'1.0-0' }}</td>
+										  <td>{{ order.coursePrice * order.quantity| currency:'TWD': 'symbol':'1.0-0' }}</td>
+										  <td>{{ order.orderDate|date:'yyyy/MM/dd HH:mm:ss'}}</td>
+										  <td *ngIf="order.orderStatus" >成立</td>
+										  <td *ngIf="!order.orderStatus" >已取消</td>
+										  <td>
+											<button 
+											  [hidden]="order.isButtonDisabled"
+											  class="table-btn mt-1"    											  
+											  style="background-color: darksalmon;"
+											  (click)="editOrderStatus(order,false)" 
+											  >
+											  取消
+											</button>
+											
+										  </td>
+										</tr>
+									  </tbody>
+									</table>
+								  </div>
 								</div>
-								<!-- .entry-content -->
-							</article>
-
-						</main>
-
+	  </div>
+							</section>
+						  </section>
+						</div>
+					  </div>
 					</div>
-
-				</div>
-			</section>
-
-			<footer class="page_footer ds ms s-py-90 s-py-xl-160 c-gutter-100">
-				<div class="container">
-					<div class="row">
-						<div class="col-xl-4 col-lg-3 text-center text-lg-left animate" data-animation="fadeInUp">
-							<div class="widget widget_text">
-								<img src="images/logo.png" alt="logo">
-								<p>
-									The estuary is the well-known kite spot in the lagoon. Two launches are possible.
-								</p>
-								<p class="social-icons">
-									<a href="https://www.facebook.com/" class="fa bg-icon rounded-icon fa-facebook" title="facebook"></a>
-									<a href="https://twitter.com/" class="fa bg-icon rounded-icon fa-twitter" title="twitter"></a>
-									<a href="https://www.instagram.com/" class="fa bg-icon rounded-icon fa-instagram" title="instagram"></a>
-								</p>
-							</div>
-							<div class="divider-60 divider-lg-0"></div>
-						</div>
-
-						<div class="col-xl-4 col-lg-5 text-center text-lg-left animate" data-animation="fadeInUp">
-							<div class="widget widget_nav_menu">
-								<h3>Userful Link</h3>
-								<ul class="menu">
-									<li class="menu-item">
-										<a href="./index_blocks.html">Homeblocks</a>
-									</li>
-									<li class="menu-item">
-										<a href="./about.html">About</a>
-									</li>
-									<li class="menu-item">
-										<a href="./team.html">Team</a>
-									</li>
-									<li class="menu-item">
-										<a href="./contact.html">Contact Us</a>
-									</li>
-									<li class="menu-item">
-										<a href="./pricing.html">Pricing</a>
-									</li>
-									<li class="menu-item">
-										<a href="./shortcodes_typography.html">Typography</a>
-									</li>
-									<li class="menu-item">
-										<a href="./shop-left.html">Shop</a>
-									</li>
-									<li class="menu-item">
-										<a href="./services2.html">Services</a>
-									</li>
-									<li class="menu-item">
-										<a href="./service-single.html">Single Service</a>
-									</li>
-									<li class="menu-item">
-										<a href="./gallery-tiled.html">Gallery</a>
-									</li>
-								</ul>
-							</div>
-							<div class="divider-60 divider-lg-0"></div>
-						</div>
-
-						<div class="col-xl-4 col-lg-4 text-center text-lg-left animate" data-animation="fadeInUp">
-							<div class="widget widget_flickr">
-
-								<h3 class="widget-title">Flickr</h3>
-								<ul class="flickr_ul"></ul>
-							</div>
-						</div>
-					</div>
-				</div>
-			</footer>
-
-			<section class="page_copyright ls s-py-25">
-				<div class="container">
-					<div class="row align-items-center">
-						<div class="col-md-12 text-center">
-							<p>&copy; Copyright <span class="copyright_year">2020</span> All Rights Reserved</p>
-						</div>
-					</div>
-				</div>
-			</section>
-
-
-		</div><!-- eof #box_wrapper -->
-	</div><!-- eof #canvas -->
-
+	  </article>
+				</main>
+			  </div>
+			</div>
+		  </section>
+		</div>
+	</div>

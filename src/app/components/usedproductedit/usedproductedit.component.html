@@ -1,0 +1,172 @@
+<!-- Unyson messages modal -->
+<div class="modal fade" tabindex="-1" role="dialog" id="messages_modal">
+  <div class="fw-messages-wrap ls p-normal">
+
+
+  </div>
+</div><!-- eof .modal -->
+
+
+
+<!-- wrappers for visual page editor and boxed version of template -->
+<div id="canvas">
+  <div id="box_wrapper">
+
+    <!-- template sections -->
+
+    <div class="header_absolute ds cover-background ">
+      <!-- header with three Bootstrap columns - left for logo, center for navigation and right for includes-->
+
+    </div>
+
+    <section class="page_title ds s-parallax s-overlay s-pt-160 s-pb-80">
+      <div class="container">
+        <div class="row">
+
+          <div class="col-md-12">
+            <h1>出售商品</h1>
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item">
+                <a href="./">首頁</a>
+              </li>
+              <li class="breadcrumb-item">
+                <a href="#/profile">會員管理</a>
+              </li>
+              <li class="breadcrumb-item active">
+                <a href="#/usedproduct-list">二手商品管理</a>
+              </li>
+              <li class="breadcrumb-item active">
+                出售商品
+              </li>
+            </ol>
+          </div>
+
+        </div>
+      </div>
+    </section>
+    <!-- start your coding here-->
+    <!-- Title -->
+    <!-- <section class="ls s-py-90 s-py-xl-160 c-gutter-60"> -->
+    <!-- <div class="container">
+        <div class="row">
+
+          <main class="col-lg-12">
+            <div class="woocommerce-notices-wrapper"> -->
+    <div class="container-fluid mt-5 py-1">
+      <div class="container">
+        <form [formGroup]="UPForm" (ngSubmit)="onSubmit()">
+          <div class="row mt-3 mb-3 justify-content-center">
+            <div class="col-md-6 d-flex flex-column align-items-center bg-light shadow p-3">
+              <div class="upload-area mb-2 p-2 w-100 h-200 text-center" (dragover)="onDragOver($event)"
+                (drop)="onDrop($event)">
+                <i class="fa-regular fa-image fa-2xl mt-5 picture"></i>
+                <p class="text-muted mt-2">點擊選擇圖片</p>
+                <!-- 顯示錯誤訊息 -->
+                <div>
+                  <small *ngIf="imagePreviews.length === 0 && UPForm.touched" class="text-danger">
+                    請至少上傳一張圖片
+                  </small></div>
+                <button type="button" class="btn btn-success" (click)="fileInput.click()"
+                  [disabled]="imagePreviews.length >= 6"><i class="fa-regular fa-circle-check"></i>&nbsp;選擇圖片</button>
+                <p class="text-info mt-2"><i class="fa-regular fa-lightbulb"></i>&nbsp;提示：重新排列照片以更改封面</p>
+                <input type="file" class="form-control-file d-none" #fileInput (change)="onImageSelected($event)"
+                  multiple />
+              </div>
+              <!-- 預覽圖片 -->
+              <div class="container">
+                <div class="row d-flex row-cols-3 flex-wrap justify-content-start">
+                  <div *ngFor="let image of imagePreviews; let i = index"
+                    class="col-auto preview-image position-relative p-2" draggable="true"
+                    (dragstart)="onDragStart($event, i)" (dragover)="onDragOverImage($event)"
+                    (drop)="onDropImage($event, i)">
+                    <div class="position-absolute top-0 start-0" style="top: 4px; left: 8px;">
+                      <!-- 封面標籤 -->
+                      <!-- <span *ngIf="i === 0" class="badge badge-success ">封面</span> -->
+                    </div>
+                    <!-- <div class="position-absolute top-0 end-0" style="top: 10px; right: 10px;"> -->
+                    <div class="position-absolute" style="top: 5px; right: 5px;">
+                      <!-- 刪除按鈕 -->
+                      <button type="button" class="btn btn-transparent p-1 delete-btn" (click)="removeImage(i)">
+                        <i class="fa-solid fa-trash text-danger"></i>
+                      </button>
+                    </div>
+                    <!-- 預覽圖片 -->
+                    <img [src]="image" class="" style="width: 160px; height:160px; object-fit: contain;">
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+            <div class="col-5 bg-light shadow mx-4 p-4">
+              <!-- 商品名稱 -->
+              <div class=" form-group">
+                <label for="productName"><i class="fa-solid fa-seedling"></i>&nbsp;&nbsp;商品名稱</label>
+                <input type="text" id="productName" class="form-control" formControlName="productName" required />
+                <small *ngIf="UPForm.get('productName')?.invalid && UPForm.get('productName')?.touched" class="text-danger">
+                  商品名稱為必填
+                </small>
+              </div>
+              <!-- 商品類別 -->
+              <div class="form-group">
+                <label for="productCategoryId"><i class="fa-solid fa-seedling"></i>&nbsp;&nbsp;商品類別</label>
+                <select class="form-control" id="productCategory" formControlName="categoryId" required>
+                  <option *ngFor="let item of usedCategory" [value]="item.categoryId">{{item.categoryName}}
+                  </option>
+                </select>
+              </div>
+              <!-- 商品價格 -->
+              <div class="form-group">
+                <label for="productPrice"><i class="fa-solid fa-seedling"></i>&nbsp;&nbsp;價格</label>
+                <input type="text" id="productPrice" class="form-control" formControlName="productPrice" required />
+                <small *ngIf="UPForm.get('productPrice')?.invalid && UPForm.get('productPrice')?.touched" class="text-danger">
+                  請填寫正確價格
+                </small>
+              </div>
+
+              <!-- 商品描述 -->
+              <div class="form-group">
+                <label for="productDescription"><i class="fa-solid fa-seedling"></i>&nbsp;&nbsp;商品描述</label>
+                <textarea id="productDescription" class="form-control" rows="3" formControlName="productDescription"
+                  placeholder="請描述產品狀況並包含買家可能感興趣的任何細節。"></textarea>
+                  <small *ngIf="UPForm.get('productDescription')?.invalid && UPForm.get('productDescription')?.touched" class="text-danger">
+                    商品描述為必填
+                  </small>
+                </div>
+              <!-- 商品狀況 -->
+              <div class="form-group">
+                <label><i class="fa-solid fa-seedling"></i>&nbsp;&nbsp;商品狀況</label>
+
+                <select class="form-control" id="productCategory" formControlName="productConditionId" required>
+                  <option *ngFor="let item of usedCondition" [value]="item.productConditionId">
+                    {{item.condition}}
+                  </option>
+                </select>
+              </div>
+              <!-- 商品庫存 -->
+              <!-- <div class="form-group">
+                <label for="productStock"><i class="fa-solid fa-seedling"></i>&nbsp;&nbsp;庫存數量</label>
+                <input type="text" id="productStock" class="form-control" formControlName="fStock" required />
+
+              </div> -->
+              <!-- 送出按鈕 -->
+              <!-- <button type="submit" class="btn btn-darkgrey m-3"><i
+                  class="fa-solid fa-arrow-up"></i>&nbsp;&nbsp;更新</button> -->
+              <button type="submit" class="btn btn-darkgrey m-3" [disabled]="UPForm.invalid || isLoading">
+                <i *ngIf="!isLoading" class="fa-solid fa-arrow-up"></i>
+                <span *ngIf="!isLoading">&nbsp;&nbsp;更新</span>
+                <span *ngIf="isLoading">
+                  <i class="fa-solid fa-spinner fa-spin"></i>&nbsp;&nbsp;更新中...
+                </span>
+              </button>
+              <button class="btn btn-darkgrey m-3" routerLink="/usedproduct-list"><i
+                  class="fa-solid fa-xmark"></i>&nbsp;取消</button>
+            </div>
+
+          </div>
+        </form>
+      </div>
+    </div>
+
+  </div><!-- eof #box_wrapper -->
+</div><!-- eof #canvas -->
