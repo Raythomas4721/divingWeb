@@ -98,7 +98,7 @@ export class ShopproductshowComponent implements OnInit, OnDestroy {
     private reviewService: TnreviewService,
     private alertService: AlertService,
     private discountService: TndiscountService
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     // 1) 取得 route 參數
@@ -253,7 +253,7 @@ export class ShopproductshowComponent implements OnInit, OnDestroy {
     this.album.push({
       src: mainFullPath,
       thumb: mainFullPath,
-      caption: mainImg,
+      // caption: mainImg,
     });
 
     // 檢查 -1.jpg, -2.jpg ...
@@ -268,7 +268,7 @@ export class ShopproductshowComponent implements OnInit, OnDestroy {
             this.album.push({
               src: guessPath,
               thumb: guessPath,
-              caption: guessName,
+              // caption: guessName,
             });
           }
         },
@@ -338,6 +338,10 @@ export class ShopproductshowComponent implements OnInit, OnDestroy {
     return Array.from({ length: rating }, (_, i) => i);
   }
   onReviewSubmit() {
+    if (this.reviewForm.invalid) {
+      this.alertService.error('請填寫完整的評論內容');
+      return;
+    }
     if (!this.user?.memberId) {
       this.alertService.error('尚未登入, 無法發表評論');
 
@@ -446,7 +450,10 @@ export class ShopproductshowComponent implements OnInit, OnDestroy {
           this.alertService.success('評論刪除成功');
           // 1) 從本機 reviews 陣列中移除
           this.reviews = this.reviews.filter((r) => r.reviewId !== reviewId);
-
+          if (this.editingReview && this.editingReview.reviewId === reviewId) {
+            this.editingReview = null;
+            this.reviewForm.reset();
+          }
           // 2) 重新計算平均評分 & 評論數
           this.refreshReviewStats();
         },
@@ -743,5 +750,12 @@ export class ShopproductshowComponent implements OnInit, OnDestroy {
   private parseRgbToName(rgb: string): string {
     // 如果有在 map 裡，就回傳對應的名稱；否則就直接回傳原字串
     return this.rgbToNameMap[rgb] || rgb;
+  }
+
+  fillReviewTemplate() {
+    // 這裡的 'reviewContent' 對應您在表單中的 formControlName="reviewContent"
+    this.reviewForm.patchValue({
+      reviewContent: '讚讚讚讚',
+    });
   }
 }

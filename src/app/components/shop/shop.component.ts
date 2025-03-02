@@ -16,6 +16,9 @@ import {
   TndiscountService,
   TNdiscount,
 } from 'src/app/services/tndiscount.service';
+import { AuthService } from 'src/app/services/auth.service';
+import { UserDTO } from 'src/app/interface/userDTO';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-shop',
@@ -23,6 +26,7 @@ import {
   styleUrls: ['./shop.component.css'],
 })
 export class ShopComponent implements OnInit {
+  user?: UserDTO | null;
   currentDiscount: TNdiscount | null = null;
   album: Array<any> = [];
   // 分類相關
@@ -55,8 +59,9 @@ export class ShopComponent implements OnInit {
     private userBehavior: UserBehaviorService,
     private categoryService: TncategoriesService,
     private route: ActivatedRoute,
+    private authService: AuthService,
     private reviewService: TnreviewService
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.loadTopProducts();
@@ -68,6 +73,9 @@ export class ShopComponent implements OnInit {
     }
     this.guestId = gid;
     console.log('GuestId from procategories =>', this.guestId);
+    this.authService.user$.subscribe((u) => {
+      this.user = u;
+    });
     // 1) 載入所有分類，並切出主畫面與側邊要顯示的
     this.categoryService.getAllCategories().subscribe({
       next: (cats) => {
@@ -103,10 +111,18 @@ export class ShopComponent implements OnInit {
 
     if (orderValue === 'price') {
       // 價格由低到高
-      this.products.sort((a, b) => a.unitPrice - b.unitPrice);
+      this.products.sort(
+        (a, b) =>
+          (a.discountedPrice ?? a.unitPrice) -
+          (b.discountedPrice ?? b.unitPrice)
+      );
     } else if (orderValue === 'price-desc') {
       // 價格由高到低
-      this.products.sort((a, b) => b.unitPrice - a.unitPrice);
+      this.products.sort(
+        (a, b) =>
+          (b.discountedPrice ?? b.unitPrice) -
+          (a.discountedPrice ?? a.unitPrice)
+      );
     } else {
       // 預設排序 (可自行決定要做什麼，如不動或有其他預設邏輯)
       // this.loadAllProducts(); // 或保留最初載入順序
@@ -131,7 +147,7 @@ export class ShopComponent implements OnInit {
       error: (err) => console.error('紀錄VIEW_PRODUCT失敗', err),
     });
   }
-  onSearch(): void {
+  async onSearch(): Promise<void> {
     const keyword = this.searchTerm.trim().toLowerCase();
 
     // 若關鍵字為空，直接回到主分類狀態
@@ -142,21 +158,66 @@ export class ShopComponent implements OnInit {
       return;
     }
 
-    // 紀錄 SEARCH 行為
-    this.userBehavior.logSearchKeyword(keyword).subscribe();
+    // (A) 紀錄 SEARCH 行為 (以 async/await 方式呼叫)
+    try {
+      await firstValueFrom(this.userBehavior.logSearchKeyword(keyword));
+    } catch (err) {
+      console.error('記錄搜尋關鍵字時出錯：', err);
+      // 即使失敗，通常不會中斷搜尋流程，可繼續往下
+    }
 
-    // 呼叫後端搜尋
-    this.productService.getAllProducts(keyword).subscribe({
-      next: (res) => {
-        console.log('搜尋結果 =>', res);
-        this.searchResults = res;
+    try {
+      // (B) 呼叫後端搜尋商品 (等到商品回傳後，再繼續往下)
+      const products = await firstValueFrom(
+        this.productService.getAllProducts(keyword)
+      );
+      console.log('搜尋結果 =>', products);
 
-        // 清空 products 與 selectedCategoryId，確保只顯示搜尋結果
-        this.products = [];
-        this.selectedCategoryId = null;
-      },
-      error: (err) => console.error('搜尋失敗', err),
-    });
+      // 先預設 originalPrice、discountedPrice
+      products.forEach((p) => {
+        p['originalPrice'] = p.unitPrice;
+        p['discountedPrice'] = p.unitPrice; // 預設沒折扣
+      });
+
+      // (C) 拿到 productIds，去後端要折扣
+      const productIds = products.map((p) => p.productId);
+      const discountResults = await firstValueFrom(
+        this.discountService.getDiscountsByProducts(productIds)
+      );
+
+      // 合併折扣資訊
+      discountResults.forEach((dr) => {
+        const found = products.find((p) => p.productId === dr.productId);
+        if (found && dr.discountValue != null) {
+          const rate = dr.discountValue / 100; // 80 => 0.8
+          found['discountedPrice'] = Math.round(found.unitPrice * rate);
+        }
+      });
+
+      // (D) 逐筆撈評分 (可用 Promise.all 全部並行)
+      //    1) 對每個 product 呼叫 getReviewStatsByProduct()
+      //    2) 用 map 生成「每個呼叫」的 Promise
+      //    3) Promise.all 等全部完成
+      const reviewPromises = products.map((p) =>
+        firstValueFrom(this.reviewService.getReviewStatsByProduct(p.productId))
+          .then((stats) => {
+            p['avgRating'] = stats.avgRating;
+            p['reviewCount'] = stats.reviewCount;
+          })
+          .catch((err) => {
+            console.error(`取得商品 ${p.productId} 評分失敗:`, err);
+          })
+      );
+      await Promise.all(reviewPromises);
+
+      // (E) 最後一次性更新 this.searchResults
+      this.searchResults = products;
+      // 並清空 categories 狀態
+      this.products = [];
+      this.selectedCategoryId = null;
+    } catch (err) {
+      console.error('搜尋過程中出錯:', err);
+    }
   }
   /**
    * 切換到指定的分類（或如果目前已在該分類，就強制刷新商品列表）
@@ -238,8 +299,8 @@ export class ShopComponent implements OnInit {
           });
         });
 
-        // demo: 也可以隨機 sort
-        this.products.sort(() => Math.random() - 0.5);
+        // // demo: 也可以隨機 sort
+        // this.products.sort(() => Math.random() - 0.5);
 
         // 清空搜尋
         this.searchResults = [];
