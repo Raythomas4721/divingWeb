@@ -42,7 +42,7 @@ import {
 export class ShopproductshowComponent implements OnInit, OnDestroy {
   user?: UserDTO | null;
   private enterTime!: number; // 用來記錄進入商品頁的時間(毫秒) 以計算 dwell time
-  album: IAlbum[] = []; // Lightbox 圖片陣列
+  album: IAlbum[] = [];
 
   productId: number | null = null;
   productDetail: TNproductDTO | null = null;
@@ -71,9 +71,9 @@ export class ShopproductshowComponent implements OnInit, OnDestroy {
   reviewForm!: FormGroup;
   successMessage = '';
   errorMessage = '';
-  reviews: TNreviewDTO[] = []; // 全部評論
-  avgRating: number = 0; // 平均評分
-  reviewCount: number = 0; // 評論數量
+  reviews: TNreviewDTO[] = [];
+  avgRating: number = 0;
+  reviewCount: number = 0;
   editingReview: TNreviewDTO | null = null;
 
   // 動態計算星星寬度
@@ -101,17 +101,14 @@ export class ShopproductshowComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    // 1) 取得 route 參數
     this.productId = Number(this.route.snapshot.paramMap.get('id'));
     if (!this.productId) {
       console.error('無法取得商品ID');
       return;
     }
 
-    // 2) 紀錄進入頁面的時間
     this.enterTime = Date.now();
 
-    // 3) 監聽使用者資訊
     this.authService.user$.subscribe((u) => {
       this.user = u;
       if (this.user?.memberId) {
@@ -119,7 +116,6 @@ export class ShopproductshowComponent implements OnInit, OnDestroy {
       }
     });
 
-    // 4) 監聽購物車
     this.cartItemsService.cartItems$.subscribe((items) => {
       this.cartItems = items;
     });
@@ -153,7 +149,6 @@ export class ShopproductshowComponent implements OnInit, OnDestroy {
     this.reviewService.getAllReviewsByProduct(this.productId).subscribe({
       next: (reviews) => {
         this.reviews = reviews;
-        // 如果使用者已經評論過，預填表單
         const existingReview = this.reviews.find(
           (r) => r.memberId === this.user?.memberId
         );
@@ -184,7 +179,6 @@ export class ShopproductshowComponent implements OnInit, OnDestroy {
   loadProductDetailAndDiscount() {
     if (!this.productId) return;
 
-    // (A) 紀錄行為
     this.userBehaviorService.logViewProduct(this.productId).subscribe();
 
     // (B) 先撈商品詳細
@@ -196,32 +190,27 @@ export class ShopproductshowComponent implements OnInit, OnDestroy {
           return;
         }
 
-        // 建立相簿
         this.setupImages();
 
-        // (C) 撈折扣( by productId )
         this.discountService
           .getDiscountsByProducts([this.productId!])
           .subscribe({
             next: (results) => {
               if (results.length > 0) {
-                // 假設只查一個 productId => results[0]
                 const dr = results[0];
-                // dr.discountValue => 80 => 8折 => 80/100=0.8
                 const rate = (dr.discountValue || 100) / 100;
                 this.discountedPrice = Math.round(
                   this.productDetail!.unitPrice * rate
                 );
                 this.currentDiscount = {
-                  discountId: 0, // 可能無法取得, 先給0
-                  discountName: '', // 可能無法取得
+                  discountId: 0,
+                  discountName: '',
                   productCategoryId: null,
                   discountValue: dr.discountValue,
                   startDate: null,
                   endDate: null,
                 };
               } else {
-                // 無折扣
                 this.discountedPrice = this.productDetail?.unitPrice ?? null;
                 this.currentDiscount = null;
               }
@@ -256,7 +245,6 @@ export class ShopproductshowComponent implements OnInit, OnDestroy {
       // caption: mainImg,
     });
 
-    // 檢查 -1.jpg, -2.jpg ...
     const baseName = mainImg.replace('.jpg', '');
     for (let i = 1; i <= 2; i++) {
       const guessName = `${baseName}-${i}.jpg`;
@@ -333,7 +321,7 @@ export class ShopproductshowComponent implements OnInit, OnDestroy {
     });
   }
 
-  // ★ 小函式：用來產生一個 array，長度 = rating
+  // 產生一個 array，長度 = rating
   createStarsArray(rating: number): number[] {
     return Array.from({ length: rating }, (_, i) => i);
   }
@@ -355,10 +343,8 @@ export class ShopproductshowComponent implements OnInit, OnDestroy {
       reviewContent: this.reviewForm.value.reviewContent,
     };
     if (this.editingReview) {
-      // =========== 更新 ===============
       this.updateReview(payload);
     } else {
-      // =========== 新增 ===============
       this.createReview(payload);
     }
   }
@@ -378,9 +364,8 @@ export class ShopproductshowComponent implements OnInit, OnDestroy {
       next: (res: TNreviewDTO) => {
         this.alertService.success('評論新增成功');
         this.reviews.push(res);
-        // ★ 新增完成後，重新計算星星 & 數量
+
         this.refreshReviewStats();
-        // 清空表單
         this.reviewForm.reset();
       },
       error: (err) => {
@@ -411,7 +396,7 @@ export class ShopproductshowComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (res) => {
           this.alertService.success('評論修改成功');
-          // 1) 找到對應的評論，更新內容
+
           const index = this.reviews.findIndex(
             (r) => r.reviewId === this.editingReview!.reviewId
           );
@@ -420,10 +405,8 @@ export class ShopproductshowComponent implements OnInit, OnDestroy {
             this.reviews[index].reviewContent = payload.reviewContent;
           }
 
-          // 2) 重新計算平均評分 & 評論數
           this.refreshReviewStats();
 
-          // 3) 重置表單與狀態
           this.reviewForm.reset();
           this.editingReview = null;
         },
@@ -464,14 +447,13 @@ export class ShopproductshowComponent implements OnInit, OnDestroy {
       });
   }
   onStarClick(star: number, event: MouseEvent) {
-    event.preventDefault(); // 阻止 <a> 預設跳轉
+    event.preventDefault();
     // 用 patchValue() 或 setValue() 來更新表單控制
     this.reviewForm?.patchValue({ reviewRating: star });
     console.log('選到星星=', star, ',表單值=', this.reviewForm?.value);
   }
 
   buildAttributes() {
-    // 注意要先確保 this.colors, this.sizes ... 都有值
     this.attributes = [
       {
         label: 'Color',
@@ -483,7 +465,6 @@ export class ShopproductshowComponent implements OnInit, OnDestroy {
     ].filter((attr) => attr.values.length > 0); // 過濾空的
   }
 
-  /** 提取不同 ID => {id, name} */
   private extractDistinctOptions(
     ids: number[],
     getName: (id: number) => string
@@ -557,9 +538,8 @@ export class ShopproductshowComponent implements OnInit, OnDestroy {
     this.onVariantChange();
   }
 
-  /** 若你仍想前端找到 selectedVariant, 可保留 */
   onVariantChange() {
-    // 假設商品有 color, size, thickness, gender 的組合
+    // color, size, thickness, gender 的組合
     const needColor = this.colors.length > 0;
     const needSize = this.sizes.length > 0;
     const needThick = this.thicknesses.length > 0;
@@ -593,7 +573,6 @@ export class ShopproductshowComponent implements OnInit, OnDestroy {
       ) || null;
   }
 
-  /** 使用 ngx-lightbox 顯示大圖 */
   openLightbox(index: number): void {
     this.lightbox.open(this.album, index);
     console.log('album=', this.album);
@@ -602,7 +581,6 @@ export class ShopproductshowComponent implements OnInit, OnDestroy {
     this.lightbox.close();
   }
 
-  /** 數量 +/- */
   increaseQuantity() {
     if (this.quantity < 99) {
       this.quantity++;
@@ -618,9 +596,8 @@ export class ShopproductshowComponent implements OnInit, OnDestroy {
     if (this.quantity > 99) this.quantity = 99;
   }
 
-  /** 最終 => 呼叫後端 addCart API 做庫存檢查+加購物車 */
+  /* 呼叫後端 addCart API 做庫存檢查+加購物車 */
   onConfirmAddToCart() {
-    // 1) 若 productDetail 還沒載入
     if (!this.productDetail) {
       // alert('商品資料尚未載入');
       return;
@@ -628,43 +605,36 @@ export class ShopproductshowComponent implements OnInit, OnDestroy {
 
     // ============ 動態檢查四個變體 =============
 
-    // (A) 若前端顯示 color (this.colors.length > 0)，就要檢查是否 user 已選 color
     if (this.colors.length > 0 && !this.selectedColor) {
       this.alertService.error('請先選擇顏色');
       return;
     }
 
-    // (B) 若前端顯示 size (this.sizes.length > 0)，就要檢查是否 user 已選 size
     if (this.sizes.length > 0 && !this.selectedSize) {
       this.alertService.error('請先選擇尺寸');
       return;
     }
 
-    // (C) 若前端顯示 thickness (this.thicknesses.length > 0)，就要檢查是否 user 已選 thickness
     if (this.thicknesses.length > 0 && !this.selectedThickness) {
       this.alertService.error('請先選擇厚度');
       return;
     }
 
-    // (D) 若前端顯示 gender (this.genders.length > 0)，就要檢查是否 user 已選 gender
     if (this.genders.length > 0 && !this.selectedGender) {
       this.alertService.error('請先選擇款式');
       return;
     }
-    //確認抓到正確的memberId
+
     const realMemberId = this.user?.memberId;
 
     if (!realMemberId) {
-      // 引導使用者登入
       this.alertService.error('請先登入再加入購物車');
       console.log('realMemberId', realMemberId);
       return;
     }
-
-    // 2) 組合要傳給後端的 payload
     const payload = {
       productId: this.productId,
-      colorId: this.selectedColor ?? 0, // 若沒顯示 color，就帶0
+      colorId: this.selectedColor ?? 0,
       sizeId: this.selectedSize ?? 0,
       thicknessId: this.selectedThickness ?? 0,
       genderId: this.selectedGender ?? 0,
@@ -679,7 +649,6 @@ export class ShopproductshowComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (res: any) => {
           if (res.success) {
-            // 前端更新暫存購物車 + 開panel
             const newItem: TNcartItemDTO = {
               memberId: payload.memberId,
               productvariantsId: res.productvariantsId,
@@ -715,7 +684,7 @@ export class ShopproductshowComponent implements OnInit, OnDestroy {
       });
   }
 
-  /** 離開頁面 => 紀錄停留時間 */
+  /*紀錄停留時間 */
   ngOnDestroy(): void {
     const dwellSeconds = Math.floor((Date.now() - this.enterTime) / 1000);
     this.userBehaviorService
@@ -748,12 +717,10 @@ export class ShopproductshowComponent implements OnInit, OnDestroy {
   };
 
   private parseRgbToName(rgb: string): string {
-    // 如果有在 map 裡，就回傳對應的名稱；否則就直接回傳原字串
     return this.rgbToNameMap[rgb] || rgb;
   }
 
   fillReviewTemplate() {
-    // 這裡的 'reviewContent' 對應您在表單中的 formControlName="reviewContent"
     this.reviewForm.patchValue({
       reviewContent: '讚讚讚讚',
     });

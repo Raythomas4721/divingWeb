@@ -27,7 +27,6 @@ export class Sideshopcart {
   total: number = 0;
   //二手
 
-
   constructor(
     private cartItemsService: TNcartItemsService,
     private sharedcartService: SharedcartService,
@@ -35,7 +34,7 @@ export class Sideshopcart {
     private router: Router,
     private authService: AuthService,
     private alertService: AlertService
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.cartItemsService.cartItems$.subscribe((items) => {
@@ -98,6 +97,11 @@ export class Sideshopcart {
     if (this.hasError) {
       console.log('無法進行結帳，購物車存在缺貨或錯誤');
       this.alertService.error('無法結帳：有缺貨商品或其他錯誤');
+      return;
+    }
+
+    if (this.cartItems.length === 0) {
+      this.alertService.error('請將商品加入購物車');
       return;
     }
 

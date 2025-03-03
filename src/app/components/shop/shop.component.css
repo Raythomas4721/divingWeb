@@ -177,3 +177,8 @@
   color: #f51a13; /* 顯眼的紅色 (Bootstrap danger色) */
   display: block; /* 獨佔一行 */
 }
+.all-products {
+  cursor: pointer; /* 滑鼠移上時顯示手指游標 */
+  font-weight: bold; /* 讓字體更清楚(加粗) */
+  /* 其他想要的樣式，如字型大小、顏色等都可在這裡加 */
+}

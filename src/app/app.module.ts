@@ -13,7 +13,6 @@ import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { Sideshopcart } from './components/sideshopcart/side-cart.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { ProcategoriesComponent } from './components/procategories/procategories.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { LightboxModule } from 'ngx-lightbox';
 import { ShopproductshowComponent } from './components/shopproductshow/shopproductshow.component';
@@ -35,7 +34,6 @@ import { ProfileOrdersComponent } from './components/profile-orders/profile-orde
 import { UsedproductListComponent } from './components/usedproduct-list/usedproduct-list.component';
 import { UsedproducteditComponent } from './components/usedproductedit/usedproductedit.component';
 
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -49,7 +47,6 @@ import { UsedproducteditComponent } from './components/usedproductedit/usedprodu
     FooterComponent,
     Sideshopcart,
     ShopproductshowComponent,
-    ProcategoriesComponent,
     ProfileComponent,
     LiteralToBreakPipe,
     CoursedetailsComponent,
@@ -79,4 +76,4 @@ import { UsedproducteditComponent } from './components/usedproductedit/usedprodu
   providers: [ProductsService],
   bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

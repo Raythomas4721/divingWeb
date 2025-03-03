@@ -3,7 +3,6 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { Sideshopcart } from './components/sideshopcart/side-cart.component';
 import { ShopproductshowComponent } from './components/shopproductshow/shopproductshow.component';
-import { ProcategoriesComponent } from './components/procategories/procategories.component';
 import { HomeComponent } from './components/home/home.component';
 import { ShopComponent } from './components/shop/shop.component';
 import { CoursesComponent } from './components/courses/courses.component';
@@ -35,7 +34,6 @@ const routes: Routes = [
   { path: 'shopproductshow/:id', component: ShopproductshowComponent },
   // { path: 'procategories', component: ProcategoriesComponent },
   { path: 'profile', component: ProfileComponent },
-  { path: 'procategories', component: ProcategoriesComponent },
   { path: 'coursedetails/:id', component: CoursedetailsComponent },
   { path: 'coursecheckout', component: CoursecheckoutComponent },
   { path: 'coursecheckout/:id', component: CoursecheckoutComponent },
@@ -70,4 +68,4 @@ const routes: Routes = [
   ],
   exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

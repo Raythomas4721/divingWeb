@@ -19,6 +19,9 @@
               <option value="price-desc">價格：由高到低</option>
             </select>
           </form>
+          <p class="all-products" (click)="loadAllProducts()">
+            <i class="fa-regular fa-file-lines"></i>顯示所有商品
+          </p>
         </div>
 
         <!-- (A) 如果有搜尋結果 or 分類商品，就顯示「雙圖 + Add to cart」列表 -->
@@ -119,6 +122,23 @@
               </div>
             </li>
           </ul>
+          <nav class="page-numbers current text-center" *ngIf="totalPages > 1">
+            <button
+              class="page-numbers current"
+              [disabled]="currentPage === 1"
+              (click)="prevPage()"
+            >
+              上一頁
+            </button>
+            <span>第 {{ currentPage }} / {{ totalPages }} 頁</span>
+            <button
+              class="next page-numbers"
+              [disabled]="currentPage === totalPages"
+              (click)="nextPage()"
+            >
+              下一頁
+            </button>
+          </nav>
         </ng-container>
 
         <!-- (B) 若上面都沒商品 => 顯示主分類 (一開始畫面) -->

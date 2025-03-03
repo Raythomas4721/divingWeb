@@ -66,3 +66,8 @@ export interface IAlbum {
   caption?: string; // 顯示的標題(可選)
   thumb?: string; // 縮圖(可選)
 }
+
+export interface PagedResult<T> {
+  items: T[];
+  totalCount: number;
+}

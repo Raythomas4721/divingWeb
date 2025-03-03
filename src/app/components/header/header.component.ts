@@ -196,10 +196,9 @@ export class HeaderComponent implements OnInit {
     this.authService.user$.subscribe(() => {
       this.user = null;
     });
-    // 清除 memberId
+
     this.userBehaviorService.setMemberId(null);
 
-    // **清空前端購物車資料**
     this.cartItemsService.clearCart();
   }
 
