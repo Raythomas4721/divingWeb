@@ -34,6 +34,7 @@ import { EcpayResultComponent } from './components/ecpay-result/ecpay-result.com
 import { ProfileOrdersComponent } from './components/profile-orders/profile-orders.component';
 import { UsedproductListComponent } from './components/usedproduct-list/usedproduct-list.component';
 import { UsedproducteditComponent } from './components/usedproductedit/usedproductedit.component';
+import { CourseEmptyComponent } from './components/course-empty/course-empty.component';
 
 
 @NgModule({
@@ -65,6 +66,7 @@ import { UsedproducteditComponent } from './components/usedproductedit/usedprodu
     ProfileOrdersComponent,
     UsedproductListComponent,
     UsedproducteditComponent,
+    CourseEmptyComponent,
   ],
   imports: [
     BrowserModule,

@@ -22,6 +22,7 @@ import { EcpayResultComponent } from './components/ecpay-result/ecpay-result.com
 import { ProfileOrdersComponent } from './components/profile-orders/profile-orders.component';
 import { UsedproductListComponent } from './components/usedproduct-list/usedproduct-list.component';
 import { UsedproducteditComponent } from './components/usedproductedit/usedproductedit.component';
+import { CourseEmptyComponent } from './components/course-empty/course-empty.component';
 const routes: Routes = [
   { path: 'auth-success', component: AuthSuccessComponent },
   { path: 'profile', component: ProfileComponent },
@@ -54,6 +55,7 @@ const routes: Routes = [
   //   { path: 'course/create', component: CoursecreateupdateComponent },
   //   { path: 'course/edit/:id', component: CoursecreateupdateComponent }
   { path: 'ecpayResult', component: EcpayResultComponent },
+  {path:'newebpay',component:CourseEmptyComponent},
   { path: '', component: HomeComponent },
   { path: '**', redirectTo: '', pathMatch: 'full' }, // 404 頁面導回首頁
 ];

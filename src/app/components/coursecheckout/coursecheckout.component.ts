@@ -1,3 +1,4 @@
+import { NewebPayService } from './../../services/neweb-pay.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit} from '@angular/core';
 import { TccoursesService } from 'src/app/services/tccourses.service';
@@ -25,7 +26,6 @@ orderStatus: boolean = true; // ✅ 訂單狀態：已確認
 orderDate: string = new Date().toLocaleString(); // ✅ 轉成 `YYYY-MM-DDTHH:mm:ss` 格式
 user?: UserDTO | null;
 
-
 constructor(
   private router:Router,
   private route:ActivatedRoute,
@@ -33,6 +33,7 @@ constructor(
   private authService: AuthService,  // ✅ 注入 AuthService
   private ordersService:TcordersService,
   private userService: UserService,
+  private newebPayService:NewebPayService
 ){}
 
 
@@ -124,18 +125,65 @@ submitOrder(): void {
 
   console.log("🔍 傳送訂單資料:", orderData);
 
+  
   this.ordersService.createOrder(orderData).subscribe(
     (response: any) => {
       console.log('✅ 訂單提交成功:', response);
-      if (response.orderId) {
-        const finalOrderData = { ...orderData, orderId: response.orderId };
+      console.log(typeof(response.amount),typeof(response.orderId),`${response.orderId}`);
+      this.newebPayService.createPayment({
+        Amount: response.amount,
+        OrderId: `${response.orderId}`,
+        ProductName:'noProductName'
+      }).subscribe((res:any) => {
+        console.log('newebpay',res);
+        // 創建一個 <form> 表單
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.action = res.paymentUrl;
   
-        this.ordersService.setOrderData(finalOrderData); // 🚀 存入 TcordersService & sessionStorage
+        // 創建 MerchantID 的 <input> 欄位
+        const merchantIdInput = document.createElement('input');
+        merchantIdInput.type = 'hidden';
+        merchantIdInput.name = 'MerchantID';
+        merchantIdInput.value = res.merchantID;
+        form.appendChild(merchantIdInput);
+
+        // 創建 TradeInfo 的 <input> 欄位
+        const tradeInfoInput = document.createElement('input');
+        tradeInfoInput.type = 'hidden';
+        tradeInfoInput.name = 'TradeInfo';
+        tradeInfoInput.value = res.tradeInfo;
+        form.appendChild(tradeInfoInput);
   
-        this.router.navigate(['/courseorderreceived']);
-      } else {
-        console.warn('⚠ 訂單建立成功，但未收到 orderId');
-      }
+        // 創建 TradeSha 的 <input> 欄位
+        const tradeShaInput = document.createElement('input');
+        tradeShaInput.type = 'hidden';
+        tradeShaInput.name = 'TradeSha';
+        tradeShaInput.value = res.tradeSha;
+        form.appendChild(tradeShaInput);
+  
+        
+        // 創建 Version 的 <input> 欄位
+        const Version = document.createElement('input');
+        Version.type = 'hidden';
+        Version.name = 'Version';
+        Version.value = '2.2';
+        form.appendChild(Version);
+  
+        // 將表單加入到 body，並自動提交
+        document.body.appendChild(form);
+        console.log("formData",form,res);
+        form.submit();
+      });
+      // if (response.orderId) {
+      //   const finalOrderData = { ...orderData, orderId: response.orderId };
+  
+      //   this.ordersService.setOrderData(finalOrderData); // 🚀 存入 TcordersService & sessionStorage
+  
+      //   this.router.navigate(['/courseorderreceived']);
+      // } else {
+      //   console.warn('⚠ 訂單建立成功，但未收到 orderId');
+      // }
     },
     (error) => {
       console.error('❌ 提交訂單失敗:', error);
