@@ -36,6 +36,7 @@ import { ProfileOrdersComponent } from './components/profile-orders/profile-orde
 import { UsedproductListComponent } from './components/usedproduct-list/usedproduct-list.component';
 import { UsedproducteditComponent } from './components/usedproductedit/usedproductedit.component';
 import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
+import { CourseEmptyComponent } from './components/course-empty/course-empty.component';
 
 
 @NgModule({
@@ -71,6 +72,7 @@ import { ResetPasswordComponent } from './components/reset-password/reset-passwo
     UsedproductListComponent,
     UsedproducteditComponent,
     ResetPasswordComponent,
+    CourseEmptyComponent,
   ],
   imports: [
     BrowserModule,

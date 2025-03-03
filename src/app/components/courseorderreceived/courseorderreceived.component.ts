@@ -84,27 +84,30 @@ export class CourseorderreceivedComponent implements OnInit{
       // 確保已登入會員
       this.authService.user$.subscribe(user => {
         this.user = user;
-        if (!this.user) {
+        if (!user) {
           console.warn("⚠ 未登入，將導回首頁");
           this.router.navigate(['/']);
           return;
         }
         console.log("👤 目前登入的用戶:", this.user);
+        
     
         // 確保登入後載入歷史訂單
         this.loadOrderHistory(false);
+
+        this.ordersService.getLatestOrderById(user.memberId).subscribe(latestorder=>{
+          this.orderData= latestorder;
+          console.log("lasrorder",latestorder)
+          console.log(this.orderData)
+        })
       });
 
       // 抓memberId最新一筆訂單存orderData
-      if(this.user?.memberId == null){
-        alert("請登入會員")
-        return;
-      }
-      this.ordersService.getLatestOrderById(this.user.memberId).subscribe(latestorder=>{
-        this.orderData= latestorder;
-        console.log(latestorder)
-        console.log(this.orderData)
-      })
+      // if(this.user?.memberId == null){
+      //   alert("請登入會員")
+      //   return;
+      // }
+      
 
       //凍結按鈕的時間測試
       console.log("訂單時間 startAt：", this.orderHistoryData.map(o => o.startAt));

@@ -25,6 +25,7 @@ import { UsedproductListComponent } from './components/usedproduct-list/usedprod
 import { UsedproducteditComponent } from './components/usedproductedit/usedproductedit.component';
 import { AuthGuard } from './auth.guard';
 import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
+import { CourseEmptyComponent } from './components/course-empty/course-empty.component';
 const routes: Routes = [
   { path: 'auth-success', component: AuthSuccessComponent },
   { path: 'shop', component: ShopComponent },
@@ -75,6 +76,7 @@ const routes: Routes = [
   //   { path: 'course/create', component: CoursecreateupdateComponent },
   //   { path: 'course/edit/:id', component: CoursecreateupdateComponent }
   { path: 'ecpayResult', component: EcpayResultComponent },
+  { path: 'newebpay', component: CourseEmptyComponent },
   { path: '', component: HomeComponent },
   { path: '**', redirectTo: '', pathMatch: 'full' }, // 404 頁面導回首頁
 ];
