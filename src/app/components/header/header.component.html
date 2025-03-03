@@ -59,7 +59,7 @@
                   </div>
                   <div class="col-sm-12">
                     <div class="form-group">
-                      <label class="form-label" for="loginPassword">密碼</label>
+                      <label class="form-label" for="loginPassword" (click)="autoFillPassword()">密碼</label>
                       <input type="password" id="loginPassword" name="password" formControlName="password"
                         class="form-control" placeholder="password" aria-required="true" required />
                       <div *ngIf="
