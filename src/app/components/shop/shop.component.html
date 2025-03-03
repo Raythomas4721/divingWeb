@@ -123,21 +123,32 @@
             </li>
           </ul>
           <nav class="page-numbers current text-center" *ngIf="totalPages > 1">
-            <button
+            <a
               class="page-numbers current"
-              [disabled]="currentPage === 1"
+              [class.disabled]="currentPage === 1"
+              href="javascript:void(0)"
               (click)="prevPage()"
             >
-              上一頁
-            </button>
-            <span>第 {{ currentPage }} / {{ totalPages }} 頁</span>
-            <button
+              <i class="fa-solid fa-arrow-left"></i>
+            </a>
+            <ng-container *ngFor="let pg of pages">
+              <a
+                class="page-numbers"
+                [class.active]="pg === currentPage"
+                (click)="goToPage(pg)"
+                href="javascript:void(0)"
+              >
+                {{ pg }}
+              </a>
+            </ng-container>
+            <a
               class="next page-numbers"
-              [disabled]="currentPage === totalPages"
+              [class.disabled]="currentPage === totalPages"
+              href="javascript:void(0)"
               (click)="nextPage()"
             >
-              下一頁
-            </button>
+              <i class="fa-solid fa-arrow-right"></i>
+            </a>
           </nav>
         </ng-container>
 

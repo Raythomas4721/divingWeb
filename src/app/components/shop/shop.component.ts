@@ -54,7 +54,7 @@ export class ShopComponent implements OnInit {
   totalCount = 0;
   totalPages = 1;
   currentPage = 1;
-  pageSize = 10;
+  pageSize = 6;
 
   constructor(
     private cartItemsService: TNcartItemsService,
@@ -347,12 +347,30 @@ export class ShopComponent implements OnInit {
     this.searchResults = [];
   }
 
+  get pages(): number[] {
+    // totalPages 可能是 5 就回傳 [1,2,3,4,5]
+    // 注意：當 totalPages 很大時，如果你想做 "...省略..." 的分頁，需要額外邏輯
+    return Array.from({ length: this.totalPages }, (_, i) => i + 1);
+  }
+
   prevPage() {
     if (this.currentPage > 1) {
       this.currentPage--;
       this.loadAllProducts(); // 重新撈
       window.scrollTo({ top: 0, behavior: 'smooth' }); // 自動回頂部 (平滑)
     }
+  }
+  goToPage(page: number): void {
+    // 邊界檢查 => 頁碼不可小於1或大於totalPages
+    if (page < 1 || page > this.totalPages) return;
+
+    this.currentPage = page;
+    // 呼叫載入資料的函式 (例如 loadAllProducts())
+    this.loadAllProducts();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    // 或者若你是透過 Router 參數做分頁，也可在這裡 navigate
+    // this.router.navigate(['/shop'], { queryParams: { page: this.currentPage } });
   }
 
   nextPage() {
