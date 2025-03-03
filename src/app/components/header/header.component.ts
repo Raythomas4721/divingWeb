@@ -32,7 +32,7 @@ export class HeaderComponent implements OnInit {
     private userBehaviorService: UserBehaviorService,
     private modalService: ModalService,
     private cdr: ChangeDetectorRef
-  ) {}
+  ) { }
   cartItemCount = 0;
   userForm = new FormGroup({
     username: new FormControl('', [
@@ -63,7 +63,7 @@ export class HeaderComponent implements OnInit {
       Validators.maxLength(12),
       Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]+$/),
     ]),
-    verificationCode: new FormControl(''), // 新增驗證碼欄位
+    verificationCode: new FormControl(''),
   });
   showVerification = false; // 控制是否顯示驗證碼輸入欄位
   verificationCodeSent = false; // 標記驗證碼是否已發送
@@ -237,5 +237,17 @@ export class HeaderComponent implements OnInit {
     const defaultPassword = '123ddA';
 
     this.userForm.patchValue({ password: defaultPassword });
+  }
+  autofillRegister(): void {
+    const defaultUser = '楊鐵心';
+    const defaultEmail = 'raywork113@gmail.com';
+    const defaultPassword = '123ddA';
+    const defaultComfirm = '123ddA';
+    this.registrForm.patchValue({
+      name: defaultUser,
+      email: defaultEmail,
+      password: defaultPassword,
+      confirmPassword: defaultComfirm
+    });
   }
 }
