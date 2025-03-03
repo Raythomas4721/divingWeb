@@ -290,7 +290,7 @@
                   <a href="service-single.html">SUUNTO - OCEAN潛水電腦錶</a>
                 </h5>
                 <p>
-                最大潛水深度60m，適用休閒潛水活動。支援水肺潛水、自由潛水，並有跑步、登山、游泳、健身等多達95種運動模式，為你記錄每次挑戰自我的時刻。</p>
+                  最大潛水深度60m，適用休閒潛水活動。支援水肺潛水、自由潛水，並有跑步、登山、游泳、健身等多達95種運動模式，為你記錄每次挑戰自我的時刻。</p>
               </div>
               <a href="service-single.html" class="btn-booking">看更多</a>
             </div>
@@ -314,8 +314,8 @@
                   <a href="service-single.html">MOBBY'S - 配重背心/ DA-6290</a>
                 </h5>
                 <p>
-                有效改善重量集中於腰部所帶來的不適，從肩到背平均分擔重量，改善水下的平衡。帶子的長度與寬度都可以個別調整，乾式與溼式防寒皆可使用。
-              </p>
+                  有效改善重量集中於腰部所帶來的不適，從肩到背平均分擔重量，改善水下的平衡。帶子的長度與寬度都可以個別調整，乾式與溼式防寒皆可使用。
+                </p>
               </div>
               <a href="service-single.html" class="btn-booking">看更多</a>
             </div>
@@ -339,7 +339,7 @@
                   <a href="service-single.html">LOONG DIVE - 醫療級CPR面罩</a>
                 </h5>
                 <p>
-                面罩體積小，可以置於衣袋中隨身攜帶，是世界使用廣泛的CPR呼吸面罩。將低阻力單向閥門和防水過濾器組合在一起，確保急救人員不受感染。
+                  面罩體積小，可以置於衣袋中隨身攜帶，是世界使用廣泛的CPR呼吸面罩。將低阻力單向閥門和防水過濾器組合在一起，確保急救人員不受感染。
                 </p>
               </div>
               <a href="service-single.html" class="btn-booking">看更多</a>
@@ -364,8 +364,8 @@
                   <a href="service-single.html">MOBBY'S - 訂製款防寒衣 QUEEN ALLURE</a>
                 </h5>
                 <p>
-                防寒衣王者 MOBBY'S 高階量身訂製款式，絕佳合身與活動性。日製高品質/晉身玩家級訂製款。
-              </p>
+                  防寒衣王者 MOBBY'S 高階量身訂製款式，絕佳合身與活動性。日製高品質/晉身玩家級訂製款。
+                </p>
               </div>
               <a href="service-single.html" class="btn-booking">看更多</a>
             </div>
@@ -378,7 +378,7 @@
 
 <!-- Section Gallery -->
 <section id="gallery" class="ls ds s-pt-90 s-pb-80 s-pt-xl-160 s-pb-xl-150 c-gutter-10">
- <div class="container">
+  <div class="container">
     <div class="row">
       <div class="col-lg-6">
         <div class="content-center">
@@ -386,10 +386,12 @@
           <p class="text-center text-md-left color-main mb-1">
             <span class="line-left">場地</span>
           </p>
-          <h3 class="text-center text-md-left mt-0 mb-2 special-heading color-darkgrey">
+          <h3 class="text-center text-md-left mt-0 mb-2 special-heading color-darkgrey" [routerLink]="['/site-rental']"
+            style="cursor: pointer">
             <span>潛水池包場租借</span>
           </h3>
-          <p class="text-center text-md-left color-darkgrey fs-20 fw-500">
+          <p class="text-center text-md-left color-darkgrey fs-20 fw-500" [routerLink]="['/site-rental']"
+            style="cursor: pointer">
             <span>提供專業潛水池包場租借服務，適合潛水訓練、團體活動或個人練習。設施完善，水質維護良好，確保安全與舒適的潛水體驗。</span>
           </p>
           <div class="divider-40 divider-lg-25 divider-xl-50"></div>
@@ -409,11 +411,12 @@
           <div class="col-lg-12">
             <div class="vertical-item item-gallery content-absolute ds">
               <div class="item-media">
-                <img src="assets/images/gallery/27.jpg" alt="img">
+                <img src="assets/images/gallery/27.jpg" alt="img" [routerLink]="['/site-rental']"
+                  style="cursor: pointer">
               </div>
               <div class="item-content dark-bg">
                 <h5>
-                  <a href="gallery-single.html">極限深度訓練池</a>
+                  <a href="gallery-single.html" [routerLink]="['/site-rental']" style="cursor: pointer">極限深度訓練池</a>
                 </h5>
               </div>
             </div>
@@ -421,11 +424,13 @@
           <div class="col-lg-6">
             <div class="vertical-item item-gallery content-absolute ds">
               <div class="item-media">
-                <img src="assets/images/gallery/17.jpg" alt="img">
+                <img src="assets/images/gallery/17.jpg" alt="img" [routerLink]="['/site-rental']"
+                  style="cursor: pointer">
               </div>
               <div class="item-content dark-bg">
                 <h5>
-                  <a href="gallery-single.html">Deepspot 世界級潛水池</a>
+                  <a href="gallery-single.html" [routerLink]="['/site-rental']" style="cursor: pointer">Deepspot
+                    世界級潛水池</a>
                 </h5>
               </div>
             </div>
@@ -433,11 +438,12 @@
           <div class="col-lg-6">
             <div class="vertical-item item-gallery content-absolute ds">
               <div class="item-media">
-                <img src="assets/images/gallery/28.jpg" alt="img">
+                <img src="assets/images/gallery/28.jpg" alt="img" [routerLink]="['/site-rental']"
+                  style="cursor: pointer">
               </div>
               <div class="item-content dark-bg">
                 <h5>
-                  <a href="gallery-single.html">沉浸式水下探索</a>
+                  <a href="gallery-single.html" [routerLink]="['/site-rental']" style="cursor: pointer">沉浸式水下探索</a>
                 </h5>
               </div>
             </div>
@@ -571,7 +577,7 @@
         </p>
         <h3 class="text-center mt-0 mb-2 special-heading color-darkgrey">
           <span>潛水課程</span>
-      </h3>
+        </h3>
         <p class="text-center color-darkgrey fs-20 fw-500">
           <span>提供專業且完整的潛水課程，從初學者到進階認證，皆由經驗豐富的教練指導。小班制教學，確保安全與高效學習，帶你輕鬆探索水下世界！</span>
         </p>
@@ -712,7 +718,8 @@
                       <span>$</span>1350
                     </span>
                   </span>
-                  <a rel="nofollow" href="shop-cart.html" class="button product_type_simple add_to_cart_button">加入購物車</a>
+                  <a rel="nofollow" href="shop-cart.html"
+                    class="button product_type_simple add_to_cart_button">加入購物車</a>
                 </div>
               </div>
             </div>
@@ -738,7 +745,8 @@
                       <span>$</span>35.00
                     </span>
                   </span>
-                  <a rel="nofollow" href="shop-cart.html" class="button product_type_simple add_to_cart_button">加入購物車</a>
+                  <a rel="nofollow" href="shop-cart.html"
+                    class="button product_type_simple add_to_cart_button">加入購物車</a>
                 </div>
               </div>
             </div>
@@ -764,7 +772,8 @@
                       <span>$</span>35.00
                     </span>
                   </span>
-                  <a rel="nofollow" href="shop-cart.html" class="button product_type_simple add_to_cart_button">加入購物車</a>
+                  <a rel="nofollow" href="shop-cart.html"
+                    class="button product_type_simple add_to_cart_button">加入購物車</a>
                 </div>
               </div>
             </div>
@@ -790,7 +799,8 @@
                       <span>$</span>35.00
                     </span>
                   </span>
-                  <a rel="nofollow" href="shop-cart.html" class="button product_type_simple add_to_cart_button">加入購物車</a>
+                  <a rel="nofollow" href="shop-cart.html"
+                    class="button product_type_simple add_to_cart_button">加入購物車</a>
                 </div>
               </div>
             </div>

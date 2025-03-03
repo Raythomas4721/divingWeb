@@ -569,44 +569,58 @@
                             </select>
                           </p>
                           <h2>付款方式</h2>
-<div class="payment-methods">
-    <label>
-        <input type="radio" name="paymentMethod" value="creditCard" checked>
-        信用卡
-        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b7/MasterCard_Logo.svg/2560px-MasterCard_Logo.svg.png" alt="MasterCard">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Visa_Inc._logo.svg/2560px-Visa_Inc._logo.svg.png" alt="Visa">
-    </label>
-</div>
-<div class="form-group">
-    <label for="cardHolder">持卡人姓名</label>
-    <input type="text" id="cardHolder" class="input-text" placeholder="請輸入持卡人姓名" maxlength="30" [(ngModel)]="cardHolder">
-    <div class="error-message">請輸入本人姓名</div>
-</div>
-<div class="form-group">
-    <label for="cardNumber">信用卡卡號</label>
-    <input type="text" id="cardNumber1" class="input-small" maxlength="4" [(ngModel)]="cardNumber1"> -
-    <input type="text" id="cardNumber2" class="input-small" maxlength="4" [(ngModel)]="cardNumber2"> -
-    <input type="text" id="cardNumber3" class="input-small" maxlength="4" [(ngModel)]="cardNumber3"> -
-    <input type="text" id="cardNumber4" class="input-small" maxlength="4" [(ngModel)]="cardNumber4">
-</div>
-<div class="form-group">
-    <label>信用卡有效年月</label>
-    <input type="text" id="expiryMonth" class="input-small" maxlength="2" [(ngModel)]="expiryMonth"> -
-    <input type="text" id="expiryYear" class="input-small" maxlength="2" [(ngModel)]="expiryYear">
-</div>
-<div class="form-group">
-    <label for="cvv">信用卡背面末三碼</label>
-    <input type="text" id="cvv" class="input-text" placeholder="***" maxlength="3" [(ngModel)]="cvv">
-    <!-- <div>(此欄位為驗證之間,綠界科技不予以記錄)</div> -->
-</div>
- <div class="form-group">
-    <label for="phoneNumber">手機號碼</label>
-    <input type="tel" id="phoneNumber" class="input-text" placeholder="如非台灣手機號碼請加國碼" [(ngModel)]="phoneNumber">
-    <div>(如非台灣手機號碼請加國碼)</div>
-</div>
-<!-- 填滿欄位按鈕 -->
-<button (click)="fillForm()">填滿範例資料</button>
+                          <div class="payment-methods">
+                            <label>
+                              <input type="radio" name="paymentMethod" value="creditCard" checked>
+                              信用卡
+                              <img
+                                src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b7/MasterCard_Logo.svg/2560px-MasterCard_Logo.svg.png"
+                                alt="MasterCard">
+                              <img
+                                src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Visa_Inc._logo.svg/2560px-Visa_Inc._logo.svg.png"
+                                alt="Visa">
+                            </label>
+                          </div>
+                          <div class="form-group">
+                            <label for="cardHolder">持卡人姓名</label>
+                            <input type="text" id="cardHolder" class="input-text" placeholder="請輸入持卡人姓名" maxlength="30"
+                              [(ngModel)]="cardHolder" name="cardHolder">
+                            <div class="error-message">請輸入本人姓名</div>
+                          </div>
+                          <div class="form-group">
+                            <label for="cardNumber">信用卡卡號</label>
+                            <input type="text" id="cardNumber1" class="input-small" maxlength="4"
+                              [(ngModel)]="cardNumber1" name="cardNumber1"> -
+                            <input type="text" id="cardNumber2" class="input-small" maxlength="4"
+                              [(ngModel)]="cardNumber2" name="cardNumber2"> -
+                            <input type="text" id="cardNumber3" class="input-small" maxlength="4"
+                              [(ngModel)]="cardNumber3" name="cardNumber3"> -
+                            <input type="text" id="cardNumber4" class="input-small" maxlength="4"
+                              [(ngModel)]="cardNumber4" name="cardNumber4">
+                          </div>
+                          <div class="form-group">
+                            <label>信用卡有效年月</label>
+                            <input type="text" id="expiryMonth" class="input-small" maxlength="2"
+                              [(ngModel)]="expiryMonth" name="expiryMonth"> -
+                            <input type="text" id="expiryYear" class="input-small" maxlength="2"
+                              [(ngModel)]="expiryYear" name="expiryYear">
+                          </div>
+                          <div class="form-group">
+                            <label for="cvv">信用卡背面末三碼</label>
+                            <input type="text" id="cvv" class="input-text" placeholder="***" maxlength="3"
+                              [(ngModel)]="cvv" name="cvv">
+                            <!-- <div>(此欄位為驗證之間,綠界科技不予以記錄)</div> -->
+                          </div>
+                          <div class="form-group">
+                            <label for="phoneNumber">手機號碼</label>
+                            <input type="tel" id="phoneNumber" class="input-text" placeholder="如非台灣手機號碼請加國碼"
+                              [(ngModel)]="phoneNumber" name="phoneNumber">
+                            <div>(如非台灣手機號碼請加國碼)</div>
+                          </div>
+                          <!-- 填滿欄位按鈕 -->
+                          <button (click)="fillForm()">填滿範例資料</button>
                         </div>
+
 
 
                         <!-- <a routerLink="/site-order" rel="bookmark">
@@ -615,7 +629,7 @@
                         </a> -->
 
                         <button type="button" class="button" style="margin-top: 20PX;" name="save_address"
-                          (click)="onSubmit(siteDetails.siteId)">送出</button>
+                          (click)="onSubmit(siteDetails.siteId)" onclick="alert('場地預約完成')">送出</button>
                       </div>
 
                     </form>
