@@ -215,8 +215,7 @@
                       <span class="venueAddress">
                         <i class="fa fa-calendar" aria-hidden="true"></i>
                         <a [routerLink]="['/site-detail', siteDetails.siteId]" rel="bookmark">
-                          <time class="entry-date published updated"
-                            datetime="2018-03-18T15:15:12+00:00"></time>
+                          <time class="entry-date published updated" datetime="2018-03-18T15:15:12+00:00"></time>
                         </a>
                       </span>
                       <!-- 地點 -->
@@ -225,7 +224,7 @@
                       </span>
 
                     </div><!-- .entry-meta -->
-                    <div>{{ siteDetails['detail'] }}</div>
+                    <div style="font-size: 25px;">{{ siteDetails['detail'] }}</div>
                   </header>
                   <!-- .entry-header -->
                   <div class="entry-content">
@@ -238,7 +237,28 @@
               </article>
             </article>
 
+            <nav class="navigation pagination" role="navigation" *ngIf="totalPages > 1">
+              <h2 class="screen-reader-text">Posts navigation</h2>
+              <div class="nav-links">
+                <a class="prev page-numbers" (click)="changePage(currentPage - 1)" [class.disabled]="currentPage === 1">
+                  <i class="fa fa-chevron-left"></i>
+                  <span class="screen-reader-text">Previous page</span>
+                </a>
 
+                <ng-container *ngFor="let page of [].constructor(totalPages); let i = index">
+                  <a class="page-numbers" [class.current]="currentPage === i + 1" (click)="changePage(i + 1)">
+                    <span class="meta-nav screen-reader-text">Page </span>
+                    {{i + 1}}
+                  </a>
+                </ng-container>
+
+                <a class="next page-numbers" (click)="changePage(currentPage + 1)"
+                  [class.disabled]="currentPage === totalPages">
+                  <span class="screen-reader-text">Next page</span>
+                  <i class="fa fa-chevron-right"></i>
+                </a>
+              </div>
+            </nav>
             <!-- 分頁 -->
             <!-- <nav class="navigation pagination" role="navigation">
               <h2 class="screen-reader-text">Posts navigation</h2>
@@ -263,24 +283,25 @@
                   3
                 </a> -->
 
-                <!-- <a class="next page-numbers" href="events-right.html">
+            <!-- <a class="next page-numbers" href="events-right.html">
                   <span class="screen-reader-text">Next page</span>
                   <i class="fa fa-chevron-right"></i>
                 </a> -->
-              <!-- </div>
+            <!-- </div>
             </nav> -->
           </main>
           <aside class="col-lg-5 col-xl-4 order-lg-1">
             <div class="ls ms">
               <div class="widget widget_search">
-                <h3 class="widget-title">搜尋</h3>
+                <h3 class="widget-title" style="font-size: 25px;">搜尋</h3>
 
 
                 <label for="search-form-widget">
                   <span class="screen-reader-text">Search for:</span>
                 </label>
                 <input type="search" [(ngModel)]="keyword" (ngModelChange)="onKeywordChange(keyword)"
-                  id="search-form-widget" class="search-field" placeholder="搜尋場地" value="" name="search">
+                  id="search-form-widget" class="search-field" placeholder="搜尋場地" value="" name="search"
+                  style="font-size: 20px;">
                 <!-- <button type="submit" (click)="searchSites(keyword)" class="search-submit"> -->
                 <span class="screen-reader-text">Search</span>
                 <!-- </button> -->
@@ -317,22 +338,27 @@
 
 
             <div class="widget widget_categories">
-              <h3 class="widget-title">場地分類</h3>
+              <h3 class="widget-title" style="font-size: 25px;">場地分類</h3>
               <ul>
                 <li class="cat-item">
-                  <a href="javascript:void(0)" (click)="onRegionChange(0)" style="cursor: pointer;">全部</a>
+                  <a href="javascript:void(0)" (click)="onRegionChange(0)"
+                    style="cursor: pointer;font-size: 20px">全部</a>
                 </li>
                 <li class="cat-item">
-                  <a href="javascript:void(0)" (click)="onRegionChange(1)" style="cursor: pointer;">北部</a>
+                  <a href="javascript:void(0)" (click)="onRegionChange(1)"
+                    style="cursor: pointer;font-size: 20px">北部</a>
                 </li>
                 <li class="cat-item">
-                  <a href="javascript:void(0)" (click)="onRegionChange(2)" style="cursor: pointer;">中部</a>
+                  <a href="javascript:void(0)" (click)="onRegionChange(2)"
+                    style="cursor: pointer;font-size: 20px">中部</a>
                 </li>
                 <li class="cat-item">
-                  <a href="javascript:void(0)" (click)="onRegionChange(3)" style="cursor: pointer;">南部</a>
+                  <a href="javascript:void(0)" (click)="onRegionChange(3)"
+                    style="cursor: pointer;font-size: 20px">南部</a>
                 </li>
                 <li class="cat-item">
-                  <a href="javascript:void(0)" (click)="onRegionChange(4)" style="cursor: pointer;">東部</a>
+                  <a href="javascript:void(0)" (click)="onRegionChange(4)"
+                    style="cursor: pointer;font-size: 20px">東部</a>
                 </li>
 
               </ul>
@@ -370,7 +396,7 @@
               <label for="keyword">關鍵字搜尋：</label>
               <input type="text" id="keyword" [(ngModel)]="keyword" (keyup)="searchWeather(keyword)">
             </div> -->
-<!--
+            <!--
             <ul>
               <li *ngFor="let weather of temperature">
                 <p>地區: {{ weather.LocationName }}</p>
@@ -409,19 +435,20 @@
                   <option value="高雄">高雄</option>
               </select>
           </div> -->
+            <div>
+              <p for="keyword" style="font-size: 25px;">查詢未來台灣一週天氣：</p>
+              <input type="text" id="weatherKeyword" [(ngModel)]="weatherKeyword"
+                (keyup)="searchWeather(weatherKeyword)" placeholder="請輸入行政區">
+            </div>
 
-        <div>
-          <label for="keyword">查詢未來台灣一周天氣：</label>
-          <input type="text" id="weatherKeyword" [(ngModel)]="weatherKeyword" (keyup)="searchWeather(weatherKeyword)" placeholder="請輸入行政區">
-        </div>
 
-        <ul>
-          <li *ngFor="let weather of temperature">
-            <p>地區: {{ weather.LocationName }}</p>
-            <p>時間: {{ weather.StartTime | date: 'yyyy-MM-dd HH:mm:ss' }}</p>
-            <p>天氣: {{ weather.WeatherDescription }}</p>
-          </li>
-        </ul>
+            <ul>
+              <li *ngFor="let weather of temperature" style="font-size: 20px;">
+                <p>地區: {{ weather.LocationName }}</p>
+                <p>時間: {{ weather.StartTime | date: 'yyyy-MM-dd HH:mm:ss' }}</p>
+                <p>天氣: {{ weather.WeatherDescription }}</p>
+              </li>
+            </ul>
 
 
 

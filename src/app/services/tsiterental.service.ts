@@ -15,27 +15,33 @@ export class TsiterentalService {
   // private orderapiUrl = "https://localhost:7107/api/TSorder"
   private createOrderapiUrl = "https://localhost:7107/api/TSorder"
 
-  getsiterental(region?: string): Observable<any> {
-    let params = new HttpParams();
+  getsiterental(region?: string, page: number = 1, pageSize: number = 2): Observable<any> {
+    let params = new HttpParams()
+      .set('page', page.toString())
+      .set('pageSize', pageSize.toString());
+
     if (region) {
       params = params.set('region', region);
     }
+
     return this.client.get(this.apiUrl, { params: params });
   }
 
-  getsiterentalById(siteId: any) {
+  getsiterentalById(siteId: any): Observable<any> {
     return this.client.get(`${this.apiUrl}/${siteId}`);
   }
-  // getsiteorderById(siteId: any) {
-  //   return this.client.get(`${this.orderapiUrl}/${siteId}`);
-  // }
+
   createOrder(orderData: any): Observable<any> {
     return this.client.post(this.createOrderapiUrl, orderData);
   }
 
-  // 新增的搜尋方法
-  searchSites(keyword: string): Observable<any> {
-    const params = new HttpParams().set('keyword', keyword);
+  // 改進 searchSites 方法，添加分頁參數
+  searchSites(keyword: string, page: number = 1, pageSize: number = 2): Observable<any> {
+    const params = new HttpParams()
+      .set('keyword', keyword)
+      .set('page', page.toString())
+      .set('pageSize', pageSize.toString());
+
     return this.client.get(`${this.apiUrl}/Search`, { params: params });
   }
 }
