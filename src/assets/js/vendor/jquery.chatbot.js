@@ -26,9 +26,10 @@
                       <button class="send-btn">送出</button>
                   </div>
                   <div class="quick-buttons">
-                      <button class="quick-btn" data-text="有推薦的面鏡嗎">.</button>
+                      <button class="quick-btn" data-text="有推薦的潛水衣嗎">.</button>
+                      <button class="quick-btn" data-text="有什麼尺寸">.</button>
                       <button class="quick-btn" data-text="有浮潛課程嗎">..</button>
-                      <button class="quick-btn" data-text="想了解更多">...</button>
+                      <button class="quick-btn" data-text="想了解更多">..</button>
                   </div>
               </div>
           </div>
@@ -155,7 +156,6 @@
               display: flex;
               justify-content: space-around;
           }
-
           .quick-btn {
               padding: 5px 10px;
               background: #f1f1f1;
@@ -164,6 +164,12 @@
               border-radius: 5px;
               cursor: pointer;
               transition: background 0.3s;
+          }
+          .bot-message a {
+              color: #06293C;
+              text-decoration: underline;
+              cursor: pointer;
+              pointer-events: auto; /* 確保可點擊 */
           }
       `).appendTo('head');
 
@@ -201,28 +207,21 @@
             const $messageDiv = $('<div class="chat-message bot-message"></div>');
             let replyHtml = response.reply;
 
-            // 檢查 replyHtml 是否為有效字符串
             if (typeof replyHtml !== 'string' || replyHtml === null || replyHtml === undefined) {
               replyHtml = '抱歉，我無法正確處理回應，請稍後再試！';
             }
 
-            // 檢查是否為條列式回應（支援 1. 或 - 或 *）
-            if (replyHtml.match(/(\d+\.\s|-|\*)\s/)) {
-              const items = replyHtml.split(/\n|\s*(?=(\d+\.\s|-|\*)\s)/).filter(item => item && typeof item === 'string');
-              let listHtml = '<ol>';
-              items.forEach(item => {
-                if (item.match(/^(\d+\.\s|-|\*)\s/)) {
-                  const text = item.replace(/^(\d+\.\s|-|\*)\s/, '');
-                  listHtml += `<li>${text}</li>`;
-                }
-              });
-              listHtml += '</ol>';
-              replyHtml = listHtml;
+            // 處理列表（數字開頭的列點）
+            if (replyHtml.match(/\d+\.\s/)) {
+              replyHtml = replyHtml.replace(/(\d+\.\s[^\n]+)/g, '$1<br>'); // 在每個 "數字. 內容" 後加 <br>
             }
+
+            // 處理換行符（若 AI 返回 \n）
+            replyHtml = replyHtml.replace(/\n/g, '<br>');
 
             // 處理連結
             replyHtml = replyHtml.replace(
-              /(https:\/\/[^\s]+)/g,
+              /(https?:\/\/[^\s]+)/g,
               '<a href="$1" target="_blank" style="color: #06293C; text-decoration: underline;">$1</a>'
             );
 
