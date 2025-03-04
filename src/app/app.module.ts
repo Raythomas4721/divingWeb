@@ -23,6 +23,7 @@ import { CourseorderreceivedComponent } from './components/courseorderreceived/c
 import { UsedproductshowComponent } from './components/usedproductshow/usedproductshow.component';
 import { SiteDetailComponent } from './components/site-detail/site-detail.component';
 import { SiteReserveComponent } from './components/site-reserve/site-reserve.component';
+import { SiteOrderComponent } from './components/site-order/site-order.component';
 import { AuthSuccessComponent } from './components/auth-success/auth-success.component';
 import { ProductsService } from './services/products.service';
 import { CoursesManagementComponent } from './components/coursesmanagement/coursesmanagement.component';
@@ -33,6 +34,8 @@ import { EcpayResultComponent } from './components/ecpay-result/ecpay-result.com
 import { ProfileOrdersComponent } from './components/profile-orders/profile-orders.component';
 import { UsedproductListComponent } from './components/usedproduct-list/usedproduct-list.component';
 import { UsedproducteditComponent } from './components/usedproductedit/usedproductedit.component';
+import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
+import { CourseEmptyComponent } from './components/course-empty/course-empty.component';
 
 @NgModule({
   declarations: [
@@ -55,6 +58,9 @@ import { UsedproducteditComponent } from './components/usedproductedit/usedprodu
     UsedproductshowComponent,
     SiteDetailComponent,
     SiteReserveComponent,
+    SiteOrderComponent,
+
+
     AuthSuccessComponent,
     CoursesManagementComponent,
     CoursecreateComponent,
@@ -62,6 +68,8 @@ import { UsedproducteditComponent } from './components/usedproductedit/usedprodu
     ProfileOrdersComponent,
     UsedproductListComponent,
     UsedproducteditComponent,
+    ResetPasswordComponent,
+    CourseEmptyComponent,
   ],
   imports: [
     BrowserModule,

@@ -7,7 +7,6 @@ import { UserService } from 'src/app/services/user.service';
 import * as $ from 'jquery';
 import 'bootstrap';
 import { UserDTO } from 'src/app/interface/userDTO';
-import { take } from 'rxjs';
 import { SharedcartService } from './../../services/sharedcart.service';
 import { TNcartItemsService } from '../../services/tncart-items.service';
 import { UserBehaviorService } from '../../services/user-behavior.service';
@@ -33,7 +32,7 @@ export class HeaderComponent implements OnInit {
     private userBehaviorService: UserBehaviorService,
     private modalService: ModalService,
     private cdr: ChangeDetectorRef
-  ) {}
+  ) { }
   cartItemCount = 0;
   userForm = new FormGroup({
     username: new FormControl('', [
@@ -64,7 +63,10 @@ export class HeaderComponent implements OnInit {
       Validators.maxLength(12),
       Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]+$/),
     ]),
+    verificationCode: new FormControl(''),
   });
+  showVerification = false; // 控制是否顯示驗證碼輸入欄位
+  verificationCodeSent = false; // 標記驗證碼是否已發送
   errorMessage = '';
   isLoggedIn = false;
   userName = '';
@@ -86,7 +88,7 @@ export class HeaderComponent implements OnInit {
     });
 
     this.authService.user$.subscribe((user) => {
-      console.log('收到 user$', user);
+      // console.log('收到 user$', user);
       this.user = user || null;
       this.userName = user?.memberName || '';
       this.isLoggedIn = !!user;
@@ -102,6 +104,7 @@ export class HeaderComponent implements OnInit {
     const email = this.registrForm.get('email')?.value ?? '';
     const password = this.registrForm.get('password')?.value ?? '';
     const confirmPassword = this.registrForm.get('confirmPassword')?.value;
+    const verificationCode = this.registrForm.get('verificationCode')?.value ?? '';
 
     if (password !== confirmPassword) {
       this.registrForm.get('confirmPassword')?.setErrors({ notMatching: true });
@@ -111,26 +114,43 @@ export class HeaderComponent implements OnInit {
       this.errorMessage = '輸入的資訊有誤，請再次確認';
       return;
     }
-
-    this.userService.register(name, email, password).subscribe({
-      next: (res) => {
-        $('#popupRegistr').modal('hide');
-        $('.modal-backdrop').remove();
-        this.errorMessage = '';
-        this.userForm.reset();
-        this.alertService.success(`歡迎${name}，成為我們的新成員!`);
-      },
-      error: (err) => {
-        if (err.status === 400 && err.error && err.error.message) {
-          this.errorMessage = err.error.message;
-        } else {
-          this.errorMessage = '請再次確認輸入的資訊';
-        }
-        this.alertService.error(
-          `註冊失敗，${err.error?.message || '請再次確認輸入的資訊'}`
-        );
-      },
-    });
+    // 如果還沒發送驗證碼，則請求發送驗證碼
+    if (!this.showVerification) {
+      this.userService.requestVerificationCode(email).subscribe({
+        next: (res) => {
+          this.showVerification = true;
+          this.verificationCodeSent = true;
+          this.alertService.success('驗證碼已發送到您的電子郵件，請檢查信箱');
+          this.registrForm.get('verificationCode')?.setValidators([Validators.required]);
+          this.registrForm.get('verificationCode')?.updateValueAndValidity();
+        },
+        error: (err) => {
+          this.errorMessage = err.error?.message || '發送驗證碼失敗，請稍後再試';
+          this.alertService.error(this.errorMessage);
+        },
+      });
+    }
+    else {
+      this.userService.verifyAndRegister(name, email, password, verificationCode).subscribe({
+        next: (res) => {
+          $('#popupRegistr').modal('hide');
+          $('.modal-backdrop').remove();
+          this.errorMessage = '';
+          this.userForm.reset();
+          this.alertService.success(`歡迎${name}，成為我們的新成員!`);
+        },
+        error: (err) => {
+          if (err.status === 400 && err.error && err.error.message) {
+            this.errorMessage = err.error.message;
+          } else {
+            this.errorMessage = '請再次確認輸入的資訊';
+          }
+          this.alertService.error(
+            `註冊失敗，${err.error?.message || '請再次確認輸入的資訊'}`
+          );
+        },
+      });
+    }
   }
 
   onLogin(): void {
@@ -166,7 +186,7 @@ export class HeaderComponent implements OnInit {
           next: (user) => {
             this.user = user;
             this.userName = user?.memberName || '';
-            console.log('登入後立即設置 userName:', this.userName);
+            // console.log('登入後立即設置 userName:', this.userName);
             this.cdr.detectChanges();
           },
           error: (err) => {
@@ -175,8 +195,10 @@ export class HeaderComponent implements OnInit {
         });
       },
       error: (err) => {
-        this.errorMessage = '請填寫正確的帳號密碼';
-        this.alertService.error('登入失敗，請再次檢查您的帳號密碼');
+        // this.errorMessage = '請填寫正確的帳號密碼';
+        this.errorMessage = err.error.message;
+        // this.alertService.error('登入失敗，請再次檢查您的帳號密碼');
+        this.alertService.error(err.error.message);
       },
     });
   }
@@ -214,5 +236,17 @@ export class HeaderComponent implements OnInit {
     const defaultPassword = '123ddA';
 
     this.userForm.patchValue({ password: defaultPassword });
+  }
+  autofillRegister(): void {
+    const defaultUser = '楊鐵心';
+    const defaultEmail = 'raywork113@gmail.com';
+    const defaultPassword = '123ddA';
+    const defaultComfirm = '123ddA';
+    this.registrForm.patchValue({
+      name: defaultUser,
+      email: defaultEmail,
+      password: defaultPassword,
+      confirmPassword: defaultComfirm
+    });
   }
 }

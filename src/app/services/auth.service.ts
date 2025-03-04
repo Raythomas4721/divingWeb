@@ -24,10 +24,12 @@ export class AuthService {
   setUserId(userId: string) {
     this.userId = userId;
   }
+  isLoggedIn(): boolean {
+    return this.isLoggedInSubject.value;
+  }
 
   private async loadUserToken() {
     const token = localStorage.getItem('token');
-    console.log('頁面載入時檢查 token:', token);
     if (token) {
       try {
         const decodedToken: any = jwtDecode(token);
@@ -48,7 +50,7 @@ export class AuthService {
     }
     this.userService.getUserProfile().subscribe({
       next: res => {
-        console.log('用戶資料:', res);
+        // console.log('用戶資料:', res);
         // this.userSubject.next(res);
         this.userSubject.next(res.user || res);
         this.isLoggedInSubject.next(true);
@@ -68,7 +70,7 @@ export class AuthService {
     return this.userService.getUserProfile().pipe(
       tap({
         next: (res) => {
-          console.log('用戶資料:', res.user);
+          // console.log('用戶資料:', res.user);
           this.userSubject.next(res.user);
           this.isLoggedInSubject.next(true);
         },

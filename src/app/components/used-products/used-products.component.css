@@ -10,18 +10,29 @@
   /* 調整為較小字體，可依需求調整 */
 }
 
-.add_to_cart_button {
-  width: 80%;
-  /* 讓按鈕隨著 .price-wrap 變大變小 */
-  /* padding: 1vw 2vw; */
-  /* 內距根據視窗大小縮放 */
-  font-size: 16px;
-  /* 按鈕字體大小隨視窗變化 */
-  max-width: 100px;
-  /* 限制按鈕最大寬度 */
 
+.price-wrap {
+  display: flex;
+  flex-direction: column; /* 讓價格與按鈕垂直排列 */
+  align-items: center; /* 讓內容置中 */
+  width: 100%; /* 讓容器填滿父元素 */
+}
+
+.add_to_cart_button {
+  width: 100%; /* 讓按鈕填滿 .price-wrap */
+  max-width: 200px; /* 限制最大寬度，避免過大 */
+  font-size: 1rem; /* 讓字體大小適應 */
+  padding: 0.5rem 1rem; /* 增加按鈕內距 */
   text-align: center;
   border-radius: 12px;
   text-decoration: none;
   transition: all 0.3s ease-in-out;
+  background-color: #ffc107; /* 設定背景色為黃色 */
+  color: black; /* 文字顏色 */
+  border: none; /* 移除邊框 */
 }
+
+.add_to_cart_button:hover {
+  background-color: #e0a800; /* 滑鼠懸停時的變色效果 */
+}
+

@@ -1,0 +1,40 @@
+.entry-meta {
+  display: flex;
+  /* 使用 Flexbox */
+  align-items: center;
+  /* 垂直置中對齊 */
+}
+
+.entry-meta span {
+  margin-right: 20px;
+  /* 添加右邊距以分隔元素 */
+}
+
+.venueAddress {
+  font-size: 3ex;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.page-numbers {
+  padding: 8px 12px;
+  margin: 0 4px;
+  cursor: pointer;
+  text-decoration: none;
+  color: #333;
+}
+
+.page-numbers.current {
+  background-color: #007bff;
+  color: white;
+  border-radius: 4px;
+}
+
+.page-numbers.disabled {
+  color: #ccc;
+  cursor: not-allowed;
+}

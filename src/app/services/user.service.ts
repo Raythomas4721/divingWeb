@@ -16,7 +16,22 @@ export class UserService {
     private userBehaviorService: UserBehaviorService,
     private cartItemsService: TNcartItemsService
   ) { }
-  private apiUrl = 'https://localhost:7107/api/TMmemberListsAPI';
+  private apiUrl = 'https://localhost:7107/api';
+
+  // 要求驗證碼
+  requestVerificationCode(email: string): Observable<any> {
+    return this.client.post(`${this.apiUrl}/account/send-verification-code`, { email });
+  }
+
+  // 驗證驗證碼並完成註冊
+  verifyAndRegister(name: string, email: string, password: string, verificationCode: string): Observable<any> {
+    return this.client.post(`${this.apiUrl}/account/register-with-verification`, {
+      name,
+      email,
+      password,
+      verificationCode,
+    });
+  }
 
   register(name: string, email: string, password: string) {
     const headers = {
@@ -24,14 +39,14 @@ export class UserService {
       email: email,
       password: password,
     };
-    return this.client.post(`${this.apiUrl}/register`, headers);
+    return this.client.post(`${this.apiUrl}/TMmemberListsAPI/register`, headers);
   }
   login(username: string, password: string): Observable<any> {
     const body = { email: username, password: password };
     const httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
     };
-    return this.client.post(`${this.apiUrl}/login`, body, httpOptions).pipe(
+    return this.client.post(`${this.apiUrl}/TMmemberListsAPI/login`, body, httpOptions).pipe(
       tap((response: any) => {
         const { token, memberId } = response;
 
@@ -62,7 +77,7 @@ export class UserService {
       'Authorization',
       `Bearer ${localStorage.getItem('token')}`
     );
-    return this.client.get<UserDTO>(`${this.apiUrl}/profile`, { headers });
+    return this.client.get<UserDTO>(`${this.apiUrl}/TMmemberListsAPI/profile`, { headers });
   }
 
   uploadProfilePhoto(formData: FormData): Observable<{ memberPhoto: string }> {
@@ -71,7 +86,7 @@ export class UserService {
     });
 
     return this.client.put<{ memberPhoto: string }>(
-      `${this.apiUrl}/ChangeUserPhoto`,
+      `${this.apiUrl}/TMmemberListsAPI/ChangeUserPhoto`,
       formData,
       { headers, reportProgress: true }
     );
@@ -81,7 +96,7 @@ export class UserService {
     const headers = new HttpHeaders({
       Authorization: `Bearer ${localStorage.getItem('token')}`,
     });
-    return this.client.put(`${this.apiUrl}/UpdateUserInfo`, updatedProfile, {
+    return this.client.put(`${this.apiUrl}/TMmemberListsAPI/UpdateUserInfo`, updatedProfile, {
       headers,
     });
   }
@@ -91,9 +106,23 @@ export class UserService {
       Authorization: `Bearer ${localStorage.getItem('token')}`,
     });
     return this.client.put(
-      `${this.apiUrl}/changePassword`,
+      `${this.apiUrl}/TMmemberListsAPI/changePassword`,
       changePasswordData,
       { headers }
+    );
+  }
+  resetPassword(token: string, newPassword: string): Observable<any> {
+    const body = { token, newPassword };
+    const httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+    };
+
+    return this.client.post(`${this.apiUrl}/TMmemberListsAPI/reset-password`, body, httpOptions).pipe(
+      tap((response: any) => {
+        if (response.status) {
+          console.log('密碼重置成功:', response.message);
+        }
+      })
     );
   }
 }

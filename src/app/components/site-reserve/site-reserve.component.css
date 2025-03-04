@@ -1,0 +1,51 @@
+.container {
+  display: flex;
+  justify-content: space-around; /* 調整排版 */
+  width: 100%;
+}
+.form-section {
+  width: 45%; /* 調整寬度比例 */
+  padding: 20px;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+}
+.form-section h2 {
+  margin-top: 0;
+}
+.form-group {
+  margin-bottom: 15px;
+}
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+}
+.input-text {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+}
+.input-small {
+  width: 80px; /* 信用卡號碼的輸入框長度 */
+}
+.payment-methods {
+  margin-bottom: 10px;
+}
+.payment-methods img {
+  height: 24px; /* 調整信用卡圖示大小 */
+  margin-right: 5px;
+  vertical-align: middle;
+}
+.submit-button {
+  background-color: #4CAF50;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+}
+.error-message {
+  color: red;
+  font-size: 0.8em;
+  margin-top: 5px;
+}

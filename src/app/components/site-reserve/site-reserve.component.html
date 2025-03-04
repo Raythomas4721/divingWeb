@@ -137,7 +137,7 @@
 
     </div>
 
-    <section class="page_title ds s-parallax s-overlay s-pt-160 s-pb-80">
+    <!-- <section class="page_title ds s-parallax s-overlay s-pt-160 s-pb-80">
       <div class="container">
         <div class="row">
 
@@ -158,7 +158,8 @@
 
         </div>
       </div>
-    </section>
+    </section> -->
+    <!-- 標題欄位 -->
 
 
     <section class="ls s-py-90 s-py-xl-160">
@@ -169,17 +170,22 @@
             <article>
               <header class="entry-header">
                 <h1 class="entry-title">填寫預約資料</h1>
+                <label class="">場地名稱</label>
+                <input type="text" class="input-text" disabled [value]="siteDetails.venueName" />
+
+                <input type="date" class="input-text " placeholder="請輸入預約日期" [(ngModel)]="siteDay">{{siteDay}}
+
                 <span class="edit-link">
-                  <a class="post-edit-link" href="#">
+                  <!-- <a class="post-edit-link" href="#">
                     Edit
                     <span class="screen-reader-text">"My account"</span>
-                  </a>
+                  </a> -->
                 </span>
               </header>
               <!-- .entry-header -->
               <div class="entry-content">
                 <div class="woocommerce">
-                  <nav class="woocommerce-MyAccount-navigation">
+                  <!-- <nav class="woocommerce-MyAccount-navigation">
                     <ul>
                       <li>
                         <a href="shop-account-dashboard.html">Dashboard</a>
@@ -200,15 +206,15 @@
                         <a href="shop-account-login.html">Logout</a>
                       </li>
                     </ul>
-                  </nav>
+                  </nav> -->
 
 
-                  <div class="woocommerce-MyAccount-content">
+                  <div>
                     <form>
 
                       <div class="woocommerce-address-fields">
                         <div class="woocommerce-address-fields__field-wrapper">
-                          <p class="form-row form-row-first validate-required" id="shipping_first_name_field"
+                          <!-- <p class="form-row form-row-first validate-required" id="shipping_first_name_field"
                             data-priority="10">
                             <label for="shipping_first_name" class="">First name<abbr class="required"
                                 title="required">*</abbr></label>
@@ -227,8 +233,8 @@
                             <label for="shipping_company" class="">Company name</label>
                             <input type="text" class="input-text " name="shipping_company" id="shipping_company"
                               placeholder="" value="" autocomplete="organization" placeholder="請輸入電話">
-                          </p>
-                          <p class="form-row form-row-wide address-field update_totals_on_change validate-required"
+                          </p> -->
+                          <!-- <p class="form-row form-row-wide address-field update_totals_on_change validate-required"
                             id="shipping_country_field" data-priority="40">
                             <label for="shipping_country" class="">Country<abbr class="required"
                                 title="required">*</abbr></label>
@@ -486,9 +492,23 @@
                               <option value="ZM">Zambia</option>
                               <option value="ZW">Zimbabwe</option>
                             </select>
+                          </p> -->
+                          <!-- <p class="form-row form-row-wide address-field update_totals_on_change validate-required"
+                            id="shipping_country_field" data-priority="40">
+                            <label for="shipping_country" class="">Country<abbr class="required"
+                                title="required">*</abbr></label> -->
+                          <!-- <select name="shipping_country" id="shipping_country"
+                              class="country_to_state country_select  select2-hidden-accessible" autocomplete="country"
+                              tabindex="-1" aria-hidden="true">
+                              <option value="">{{siteDetails.venueName}}</option>
 
-                          </p>
-                          <p class="form-row form-row-wide address-field validate-required"
+                            </select> -->
+                          <!-- <p>
+                            <input type="text" class="input-text " [(ngModel)]="venueName"
+                              [value]="siteDetails.venueName" />
+                          </p> -->
+
+                          <!-- <p class="form-row form-row-wide address-field validate-required"
                             id="shipping_address_1_field" data-priority="50">
                             <label for="shipping_address_1" class="">Street address<abbr class="required"
                                 title="required">*</abbr></label>
@@ -496,41 +516,120 @@
                               placeholder="House number and street name" value="" autocomplete="address-line1"
                               placeholder="請輸入完整地址">
                           </p>
-                          <p class="form-row form-row-wide address-field" id="shipping_address_2_field"
-                            data-priority="60">
-                            <input type="text" class="input-text " name="shipping_address_2" id="shipping_address_2"
-                              placeholder="Apartment, suite, unit etc. (optional)" value="" autocomplete="address-line2"
+                          <p class="form-row form-row-wide address-field validate-required"
+                            id="shipping_address_1_field" data-priority="50">
+                            <label for="shipping_address_1" class="">Street address<abbr class="required"
+                                title="required">*</abbr></label>
+                            <input type="text" class="input-text " name="shipping_address_1" id="shipping_address_1"
+                              placeholder="House number and street name" value="" autocomplete="address-line1"
                               placeholder="請輸入電子郵件">
-                          </p>
-                          <p class="form-row form-row-wide address-field validate-required" id="shipping_city_field"
-                            data-priority="70" data-o_class="form-row form-row-wide address-field validate-required">
-                            <label for="shipping_city" class="">Town / City<abbr class="required"
+                          </p> -->
+
+                          <!-- <p class="form-row form-row-wide address-field validate-required" id="shipping_date_field"
+                            data-priority="80">
+                            <label for="shipping_date" class="">日期<abbr class="required"
                                 title="required">*</abbr></label>
-                            <input type="text" class="input-text " name="shipping_city" id="shipping_city"
-                              placeholder="" value="" autocomplete="address-level2">
-                          </p>
-                          <p class="form-row form-row-wide address-field validate-state validate-required"
-                            id="shipping_state_field" data-priority="80"
-                            data-o_class="form-row form-row-wide address-field validate-required validate-state">
-                            <label for="shipping_state" class="">State / County<abbr class="required"
+                            <input type='date' class="input-text " value="" placeholder="" name="shipping_date"
+                              id='shipping_date' (change)="updateDate($event)" autocomplete='off'>
+                          </p> -->
+                          <!-- 選日期 -->
+
+                          <!-- <p class="form-row form-row-wide address-field validate-required"
+                            id="shipping_address_1_field" data-priority="50"> -->
+
+                          <!-- <label for="shipping_address_1" class="">zzzzStreet address<abbr class="required"
+                              title="required">*</abbr></label>
+                          <input type="text" class="input-text " placeholder="請輸入預約日期" [(ngModel)]="siteDay">{{siteDay}}-->
+                          <!-- </p> -->
+
+                          <!-- <p class="form-row form-row-wide address-field update_totals_on_change validate-required"
+                            id="shipping_country_field" data-priority="40" style="margin-bottom: 1em;">
+                            <label for="shipping_country" class="">Country<abbr class="required"
                                 title="required">*</abbr></label>
-                            <input type="text" class="input-text " value="" placeholder="" name="shipping_state"
-                              id="shipping_state" autocomplete="address-level1">
-                          </p>
-                          <p class="form-row form-row-wide address-field validate-postcode validate-required"
-                            id="shipping_postcode_field" data-priority="90"
-                            data-o_class="form-row form-row-wide address-field validate-required validate-postcode">
-                            <label for="shipping_postcode" class="">Postcode / ZIP<abbr class="required"
+                            <select name="shipping_country" id="shipping_country"
+                              class="country_to_state country_select  select2-hidden-accessible" autocomplete="country"
+                              tabindex="-1" aria-hidden="true">
+                              <option value="">請選擇時段</option>
+                              <option value="AAAA">上午</option>
+                              <option value="BBBB">下午</option>
+                              <option value="CCCC">晚上</option>
+                            </select>
+                          </p> -->
+                          <p class="form-row form-row-wide address-field update_totals_on_change validate-required"
+                            id="shipping_country_field" data-priority="40" style="margin-bottom: 1em;">
+                            <label for="time_period" class="">請選擇時段<abbr class="required"
                                 title="required">*</abbr></label>
-                            <input type="text" class="input-text " name="shipping_postcode" id="shipping_postcode"
-                              placeholder="" value="" autocomplete="postal-code">
+                            <select name="time_period" id="time_period"
+                              class="country_to_state country_select  select2-hidden-accessible" autocomplete="country"
+                              tabindex="-1" aria-hidden="true" [(ngModel)]="selectedTimePeriod">
+                              <option value="">請選擇時段</option>
+                              <option value="上午">上午</option>
+                              <option value="下午">下午</option>
+                              <option value="晚上">晚上</option>
+                            </select>
                           </p>
+                          <h2>付款方式</h2>
+                          <div class="payment-methods">
+                            <label>
+                              <input type="radio" name="paymentMethod" value="creditCard" checked>
+                              信用卡
+                              <img
+                                src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b7/MasterCard_Logo.svg/2560px-MasterCard_Logo.svg.png"
+                                alt="MasterCard">
+                              <img
+                                src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Visa_Inc._logo.svg/2560px-Visa_Inc._logo.svg.png"
+                                alt="Visa">
+                            </label>
+                          </div>
+                          <div class="form-group">
+                            <label for="cardHolder">持卡人姓名</label>
+                            <input type="text" id="cardHolder" class="input-text" placeholder="請輸入持卡人姓名" maxlength="30"
+                              [(ngModel)]="cardHolder" name="cardHolder">
+                            <div class="error-message">請輸入本人姓名</div>
+                          </div>
+                          <div class="form-group">
+                            <label for="cardNumber">信用卡卡號</label>
+                            <input type="text" id="cardNumber1" class="input-small" maxlength="4"
+                              [(ngModel)]="cardNumber1" name="cardNumber1"> -
+                            <input type="text" id="cardNumber2" class="input-small" maxlength="4"
+                              [(ngModel)]="cardNumber2" name="cardNumber2"> -
+                            <input type="text" id="cardNumber3" class="input-small" maxlength="4"
+                              [(ngModel)]="cardNumber3" name="cardNumber3"> -
+                            <input type="text" id="cardNumber4" class="input-small" maxlength="4"
+                              [(ngModel)]="cardNumber4" name="cardNumber4">
+                          </div>
+                          <div class="form-group">
+                            <label>信用卡有效年月</label>
+                            <input type="text" id="expiryMonth" class="input-small" maxlength="2"
+                              [(ngModel)]="expiryMonth" name="expiryMonth"> -
+                            <input type="text" id="expiryYear" class="input-small" maxlength="2"
+                              [(ngModel)]="expiryYear" name="expiryYear">
+                          </div>
+                          <div class="form-group">
+                            <label for="cvv">信用卡背面末三碼</label>
+                            <input type="text" id="cvv" class="input-text" placeholder="***" maxlength="3"
+                              [(ngModel)]="cvv" name="cvv">
+                            <!-- <div>(此欄位為驗證之間,綠界科技不予以記錄)</div> -->
+                          </div>
+                          <div class="form-group">
+                            <label for="phoneNumber">手機號碼</label>
+                            <input type="tel" id="phoneNumber" class="input-text" placeholder="如非台灣手機號碼請加國碼"
+                              [(ngModel)]="phoneNumber" name="phoneNumber">
+                            <div>(如非台灣手機號碼請加國碼)</div>
+                          </div>
+                          <!-- 填滿欄位按鈕 -->
+                          <button (click)="fillForm()">填滿範例資料</button>
                         </div>
 
 
-                        <p>
-                          <input type="submit" class="button" name="save_address" value="Save address">
-                        </p>
+
+                        <!-- <a routerLink="/site-order" rel="bookmark">
+                          <input type="submit" class="button" name="save_address" value="送出"
+                            [routerLink]="['/site-order', siteDetails.siteId]">
+                        </a> -->
+
+                        <button type="button" class="button" style="margin-top: 20PX;" name="save_address"
+                          (click)="onSubmit(siteDetails.siteId)" onclick="alert('場地預約完成')">送出</button>
                       </div>
 
                     </form>
@@ -547,7 +646,7 @@
       </div>
     </section>
 
-    <footer class="page_footer ds ms s-py-90 s-py-xl-160 c-gutter-100">
+    <!-- <footer class="page_footer ds ms s-py-90 s-py-xl-160 c-gutter-100">
       <div class="container">
         <div class="row">
           <div class="col-xl-4 col-lg-3 text-center text-lg-left animate" data-animation="fadeInUp">
@@ -613,9 +712,9 @@
           </div>
         </div>
       </div>
-    </footer>
+    </footer> -->
 
-    <section class="page_copyright ls s-py-25">
+    <!-- <section class="page_copyright ls s-py-25">
       <div class="container">
         <div class="row align-items-center">
           <div class="col-md-12 text-center">
@@ -623,7 +722,7 @@
           </div>
         </div>
       </div>
-    </section>
+    </section> -->
 
 
   </div><!-- eof #box_wrapper -->

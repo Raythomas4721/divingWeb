@@ -8,7 +8,7 @@ import { TNcartItemDTO } from '../interface/TNcartItemDTO';
 })
 export class TNcartItemsService {
   private baseUrl = 'https://localhost:7107/api/TNcartItems';
-  private cartItemsSubject = new BehaviorSubject<TNcartItemDTO[]>([]);
+  public cartItemsSubject = new BehaviorSubject<TNcartItemDTO[]>([]);
   cartItems$ = this.cartItemsSubject.asObservable();
 
   constructor(private client: HttpClient) {
@@ -145,6 +145,7 @@ export class TNcartItemsService {
     // 本地 BehaviorSubject 重置
     this.cartItemsSubject.next([]);
     // 2) 清空本地 localStorage
+    localStorage.removeItem('cartItems');
     this.updateLocalStorage([]);
 
     // 呼叫後端 e.g. DELETE /api/TNcartItems/clear?memberId=xxx
@@ -152,4 +153,22 @@ export class TNcartItemsService {
     //   `${this.baseUrl}/clear?memberId=${memberId}`
     // );
   }
+
+
+  removeItemByProductId(productId: number): void {
+    // 1. 取得目前購物車資料
+    let items = this.getCartItems();
+
+    // 2. 過濾掉要刪除的商品
+    const updatedItems = items.filter(item => item.uproductId !== productId);
+
+    // 3. 更新 BehaviorSubject
+    this.cartItemsSubject.next(updatedItems);
+
+    // 4. 更新 localStorage
+    this.updateLocalStorage(updatedItems);
+
+    console.log(`商品 ID: ${productId} 已從購物車移除`);
+  }
+
 }

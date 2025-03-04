@@ -55,14 +55,18 @@
     width: 100%;
     table-layout: fixed;  /* 確保寬度按照百分比分配 */
   }
+  th:nth-child(1) { width: 8%; }   /* 訂單編號 */
+  th:nth-child(2) { width: 15%; }   /* 課程圖片 */
+  th:nth-child(3) { width: 14%; }   /* 課程名稱 */
+  th:nth-child(4) { width: 8%; }   /* 分類 */
+  th:nth-child(5) { width: 3%; }   /* 等級 */
+  th:nth-child(6) { width: 3%; }   /* 教練 */
+  /* th:nth-child(7) { width: 10%; }   起始日期 */
+  /* th:nth-child(8) { width: 10%; }   單價 */
+  /* th:nth-child(9) { width: 3%; }   訂單金額 */
+  /* th:nth-child(10) { width: 3%; }   訂購時間 */
+  th:nth-child(11) { width: 3%; }   /* 訂單狀態 */
   
-  th:nth-child(1) { width: 15%; }   /* 課程圖片 */
-  th:nth-child(2) { width: 14%; }   /* 課程名稱 */
-  th:nth-child(3) { width: 15%; }   /* 課程敘述 */
-  th:nth-child(4) { width: 3%; }   /* 課程分類 */
-  th:nth-child(5) { width: 3%; }   /* 課程等級 */
-  th:nth-child(6) { width: 3%; }   /* 課程教練 */
-
   .table-btn {
     width: 100%; /* 讓按鈕撐滿 td */
     max-width: 120px; /* 限制最大寬度，避免過大 */
