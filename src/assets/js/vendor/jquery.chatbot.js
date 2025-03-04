@@ -25,6 +25,11 @@
                       <input type="text" placeholder="輸入您的問題...">
                       <button class="send-btn">送出</button>
                   </div>
+                  <div class="quick-buttons">
+                      <button class="quick-btn" data-text="有推薦的面鏡嗎">.</button>
+                      <button class="quick-btn" data-text="有浮潛課程嗎">..</button>
+                      <button class="quick-btn" data-text="想了解更多">...</button>
+                  </div>
               </div>
           </div>
       `);
@@ -144,6 +149,22 @@
           .send-btn:hover {
               background: #094058;
           }
+              .quick-buttons {
+              padding: 5px 10px;
+              border-top: 1px solid #eee;
+              display: flex;
+              justify-content: space-around;
+          }
+
+          .quick-btn {
+              padding: 5px 10px;
+              background: #f1f1f1;
+              color: #333;
+              border: 1px solid #ccc;
+              border-radius: 5px;
+              cursor: pointer;
+              transition: background 0.3s;
+          }
       `).appendTo('head');
 
     $(containerIDhash).show()
@@ -180,13 +201,18 @@
             const $messageDiv = $('<div class="chat-message bot-message"></div>');
             let replyHtml = response.reply;
 
+            // 檢查 replyHtml 是否為有效字符串
+            if (typeof replyHtml !== 'string' || replyHtml === null || replyHtml === undefined) {
+              replyHtml = '抱歉，我無法正確處理回應，請稍後再試！';
+            }
+
             // 檢查是否為條列式回應（支援 1. 或 - 或 *）
             if (replyHtml.match(/(\d+\.\s|-|\*)\s/)) {
-              const items = replyHtml.split(/\n|\s*(?=(\d+\.\s|-|\*)\s)/).filter(item => item.trim());
-              let listHtml = '<ol>'; // 使用有序列表
+              const items = replyHtml.split(/\n|\s*(?=(\d+\.\s|-|\*)\s)/).filter(item => item && typeof item === 'string');
+              let listHtml = '<ol>';
               items.forEach(item => {
                 if (item.match(/^(\d+\.\s|-|\*)\s/)) {
-                  const text = item.replace(/^(\d+\.\s|-|\*)\s/, ''); // 移除前綴
+                  const text = item.replace(/^(\d+\.\s|-|\*)\s/, '');
                   listHtml += `<li>${text}</li>`;
                 }
               });
@@ -218,6 +244,12 @@
       if (e.which === 13) {
         $(this).siblings('.send-btn').click();
       }
+    });
+    $(containerIDhash).find('.quick-btn').on('click', function () {
+      const $input = $(this).closest('.chat-window').find('.chat-input input');
+      const quickText = $(this).data('text');
+      $input.val(quickText);
+      $input.focus(); // 將焦點設置到輸入框
     });
   };
 })(jQuery);
