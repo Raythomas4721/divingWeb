@@ -185,4 +185,21 @@ export class ProfileComponent implements OnInit {
   goToOrders() {
     this.router.navigate(['/profile-orders']);
   }
+  autofillEditUser(): void {
+    const defaultAddress = '新北市萬里區漁澳路885號';
+    const defaultPhone = '0920160222';
+    this.editProfileForm.patchValue({
+      memberAddress: defaultAddress,
+      memberPhone: defaultPhone,
+    });
+  }
+  autofillPassword(): void {
+    const defaultOld = '123ddA';
+    const defaultNew = '123ddS';
+    this.changePasswordForm.patchValue({
+      currentPassword: defaultOld,
+      newPassword: defaultNew,
+      confirmNewPassword: defaultNew
+    })
+  }
 }

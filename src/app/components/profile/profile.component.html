@@ -85,7 +85,7 @@
 
           <!-- 聯絡電話 -->
           <div class="form-group">
-            <label for="editPhone">聯絡電話</label>
+            <label for="editPhone" (click)="autofillEditUser()">聯絡電話</label>
             <input type="text" id="editPhone" formControlName="memberPhone" class="form-control" placeholder="輸入聯絡電話" />
             <div *ngIf="editProfileForm.get('memberPhone')?.invalid && editProfileForm.get('memberPhone')?.touched"
               class="text-danger">
@@ -151,7 +151,7 @@
         <form [formGroup]="changePasswordForm" (ngSubmit)="onSubmitChangePassword()">
 
           <div class="form-group">
-            <label for="currentPassword">舊密碼</label>
+            <label for="currentPassword" (click)="autofillPassword()">舊密碼</label>
             <input type="password" id="currentPassword" formControlName="currentPassword" class="form-control"
               placeholder="輸入舊密碼" />
             <div
