@@ -40,7 +40,7 @@
                   顯示所有商品</p>
                 <form class="woocommerce-ordering" method="get">
                   <!-- <select name="orderby" class="orderby"> -->
-                    <select name="orderby" class="orderby" (change)="sortProducts($event)">
+                  <select name="orderby" class="orderby" (change)="sortProducts($event)">
                     <option value="menu_order" selected="selected">排序</option>
                     <option value="price-asc">價格：由低到高排序</option>
                     <option value="price-desc">價格：由高到低排序</option>
@@ -115,15 +115,15 @@
           <aside class="col-lg-3 col-xl-2 order-lg-1">
             <!-- <div class="ls ms"> -->
 
-              <div class="widget widget_product_search">
-                <h3 class="widget-title">搜尋</h3>
-                <form role="search" class="woocommerce-product-search" (ngSubmit)="searchProducts()">
-                  <label class="screen-reader-text" for="searchField">Search for:</label>
-                  <input type="search" id="searchField" class="search-field" placeholder="搜尋商品"
-                    [(ngModel)]="searchKeyword" name="searchTerm" />
-                  <input type="submit" value="Search">
-                </form>
-              </div>
+            <div class="widget widget_product_search">
+              <h3 class="widget-title" (click)="demo()">搜尋</h3>
+              <form role="search" class="woocommerce-product-search" (ngSubmit)="searchProducts()">
+                <label class="screen-reader-text" for="searchField">Search for:</label>
+                <input type="search" id="searchField" class="search-field" placeholder="搜尋商品"
+                  [(ngModel)]="searchKeyword" name="searchTerm" />
+                <input type="submit" value="Search">
+              </form>
+            </div>
             <!-- </div> -->
             <div class="widget woocommerce widget_product_categories">
               <h3 class="widget-title">分類</h3>
@@ -139,63 +139,6 @@
                 </li>
               </ul>
             </div>
-            <!-- <div class="widget woocommerce widget_top_rated_products">
-              <h3 class="widget-title">Top 3商品</h3>
-              <ul class="product_list_widget">
-                <li>
-                  <a href="shop-product-right.html">
-                    <img class="rounded" src="assets/images/shop/41.jpg" alt="img">
-                    <span class="product-title">潛水鞋</span>
-                  </a>
-                  <div class="star-rating">
-                    <span style="width:100%">Rated
-                      <strong class="rating">5.00 </strong>
-                      out of 5
-                    </span>
-                  </div>
-                  <span class="woocommerce-Price-amount amount">
-                    <span class="woocommerce-Price-currencySymbol">$</span>
-                    999
-                  </span>
-                </li>
-
-                <li>
-                  <a href="shop-product-right.html">
-                    <img class="rounded" src="assets/images/shop/42.jpg" alt="img">
-                    <span class="product-title">全罩式浮潛面罩</span>
-                  </a>
-                  <div class="star-rating">
-                    <span style="width:100%">Rated
-                      <strong class="rating">5.00</strong>
-                      out of 5
-                    </span>
-                  </div>
-                  <span class="woocommerce-Price-amount amount">
-                    <span class="woocommerce-Price-currencySymbol">$</span>
-                    1499
-                  </span>
-                </li>
-
-                <li>
-                  <a href="shop-product-right.html">
-                    <img class="rounded" src="assets/images/shop/43.jpg" alt="img">
-                    <span class="product-title">傳統式呼吸管</span>
-                  </a>
-                  <div class="star-rating">
-                    <span style="width:100%">Rated
-                      <strong class="rating">5.00</strong>
-                      out of 5
-                    </span>
-                  </div>
-                  <span class="woocommerce-Price-amount amount">
-                    <span class="woocommerce-Price-currencySymbol">$</span>
-                    799
-                  </span>
-                </li>
-
-              </ul>
-            </div> -->
-
           </aside>
         </div>
 
