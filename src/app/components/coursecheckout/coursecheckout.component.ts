@@ -133,7 +133,7 @@ submitOrder(): void {
       this.newebPayService.createPayment({
         Amount: response.amount,
         OrderId: `${response.orderId}`,
-        ProductName:'noProductName'
+        ProductName:' '
       }).subscribe((res:any) => {
         console.log('newebpay',res);
         // 創建一個 <form> 表單

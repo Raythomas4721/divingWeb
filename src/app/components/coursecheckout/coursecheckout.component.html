@@ -211,7 +211,7 @@
                                             </td>
                                             <td class="product-total">
                                                 <span class="woocommerce-Price-amount amount">
-                                                    <span class="woocommerce-Price-currencySymbol">$</span>{{courseData['coursePrice']}}</span>
+                                                    <span class="woocommerce-Price-currencySymbol">$</span>{{courseData['coursePrice']| number: '1.0-10'}}</span>
                                             </td>
                                         </tr>
                                     </tbody>
@@ -221,7 +221,7 @@
                                             <td>
                                                 <strong>
                                                     <span class="woocommerce-Price-amount amount">
-                                                        <span class="woocommerce-Price-currencySymbol">$</span>{{courseData['coursePrice']*quantity}}
+                                                        <span class="woocommerce-Price-currencySymbol">$</span>{{courseData['coursePrice']*quantity| number: '1.0-10'}}
                                                     </span>
                                                 </strong>
                                             </td>

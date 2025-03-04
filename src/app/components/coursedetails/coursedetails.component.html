@@ -281,7 +281,7 @@
 										<div class="post-content">
 											<div class="price-buy-container">
 												<!-- 顯示價格 -->
-												<div class="post-price">${{courseData['coursePrice']}}</div>  
+												<div class="post-price">${{courseData['coursePrice']| number: '1.0-10'}}</div>  
 												
 												<!-- 直接購買按鈕 -->
 												<button  (click)="navToCoursecheckout()"  class="btn btn-maincolor btn-medium buy-button">
