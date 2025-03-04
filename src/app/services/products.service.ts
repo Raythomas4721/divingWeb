@@ -44,17 +44,7 @@ export class ProductsService {
     return this.http.get<TUcondition[]>(`${this.apiUrl}api/TUproductCondition`)
   }
   //顯示當前會員的商品
-  // getMyUsedProducts(): Observable<TUproductDTO[]> {
-  //   return this.http.get<TUproductDTO[]>(`${this.apiUrl}api/TUproductsAPI/myProducts`);
-  // }
-  //2
-  // getMyUsedProducts(): Observable<TUproductDTO[]> {
-  //   const headers = new HttpHeaders({
-  //     'Authorization': `Bearer ${localStorage.getItem('token')}`
-  //   });
 
-  //   return this.http.get<TUproductDTO[]>(`${this.apiUrl}api/TUproductsAPI/myProducts`, { headers });
-  // }
   getMyUsedProducts(): Observable<TUproductDTO[]> {
     const token = localStorage.getItem('token');
 
@@ -63,7 +53,7 @@ export class ProductsService {
       return throwError(() => new Error("未登入，請先登入"));
     }
 
-    console.log("✅ 發送請求時的 Token:", token); // 確保 Token 不為空
+    // console.log("Token:", token); // 確保 Token 不為空
 
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`

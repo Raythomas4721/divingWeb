@@ -47,9 +47,9 @@ export class UsedProductsComponent {
   //換頁
   page: number[] = [];
   // currentPage: number = 1;  // 目前頁碼
-// totalPages: number = 1;   // 總頁數
-pageSize: number = 8;     // 每頁顯示商品數量
-// totalPagesArray: number[] = []; // 存放所有頁碼的陣列
+  // totalPages: number = 1;   // 總頁數
+  pageSize: number = 8;     // 每頁顯示商品數量
+  // totalPagesArray: number[] = []; // 存放所有頁碼的陣列
   //排序
   sortOption: string = ''; // 預設不排序
   //購物車
@@ -264,6 +264,12 @@ pageSize: number = 8;     // 每頁顯示商品數量
     var items = this.cartItemsService.cartItemsSubject.value;
     items.push(newItem);
     this.cartItemsService.cartItemsSubject.next(items);
+  }
+
+  demo() {
+
+    this.searchKeyword = '面罩'
+
   }
 }
 
