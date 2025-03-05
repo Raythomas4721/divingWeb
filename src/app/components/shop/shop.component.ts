@@ -117,6 +117,7 @@ export class ShopComponent implements OnInit {
   }
 
   async loadAllProducts(): Promise<void> {
+    this.selectedOrder = 'menu_order';
     try {
       // 呼叫帶分頁的 API
       const pagedRes = await firstValueFrom(
@@ -191,6 +192,7 @@ export class ShopComponent implements OnInit {
     });
   }
   async onSearch(): Promise<void> {
+    this.selectedOrder = 'menu_order';
     const keyword = this.searchTerm.trim().toLowerCase();
 
     if (!keyword) {
@@ -266,6 +268,7 @@ export class ShopComponent implements OnInit {
   }
 
   goToShop(categoryId: number) {
+    this.selectedOrder = 'menu_order';
     // this.router.navigate(['/shop', categoryId]);
     this.selectedCategoryId = categoryId; // 若你想在程式記錄現在所選ID
     this.searchResults = [];
