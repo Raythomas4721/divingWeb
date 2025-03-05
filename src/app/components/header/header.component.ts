@@ -241,6 +241,15 @@ export class HeaderComponent implements OnInit {
       password: defaultPassword
     });
   }
+  autoFillUser(): void {
+    const defaultUser = 'raywork113@gmail.com'
+    const defaultPassword = '123ddA';
+
+    this.userForm.patchValue({
+      username: defaultUser,
+      password: defaultPassword
+    });
+  }
   autofillRegister(): void {
     const defaultUser = '楊鐵心';
     const defaultEmail = 'raywork113@gmail.com';

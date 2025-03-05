@@ -46,6 +46,7 @@
                 <div class="row mb-4">
                   <div class="col-sm-12">
                     <div class="form-group">
+                      <p (click)="autoFillUser()">---</p>
                       <label class="form-label" for="loginName" (click)="autoFillPassword()">電子郵件</label>
                       <input type="text" id="loginName" name="name" formControlName="username" class="form-control"
                         required placeholder="example@gmail.com" aria-required="true" />

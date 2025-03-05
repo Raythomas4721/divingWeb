@@ -75,4 +75,14 @@ export class ResetPasswordComponent implements OnInit {
       },
     });
   }
+
+  autoFillPassword(): void {
+    const defaultComfirm = '123ddS'
+    const defaultPassword = '123ddS';
+
+    this.resetPasswordForm.patchValue({
+      newPassword: defaultComfirm,
+      confirmPassword: defaultPassword
+    });
+  }
 }
