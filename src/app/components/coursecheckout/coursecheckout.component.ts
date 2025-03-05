@@ -23,7 +23,7 @@ export class CoursecheckoutComponent implements OnInit {
   memberId: number | null = null;  // ✅ 存放會員 ID
   // memberId:number=22;
   orderStatus: boolean = true; // ✅ 訂單狀態：已確認
-  orderDate: string = new Date().toLocaleString(); // ✅ 轉成 `YYYY-MM-DDTHH:mm:ss` 格式
+  orderDate: string = new Date().toLocaleString(); // ✅ 轉成 YYYY-MM-DDTHH:mm:ss 格式
   user?: UserDTO | null;
 
   constructor(
@@ -53,7 +53,7 @@ export class CoursecheckoutComponent implements OnInit {
   }
 
   getCourseId(): void {
-    // 優先從 `queryParams` 獲取最新的 courseId
+    // 優先從 queryParams 獲取最新的 courseId
     this.route.queryParams.subscribe(params => {
       if (params['courseId']) {
         this.courseId = Number(params['courseId']); // ✅ 取得最新的 courseId
@@ -61,7 +61,7 @@ export class CoursecheckoutComponent implements OnInit {
         console.log('🟠 直接從 queryParams 取得並更新 courseId:', this.courseId);
         this.loadCourseDetails(this.courseId);
       } else {
-        // 如果 `queryParams` 沒有，則嘗試從 `sessionStorage` 獲取
+        // 如果 queryParams 沒有，則嘗試從 sessionStorage 獲取
         const storedCourseId = sessionStorage.getItem('courseId');
         if (storedCourseId) {
           this.courseId = Number(storedCourseId);
